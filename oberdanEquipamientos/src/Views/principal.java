@@ -29,28 +29,70 @@ public class principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        barra_estado = new javax.swing.JPanel();
+        lbl_estado = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        nombre_usuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
 
+        barra_estado.setBackground(new java.awt.Color(238, 238, 238));
+        barra_estado.setMaximumSize(new java.awt.Dimension(1920, 25));
+        barra_estado.setMinimumSize(new java.awt.Dimension(1366, 25));
+
+        lbl_estado.setText("Listo");
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel21.setText("Usuario:");
+
+        nombre_usuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        nombre_usuario.setText("Usuario:");
+
+        javax.swing.GroupLayout barra_estadoLayout = new javax.swing.GroupLayout(barra_estado);
+        barra_estado.setLayout(barra_estadoLayout);
+        barra_estadoLayout.setHorizontalGroup(
+            barra_estadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(barra_estadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nombre_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        barra_estadoLayout.setVerticalGroup(
+            barra_estadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lbl_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(nombre_usuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(barra_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(barra_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.add(new productos());
-        jTabbedPane1.add(new productos());
-        jTabbedPane1.add(new productos());
-        jTabbedPane1.add(new productos());
-        jTabbedPane1.add(new productos());
-        jTabbedPane1.add(new productos());
+        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.add(new Views.ProductosView());
         jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource("/Statics/productos.png")));
         jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource("/Statics/clientes.png")));
         jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource("/Statics/proveedores.png")));
@@ -97,6 +139,10 @@ public class principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel barra_estado;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JTabbedPane jTabbedPane1;
+    public static javax.swing.JLabel lbl_estado;
+    private javax.swing.JLabel nombre_usuario;
     // End of variables declaration//GEN-END:variables
 }
