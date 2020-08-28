@@ -31,8 +31,9 @@ public class ProveedoresDAO {
     }
     
     
-    public void buscarProveedor(String tipo_busqueda, String valor) {
-           ResultSet rs = Modelo.BuscarProveedor(tipo_busqueda, valor);
+    public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
+           String SQL = "SELECT ";
+           ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
            
            List<Proveedor> list = new ArrayList<>();
            try{
@@ -57,12 +58,13 @@ public class ProveedoresDAO {
                ex.printStackTrace();
            }
            
-           view.actualizarTablaProveedores(list);
+           return list;
            
     }
     
-    public void buscarProveedor(int id) {
-        ResultSet rs = Modelo.BuscarProveedor(id);
+    public List<Proveedor> buscarProveedor(int id) {
+      String SQL = "SELECT ";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         List<Proveedor> list = new ArrayList<>();
            try{
                while(rs.next()){
@@ -86,26 +88,20 @@ public class ProveedoresDAO {
                ex.printStackTrace();
            }
            
-           view.actualizarTablaProveedores(list);
+           return list;
     }
     
 
     
-    public void guardarProveedor(Proveedor p) {
+    public int guardarProveedor(Proveedor p) {
         int res = Modelo.InsertarProveedor(p);
-        if(res>0)
-            view.ProveedorAgregado();
-        else
-            view.ProveedorNoAgregado();
+        return res;
     }
 
     
-    public void actualizarProveedor(Proveedor p) {
+    public int actualizarProveedor(Proveedor p) {
         int res = Modelo.ActualizarProveedor(p);
-        if(res>0)
-            view.ProveedorActualizado();
-        else
-            view.ProveedorNoActualizado();
+        return res;
     }
 
     
@@ -141,14 +137,10 @@ public class ProveedoresDAO {
     }
 
     
-    public void eliminarProveedor(Proveedor p) {
+    public int eliminarProveedor(Proveedor p) {
         int res = Main.Modelo.EliminarProveedor(p);
             Main.Modelo.actualizarProveedorActual(p.getId());
-        if(res >0){
-            view.ProveedorEliminado();
-        }
-        else
-            view.ProveedorNoEliminado();
+        return res;
     }
     //-----------------------------------------BUSCADOR
      public ArrayList<Proveedor> buscarProveedorReducido(String tipo_busqueda, String valor) {

@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/ProveedoresDAO.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/PedidosDAO.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProveedoresView.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/Main.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Models/Cuota.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProductosView.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/ProductoDAO.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Models/Producto.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/RubroDAO.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/principal.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/CuotasDAO.java</file>
         </group>
     </open-files>
