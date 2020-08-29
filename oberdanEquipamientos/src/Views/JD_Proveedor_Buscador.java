@@ -137,6 +137,11 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
                 input_buscar_proveedorCaretUpdate(evt);
             }
         });
+        input_buscar_proveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_buscar_proveedorActionPerformed(evt);
+            }
+        });
         input_buscar_proveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 input_buscar_proveedorKeyTyped(evt);
@@ -224,6 +229,10 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
     private void rbutton_buscar_codigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbutton_buscar_codigoActionPerformed
         atributo = "id";
     }//GEN-LAST:event_rbutton_buscar_codigoActionPerformed
+
+    private void input_buscar_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_buscar_proveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_buscar_proveedorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

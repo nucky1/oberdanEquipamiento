@@ -848,14 +848,16 @@
                                           <Component id="jSeparator30" alignment="1" min="-2" pref="10" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="txtf_productos_costo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel220" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel55" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                               <Component id="jLabel54" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="txtf_productos_costoFlete" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                                               <Component id="jLabel224" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="txtf_productos_costo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel220" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel55" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
