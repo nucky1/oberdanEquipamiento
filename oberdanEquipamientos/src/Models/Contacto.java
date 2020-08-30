@@ -9,7 +9,7 @@ package Models;
  *
  * @author demig
  */
-class Contacto {
+public class Contacto {
     private int id;
     private String tipo;
     private String contacto;

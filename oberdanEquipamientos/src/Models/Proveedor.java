@@ -23,10 +23,38 @@ public class Proveedor {
     private String direccion;
     private String Nro;
     private String codigoPostal;
+    private String referencia;
     private String cuit;
     private String cbu;
     private String iva;
+    private float ingresoBruto;
+    private float saldo;
 
+    public float getIngresoBruto() {
+        return ingresoBruto;
+    }
+
+    public void setIngresoBruto(float ingresoBruto) {
+        this.ingresoBruto = ingresoBruto;
+    }
+
+    public float getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(float saldo) {
+        this.saldo = saldo;
+    }
+    
+    
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+    
     public ArrayList<Contacto> getContacto() {
         return contacto;
     }
