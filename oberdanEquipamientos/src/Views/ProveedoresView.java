@@ -488,6 +488,11 @@ public class ProveedoresView extends javax.swing.JPanel {
         jLabel70.setText("Dirección");
 
         cbox_nacionalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+        cbox_nacionalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbox_nacionalidadActionPerformed(evt);
+            }
+        });
 
         cbox_provincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
 
@@ -1979,6 +1984,10 @@ public class ProveedoresView extends javax.swing.JPanel {
     private void btn_proveedores_imprimirTodo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_imprimirTodo3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_proveedores_imprimirTodo3ActionPerformed
+
+    private void cbox_nacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_nacionalidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbox_nacionalidadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
