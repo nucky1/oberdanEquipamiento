@@ -3,41 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMUsuariosView.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMClientesView.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ProveedoresView.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/ProveedoresDAO.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ProductosView.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/JD_Producto_Nuevo.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMClientes.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/JD_Proveedor_Buscador.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/PedidosDAO.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProveedoresView.java</file>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/Main.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMClientes.java</file>
-=======
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/DireccionesDAO.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Statics/Conexion.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/ProveedoresDAO.java</file>
->>>>>>> 6b4ad227a24d078a2267f803c6ba09b7d0bdffef
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Models/Cuota.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/Main.java</file>
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Models/Mapa.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProductosView.java</file>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/ProductoDAO.java</file>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Models/Producto.java</file>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/RubroDAO.java</file>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/principal.java</file>
-            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/DAO/CuotasDAO.java</file>
->>>>>>> d47f30cab421e634e9ac0deb13d75bd444362ffb
->>>>>>> 084bcaefeb01edb7d33248ab2c10aa3b664ec020
->>>>>>> 2eb012d60a5fcb1e790e545e15ded81594647f79
->>>>>>> 2df5dee5872a5f80e1a25234287af3544cb341ca
+            <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Models/Pais.java</file>
         </group>
     </open-files>
 </project-private>

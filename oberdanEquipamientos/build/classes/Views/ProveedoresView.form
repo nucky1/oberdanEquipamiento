@@ -372,12 +372,14 @@
                               <Component id="jPanel6" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btn_proveedores_modificar" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
-                              <Component id="btn_proveedores_nuevo" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
-                              <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="btn_proveedores_guardar" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                   <Component id="btn_proveedores_cancelar" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btn_proveedores_modificar" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
+                                  <Component id="btn_proveedores_nuevo" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
@@ -699,10 +701,7 @@
                                       <Component id="txtf_nro" min="-2" pref="101" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jLabel69" linkSize="2" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="105" pref="105" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="jLabel69" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                                               <Component id="txtf_codigoPostal" min="-2" pref="101" max="-2" attributes="0"/>
@@ -736,26 +735,26 @@
                                   <Component id="cbox_ciudad" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btn_agregarCiudad" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="28" max="32767" attributes="0"/>
+                              <EmptySpace pref="24" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="cbox_barrio" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel63" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btn_agregarBarrio" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel70" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cbox_direccion" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="btn_agregarDireccion" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtf_nro" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel71" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtf_codigoPostal" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel69" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel96" min="-2" max="-2" attributes="0"/>
                                   <Component id="jScrollPane11" min="-2" max="-2" attributes="0"/>
@@ -814,6 +813,7 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbox_nacionalidadItemStateChanged"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbox_nacionalidadActionPerformed"/>
                       </Events>
                       <AuxValues>
@@ -827,6 +827,7 @@
                             <StringItem index="0" value="-"/>
                           </StringArray>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -839,6 +840,7 @@
                             <StringItem index="0" value="-"/>
                           </StringArray>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -851,6 +853,7 @@
                             <StringItem index="0" value="-"/>
                           </StringArray>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -863,6 +866,7 @@
                             <StringItem index="0" value="-"/>
                           </StringArray>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -879,6 +883,7 @@
                     <Component class="javax.swing.JButton" name="btn_agregarProvincia">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarProvinciaActionPerformed"/>
@@ -887,6 +892,7 @@
                     <Component class="javax.swing.JButton" name="btn_agregarCiudad">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarCiudadActionPerformed"/>
@@ -895,6 +901,7 @@
                     <Component class="javax.swing.JButton" name="btn_agregarBarrio">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarBarrioActionPerformed"/>
@@ -903,6 +910,7 @@
                     <Component class="javax.swing.JButton" name="btn_agregarDireccion">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="+"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarDireccionActionPerformed"/>
