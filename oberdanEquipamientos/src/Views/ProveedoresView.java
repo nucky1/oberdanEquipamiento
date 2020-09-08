@@ -2029,7 +2029,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         if(modificarTrue){
             int result = JOptionPane.showConfirmDialog(null, "MODIFICAR", "Esta seguro que desea modificar el proveedor: \n"+txtf_nombre_empresa.getText(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(result == JOptionPane.OK_OPTION){
-                if(proveedoresDAO.actualizarProveedor(proveedor_selected) > 0){
+                if(proveedoresDAO.actualizarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se actualizo con exito");
                     principal.lbl_estado.setForeground(Color.GREEN);
                 }else{
@@ -2040,7 +2040,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         }else{
             int result = JOptionPane.showConfirmDialog(null, "AGREGAR", "Esta seguro que desea agregar el proveedor: \n"+txtf_nombre_empresa.getText(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(result == JOptionPane.OK_OPTION){
-                if(proveedoresDAO.guardarProveedor(proveedor_selected) > 0){
+                if(proveedoresDAO.guardarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se agrego con exito");
                     principal.lbl_estado.setForeground(Color.GREEN);
                 }else{

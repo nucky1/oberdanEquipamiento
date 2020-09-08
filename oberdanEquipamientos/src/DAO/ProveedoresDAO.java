@@ -8,8 +8,11 @@ package DAO;
 import Models.Contacto;
 import Models.Proveedor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,38 +36,40 @@ public class ProveedoresDAO {
     
     
     public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
-           String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,pais.nombre"
+           String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre"
               + " FROM proveedores"
               + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%'"
               + " INNER JOIN barrio ON barrio.id = proveedores.barrio_id"
-              + " INNER JOIN barrio ON localidad.id = barrio.localidad_id"
-              + " INNER JOIN barrio ON pais.id = localidad.pais_id";
+              + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
+              + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
+              + " INNER JOIN pais ON pais.id = provincia.pais_id";
            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
            
            List<Proveedor> list = new ArrayList<>();
            try{
                while(rs.next()){
                    //--CARGAR DATOS AL PROVEEDOR
-                    Proveedor proveedor_selected = new Proveedor();
-                    proveedor_selected.setId(rs.getInt("id"));
-                    proveedor_selected.setNombre(rs.getString("id"));
+                    Proveedor p = new Proveedor();
+                    p.setId(rs.getInt("id"));
+                    p.setNombre(rs.getString("proveedor"));
                     //direccion
-                    proveedor_selected.setNacionalidad(rs.getString("nombreNacionalidad"));
-                    proveedor_selected.setProvincia(rs.getString("nombreProvincia"));
-                    proveedor_selected.setCiudad(rs.getString("nombreCiudad"));
-                    proveedor_selected.setBarrio(rs.getString("nombreBarrio"));
-                    proveedor_selected.setDireccion(rs.getString("direccion"));
-                    proveedor_selected.setNro(rs.getString("numero"));
-                    proveedor_selected.setCodigoPostal(rs.getString("codPostal"));
-                    proveedor_selected.setReferencia(rs.getString("referencia"));
+                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setProvincia(rs.getString("provincia.nombre"));
+                    p.setCiudad(rs.getString("localidad.nombre"));
+                    p.setBarrio(rs.getString("barrio.nombre"));
+                    p.setBarrioId(rs.getInt("barrio.id"));
+                    p.setDireccion(rs.getString("direccion"));
+                    p.setNro(rs.getString("numero"));
+                    p.setCodigoPostal(rs.getString("codPostal"));
+                    p.setReferencia(rs.getString("referencia"));
                     //datos bancarios
-                    proveedor_selected.setCbu(rs.getString("cbu"));
-                    proveedor_selected.setIva(rs.getString("iva"));
-                    proveedor_selected.setCuit(rs.getString("cuit"));
-                    proveedor_selected.setSaldo(rs.getFloat("saldo"));
-                    proveedor_selected.setIngresoBruto(rs.getFloat("ingreso_bruto"));
+                    p.setCbu(rs.getString("cbu"));
+                    p.setIva(rs.getString("iva"));
+                    p.setCuit(rs.getString("cuit"));
+                    p.setSaldo(rs.getFloat("saldo"));
+                    p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
                     //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+proveedor_selected.getId();
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
@@ -78,9 +83,9 @@ public class ProveedoresDAO {
                     }catch(Exception ex){
                         //no hago nada para que no se trabe
                     }
-                    proveedor_selected.setContacto((ArrayList<Contacto>) contactos);
+                    p.setContacto((ArrayList<Contacto>) contactos);
                     //--FIN CARGA
-                   list.add(proveedor_selected);
+                   list.add(p);
                 }
            }catch(Exception ex){
                ex.printStackTrace();
@@ -91,37 +96,39 @@ public class ProveedoresDAO {
     }
     
     public List<Proveedor> buscarProveedor(int id) {
-      String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,pais.nombre"
+      String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,pais.nombre"
               + " FROM proveedores"
               + " WHERE proveedores.id = "+id
               + " INNER JOIN barrio ON barrio.id = proveedores.barrio_id"
-              + " INNER JOIN barrio ON localidad.id = barrio.localidad_id"
-              + " INNER JOIN barrio ON pais.id = localidad.pais_id";
+              + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
+              + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
+              + " INNER JOIN pais ON pais.id = provincia.pais_id";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         List<Proveedor> list = new ArrayList<>();
            try{
                while(rs.next()){
                    //--CARGAR DATOS AL PROVEEDOR
-                    Proveedor proveedor_selected = new Proveedor();
-                    proveedor_selected.setId(rs.getInt("id"));
-                    proveedor_selected.setNombre(rs.getString("id"));
+                    Proveedor p = new Proveedor();
+                    p.setId(rs.getInt("id"));
+                    p.setNombre(rs.getString("proveedor"));
                     //direccion
-                    proveedor_selected.setNacionalidad(rs.getString("nombreNacionalidad"));
-                    proveedor_selected.setProvincia(rs.getString("nombreProvincia"));
-                    proveedor_selected.setCiudad(rs.getString("nombreCiudad"));
-                    proveedor_selected.setBarrio(rs.getString("nombreBarrio"));
-                    proveedor_selected.setDireccion(rs.getString("direccion"));
-                    proveedor_selected.setNro(rs.getString("numero"));
-                    proveedor_selected.setCodigoPostal(rs.getString("codPostal"));
-                    proveedor_selected.setReferencia(rs.getString("referencia"));
+                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setProvincia(rs.getString("provincia.nombre"));
+                    p.setCiudad(rs.getString("localidad.nombre"));
+                    p.setBarrio(rs.getString("barrio.nombre"));
+                    p.setBarrioId(rs.getInt("barrio.id"));
+                    p.setDireccion(rs.getString("direccion"));
+                    p.setNro(rs.getString("numero"));
+                    p.setCodigoPostal(rs.getString("codPostal"));
+                    p.setReferencia(rs.getString("referencia"));
                     //datos bancarios
-                    proveedor_selected.setCbu(rs.getString("cbu"));
-                    proveedor_selected.setIva(rs.getString("iva"));
-                    proveedor_selected.setCuit(rs.getString("cuit"));
-                    proveedor_selected.setSaldo(rs.getFloat("saldo"));
-                    proveedor_selected.setIngresoBruto(rs.getFloat("ingreso_bruto"));
+                    p.setCbu(rs.getString("cbu"));
+                    p.setIva(rs.getString("iva"));
+                    p.setCuit(rs.getString("cuit"));
+                    p.setSaldo(rs.getFloat("saldo"));
+                    p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
                     //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+proveedor_selected.getId();
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
@@ -135,9 +142,9 @@ public class ProveedoresDAO {
                     }catch(Exception ex){
                         //no hago nada para que no se trabe
                     }
-                    proveedor_selected.setContacto((ArrayList<Contacto>) contactos);
+                    p.setContacto((ArrayList<Contacto>) contactos);
                     //--FIN CARGA
-                   list.add(proveedor_selected);
+                   list.add(p);
                 }
            }catch(Exception ex){
                ex.printStackTrace();
@@ -146,11 +153,92 @@ public class ProveedoresDAO {
            return list;
     }
     
-
+    public boolean actualizarProveedor(Proveedor p){
+        conexion.transaccionCommit("quitarAutoCommit"); 
+        int res = 1;
+        boolean exito = true;
+        String SQL = "UPDATE proveedores SET proveedor = '"+p.getNombre()+"'"
+                + ", barrio_id = "+p.getBarrioId()
+                + ",direccion = '"+p.getDireccion()+"'"
+                + ",numero = "+p.getNro()
+                + ",codPostal = '"+p.getCodigoPostal()+"'"
+                + ",referencia = '"+p.getReferencia()+"'"
+                + ",cbu = '"+p.getCbu()+"'"
+                + ",iva = '"+p.getIva()+"'"
+                + ",cuit = '"+p.getCuit()
+                + ",saldo = "+p.getSaldo()
+                + ",ingreso_bruto = '"+p.getIngresoBruto()+"' WHERE id = "+p.getId();
+        res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        if(res == 0){
+            exito = false;
+        }else{
+            if(p.getContacto().size() > 0){
+                SQL = " DELETE FROM contactos WHERE persona_id = "+p.getId()+" AND tipo_persona = 'PROVEEDOR'";
+                res = conexion.EjecutarOperacion(SQL);
+                SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                for(int i = p.getContacto().size()-1 ; i > 0; i--){
+                    SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
+                }
+                SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
+                res = conexion.EjecutarOperacion(SQL);
+                if(res == 0){
+                    exito = false;
+                }
+            }
+        }
+        if(exito){
+            conexion.transaccionCommit("commitear"); 
+            conexion.transaccionCommit("activarCommit"); 
+        }else{
+            conexion.transaccionCommit("rollBack");
+            conexion.transaccionCommit("activarCommit");
+        }
+        return exito;
+    }
     
-    public int guardarProveedor(Proveedor p) {
-        int res = Modelo.InsertarProveedor(p);
-        return res;
+    public boolean guardarProveedor(Proveedor p) {
+        conexion.transaccionCommit("quitarAutoCommit"); 
+        int res = 1;
+        boolean exito = true;
+        String SQL = "INSERT INTO proveedores (proveedor, barrio_id,direccion,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto) "
+                + "VALUES('"+p.getNombre()+"',"+p.getBarrioId()+",'"+p.getDireccion()+"',"+p.getNro()+",'"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
+        p.getIva()+"',"+
+        p.getCuit()+","+
+        p.getSaldo()+",'"+
+        p.getIngresoBruto()+"')";
+        res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        if(res == 0){
+            exito = false;
+        }else{
+            if(p.getContacto().size() > 0){
+                SQL = "SELECT id FROM proveedores WHERE MAX(id)";
+                ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+                try {
+                    while(rs.next()){
+                        p.setId(rs.getInt("id"));
+                    }
+                    SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                    for(int i = p.getContacto().size()-1 ; i > 0; i--){
+                        SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
+                    }
+                    SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
+                    res = conexion.EjecutarOperacion(SQL);
+                } catch (SQLException ex) {
+                    res = 0;
+                }
+                if(res == 0){
+                    exito = false;
+                }
+            }
+        }
+        if(exito){
+            conexion.transaccionCommit("commitear"); 
+            conexion.transaccionCommit("activarCommit"); 
+        }else{
+            conexion.transaccionCommit("rollBack");
+            conexion.transaccionCommit("activarCommit");
+        }
+        return exito;
     }
 
     
