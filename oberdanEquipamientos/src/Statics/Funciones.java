@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
+import java.math.BigInteger; 
 
 /**
  *
@@ -84,4 +85,34 @@ public class Funciones {
         }
         else return true;
     }
+    /**
+     * 
+     * @param cadena
+     * @return a string with cuit/cuil generated from cadena
+     */
+    /*
+    public String generadorCuit_cuil(String cadena, String sexo){
+        String resultado="-";
+        int cantDigi;
+        int multiplicador=5432765432; 
+        
+        cantDigi=cadena.length();
+        if(Funciones.isNumeric(cadena)){
+            int number= Integer.parseInt(cadena);
+            switch(sexo){
+                case "H": {
+                     int aux = 10*cantDigi;
+                     aux+=number;
+                     
+                }
+                case "M":{
+                    
+                }
+            }
+        }
+       
+    
+        return resultado;
+    }
+ */    
 }

@@ -674,9 +674,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                         .addComponent(txtf_nro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel69)
-                                .addGap(105, 105, 105))
+                            .addComponent(jLabel69)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(69, 69, 69)
                                 .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -828,12 +826,13 @@ public class ProveedoresView extends javax.swing.JPanel {
                         .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_proveedores_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_proveedores_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_proveedores_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_proveedores_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_proveedores_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_proveedores_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_proveedores_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(53, 53, 53))
         );
 
@@ -2148,11 +2147,11 @@ public class ProveedoresView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_proveedores_imprimirTodo3ActionPerformed
 
-<<<<<<< HEAD
+
     private void cbox_nacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_nacionalidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbox_nacionalidadActionPerformed
-=======
+
     private void btn_eliminarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarContactoActionPerformed
         int pos = tabla_contactos.getSelectedRow();
         if (pos != -1) {
@@ -2204,7 +2203,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton12ActionPerformed
->>>>>>> 2df5dee5872a5f80e1a25234287af3544cb341ca
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
