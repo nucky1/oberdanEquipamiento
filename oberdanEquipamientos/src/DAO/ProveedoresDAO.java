@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -38,7 +36,7 @@ public class ProveedoresDAO {
     public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
            String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre"
               + " FROM proveedores"
-              + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%'"
+              + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND state = 'ACTIVO'"
               + " INNER JOIN barrio ON barrio.id = proveedores.barrio_id"
               + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
               + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
@@ -69,7 +67,7 @@ public class ProveedoresDAO {
                     p.setSaldo(rs.getFloat("saldo"));
                     p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
                     //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE AND state = 'ACTIVO' tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
@@ -98,7 +96,7 @@ public class ProveedoresDAO {
     public List<Proveedor> buscarProveedor(int id) {
       String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,pais.nombre"
               + " FROM proveedores"
-              + " WHERE proveedores.id = "+id
+              + " WHERE proveedores.id = "+id+" AND state = 'ACTIVO'"
               + " INNER JOIN barrio ON barrio.id = proveedores.barrio_id"
               + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
               + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
@@ -173,7 +171,7 @@ public class ProveedoresDAO {
             exito = false;
         }else{
             if(p.getContacto().size() > 0){
-                SQL = " DELETE FROM contactos WHERE persona_id = "+p.getId()+" AND tipo_persona = 'PROVEEDOR'";
+                SQL = " DELETE FROM contactos WHERE persona_id = "+p.getId()+" AND tipo_persona = 'PROVEEDOR' AND state = 'ACTIVO'";
                 res = conexion.EjecutarOperacion(SQL);
                 SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
                 for(int i = p.getContacto().size()-1 ; i > 0; i--){
@@ -240,13 +238,6 @@ public class ProveedoresDAO {
         }
         return exito;
     }
-
-    
-    public int actualizarProveedor(Proveedor p) {
-        int res = Modelo.ActualizarProveedor(p);
-        return res;
-    }
-
     
     public Proveedor getProveedor(int id) {
        Proveedor p = new Proveedor();
@@ -266,11 +257,13 @@ public class ProveedoresDAO {
     
     
     public Proveedor getProveedor(String nombre) {
-       Proveedor p = new Proveedor();
-        ResultSet rs = Modelo.BuscarProveedor("proveedores_nombre",nombre);
+        Proveedor p = new Proveedor();
+        String SQL = "SELECT proveedores.proveedor, proveedores.id from proveedores "
+                + "WHERE proveedor LIKE '%"+nombre+"%' AND state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try{
             while(rs.next()){
-                p.setId(rs.getInt("proveedores_id"));
+                p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("proveedores_nombre"));
             }
         }catch(Exception ex){
@@ -278,47 +271,11 @@ public class ProveedoresDAO {
         }
         return p;
     }
-
     
     public int eliminarProveedor(Proveedor p) {
-        int res = Main.Modelo.EliminarProveedor(p);
-            Main.Modelo.actualizarProveedorActual(p.getId());
+        String SQL = "DELETE FROM proveedores"
+               + "WHERE preventaDetalle_idPreventa = " + p.getId();
+        int res = conexion.EjecutarOperacion(SQL);
         return res;
     }
-    //-----------------------------------------BUSCADOR
-     public ArrayList<Proveedor> buscarProveedorReducido(String tipo_busqueda, String valor) {
-        ResultSet rs = Modelo.BuscarProveedor(tipo_busqueda, valor);
-        return actualizarTablaProveedores(rs);
-    }
-
-    public ArrayList<Proveedor> buscarProveedorReducido(int id) {
-        ResultSet rs = Modelo.BuscarProveedor(id);
-        return actualizarTablaProveedores(rs);
-    }
-    
-    private ArrayList<Proveedor> actualizarTablaProveedores(ResultSet rs){
-        ArrayList<Proveedor> list = new ArrayList<>();
-        
-        try{
-            
-            while(rs.next()){
-                Proveedor p = new Proveedor();
-                p.setId(rs.getInt("proveedores_id"));
-                p.setNombre(rs.getString("proveedores_nombre"));
-                p.setContacto(rs.getString("proveedores_telefono"));
-                list.add(p);
-            }
-        
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return list;
-    }
-
-    public void proveedorSeleccionado(int id) {
-        view.cerrarBuscador();
-    }
-    
-    
-
 }
