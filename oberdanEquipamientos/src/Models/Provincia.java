@@ -14,6 +14,13 @@ public class Provincia {
     private int id;
     private int id_pais;
 
+    public Provincia(String nombre){
+        this.nombre = nombre;
+    }
+
+    public Provincia() {
+        
+    }
     public String getNombre() {
         return nombre;
     }
@@ -37,5 +44,7 @@ public class Provincia {
     public void setId_pais(int id_pais) {
         this.id_pais = id_pais;
     }
-    
+    public String toString(){
+        return nombre;
+    }
 }

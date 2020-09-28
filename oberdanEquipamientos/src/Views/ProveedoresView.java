@@ -7,12 +7,20 @@ package Views;
 
 import DAO.DireccionesDAO;
 import DAO.ProveedoresDAO;
+import Models.Barrio;
 import Models.Proveedor;
 import Models.Contacto;
-import Statics.Funciones;
+import Models.Direccion;
+import Models.Localidad;
+import Models.Mapa;
+import Models.Pais;
+import Models.Provincia;
+import Statics.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -27,6 +35,12 @@ public class ProveedoresView extends javax.swing.JPanel {
     private ProveedoresDAO proveedoresDAO; 
     private DireccionesDAO direccionesDAO;
     private Proveedor proveedor_selected;
+    private Pais pais_selected;
+    private Provincia provincia_selected;
+    private Localidad localidad_selected;
+    private Barrio barrio_selected;
+    private Direccion direccion_selected;
+    private Mapa direcciones = null;
     private boolean modificarTrue = false;
     List<Proveedor> lista_proveedores;
     /**
@@ -36,7 +50,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         initComponents();
         proveedoresDAO = ProveedoresDAO.getInstance();
         direccionesDAO = DireccionesDAO.getInstance();
-        direccionesDAO.getDirecciones();
+        direcciones = direccionesDAO.getMapa();
     }
 
     /**
@@ -576,29 +590,39 @@ public class ProveedoresView extends javax.swing.JPanel {
 
         jLabel70.setText("Dirección");
 
-        cbox_nacionalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         cbox_nacionalidad.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbox_nacionalidadItemStateChanged(evt);
             }
         });
-        cbox_nacionalidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbox_nacionalidadActionPerformed(evt);
+
+        cbox_provincia.setEnabled(false);
+        cbox_provincia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_provinciaItemStateChanged(evt);
             }
         });
 
-        cbox_provincia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-        cbox_provincia.setEnabled(false);
-
-        cbox_barrio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         cbox_barrio.setEnabled(false);
+        cbox_barrio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_barrioItemStateChanged(evt);
+            }
+        });
 
-        cbox_ciudad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         cbox_ciudad.setEnabled(false);
+        cbox_ciudad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_ciudadItemStateChanged(evt);
+            }
+        });
 
-        cbox_direccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         cbox_direccion.setEnabled(false);
+        cbox_direccion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_direccionItemStateChanged(evt);
+            }
+        });
 
         btn_agregarNacionalidad.setText("+");
         btn_agregarNacionalidad.addActionListener(new java.awt.event.ActionListener() {
@@ -2163,10 +2187,6 @@ public class ProveedoresView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_proveedores_imprimirTodo3ActionPerformed
 
 
-    private void cbox_nacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_nacionalidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbox_nacionalidadActionPerformed
-
     private void btn_eliminarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarContactoActionPerformed
         int pos = tabla_contactos.getSelectedRow();
         if (pos != -1) {
@@ -2187,41 +2207,126 @@ public class ProveedoresView extends javax.swing.JPanel {
         String texto = txtf_nuevo_elemento.getText().toLowerCase();
         switch(jDialogAñadirElemento.getTitle()){
             case "Añadir una nueva nacionalidad":{
-                direccionesDAO.añadirNacionalidad(texto);
-                cbox_nacionalidad.addItem(texto);
-                cbox_nacionalidad.setSelectedItem(texto);
+                Provincia p = direccionesDAO.añadirNacionalidad(texto);
+                Pais pais = new Pais();
+                pais.setId(p.getId_pais());
+                pais.setNombre(texto);
+                //actualizo mapa
+                Set<Provincia> provincias = new TreeSet<>(new provinciaCompare());
+                provincias.add(p);
+                direcciones.getPais_Provincia().put(pais.getId(),provincias);
+                //actualizo cbox
+                cbox_nacionalidad.addItem(pais);
+                cbox_nacionalidad.setSelectedItem(pais);
+                cbox_provincia.removeAllItems();
+                cbox_provincia.addItem(p);
                 break;
             }
             case "Añadir una nueva provincia":{
-                direccionesDAO.añadirProvincia(texto);
-                cbox_provincia.addItem(texto);
-                cbox_provincia.setSelectedItem(texto);
+                Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
+                Provincia p = new Provincia();
+                p.setId(l.getId_provincia());
+                p.setNombre(texto);
+                p.setId_pais(pais_selected.getId());
+                //actualizo mapa
+                Set<Localidad> localidades = new TreeSet<>(new localidadCompare());
+                localidades.add(l);
+                direcciones.getProvincia_Localidad().put(p.getId(), localidades);
+                //actualizo cbox
+                cbox_provincia.addItem(p);
+                cbox_provincia.setSelectedItem(p);
+                cbox_ciudad.removeAllItems();
+                cbox_ciudad.addItem(l);
                 break;
             }
             case "Añadir una nueva ciudad":{
-                direccionesDAO.añadirCiudad(texto);
-                cbox_ciudad.addItem(texto);
-                cbox_ciudad.setSelectedItem(texto);
+                Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId());
+                Localidad l = new Localidad();
+                l.setId(b.getId_localidad());
+                l.setNombre(texto);
+                l.setId_provincia(provincia_selected.getId());
+                //actualizo mapa
+                Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
+                barrios.add(b);
+                direcciones.getLocalidad_Barrio().put(l.getId(), barrios);
+                //actualizo cbox
+                cbox_ciudad.addItem(l);
+                cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                cbox_barrio.removeAllItems();
+                cbox_barrio.addItem(b);
                 break;
             }
             case "Añadir un nuevo barrio":{
-                direccionesDAO.añadirBarrio(texto);
-                cbox_barrio.addItem(texto);
-                cbox_barrio.setSelectedItem(texto);
+                Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
+                Barrio b = new Barrio();
+                b.setId(d.getId_barrio());
+                b.setId_localidad(localidad_selected.getId());
+                b.setNombre(texto);
+                //actualizo mapa
+                Set<Direccion> directs = new TreeSet<>(new direccionCompare());
+                directs.add(d);
+                direcciones.getBarrio_direccion().put(d.getId(), directs);
+                //actualizo cbox
+                cbox_barrio.addItem(b);
+                cbox_barrio.setSelectedItem(b);
+                cbox_direccion.removeAllItems();
+                cbox_direccion.addItem(d);
                 break;
             }
             case "Añadir una nueva direccion":{
-                direccionesDAO.añadirDireccion(texto);
-                cbox_direccion.addItem(texto);
-                cbox_direccion.setSelectedItem(texto);
+                int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
+                Direccion d = new Direccion();
+                d.setId(id);
+                d.setId_barrio(barrio_selected.getId());
+                d.setNombre(texto);
+                direcciones.getBarrio_direccion().get(barrio_selected.getId());
+                //actualizo cbox
+                cbox_direccion.addItem(d);
+                cbox_direccion.setSelectedItem(d);
                 break;
             }
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void cbox_nacionalidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_nacionalidadItemStateChanged
-        // TODO add your handling code here:
+        Pais p = (Pais) cbox_nacionalidad.getSelectedItem();
+        pais_selected = p;
+        cbox_provincia.removeAll();
+        direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+            cbox_provincia.addItem(t);
+        });
     }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
+
+    private void cbox_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_provinciaItemStateChanged
+        Provincia p = (Provincia) cbox_barrio.getSelectedItem();
+        provincia_selected = p;
+        cbox_ciudad.removeAll();
+        direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+            cbox_ciudad.addItem(t);
+        });
+    }//GEN-LAST:event_cbox_provinciaItemStateChanged
+
+    private void cbox_ciudadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_ciudadItemStateChanged
+        Localidad l = (Localidad) cbox_ciudad.getSelectedItem();
+        localidad_selected = l;
+        cbox_barrio.removeAll();
+        direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+            cbox_barrio.addItem(t);
+        });
+    }//GEN-LAST:event_cbox_ciudadItemStateChanged
+
+    private void cbox_barrioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_barrioItemStateChanged
+        Barrio b = (Barrio) cbox_barrio.getSelectedItem();
+        barrio_selected = b;
+        cbox_direccion.removeAll();
+        direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
+            cbox_direccion.addItem(t);
+        });
+    }//GEN-LAST:event_cbox_barrioItemStateChanged
+
+    private void cbox_direccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_direccionItemStateChanged
+        direccion_selected = (Direccion) cbox_direccion.getSelectedItem();
+    }//GEN-LAST:event_cbox_direccionItemStateChanged
 
 
 
@@ -2244,12 +2349,12 @@ public class ProveedoresView extends javax.swing.JPanel {
     private javax.swing.JButton btn_proveedores_nuevo;
     private javax.swing.JButton btn_proveedores_nuevo6;
     private javax.swing.JButton btn_proveedores_nuevo7;
-    private javax.swing.JComboBox<String> cbox_barrio;
-    private javax.swing.JComboBox<String> cbox_ciudad;
-    private javax.swing.JComboBox<String> cbox_direccion;
+    private javax.swing.JComboBox<Models.Barrio> cbox_barrio;
+    private javax.swing.JComboBox<Models.Localidad> cbox_ciudad;
+    private javax.swing.JComboBox<Models.Direccion> cbox_direccion;
     private javax.swing.JComboBox<String> cbox_iva;
-    private javax.swing.JComboBox<String> cbox_nacionalidad;
-    private javax.swing.JComboBox<String> cbox_provincia;
+    private javax.swing.JComboBox<Models.Pais> cbox_nacionalidad;
+    private javax.swing.JComboBox<Models.Provincia> cbox_provincia;
     private javax.swing.JComboBox<String> cbox_tipoContacto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -2442,11 +2547,22 @@ public class ProveedoresView extends javax.swing.JPanel {
             txtf_observaciones.setText(proveedor_selected.getObservaciones());
             txtf_cbu.setText(proveedor_selected.getCbu());
             txtf_cuit.setText(proveedor_selected.getCuit());
-            cbox_barrio.removeAllItems();
-            cbox_barrio.addItem(proveedor_selected.getIva());
+            cbox_iva.removeAllItems();
+            cbox_iva.addItem(proveedor_selected.getIva());
             //contacto
             txtf_contacto.setText("");
             //direccion
+            cbox_nacionalidad.removeAllItems();
+            cbox_nacionalidad.addItem(new Pais(proveedor_selected.getNacionalidad()));
+            cbox_provincia.removeAllItems();
+            cbox_provincia.addItem(new Provincia(proveedor_selected.getProvincia()));
+            cbox_ciudad.removeAllItems();
+            cbox_ciudad.addItem(new Localidad(proveedor_selected.getCiudad()));
+            cbox_barrio.removeAllItems();
+            cbox_barrio.addItem(new Barrio(proveedor_selected.getBarrio()));
+            cbox_direccion.removeAllItems();
+            cbox_direccion.addItem(new Direccion(proveedor_selected.getDireccion()));
+            txtf_referencia.setText(proveedor_selected.getReferencia());
             txtf_codigoPostal.setText(proveedor_selected.getCodigoPostal());
             txtf_nro.setText(proveedor_selected.getNro());
         }
@@ -2468,19 +2584,19 @@ public class ProveedoresView extends javax.swing.JPanel {
         cbox_iva.setSelectedIndex(0);
         cbox_tipoContacto.setSelectedIndex(0);
         cbox_barrio.removeAllItems();
-        cbox_barrio.addItem("-");
+        cbox_barrio.addItem(new Barrio("-"));
         cbox_barrio.setSelectedIndex(0);
         cbox_ciudad.removeAllItems();
-        cbox_ciudad.addItem("-");
+        cbox_ciudad.addItem(new Localidad("-"));
         cbox_ciudad.setSelectedIndex(0);
         cbox_direccion.removeAllItems();
-        cbox_direccion.addItem("-");
+        cbox_direccion.addItem(new Direccion("-"));
         cbox_direccion.setSelectedIndex(0);
         cbox_nacionalidad.removeAllItems();
-        cbox_nacionalidad.addItem("-");
+        cbox_nacionalidad.addItem(new Pais("-"));
         cbox_nacionalidad.setSelectedIndex(0);
         cbox_provincia.removeAllItems();
-        cbox_provincia.addItem("-");
+        cbox_provincia.addItem(new Provincia("-"));
         cbox_provincia.setSelectedIndex(0);
         
         
@@ -2519,6 +2635,8 @@ public class ProveedoresView extends javax.swing.JPanel {
     }
 
     private void cargarNacionalidades() {
-        
+        direcciones.getPaises().values().forEach((t) -> {
+        cbox_nacionalidad.addItem(t);
+        });
     }
 }

@@ -18,6 +18,15 @@ public class Mapa {
     private HashMap<Integer,Set<Provincia>> pais_Provincia;
     private HashMap<Integer,Set<Localidad>> provincia_Localidad;
     private HashMap<Integer,Set<Barrio>> localidad_Barrio;
+    private HashMap<Integer,Set<Direccion>> barrio_direccion;
+
+    public HashMap<Integer, Set<Direccion>> getBarrio_direccion() {
+        return barrio_direccion;
+    }
+
+    public void setBarrio_direccion(HashMap<Integer, Set<Direccion>> barrio_direccion) {
+        this.barrio_direccion = barrio_direccion;
+    }
     
     public HashMap<Integer, Pais> getPaises() {
         return paises;

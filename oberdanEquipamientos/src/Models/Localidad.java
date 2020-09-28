@@ -14,11 +14,18 @@ public class Localidad {
     private int id;
     private int id_provincia;
 
+    public Localidad() {
+        
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public Localidad(String nombre) {
         this.nombre = nombre;
     }
 
@@ -37,5 +44,7 @@ public class Localidad {
     public void setId_provincia(int id_provincia) {
         this.id_provincia = id_provincia;
     }
-    
+    public String toString(){
+        return nombre;
+    }
 }

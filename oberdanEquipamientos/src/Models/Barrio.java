@@ -14,11 +14,18 @@ public class Barrio {
     private int id;
     private int id_localidad;
 
+    public Barrio() {
+        
+    }
+
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public Barrio(String nombre) {
         this.nombre = nombre;
     }
 
@@ -37,5 +44,7 @@ public class Barrio {
     public void setId_localidad(int id_localidad) {
         this.id_localidad = id_localidad;
     }
-    
+    public String toString(){
+        return nombre;
+    }
 }

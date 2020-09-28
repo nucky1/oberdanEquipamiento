@@ -1,10 +1,12 @@
 package DAO;
 
 import Models.Barrio;
+import Models.Direccion;
 import Models.Localidad;
 import Models.Mapa;
 import Models.Pais;
 import Models.Provincia;
+import Statics.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Comparator;
@@ -23,28 +25,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author demig
- */
-class provinciaCompare implements Comparator<Provincia> { 
-    public int compare(Provincia o1, Provincia o2) {
-        String first_Str = o1.getNombre(); 
-        String second_Str = o2.getNombre();
-        return second_Str.compareTo(first_Str); 
-    }
-} 
-class localidadCompare implements Comparator<Localidad> { 
-    public int compare(Localidad o1, Localidad o2) {
-        String first_Str = o1.getNombre(); 
-        String second_Str = o2.getNombre();
-        return second_Str.compareTo(first_Str); 
-    }
-} 
-class barrioCompare implements Comparator<Barrio> { 
-    public int compare(Barrio o1, Barrio o2) {
-        String first_Str = o1.getNombre(); 
-        String second_Str = o2.getNombre();
-        return second_Str.compareTo(first_Str); 
-    }
-} 
+ */ 
 public class DireccionesDAO {
     private static DireccionesDAO controller = null;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
@@ -67,12 +48,15 @@ public class DireccionesDAO {
         HashMap<Integer,Set<Provincia>> p = new HashMap<>();
         HashMap<Integer,Set<Localidad>> provincias_localidades = new HashMap<>();
         HashMap<Integer,Set<Barrio>> localidades_barrio = new HashMap<>();
+        HashMap<Integer,Set<Direccion>> barrio_direcciones = new HashMap<>();
         Set<Provincia> provincias = new TreeSet<>(new provinciaCompare());
         Set<Localidad> localidades = new TreeSet<>(new localidadCompare());
         Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
+        Set<Direccion> direcciones = new TreeSet<>(new direccionCompare());
         int idPais = -1;
         int idProvincia = -1;
         int idLocalidad = -1;
+        int idBarrio = -1;
         try {
             //cargar paises
             while(rs.next()){
@@ -83,7 +67,7 @@ public class DireccionesDAO {
                 p.put(pais.getId(), null);
             }
             //cargar provincias
-            SQL = "SELECT * FROM provincia ORDER BY pais_id";
+            SQL = "SELECT * FROM provincia ORDER BY pais_id,id";
             rs = conexion.EjecutarConsultaSQL(SQL);
             while(rs.next()){
                 Provincia provincia = new Provincia();
@@ -103,7 +87,7 @@ public class DireccionesDAO {
                 }                
             }
             //cargar localidades
-            SQL = "SELECT * FROM localidad ORDER BY provincia_id";
+            SQL = "SELECT * FROM localidad ORDER BY provincia_id,id";
             rs = conexion.EjecutarConsultaSQL(SQL);
             while(rs.next()){
                 Localidad localidad = new Localidad();
@@ -123,7 +107,7 @@ public class DireccionesDAO {
                 }                
             }
             //cargar barrios
-            SQL = "SELECT * FROM barrio ORDER BY localidad_id";
+            SQL = "SELECT * FROM barrio ORDER BY localidad_id,id";
             rs = conexion.EjecutarConsultaSQL(SQL);
             while(rs.next()){
                 Barrio barrio = new Barrio();
@@ -141,11 +125,31 @@ public class DireccionesDAO {
                     barrios.add(barrio);
                 }                
             }
+            //cargar direcciones
+            SQL = "SELECT * FROM direccion ORDER BY barrio_id,id";
+            rs = conexion.EjecutarConsultaSQL(SQL);
+            while(rs.next()){
+                Direccion direccion = new Direccion();
+                direccion.setId(rs.getInt("id"));
+                direccion.setId_barrio(rs.getInt("barrio_id"));
+                direccion.setNombre(rs.getString("nombre"));
+                if(direccion.getId_barrio()!= idBarrio){
+                    idBarrio = direccion.getId_barrio();
+                    if(idBarrio != -1){
+                       barrio_direcciones.replace(idBarrio, direcciones);
+                    }
+                    barrios = new TreeSet<>(new barrioCompare());
+                    direcciones.add(direccion);
+                }else{
+                    direcciones.add(direccion);
+                }                
+            }
             //cargar mapa
             m.setPaises(paises);
             m.setProvincia_Localidad(provincias_localidades);
             m.setPais_Provincia(p);
             m.setLocalidad_Barrio(localidades_barrio);
+            m.setBarrio_direccion(barrio_direcciones);
         } catch (SQLException ex) {
             Logger.getLogger(DireccionesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,28 +225,100 @@ public class DireccionesDAO {
         }
         return m;
     }
-    public void añadirNacionalidad(String toLowerCase) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Provincia añadirNacionalidad(String toLowerCase) {
+        String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"')";
+        int i = conexion.EjecutarOperacion(SQL);
+        if(i < 0)
+            return null;
+        SQL = "SELECT provincia.* FROM (SELECT MAX(id) AS maximo FROM pais),provincia WHERE provincia.pais_id = maximo";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            Provincia p = new Provincia();
+            if(rs.next()){
+                p.setId(rs.getInt("provincia.id"));
+                p.setNombre(rs.getString("provincia.nombre"));
+                p.setId_pais(rs.getInt("provincia.pais_id"));
+                return p;
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
     }
 
-    public void añadirProvincia(String toLowerCase) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Localidad añadirProvincia(String toLowerCase, int idPais) {
+        String SQL = "INSERT INTO provincia(nombre, pais_id) VALUES ('"+toLowerCase+"',"+idPais+")";
+        int i = conexion.EjecutarOperacion(SQL);
+        if(i < 0)
+            return null;
+        SQL = "SELECT localidad.* FROM localidad,(SELECT MAX(id) AS maximo FROM provincia) WHERE localidad.provincia_id = maximo";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            Localidad l = new Localidad();
+            if(rs.next()){
+                l.setId(rs.getInt("localidad.id"));
+                l.setNombre(rs.getString("localidad.nombre"));
+                l.setId_provincia(rs.getInt("localidad_provincia_id"));
+                return l;
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
     }
 
-    public void añadirCiudad(String toLowerCase) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Barrio añadirCiudad(String toLowerCase, int idProvincia) {
+        String SQL = "INSERT INTO localidad(nombre) VALUES ('"+toLowerCase+"',"+idProvincia+")";
+        int i = conexion.EjecutarOperacion(SQL);
+        if(i < 0)
+            return null;
+        SQL = "SELECT barrio.* FROM barrio,(SELECT MAX(id) AS maximo FROM localidad) WHERE barrio.localidad_id = maximo";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            Barrio b = new Barrio();
+            if(rs.next()){
+                b.setId(rs.getInt("barrio.id"));
+                b.setNombre(rs.getString("barrio.nombre"));
+                b.setId_localidad(rs.getInt("barrio.localidad_id"));
+                return b;
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
     }
 
-    public void añadirBarrio(String toLowerCase) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Direccion añadirBarrio(String toLowerCase, int idLocalidad) {
+        String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"',"+idLocalidad+")";
+        int i = conexion.EjecutarOperacion(SQL);
+        if(i < 0)
+            return null;
+        SQL = "SELECT direccion.* FROM direccion,(SELECT MAX(id) AS maximo FROM barrio) WHERE direccion.barrio_id = maximo";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            Direccion d = new Direccion();
+            if(rs.next()){
+                d.setId(rs.getInt("direccion.id"));
+                d.setId_barrio(rs.getInt("direccion.barrio_id"));
+                d.setNombre("direccion.nombre");
+                return d;
+            }
+        } catch (SQLException ex) {
+        }
+        return null;
     }
 
-    public void añadirDireccion(String toLowerCase) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void getNacionalidad() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int añadirDireccion(String toLowerCase, int idBarrio) {
+        String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"',"+idBarrio+")";
+        int i = conexion.EjecutarOperacion(SQL);
+        if(i < 0)
+            return 0;
+        SQL = "SELECT MAX(id) FROM pais";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.next()){
+                return rs.getInt("MAX(id)");
+            }
+        } catch (SQLException ex) {
+        }
+        return 0;
     }
     
 }
