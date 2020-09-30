@@ -37,7 +37,8 @@ public class ProveedoresDAO {
            String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre"
               + " FROM proveedores"
               + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND state = 'ACTIVO'"
-              + " INNER JOIN barrio ON barrio.id = proveedores.barrio_id"
+              + " INNER JOIN direccion ON direccion.id = proveedores.direccion_id"
+              + " INNER JOIN barrio ON barrio.id = direccion.barrio_id"
               + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
               + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
               + " INNER JOIN pais ON pais.id = provincia.pais_id";
@@ -56,7 +57,7 @@ public class ProveedoresDAO {
                     p.setCiudad(rs.getString("localidad.nombre"));
                     p.setBarrio(rs.getString("barrio.nombre"));
                     p.setBarrioId(rs.getInt("barrio.id"));
-                    p.setDireccion(rs.getString("direccion"));
+                    p.setDireccion(rs.getString("direccion.nombre"));
                     p.setNro(rs.getString("numero"));
                     p.setCodigoPostal(rs.getString("codPostal"));
                     p.setReferencia(rs.getString("referencia"));
@@ -97,7 +98,8 @@ public class ProveedoresDAO {
       String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,pais.nombre"
               + " FROM proveedores"
               + " WHERE proveedores.id = "+id+" AND state = 'ACTIVO'"
-              + " INNER JOIN barrio ON barrio.id = proveedores.barrio_id"
+              + " INNER JOIN direccion ON direccion.id = proveedores.direccion_id"
+              + " INNER JOIN barrio ON barrio.id = direccion.barrio_id"
               + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
               + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
               + " INNER JOIN pais ON pais.id = provincia.pais_id";
@@ -198,8 +200,8 @@ public class ProveedoresDAO {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-        String SQL = "INSERT INTO proveedores (proveedor, barrio_id,direccion,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto) "
-                + "VALUES('"+p.getNombre()+"',"+p.getBarrioId()+",'"+p.getDireccion()+"',"+p.getNro()+",'"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
+        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto) "
+                + "VALUES('"+p.getNombre()+"',"+p.getBarrioId()+","+p.getNro()+",'"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
         p.getIva()+"',"+
         p.getCuit()+","+
         p.getSaldo()+",'"+

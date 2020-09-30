@@ -12,6 +12,13 @@ package Models;
 public class Pais {
     private String nombre;
     private int id = -1;
+
+    public Pais(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Pais() {
+    }
     public String getNombre() {
         return nombre;
     }
@@ -28,4 +35,7 @@ public class Pais {
         this.id = id;
     }
     
+    public String toString(){
+        return nombre;
+    }
 }

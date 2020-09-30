@@ -14,6 +14,10 @@ public class Direccion {
     int id;
     int id_barrio;
     String nombre;
+
+    public Direccion() {
+        
+    }
     
     public int getId() {
         return id;
@@ -37,5 +41,11 @@ public class Direccion {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public Direccion(String nombre) {
+        this.nombre = nombre;
+    }
+    public String toString(){
+        return nombre;
     }
 }

@@ -7,18 +7,24 @@ package Statics;
  */
 
 
+import Models.Barrio;
+import Models.Direccion;
+import Models.Localidad;
+import Models.Provincia;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 import java.math.BigInteger; 
+import java.util.Comparator;
 
 /**
  *
  * @author Note250
  */
 public class Funciones {
+    
     static SimpleDateFormat plantilla = new SimpleDateFormat("yyyy-MM-dd");
     public static boolean compareStrings(String s1, String s2){
         s1 = s1.toLowerCase();
