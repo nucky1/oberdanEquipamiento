@@ -775,6 +775,11 @@ public class ProveedoresView extends javax.swing.JPanel {
                 btn_proveedores_nuevoMouseClicked(evt);
             }
         });
+        btn_proveedores_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_proveedores_nuevoActionPerformed(evt);
+            }
+        });
 
         btn_proveedores_guardar.setBackground(new java.awt.Color(255, 255, 255));
         btn_proveedores_guardar.setText("Guardar");
@@ -1933,6 +1938,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             if(proveedoresDAO.eliminarProveedor(proveedor_selected) > 0){
                 principal.lbl_estado.setText("El proveedor se elimino con exito");
                 principal.lbl_estado.setForeground(Color.GREEN);
+                cambioBusqueda("", false, true,txtf_proveedor_buscar,tabla_proveedores_busqueda);
             }else{
                 principal.lbl_estado.setText("Hubo un error al eliminar el proveedor");
                 principal.lbl_estado.setForeground(Color.RED);
@@ -2328,6 +2334,12 @@ public class ProveedoresView extends javax.swing.JPanel {
         direccion_selected = (Direccion) cbox_direccion.getSelectedItem();
     }//GEN-LAST:event_cbox_direccionItemStateChanged
 
+    private void btn_proveedores_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_nuevoActionPerformed
+        modificarTrue = false;
+        habilitarCampos(true);
+        proveedor_selected = new Proveedor();
+    }//GEN-LAST:event_btn_proveedores_nuevoActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2635,6 +2647,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     }
 
     private void cargarNacionalidades() {
+        cbox_nacionalidad.removeAll();
         direcciones.getPaises().values().forEach((t) -> {
         cbox_nacionalidad.addItem(t);
         });
