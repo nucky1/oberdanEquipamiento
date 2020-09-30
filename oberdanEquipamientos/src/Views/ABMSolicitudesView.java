@@ -606,7 +606,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Nombre"
+                "DNI", "Nombre"
             }
         ) {
             boolean[] canEdit = new boolean [] {
