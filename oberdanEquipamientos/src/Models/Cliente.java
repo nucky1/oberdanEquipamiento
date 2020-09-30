@@ -21,6 +21,7 @@ public class Cliente {
     private boolean esSolicitante;
     private String documentacion;
     private int numero;
+    private int codPostal;
     private int direccion_id;
    
 public String getNombre() {
@@ -94,4 +95,13 @@ public String getNombre() {
     public void setDireccion_id(int direccion_id) {
         this.direccion_id = direccion_id;
     }
+
+    public int getCodPostal() {
+        return codPostal;
+    }
+
+    public void setCodPostal(int codPostal) {
+        this.codPostal = codPostal;
+    }
+    
 }
