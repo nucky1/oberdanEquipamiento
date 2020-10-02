@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Proveedor {
     private int id;
-    private int barrioId;
+    private int direccionId;
     private String nombre;
     private ArrayList<Contacto> contacto;
     private String observaciones;
@@ -31,12 +31,12 @@ public class Proveedor {
     private float ingresoBruto;
     private float saldo;
 
-    public int getBarrioId() {
-        return barrioId;
+    public int getdireccionId() {
+        return direccionId;
     }
 
-    public void setBarrioId(int barrioId) {
-        this.barrioId = barrioId;
+    public void setdireccionId(int direccionId) {
+        this.direccionId = direccionId;
     }
 
     

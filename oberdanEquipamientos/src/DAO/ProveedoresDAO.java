@@ -34,14 +34,17 @@ public class ProveedoresDAO {
     
     
     public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
-           String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre"
-              + " FROM proveedores"
-              + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND state = 'ACTIVO'"
-              + " INNER JOIN direccion ON direccion.id = proveedores.direccion_id"
-              + " INNER JOIN barrio ON barrio.id = direccion.barrio_id"
-              + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
-              + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
-              + " INNER JOIN pais ON pais.id = provincia.pais_id";
+        if(tipo_busqueda.equals("nombre")){
+            tipo_busqueda = "proveedor";
+        }
+           String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+              + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
+              + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'"
+              + " AND direccion.id = proveedores.direccion_id"
+              + " AND barrio.id = direccion.barrio_id"
+              + " AND localidad.id = barrio.localidad_id"
+              + " AND localidad.provincia_id = provincia.id"
+              + " AND pais.id = provincia.pais_id";
            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
            
            List<Proveedor> list = new ArrayList<>();
@@ -56,7 +59,7 @@ public class ProveedoresDAO {
                     p.setProvincia(rs.getString("provincia.nombre"));
                     p.setCiudad(rs.getString("localidad.nombre"));
                     p.setBarrio(rs.getString("barrio.nombre"));
-                    p.setBarrioId(rs.getInt("barrio.id"));
+                    p.setdireccionId(rs.getInt("direccion.id"));
                     p.setDireccion(rs.getString("direccion.nombre"));
                     p.setNro(rs.getString("numero"));
                     p.setCodigoPostal(rs.getString("codPostal"));
@@ -68,15 +71,15 @@ public class ProveedoresDAO {
                     p.setSaldo(rs.getFloat("saldo"));
                     p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
                     //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE AND state = 'ACTIVO' tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
-                        while(rs.next()){
+                        while(rc.next()){
                             Contacto c = new Contacto();
-                            c.setId(rs.getInt("id"));
-                            c.setContacto(rs.getString("contacto"));
-                            c.setTipo(rs.getString("tipo"));
+                            c.setId(rc.getInt("id"));
+                            c.setContacto(rc.getString("contacto"));
+                            c.setTipo(rc.getString("tipo"));
                             contactos.add(c);
                         }
                     }catch(Exception ex){
@@ -95,14 +98,14 @@ public class ProveedoresDAO {
     }
     
     public List<Proveedor> buscarProveedor(int id) {
-      String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,pais.nombre"
-              + " FROM proveedores"
-              + " WHERE proveedores.id = "+id+" AND state = 'ACTIVO'"
-              + " INNER JOIN direccion ON direccion.id = proveedores.direccion_id"
-              + " INNER JOIN barrio ON barrio.id = direccion.barrio_id"
-              + " INNER JOIN localidad ON localidad.id = barrio.localidad_id"
-              + " INNER JOIN provincia ON localidad.provincia_id = provincia.id"
-              + " INNER JOIN pais ON pais.id = provincia.pais_id";
+      String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+              + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
+              + " WHERE proveedores.id = "+id+" AND proveedores.state = 'ACTIVO'"
+              + " AND direccion.id = proveedores.direccion_id"
+              + " AND barrio.id = direccion.barrio_id"
+              + " AND localidad.id = barrio.localidad_id"
+              + " AND localidad.provincia_id = provincia.id"
+              + " AND pais.id = provincia.pais_id";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         List<Proveedor> list = new ArrayList<>();
            try{
@@ -116,8 +119,8 @@ public class ProveedoresDAO {
                     p.setProvincia(rs.getString("provincia.nombre"));
                     p.setCiudad(rs.getString("localidad.nombre"));
                     p.setBarrio(rs.getString("barrio.nombre"));
-                    p.setBarrioId(rs.getInt("barrio.id"));
-                    p.setDireccion(rs.getString("direccion"));
+                    p.setdireccionId(rs.getInt("direccion.id"));
+                    p.setDireccion(rs.getString("direccion.nombre"));
                     p.setNro(rs.getString("numero"));
                     p.setCodigoPostal(rs.getString("codPostal"));
                     p.setReferencia(rs.getString("referencia"));
@@ -132,14 +135,15 @@ public class ProveedoresDAO {
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
-                        while(rs.next()){
+                        while(rc.next()){
                             Contacto c = new Contacto();
-                            c.setId(rs.getInt("id"));
-                            c.setContacto(rs.getString("contacto"));
-                            c.setTipo(rs.getString("tipo"));
+                            c.setId(rc.getInt("id"));
+                            c.setContacto(rc.getString("contacto"));
+                            c.setTipo(rc.getString("tipo"));
                             contactos.add(c);
                         }
                     }catch(Exception ex){
+                        ex.printStackTrace();
                         //no hago nada para que no se trabe
                     }
                     p.setContacto((ArrayList<Contacto>) contactos);
@@ -158,7 +162,7 @@ public class ProveedoresDAO {
         int res = 1;
         boolean exito = true;
         String SQL = "UPDATE proveedores SET proveedor = '"+p.getNombre()+"'"
-                + ", barrio_id = "+p.getBarrioId()
+                + ", barrio_id = "+p.getdireccionId()
                 + ",direccion = '"+p.getDireccion()+"'"
                 + ",numero = "+p.getNro()
                 + ",codPostal = '"+p.getCodigoPostal()+"'"
@@ -166,6 +170,7 @@ public class ProveedoresDAO {
                 + ",cbu = '"+p.getCbu()+"'"
                 + ",iva = '"+p.getIva()+"'"
                 + ",cuit = '"+p.getCuit()
+                + ",observaciones = '"+p.getObservaciones()+",'"
                 + ",saldo = "+p.getSaldo()
                 + ",ingreso_bruto = '"+p.getIngresoBruto()+"' WHERE id = "+p.getId();
         res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
@@ -200,18 +205,19 @@ public class ProveedoresDAO {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto) "
-                + "VALUES('"+p.getNombre()+"',"+p.getBarrioId()+","+p.getNro()+",'"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
+        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto,observaciones) "
+                + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+","+p.getNro()+",'"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
         p.getIva()+"',"+
         p.getCuit()+","+
         p.getSaldo()+",'"+
-        p.getIngresoBruto()+"')";
+        p.getIngresoBruto()+"','"
+                + p.getObservaciones()+"')";
         res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
         if(res == 0){
             exito = false;
         }else{
             if(p.getContacto().size() > 0){
-                SQL = "SELECT id FROM proveedores WHERE MAX(id)";
+                SQL = "SELECT MAX(id) AS id FROM proveedores ";
                 ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
                 try {
                     while(rs.next()){

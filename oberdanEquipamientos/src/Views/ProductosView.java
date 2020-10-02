@@ -340,6 +340,7 @@ public void limpiarCamposInventario() {
             }
         });
 
+        rbtn_productos_codigo.setSelected(true);
         rbtn_productos_codigo.setText("Código");
 
         rbtn_productos_nombre.setText("Nombre");
@@ -1769,7 +1770,7 @@ public void limpiarCamposInventario() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 1228, Short.MAX_VALUE)
+                .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
