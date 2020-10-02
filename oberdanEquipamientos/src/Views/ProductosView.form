@@ -42,7 +42,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="tabla_productos" pref="1228" max="32767" attributes="0"/>
+              <Component id="tabla_productos" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -200,6 +200,7 @@
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rbtn_productos_codigo">
                   <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
                   </Properties>
                   <AuxValues>

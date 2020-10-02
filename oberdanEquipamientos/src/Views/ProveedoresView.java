@@ -21,6 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -74,6 +79,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panel_detalle_proveedor = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -323,8 +329,11 @@ public class ProveedoresView extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup1.add(rbtn_proveedores_codigo);
+        rbtn_proveedores_codigo.setSelected(true);
         rbtn_proveedores_codigo.setText("Código");
 
+        buttonGroup1.add(rbtn_proveedores_nombre);
         rbtn_proveedores_nombre.setText("Nombre");
 
         jLabel41.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -451,7 +460,6 @@ public class ProveedoresView extends javax.swing.JPanel {
                     .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbox_iva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel65)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtf_cbu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2044,15 +2052,21 @@ public class ProveedoresView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if(direccion_selected == null){
+            JOptionPane.showMessageDialog(null, "Debe colocar la direccion del proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         //--FIN CONTROLES
         //--CARGAR DATOS AL PROVEEDOR
         proveedor_selected.setNombre(txtf_nombre_empresa.getText());
+        proveedor_selected.setObservaciones(txtf_observaciones.getText());
         //direccion
         proveedor_selected.setNacionalidad(String.valueOf(cbox_nacionalidad.getSelectedIndex()));
         proveedor_selected.setProvincia(String.valueOf(cbox_provincia.getSelectedIndex()));
         proveedor_selected.setCiudad(String.valueOf(cbox_ciudad.getSelectedIndex()));
         proveedor_selected.setBarrio(String.valueOf(cbox_barrio.getSelectedIndex()));
         proveedor_selected.setDireccion(String.valueOf(cbox_direccion.getSelectedIndex()));
+        proveedor_selected.setdireccionId(direccion_selected.getId());
         proveedor_selected.setNro(txtf_nro.getText());
         proveedor_selected.setCodigoPostal(txtf_codigoPostal.getText());
         proveedor_selected.setReferencia(txtf_referencia.getText());
@@ -2071,7 +2085,8 @@ public class ProveedoresView extends javax.swing.JPanel {
         proveedor_selected.setContacto((ArrayList<Contacto>) list);
         //--FIN CARGA
         if(modificarTrue){
-            int result = JOptionPane.showConfirmDialog(null, "MODIFICAR", "Esta seguro que desea modificar el proveedor: \n"+txtf_nombre_empresa.getText(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el proveedor: \n"+txtf_nombre_empresa.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("result = " + result);
             if(result == JOptionPane.OK_OPTION){
                 if(proveedoresDAO.actualizarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se actualizo con exito");
@@ -2082,16 +2097,23 @@ public class ProveedoresView extends javax.swing.JPanel {
                 }
             }
         }else{
-            int result = JOptionPane.showConfirmDialog(null, "AGREGAR", "Esta seguro que desea agregar el proveedor: \n"+txtf_nombre_empresa.getText(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el proveedor: \n"+txtf_nombre_empresa.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(result == JOptionPane.OK_OPTION){
                 if(proveedoresDAO.guardarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se agrego con exito");
-                    principal.lbl_estado.setForeground(Color.GREEN);
+                    principal.lbl_estado.setForeground(new Color(0,100,0));
                 }else{
                     principal.lbl_estado.setText("Hubo un error al agregar el proveedor");
-                    principal.lbl_estado.setForeground(Color.RED);
+                    principal.lbl_estado.setForeground(new Color(139,0,0));
                 }
             }
+            limpiarCampos();
+            habilitarCampos(false);
+            long l = 3000;
+            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+            Runnable task1 = () -> principal.lbl_estado.setText("");
+            service.scheduleAtFixedRate(task1, 1, 5, TimeUnit.SECONDS);
+            
         }
     }//GEN-LAST:event_btn_proveedores_guardarActionPerformed
 
@@ -2362,7 +2384,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             });
             cbox_direccion.setEnabled(true);
         }catch(NullPointerException e){
-            System.out.println("asdasd");
+            System.out.println("error aqui turro");
         }
         
     }//GEN-LAST:event_cbox_barrioItemStateChanged
@@ -2405,6 +2427,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     private javax.swing.JButton btn_proveedores_nuevo;
     private javax.swing.JButton btn_proveedores_nuevo6;
     private javax.swing.JButton btn_proveedores_nuevo7;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Models.Barrio> cbox_barrio;
     private javax.swing.JComboBox<Models.Localidad> cbox_ciudad;
     private javax.swing.JComboBox<Models.Direccion> cbox_direccion;
@@ -2582,7 +2605,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         }
     }
     public void cargarTablaBusqueda(List<Proveedor> prov, JTable tablaBuscador){
-        lista_proveedores = new ArrayList<>(prov);
+        lista_proveedores = prov;
         DefaultTableModel model = (DefaultTableModel) tablaBuscador.getModel();
         model.setNumRows(0);
          try {
@@ -2607,6 +2630,14 @@ public class ProveedoresView extends javax.swing.JPanel {
             cbox_iva.addItem(proveedor_selected.getIva());
             //contacto
             txtf_contacto.setText("");
+            DefaultTableModel model = (DefaultTableModel) tabla_contactos.getModel();
+            model.setNumRows(0);
+            proveedor_selected.getContacto().forEach((t) -> {
+                Object[] obj = new Object[2];
+                obj[0] = t.getTipo();
+                obj[1] = t.getContacto();
+                model.addRow(obj);
+            });
             //direccion
             cbox_nacionalidad.removeAllItems();
             cbox_nacionalidad.addItem(new Pais(proveedor_selected.getNacionalidad()));
