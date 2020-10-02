@@ -54,5 +54,16 @@ public class ClientesDAO {
         }
         return list;
     }
+    public List<Cliente> buscarProducto(String atributo, String valor) {
+        String SQL = "SELECT * FROM `cliente` WHERE cliente.id = "
+               + " FROM proveedores, articulo, art_rubro, art_stock"
+               + " WHERE articulo." + atributo+" like '%"+valor+"%'"
+               + " AND articulo.rubro_id = art_rubro.id"
+               + " AND articulo.id = art_stock.producto_id"
+               + " AND articulo.proveedor_id = proveedores.id"
+               + " AND articulo.state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        return cargarProductos(rs);
+    }
     
 }
