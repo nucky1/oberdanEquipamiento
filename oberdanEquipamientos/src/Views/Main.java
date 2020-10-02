@@ -17,6 +17,6 @@ public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         principal vista1 = new principal();
         vista1.setVisible(true);
-        vista1.setExtendedState(vista1.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        vista1.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 }

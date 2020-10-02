@@ -291,9 +291,11 @@ public void limpiarCamposInventario() {
         );
 
         setMaximumSize(new java.awt.Dimension(1366, 735));
+        setPreferredSize(new java.awt.Dimension(1200, 627));
 
-        tabla_productos.setMinimumSize(new java.awt.Dimension(1284, 590));
-        tabla_productos.setPreferredSize(new java.awt.Dimension(1284, 590));
+        tabla_productos.setMinimumSize(new java.awt.Dimension(1200, 590));
+        tabla_productos.setPreferredSize(new java.awt.Dimension(1200, 590));
+        tabla_productos.setRequestFocusEnabled(false);
 
         jPanel21.setMaximumSize(new java.awt.Dimension(344, 32767));
         jPanel21.setMinimumSize(new java.awt.Dimension(344, 588));
@@ -1767,7 +1769,7 @@ public void limpiarCamposInventario() {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabla_productos, javax.swing.GroupLayout.PREFERRED_SIZE, 1228, Short.MAX_VALUE)
+                .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 1228, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

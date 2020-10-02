@@ -48,6 +48,12 @@ public class ProveedoresView extends javax.swing.JPanel {
      */
     public ProveedoresView() {
         initComponents();
+        Statics.style.setPlaceHolder(txtf_nuevo_elemento, "Ingrese nuevo");
+        habilitarCampos(false);
+        cbox_barrio.setEnabled(false);
+        cbox_ciudad.setEnabled(false);
+        cbox_direccion.setEnabled(false);
+        cbox_provincia.setEnabled(false);
         proveedoresDAO = ProveedoresDAO.getInstance();
         direccionesDAO = DireccionesDAO.getInstance();
         direcciones = direccionesDAO.getMapa();
@@ -235,14 +241,17 @@ public class ProveedoresView extends javax.swing.JPanel {
         btn_proveedores_imprimirTodo2 = new javax.swing.JButton();
         btn_proveedores_imprimirTodo3 = new javax.swing.JButton();
 
-        txtf_nuevo_elemento.setText("Ingrese nuevo");
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         txtf_nuevo_elemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtf_nuevo_elementoActionPerformed(evt);
             }
         });
+        jPanel14.add(txtf_nuevo_elemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 21, 233, -1));
 
         jLabel38.setText("Nuevo:");
+        jPanel14.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 24, -1, -1));
 
         jButton12.setText("OK");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -250,6 +259,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 jButton12ActionPerformed(evt);
             }
         });
+        jPanel14.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 77, 70, -1));
 
         jButton13.setText("Cancelar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -257,37 +267,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 jButton13ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
-                        .addComponent(jButton13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
-                        .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(txtf_nuevo_elemento, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(52, Short.MAX_VALUE))
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel38)
-                    .addComponent(txtf_nuevo_elemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton12)
-                    .addComponent(jButton13))
-                .addGap(33, 33, 33))
-        );
+        jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 77, -1, -1));
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
@@ -300,6 +280,11 @@ public class ProveedoresView extends javax.swing.JPanel {
             .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        setPreferredSize(new java.awt.Dimension(1200, 699));
+
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(1200, 708));
+
+        jPanel21.setBackground(java.awt.Color.white);
         jPanel21.setMaximumSize(new java.awt.Dimension(344, 32767));
         jPanel21.setMinimumSize(new java.awt.Dimension(344, 588));
         jPanel21.setName(""); // NOI18N
@@ -420,10 +405,10 @@ public class ProveedoresView extends javax.swing.JPanel {
                 .addGap(102, 102, 102))
         );
 
-        jPanel22.setBackground(new java.awt.Color(252, 252, 252));
+        jPanel22.setBackground(new java.awt.Color(255, 255, 255));
         jPanel22.setMinimumSize(new java.awt.Dimension(934, 590));
 
-        jPanel25.setBackground(new java.awt.Color(245, 245, 245));
+        jPanel25.setBackground(java.awt.Color.white);
         jPanel25.setMinimumSize(new java.awt.Dimension(877, 31));
 
         jLabel50.setText("IVA:");
@@ -466,11 +451,14 @@ public class ProveedoresView extends javax.swing.JPanel {
                     .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbox_iva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtf_cuit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel65)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtf_cbu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel6.setBackground(java.awt.Color.white);
 
         jLabel64.setText("Nombre de la Empresa:");
 
@@ -512,6 +500,11 @@ public class ProveedoresView extends javax.swing.JPanel {
         btn_agregarContacto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarContactoActionPerformed(evt);
+            }
+        });
+        btn_agregarContacto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_agregarContactoKeyPressed(evt);
             }
         });
 
@@ -575,6 +568,8 @@ public class ProveedoresView extends javax.swing.JPanel {
 
         jLabel62.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel62.setText("Proveedor");
+
+        jPanel5.setBackground(java.awt.Color.white);
 
         jLabel60.setText("Nacionalidad");
 
@@ -675,94 +670,112 @@ public class ProveedoresView extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel70, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel61, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbox_nacionalidad, 0, 232, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btn_agregarNacionalidad)
-                        .addComponent(btn_agregarProvincia))
-                    .addComponent(btn_agregarDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_agregarBarrio, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_agregarCiudad, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel96, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel71, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_agregarNacionalidad))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_agregarProvincia))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_agregarCiudad))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_agregarBarrio))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btn_agregarDireccion))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
                         .addComponent(txtf_nro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel69)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane11))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel69)
+                        .addGap(4, 4, 4)
+                        .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cbox_barrio, cbox_ciudad, cbox_direccion, cbox_nacionalidad, cbox_provincia});
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel56, jLabel60, jLabel61, jLabel63, jLabel69, jLabel70, jLabel71});
-
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel60)
-                    .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel60))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btn_agregarNacionalidad))
                 .addGap(27, 27, 27)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel56)
-                    .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel56))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btn_agregarProvincia))
                 .addGap(27, 27, 27)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel61)
-                    .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel61))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btn_agregarCiudad))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel63)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel63))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btn_agregarBarrio))
                 .addGap(30, 30, 30)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel70)
-                    .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel70))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btn_agregarDireccion))
                 .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtf_nro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel71)
-                    .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel69))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel69))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel71)))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel96)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13))
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         btn_proveedores_nuevo.setBackground(new java.awt.Color(255, 255, 255));
@@ -1869,7 +1882,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1957,6 +1970,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             nuevo[0] = String.valueOf(cbox_tipoContacto.getSelectedItem());
             nuevo[1] = txtf_contacto.getText();
             model.addRow(nuevo);
+            txtf_contacto.setText("");
         }else{
             JOptionPane.showMessageDialog(null, "Debe llenar el campo de contacto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -2013,7 +2027,7 @@ public class ProveedoresView extends javax.swing.JPanel {
 
     private void btn_proveedores_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_guardarActionPerformed
         //---CONTROLES
-        if(Funciones.controlText(txtf_nombre_empresa.getText())){
+        if(!Funciones.controlText(txtf_nombre_empresa.getText())){
             JOptionPane.showMessageDialog(null, "El nombre de la empresa no puede estar vacio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -2021,7 +2035,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Debe colocar la dirección", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Funciones.controlText(txtf_nro.getText())){
+        if(!Funciones.controlText(txtf_nro.getText())){
             JOptionPane.showMessageDialog(null, "El numero no puede estar vacio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -2206,7 +2220,8 @@ public class ProveedoresView extends javax.swing.JPanel {
     }//GEN-LAST:event_txtf_nuevo_elementoActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        txtf_nuevo_elemento.setText("");
+        jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -2292,42 +2307,64 @@ public class ProveedoresView extends javax.swing.JPanel {
                 break;
             }
         }
+        jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void cbox_nacionalidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_nacionalidadItemStateChanged
         Pais p = (Pais) cbox_nacionalidad.getSelectedItem();
         pais_selected = p;
-        cbox_provincia.removeAll();
-        direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
-            cbox_provincia.addItem(t);
-        });
+        cbox_provincia.removeAllItems();
+        try{
+            direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+                cbox_provincia.addItem(t);
+            });
+            cbox_provincia.setEnabled(true);
+        }catch(NullPointerException e){
+            
+        }
     }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
 
     private void cbox_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_provinciaItemStateChanged
-        Provincia p = (Provincia) cbox_barrio.getSelectedItem();
+        Provincia p = (Provincia) cbox_provincia.getSelectedItem();
         provincia_selected = p;
-        cbox_ciudad.removeAll();
-        direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
-            cbox_ciudad.addItem(t);
-        });
+        cbox_ciudad.removeAllItems();
+        try{
+            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+                cbox_ciudad.addItem(t);
+            });
+            cbox_ciudad.setEnabled(true);
+        }catch(NullPointerException e){
+            
+        }
     }//GEN-LAST:event_cbox_provinciaItemStateChanged
 
     private void cbox_ciudadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_ciudadItemStateChanged
         Localidad l = (Localidad) cbox_ciudad.getSelectedItem();
         localidad_selected = l;
-        cbox_barrio.removeAll();
-        direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-            cbox_barrio.addItem(t);
-        });
+        cbox_barrio.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                cbox_barrio.addItem(t);
+            });
+            cbox_barrio.setEnabled(true);
+        }catch(NullPointerException e){
+            
+        }     
     }//GEN-LAST:event_cbox_ciudadItemStateChanged
 
     private void cbox_barrioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_barrioItemStateChanged
         Barrio b = (Barrio) cbox_barrio.getSelectedItem();
         barrio_selected = b;
-        cbox_direccion.removeAll();
-        direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
-            cbox_direccion.addItem(t);
-        });
+        cbox_direccion.removeAllItems();
+        try{
+            direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
+                cbox_direccion.addItem(t);
+            });
+            cbox_direccion.setEnabled(true);
+        }catch(NullPointerException e){
+            System.out.println("asdasd");
+        }
+        
     }//GEN-LAST:event_cbox_barrioItemStateChanged
 
     private void cbox_direccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_direccionItemStateChanged
@@ -2337,8 +2374,15 @@ public class ProveedoresView extends javax.swing.JPanel {
     private void btn_proveedores_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_nuevoActionPerformed
         modificarTrue = false;
         habilitarCampos(true);
+        cargarNacionalidades();
         proveedor_selected = new Proveedor();
     }//GEN-LAST:event_btn_proveedores_nuevoActionPerformed
+
+    private void btn_agregarContactoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_agregarContactoKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            btn_agregarContacto.doClick();
+        }
+    }//GEN-LAST:event_btn_agregarContactoKeyPressed
 
 
 
@@ -2622,11 +2666,11 @@ public class ProveedoresView extends javax.swing.JPanel {
         txtf_observaciones.setEnabled(flag);
         txtf_contacto.setEnabled(flag);
         txtf_referencia.setEnabled(flag);
-        cbox_barrio.setEnabled(flag);
-        cbox_ciudad.setEnabled(flag);
-        cbox_direccion.setEnabled(flag);
+        cbox_barrio.setEnabled(!flag);
+        cbox_ciudad.setEnabled(!flag);
+        cbox_direccion.setEnabled(!flag);
         cbox_nacionalidad.setEnabled(flag);
-        cbox_provincia.setEnabled(flag);
+        cbox_provincia.setEnabled(!flag);
         btn_agregarBarrio.setEnabled(flag);
         btn_agregarCiudad.setEnabled(flag);
         btn_agregarContacto.setEnabled(flag);
@@ -2647,7 +2691,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     }
 
     private void cargarNacionalidades() {
-        cbox_nacionalidad.removeAll();
+        cbox_nacionalidad.removeAllItems();
         direcciones.getPaises().values().forEach((t) -> {
         cbox_nacionalidad.addItem(t);
         });
