@@ -83,6 +83,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel4 = new javax.swing.JPanel();
         jTextField_referenciaDomicilioCliente = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -623,6 +624,8 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jButton11.setText("Volver");
 
+        buttonGroup1.add(rbtn_clientesDni);
+        rbtn_clientesDni.setSelected(true);
         rbtn_clientesDni.setText("DNI");
         rbtn_clientesDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -630,6 +633,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup1.add(rbtn_clientesNombre);
         rbtn_clientesNombre.setText("Nombre");
 
         jTextField_buscarCliente.addCaretListener(new javax.swing.event.CaretListener() {
@@ -1504,6 +1508,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirNuevoElemento;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton13;
