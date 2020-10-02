@@ -76,16 +76,18 @@ public class DireccionesDAO {
                 provincia.setNombre(rs.getString("nombre"));
                 provincias_localidades.put(provincia.getId(), null);
                 if(provincia.getId_pais() != idPais){
-                    idPais = provincia.getId_pais();
-                    if(idProvincia != -1){
-                       provincias_localidades.replace(idProvincia, localidades);
+                    if(idPais != -1){
+                        p.replace(idPais, provincias);
                     }
+                    idPais = provincia.getId_pais();
                     provincias = new TreeSet<>(new provinciaCompare());
                     provincias.add(provincia);
                 }else{
                     provincias.add(provincia);
                 }                
             }
+            p.replace(idPais, provincias);
+            idProvincia = -1;
             //cargar localidades
             SQL = "SELECT * FROM localidad ORDER BY provincia_id,id";
             rs = conexion.EjecutarConsultaSQL(SQL);
@@ -96,16 +98,17 @@ public class DireccionesDAO {
                 localidad.setNombre(rs.getString("nombre"));
                 localidades_barrio.put(localidad.getId(), null);
                 if(localidad.getId_provincia()!= idProvincia){
-                    idProvincia = localidad.getId_provincia();
                     if(idProvincia != -1){
-                       provincias_localidades.replace(idProvincia, localidades);
+                        provincias_localidades.replace(idProvincia, localidades);
                     }
+                    idProvincia = localidad.getId_provincia();
                     localidades = new TreeSet<>(new localidadCompare());
                     localidades.add(localidad);
                 }else{
                     localidades.add(localidad);
                 }                
             }
+            provincias_localidades.replace(idProvincia, localidades);
             //cargar barrios
             SQL = "SELECT * FROM barrio ORDER BY localidad_id,id";
             rs = conexion.EjecutarConsultaSQL(SQL);
@@ -114,11 +117,12 @@ public class DireccionesDAO {
                 barrio.setId(rs.getInt("id"));
                 barrio.setId_localidad(rs.getInt("localidad_id"));
                 barrio.setNombre(rs.getString("nombre"));
+                barrio_direcciones.put(barrio.getId(), null);
                 if(barrio.getId_localidad()!= idLocalidad){
-                    idLocalidad = barrio.getId_localidad();
                     if(idLocalidad != -1){
                        localidades_barrio.replace(idLocalidad, barrios);
                     }
+                    idLocalidad = barrio.getId_localidad();
                     barrios = new TreeSet<>(new barrioCompare());
                     barrios.add(barrio);
                 }else{
@@ -134,16 +138,17 @@ public class DireccionesDAO {
                 direccion.setId_barrio(rs.getInt("barrio_id"));
                 direccion.setNombre(rs.getString("nombre"));
                 if(direccion.getId_barrio()!= idBarrio){
-                    idBarrio = direccion.getId_barrio();
                     if(idBarrio != -1){
                        barrio_direcciones.replace(idBarrio, direcciones);
                     }
-                    barrios = new TreeSet<>(new barrioCompare());
+                    idBarrio = direccion.getId_barrio();
+                    direcciones = new TreeSet<>(new direccionCompare());
                     direcciones.add(direccion);
                 }else{
                     direcciones.add(direccion);
-                }                
+                }
             }
+            barrio_direcciones.replace(idBarrio, direcciones);
             //cargar mapa
             m.setPaises(paises);
             m.setProvincia_Localidad(provincias_localidades);
@@ -230,7 +235,7 @@ public class DireccionesDAO {
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
-        SQL = "SELECT provincia.* FROM (SELECT MAX(id) AS maximo FROM pais),provincia WHERE provincia.pais_id = maximo";
+        SQL = "SELECT provincia.* FROM (SELECT MAX(id) AS maximo FROM pais) AS derived,provincia WHERE provincia.pais_id = derived.maximo";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             Provincia p = new Provincia();
@@ -250,14 +255,14 @@ public class DireccionesDAO {
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
-        SQL = "SELECT localidad.* FROM localidad,(SELECT MAX(id) AS maximo FROM provincia) WHERE localidad.provincia_id = maximo";
+        SQL = "SELECT localidad.* FROM localidad,(SELECT MAX(id) AS maximo FROM provincia) as derived WHERE localidad.provincia_id = derived.maximo";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             Localidad l = new Localidad();
             if(rs.next()){
                 l.setId(rs.getInt("localidad.id"));
                 l.setNombre(rs.getString("localidad.nombre"));
-                l.setId_provincia(rs.getInt("localidad_provincia_id"));
+                l.setId_provincia(rs.getInt("localidad.provincia_id"));
                 return l;
             }
         } catch (SQLException ex) {
@@ -266,11 +271,11 @@ public class DireccionesDAO {
     }
 
     public Barrio añadirCiudad(String toLowerCase, int idProvincia) {
-        String SQL = "INSERT INTO localidad(nombre) VALUES ('"+toLowerCase+"',"+idProvincia+")";
+        String SQL = "INSERT INTO localidad(nombre,provincia_id) VALUES ('"+toLowerCase+"',"+idProvincia+")";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
-        SQL = "SELECT barrio.* FROM barrio,(SELECT MAX(id) AS maximo FROM localidad) WHERE barrio.localidad_id = maximo";
+        SQL = "SELECT barrio.* FROM barrio,(SELECT MAX(id) AS maximo FROM localidad) AS derived WHERE barrio.localidad_id = derived.maximo";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             Barrio b = new Barrio();
@@ -286,18 +291,18 @@ public class DireccionesDAO {
     }
 
     public Direccion añadirBarrio(String toLowerCase, int idLocalidad) {
-        String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"',"+idLocalidad+")";
+        String SQL = "INSERT INTO barrio(nombre,localidad_id,zona) VALUES ('"+toLowerCase+"',"+idLocalidad+",0)";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
-        SQL = "SELECT direccion.* FROM direccion,(SELECT MAX(id) AS maximo FROM barrio) WHERE direccion.barrio_id = maximo";
+        SQL = "SELECT direccion.* FROM direccion,(SELECT MAX(id) AS maximo FROM barrio) AS derived WHERE direccion.barrio_id = derived.maximo";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             Direccion d = new Direccion();
             if(rs.next()){
                 d.setId(rs.getInt("direccion.id"));
                 d.setId_barrio(rs.getInt("direccion.barrio_id"));
-                d.setNombre("direccion.nombre");
+                d.setNombre(rs.getString("direccion.nombre"));
                 return d;
             }
         } catch (SQLException ex) {
@@ -306,11 +311,11 @@ public class DireccionesDAO {
     }
 
     public int añadirDireccion(String toLowerCase, int idBarrio) {
-        String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"',"+idBarrio+")";
+        String SQL = "INSERT INTO direccion(nombre,barrio_id) VALUES ('"+toLowerCase+"',"+idBarrio+")";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return 0;
-        SQL = "SELECT MAX(id) FROM pais";
+        SQL = "SELECT MAX(id) FROM direccion";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             if(rs.next()){

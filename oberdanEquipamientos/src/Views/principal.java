@@ -17,6 +17,7 @@ public class principal extends javax.swing.JFrame {
      */
     public principal() {
         initComponents();
+        jTabbedPane1.setSize(1366, 986);
     }
 
     /**
@@ -28,16 +29,21 @@ public class principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         barra_estado = new javax.swing.JPanel();
         lbl_estado = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         nombre_usuario = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1366, 704));
-        setPreferredSize(new java.awt.Dimension(1366, 704));
-        setSize(new java.awt.Dimension(1366, 735));
+        setMaximumSize(new java.awt.Dimension(1200, 704));
+        setMinimumSize(new java.awt.Dimension(1200, 704));
+        setPreferredSize(new java.awt.Dimension(1366, 900));
+        setSize(new java.awt.Dimension(1366, 900));
+
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
+        jTabbedPane1.setMaximumSize(new java.awt.Dimension(1366, 900));
+        jTabbedPane1.setMinimumSize(new java.awt.Dimension(1366, 900));
 
         barra_estado.setBackground(new java.awt.Color(238, 238, 238));
         barra_estado.setMaximumSize(new java.awt.Dimension(1920, 25));
@@ -58,10 +64,11 @@ public class principal extends javax.swing.JFrame {
             .addGroup(barra_estadoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 897, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(nombre_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(nombre_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         barra_estadoLayout.setVerticalGroup(
             barra_estadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,25 +78,19 @@ public class principal extends javax.swing.JFrame {
             .addComponent(nombre_usuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
-        jTabbedPane1.setMaximumSize(new java.awt.Dimension(1200, 735));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(barra_estado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1137, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1200, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(barra_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 1137, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(barra_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(barra_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.add(new Views.ProductosView());
@@ -148,7 +149,7 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JPanel barra_estado;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JTabbedPane jTabbedPane1;
-    public static javax.swing.JLabel lbl_estado;
+    private javax.swing.JLabel lbl_estado;
     private javax.swing.JLabel nombre_usuario;
     // End of variables declaration//GEN-END:variables
 }
