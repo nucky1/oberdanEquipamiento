@@ -7,13 +7,11 @@ package DAO;
 
 import Models.Producto;
 import Views.ProductosView;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -50,12 +48,35 @@ public class ProductoDAO {
                 p.setStock(rs.getInt("stock_existente"));
                 p.setStockMin(rs.getInt("stock_minimo"));
                 p.setIdProveedorActual(rs.getInt("proveedor_id"));
+                p.setIva(rs.getFloat("iva"));
+                p.setSobretasaIva(rs.getFloat("sobretasa_iva"));
+                p.setImpuesto_interno(rs.getFloat("impuesto_interno"));
+                p.setImpuesto_int_fijo(rs.getFloat("impuesto_int_fijo"));
                 list.add(p);
             }
         }catch(Exception ex){
             ex.printStackTrace();
         }
         return list;
+    }
+    public int insertarProducto(Producto p){
+        String SQL = "INSERT INTO `articulos`(`nombre`, `codigo_barra`, `rubro_id`,"
+                + " `stock_existente`, `stock_minimo`, `proveedor_id`,"
+                + " `impuesto_interno`, `impuesto_int_fijo`, `sobretasa_iva`,"
+                + " `iva`, `observaciones`, `costo_flete`)"
+                + " VALUES ('"+p.getNombre()+"','"+p.getCodigoBarra()+"',"+p.getIdProductoRubro()+","
+                +p.getStock()+","+p.getStockMin()+","+p.getIdProveedorActual()+","
+                +p.getImpuesto_interno()+","+p.getImpuesto_int_fijo()+","+p.getSobretasaIva()+","
+                +p.getIva()+",'"+p.getObservaciones()+"',"+p.getCostoFlete()+")";        
+        return conexion.EjecutarOperacion(SQL);
+    }
+    public int actualizarProducto(Producto p){
+        String SQL = "UPDATE `articulos` SET `nombre`='"+p.getNombre()+"',`codigo_barra`='"+p.getCodigoBarra()+"',`rubro_id`="+p.getIdProductoRubro()+","
+                + "`stock_existente`="+p.getStock()+","
+                + "`stock_minimo`="+p.getStockMin()+",`proveedor_id`="+p.getIdProveedorActual()+",`iva`="+p.getIva()+",`observaciones`='"+p.getObservaciones()+"',"
+                + "`costo_flete`="+p.getCostoFlete()+",`sobretasa_iva`="+p.getSobretasaIva()+",`impuesto_interno`="+p.getImpuesto_interno()+",`impuesto_int_fijo`="+p.getImpuesto_int_fijo()
+                + " WHERE id = "+p.getId();
+        return conexion.EjecutarOperacion(SQL);
     }
     public List<Producto> buscarProducto(String atributo, String valor) {
         String SQL = "SELECT articulo.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro, MAX(art_stock.precio_compra),proveedores.proveedor as precioCosto"
@@ -68,8 +89,6 @@ public class ProductoDAO {
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
-
-    
     public List<Producto> buscarProducto(int id){
         String SQL = "SELECT articulo.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro, MAX(art_stock.precio_compra),proveedores.proveedor as precioCosto"
                + " FROM proveedores, articulo, art_rubro, art_stock"
@@ -81,7 +100,7 @@ public class ProductoDAO {
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
-
+    
       
     
     

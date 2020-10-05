@@ -281,9 +281,14 @@ public class ProveedoresDAO {
     }
     
     public int eliminarProveedor(Proveedor p) {
-        String SQL = "DELETE FROM proveedores"
-               + "WHERE preventaDetalle_idPreventa = " + p.getId();
+        String SQL = "DELETE FROM proveedores "
+               + "WHERE id = " + p.getId();
         int res = conexion.EjecutarOperacion(SQL);
+        if(res <= 0){
+            return res;
+        }
+        SQL = "DELETE FROM contactos"
+                + "WHERE id_persona = "+p.getId()+" AND tipo = 'PROVEEDOR'";
         return res;
     }
 }

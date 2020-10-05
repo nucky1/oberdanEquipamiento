@@ -47,7 +47,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     private Direccion direccion_selected;
     private Mapa direcciones = null;
     private boolean modificarTrue = false;
-    List<Proveedor> lista_proveedores;
+    private List<Proveedor> lista_proveedores;
     /**
      * Creates new form ProveedoresView
      */
@@ -1954,7 +1954,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_proveedores_eliminarMouseClicked
 
     private void btn_proveedores_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_eliminarActionPerformed
-        int result = JOptionPane.showConfirmDialog(null, "ELIMINAR", "Esta seguro que desea eliminar el proveedor: \n"+proveedor_selected.getNombre(),JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminar el proveedor: \n"+proveedor_selected.getNombre(),"ELIMINAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
         if(result == JOptionPane.OK_OPTION){
             if(proveedoresDAO.eliminarProveedor(proveedor_selected) > 0){
                 principal.lbl_estado.setText("El proveedor se elimino con exito");
@@ -2085,34 +2085,38 @@ public class ProveedoresView extends javax.swing.JPanel {
         proveedor_selected.setContacto((ArrayList<Contacto>) list);
         //--FIN CARGA
         if(modificarTrue){
-            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el proveedor: \n"+txtf_nombre_empresa.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el proveedor: \n- "+txtf_nombre_empresa.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             System.out.println("result = " + result);
             if(result == JOptionPane.OK_OPTION){
                 if(proveedoresDAO.actualizarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se actualizo con exito");
-                    principal.lbl_estado.setForeground(Color.GREEN);
+                    principal.lbl_estado.setForeground(new Color(0,100,0));
+                    limpiarCampos();
+                    habilitarCampos(false);
                 }else{
                     principal.lbl_estado.setText("Hubo un error al actualizar el proveedor");
-                    principal.lbl_estado.setForeground(Color.RED);
+                    principal.lbl_estado.setForeground(new Color(139,0,0));
                 }
             }
         }else{
-            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el proveedor: \n"+txtf_nombre_empresa.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el proveedor: \n- "+txtf_nombre_empresa.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(result == JOptionPane.OK_OPTION){
                 if(proveedoresDAO.guardarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se agrego con exito");
                     principal.lbl_estado.setForeground(new Color(0,100,0));
+                    limpiarCampos();
+                    habilitarCampos(false);
                 }else{
                     principal.lbl_estado.setText("Hubo un error al agregar el proveedor");
                     principal.lbl_estado.setForeground(new Color(139,0,0));
                 }
             }
-            limpiarCampos();
-            habilitarCampos(false);
+            
+            cambioBusqueda("", false, true,txtf_proveedor_buscar,tabla_proveedores_busqueda);
             long l = 3000;
             ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
             Runnable task1 = () -> principal.lbl_estado.setText("");
-            service.scheduleAtFixedRate(task1, 1, 5, TimeUnit.SECONDS);
+            service.scheduleAtFixedRate(task1, 1, 7, TimeUnit.SECONDS);
             
         }
     }//GEN-LAST:event_btn_proveedores_guardarActionPerformed
@@ -2384,7 +2388,6 @@ public class ProveedoresView extends javax.swing.JPanel {
             });
             cbox_direccion.setEnabled(true);
         }catch(NullPointerException e){
-            System.out.println("error aqui turro");
         }
         
     }//GEN-LAST:event_cbox_barrioItemStateChanged
