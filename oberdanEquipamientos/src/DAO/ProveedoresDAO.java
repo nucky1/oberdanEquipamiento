@@ -32,68 +32,88 @@ public class ProveedoresDAO {
         return controller;
     }
     
-    
-    public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
-        if(tipo_busqueda.equals("nombre")){
-            tipo_busqueda = "proveedor";
-        }
-           String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
-              + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
-              + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'"
-              + " AND direccion.id = proveedores.direccion_id"
-              + " AND barrio.id = direccion.barrio_id"
-              + " AND localidad.id = barrio.localidad_id"
-              + " AND localidad.provincia_id = provincia.id"
-              + " AND pais.id = provincia.pais_id";
-           ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-           
-           List<Proveedor> list = new ArrayList<>();
-           try{
-               while(rs.next()){
-                   //--CARGAR DATOS AL PROVEEDOR
-                    Proveedor p = new Proveedor();
-                    p.setId(rs.getInt("id"));
-                    p.setNombre(rs.getString("proveedor"));
-                    //direccion
-                    p.setNacionalidad(rs.getString("pais.nombre"));
-                    p.setProvincia(rs.getString("provincia.nombre"));
-                    p.setCiudad(rs.getString("localidad.nombre"));
-                    p.setBarrio(rs.getString("barrio.nombre"));
-                    p.setdireccionId(rs.getInt("direccion.id"));
-                    p.setDireccion(rs.getString("direccion.nombre"));
-                    p.setNro(rs.getString("numero"));
-                    p.setCodigoPostal(rs.getString("codPostal"));
-                    p.setReferencia(rs.getString("referencia"));
-                    //datos bancarios
-                    p.setCbu(rs.getString("cbu"));
-                    p.setIva(rs.getString("iva"));
-                    p.setCuit(rs.getString("cuit"));
-                    p.setSaldo(rs.getFloat("saldo"));
-                    p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
-                    //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
-                    ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
-                    List<Contacto> contactos = new ArrayList<>();
-                    try{
-                        while(rc.next()){
-                            Contacto c = new Contacto();
-                            c.setId(rc.getInt("id"));
-                            c.setContacto(rc.getString("contacto"));
-                            c.setTipo(rc.getString("tipo"));
-                            contactos.add(c);
-                        }
-                    }catch(Exception ex){
-                        //no hago nada para que no se trabe
-                    }
-                    p.setContacto((ArrayList<Contacto>) contactos);
-                    //--FIN CARGA
-                   list.add(p);
-                }
-           }catch(Exception ex){
-               ex.printStackTrace();
+        
+    public List<Proveedor> buscarProveedorReducido(String tipo_busqueda, String valor) {
+        if(tipo_busqueda.equalsIgnoreCase("nombre"))
+            tipo_busqueda = "nombre";
+        String SQL = "SELECT proveedores.id, proveedores.nombre"
+                + " FROM proveedores"
+                + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        List<Proveedor> list = new ArrayList<>();
+        try{
+           while(rs.next()){
+               //--CARGAR DATOS AL PROVEEDOR
+                Proveedor p = new Proveedor();
+                p.setId(rs.getInt("id"));
+                p.setNombre(rs.getString("proveedor"));
+                list.add(p);
            }
-           
-           return list;
+        }catch(Exception ex){
+           ex.printStackTrace();
+       }
+        return list;
+    }
+    public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
+        if(tipo_busqueda.equalsIgnoreCase("nombre"))
+            tipo_busqueda = "nombre";
+        String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+          + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
+          + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'"
+          + " AND direccion.id = proveedores.direccion_id"
+          + " AND barrio.id = direccion.barrio_id"
+          + " AND localidad.id = barrio.localidad_id"
+          + " AND localidad.provincia_id = provincia.id"
+          + " AND pais.id = provincia.pais_id";
+       ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+
+       List<Proveedor> list = new ArrayList<>();
+       try{
+           while(rs.next()){
+               //--CARGAR DATOS AL PROVEEDOR
+                Proveedor p = new Proveedor();
+                p.setId(rs.getInt("id"));
+                p.setNombre(rs.getString("proveedor"));
+                //direccion
+                p.setNacionalidad(rs.getString("pais.nombre"));
+                p.setProvincia(rs.getString("provincia.nombre"));
+                p.setCiudad(rs.getString("localidad.nombre"));
+                p.setBarrio(rs.getString("barrio.nombre"));
+                p.setdireccionId(rs.getInt("direccion.id"));
+                p.setDireccion(rs.getString("direccion.nombre"));
+                p.setNro(rs.getString("numero"));
+                p.setCodigoPostal(rs.getString("codPostal"));
+                p.setReferencia(rs.getString("referencia"));
+                //datos bancarios
+                p.setCbu(rs.getString("cbu"));
+                p.setIva(rs.getString("iva"));
+                p.setCuit(rs.getString("cuit"));
+                p.setSaldo(rs.getFloat("saldo"));
+                p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
+                //contactos
+                SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
+                List<Contacto> contactos = new ArrayList<>();
+                try{
+                    while(rc.next()){
+                        Contacto c = new Contacto();
+                        c.setId(rc.getInt("id"));
+                        c.setContacto(rc.getString("contacto"));
+                        c.setTipo(rc.getString("tipo"));
+                        contactos.add(c);
+                    }
+                }catch(Exception ex){
+                    //no hago nada para que no se trabe
+                }
+                p.setContacto((ArrayList<Contacto>) contactos);
+                //--FIN CARGA
+               list.add(p);
+            }
+       }catch(Exception ex){
+           ex.printStackTrace();
+       }
+
+       return list;
            
     }
     
