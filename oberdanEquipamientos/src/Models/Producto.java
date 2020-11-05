@@ -5,13 +5,6 @@
  */
 package Models;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +18,10 @@ public class Producto {
     private int Id;
     private int idProveedorActual;
     private int IdProductoRubro;
+    private float iva;
+    private float sobretasaIva;
+    private float impuesto_interno;
+    private float impuesto_int_fijo;
     private boolean sinIva;
     private int estado;
     private int StockMin;
@@ -32,6 +29,39 @@ public class Producto {
     private float precioCosto;
     private float costoFlete;
 
+    public float getIva() {
+        return iva;
+    }
+
+    public void setIva(float iva) {
+        this.iva = iva;
+    }
+
+    public float getSobretasaIva() {
+        return sobretasaIva;
+    }
+
+    public void setSobretasaIva(float sobretasaIva) {
+        this.sobretasaIva = sobretasaIva;
+    }
+
+    public float getImpuesto_interno() {
+        return impuesto_interno;
+    }
+
+    public void setImpuesto_interno(float impuesto_interno) {
+        this.impuesto_interno = impuesto_interno;
+    }
+
+    public float getImpuesto_int_fijo() {
+        return impuesto_int_fijo;
+    }
+
+    public void setImpuesto_int_fijo(float impuesto_int_fijo) {
+        this.impuesto_int_fijo = impuesto_int_fijo;
+    }
+
+    
     public String getNombreRubro() {
         return nombreRubro;
     }
@@ -40,7 +70,6 @@ public class Producto {
         this.nombreRubro = nombreRubro;
     }
 
-    
     public String getCodigoBarra() {
         return codigoBarra;
     }
@@ -48,7 +77,6 @@ public class Producto {
     public void setCodigoBarra(String codigoBarra) {
         this.codigoBarra = codigoBarra;
     }
-
     
     public int isEstado() {
         return estado;
