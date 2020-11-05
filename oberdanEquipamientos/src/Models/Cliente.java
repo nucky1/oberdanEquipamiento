@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Models;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -15,14 +16,23 @@ public class Cliente {
     
     private String nombre;
     private int dni;
+    private String tipoDni;
     private int id;
     private String referencia;
+    private String estadoCivil;
     private Date fechaNacimiento;
     private boolean esSolicitante;
     private String documentacion;
-    private int numero;
-    private int codPostal;
+    private String observaciones;
+    private String nacionalidad;
+    private String provincia;
+    private String ciudad;
+    private String barrio;
+    private String direccion;
+    private String numero;
+    private String codPostal;
     private int direccion_id;
+    private ArrayList<Contacto> contacto;
    
 public String getNombre() {
         return nombre;
@@ -80,11 +90,11 @@ public String getNombre() {
         this.documentacion = documentacion;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -96,12 +106,85 @@ public String getNombre() {
         this.direccion_id = direccion_id;
     }
 
-    public int getCodPostal() {
+    public String getCodPostal() {
         return codPostal;
     }
 
-    public void setCodPostal(int codPostal) {
+    public void setCodPostal(String codPostal) {
         this.codPostal = codPostal;
     }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getBarrio() {
+        return barrio;
+    }
+
+    public void setBarrio(String barrio) {
+        this.barrio = barrio;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public ArrayList<Contacto> getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(ArrayList<Contacto> contacto) {
+        this.contacto = contacto;
+    }
+
+    public String getTipoDni() {
+        return tipoDni;
+    }
+
+    public void setTipoDni(String tipoDni) {
+        this.tipoDni = tipoDni;
+    }
+
+    public String getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public void setEstadoCivil(String estadoCivil) {
+        this.estadoCivil = estadoCivil;
+    }
+    
     
 }

@@ -7,7 +7,10 @@ package DAO;
 
 import Views.ABMClientesView;
 import Models.Cliente;
+import Models.Contacto;
+ 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class ClientesDAO {
     private static ClientesDAO ClientesDao=null;
     private ABMClientesView view;
+    private Statics.Conexion conexion = Statics.Conexion.getInstance();
     public ClientesDAO(){}
     public static ClientesDAO getInstance(){
         if (ClientesDao==null) {
@@ -40,10 +44,10 @@ public class ClientesDAO {
                 c.setDni(rs.getInt("dni"));
                 c.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 c.setEsSolicitante(rs.getBoolean("esSolicitante"));
-                c.setCodPostal(rs.getInt("codPostal"));
+                c.setCodPostal(rs.getString("codPostal"));
                 c.setReferencia(rs.getString("referencia"));
                 c.setDocumentacion(rs.getString("referencia"));
-                c.setNumero(rs.getInt("numero"));
+                c.setNumero(rs.getString("numero"));
                 c.setDireccion_id(rs.getInt("direccion_id"));
                 list.add(c);
                 
@@ -54,16 +58,231 @@ public class ClientesDAO {
         }
         return list;
     }
-    public List<Cliente> buscarProducto(String atributo, String valor) {
-        String SQL = "SELECT * FROM `cliente` WHERE cliente.id = "
-               + " FROM proveedores, articulo, art_rubro, art_stock"
-               + " WHERE articulo." + atributo+" like '%"+valor+"%'"
-               + " AND articulo.rubro_id = art_rubro.id"
-               + " AND articulo.id = art_stock.producto_id"
-               + " AND articulo.proveedor_id = proveedores.id"
-               + " AND articulo.state = 'ACTIVO'";
-        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        return cargarProductos(rs);
+    public List<Cliente> buscarCliente(String tipo_busqueda, String valor) {
+        if(tipo_busqueda.equals("nombre")){
+            tipo_busqueda = "cliente";
+        }
+           String SQL = "SELECT cliente.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+              + " FROM cliente,direccion,barrio,localidad,provincia,pais"
+              + " WHERE cliente."+tipo_busqueda+" like '%"+valor+"%' AND cliente.state = 'ACTIVO'"
+              + " AND direccion.id = cliente.direccion_id"
+              + " AND barrio.id = direccion.barrio_id"
+              + " AND localidad.id = barrio.localidad_id"
+              + " AND localidad.provincia_id = provincia.id"
+              + " AND pais.id = provincia.pais_id";
+           ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+           
+           List<Cliente> list = new ArrayList<>();
+           try{
+               while(rs.next()){
+                   //--CARGAR DATOS AL CLIENTE
+                    Cliente p = new Cliente();
+                    p.setId(rs.getInt("id"));
+                    p.setNombre(rs.getString("cliente"));
+                    //direccion
+                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setProvincia(rs.getString("provincia.nombre"));
+                    p.setCiudad(rs.getString("localidad.nombre"));
+                    p.setBarrio(rs.getString("barrio.nombre"));
+                    p.setDireccion_id(rs.getInt("direccion.id"));
+                    p.setDireccion(rs.getString("direccion.nombre"));
+                    p.setNumero(rs.getString("numero"));
+                    p.setCodPostal(rs.getString("codPostal"));
+                    p.setReferencia(rs.getString("referencia"));
+                    p.setEsSolicitante(rs.getBoolean("esSolicitante"));
+                    //contactos
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
+                    ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
+                    List<Contacto> contactos = new ArrayList<>();
+                    try{
+                        while(rc.next()){
+                            Contacto c = new Contacto();
+                            c.setId(rc.getInt("id"));
+                            c.setContacto(rc.getString("contacto"));
+                            c.setTipo(rc.getString("tipo"));
+                            contactos.add(c);
+                        }
+                    }catch(Exception ex){
+                        //no hago nada para que no se trabe
+                    }
+                    p.setContacto((ArrayList<Contacto>) contactos);
+                    //--FIN CARGA
+                   list.add(p);
+                }
+           }catch(Exception ex){
+               ex.printStackTrace();
+           }
+           
+           return list;
+           
     }
-    
+
+    public List<Cliente> buscarCliente(int id) {
+       String SQL = "SELECT cliente.*,barrio.nombre,barrio.id,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+              + " FROM cliente,direccion,barrio,localidad,provincia,pais"
+              + " WHERE cliente.id = "+id+" AND cliente.state = 'ACTIVO'"
+              + " AND direccion.id = cliente.direccion_id"
+              + " AND barrio.id = direccion.barrio_id"
+              + " AND localidad.id = barrio.localidad_id"
+              + " AND localidad.provincia_id = provincia.id"
+              + " AND pais.id = provincia.pais_id";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        List<Cliente> list = new ArrayList<>();
+           try{
+               while(rs.next()){
+                   //--CARGAR DATOS AL Cliente
+                    Cliente p = new Cliente();
+                    p.setId(rs.getInt("id"));
+                    p.setNombre(rs.getString("proveedor"));
+                    //direccion
+                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setProvincia(rs.getString("provincia.nombre"));
+                    p.setCiudad(rs.getString("localidad.nombre"));
+                    p.setBarrio(rs.getString("barrio.nombre"));
+                    p.setDireccion_id(rs.getInt("direccion.id"));
+                    p.setDireccion(rs.getString("direccion.nombre"));
+                    p.setNumero(rs.getString("numero"));
+                    p.setCodPostal(rs.getString("codPostal"));
+                    p.setReferencia(rs.getString("referencia"));
+                    //datos extras
+                    p.setEsSolicitante(rs.getBoolean("esSolicitante"));
+                    //contactos
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
+                    ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
+                    List<Contacto> contactos = new ArrayList<>();
+                    try{
+                        while(rc.next()){
+                            Contacto c = new Contacto();
+                            c.setId(rc.getInt("id"));
+                            c.setContacto(rc.getString("contacto"));
+                            c.setTipo(rc.getString("tipo"));
+                            contactos.add(c);
+                        }
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                        //no hago nada para que no se trabe
+                    }
+                    p.setContacto((ArrayList<Contacto>) contactos);
+                    //--FIN CARGA
+                   list.add(p);
+                }
+           }catch(Exception ex){
+               ex.printStackTrace();
+           }
+           
+           return list;
+    }
+    public Cliente recuperarConyugue(int idCliente){
+        Cliente c = new Cliente();
+        String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
+                + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
+                + "FROM relacion,cliente WHERE (cliente1_id="+idCliente
+                +" OR cliente2_id="+idCliente+")"
+                + " AND cliente.id!="+idCliente+
+                " AND relacion.state=ACTIVA";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try{
+            if(rs.next()){
+
+                c.setNombre(rs.getString("cliente.nombre"));
+                c.setDni(rs.getInt("cliente.dni"));
+                c.setDocumentacion(rs.getString("cliente.tipoDni"));
+                c.setFechaNacimiento(rs.getDate("cliente.fechaDeNacimiento"));
+                c.setEstadoCivil(rs.getString("relacion.estadoCivil"));
+        }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return c;
+                
+    }
+
+    public boolean actualizarCliente(Cliente c) {
+        conexion.transaccionCommit("quitarAutoCommit"); 
+        int res = 1;
+        boolean exito = true;
+        String SQL = "UPDATE cliente SET nombre = '"+c.getNombre()+"'"
+                + ", direccion_id = "+c.getDireccion_id()
+                + ",numero = "+c.getNumero()+"'"
+                + ",codPostal = '"+c.getCodPostal()+"'"
+                + ",referencia = '"+c.getReferencia()+"'"
+                + ",esSolicitante = '"+c.isEsSolicitante()+"'"
+                + ",fechaNacimiento = '"+c.getFechaNacimiento()+"'"
+                + ",observaciones = '"+c.getObservaciones()+",'"
+                +"' WHERE id = "+c.getId();
+        res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        if(res == 0){
+            exito = false;
+        }else{
+            if(c.getContacto().size() > 0){
+                SQL = " DELETE FROM contactos WHERE persona_id = "+c.getId()+" AND tipo_persona = 'CLIENTE' AND state = 'ACTIVO'";
+                res = conexion.EjecutarOperacion(SQL);
+                SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                for(int i = c.getContacto().size()-1 ; i > 0; i--){
+                    SQL += "("+c.getId()+",'"+c.getContacto().get(i).getContacto()+"','"+c.getContacto().get(i).getTipo()+"','CLIENTE'),";
+                }
+                SQL += "("+c.getId()+",'"+c.getContacto().get(0).getContacto()+"','"+c.getContacto().get(0).getTipo()+"','CLIENTE')";
+                res = conexion.EjecutarOperacion(SQL);
+                if(res == 0){
+                    exito = false;
+                }
+            }
+        }
+        if(exito){
+            conexion.transaccionCommit("commitear"); 
+            conexion.transaccionCommit("activarCommit"); 
+        }else{
+            conexion.transaccionCommit("rollBack");
+            conexion.transaccionCommit("activarCommit");
+        }
+        return exito;
+    }
+
+    public boolean guardarCliente(Cliente c) {
+     conexion.transaccionCommit("quitarAutoCommit"); 
+        int res = 1;
+        boolean exito = true;
+        String SQL = "INSERT INTO cliente (nombre,dni,fechaNacimiento,esSolicitante,codPostal,referencia,documentacion,numero,direccion_id,observaciones) "
+                + "VALUES('"+c.getNombre()+"',"+c.getDni()+","+c.getFechaNacimiento()+","+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"','"+
+                c.getNumero()+"',"+c.getDireccion_id()+",'"+
+                c.getObservaciones()+"')";
+        res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        if(res == 0){
+            exito = false;
+        }else{
+            if(c.getContacto().size() > 0){
+                SQL = "SELECT MAX(id) AS id FROM cliente ";
+                ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+                try {
+                    while(rs.next()){
+                        c.setId(rs.getInt("id"));
+                    }
+                    SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                    for(int i = c.getContacto().size()-1 ; i > 0; i--){
+                        SQL += "("+c.getId()+",'"+c.getContacto().get(i).getContacto()+"','"+c.getContacto().get(i).getTipo()+"','CLIENTE'),";
+                    }
+                    SQL += "("+c.getId()+",'"+c.getContacto().get(0).getContacto()+"','"+c.getContacto().get(0).getTipo()+"','CLIENTE')";
+                    res = conexion.EjecutarOperacion(SQL);
+                } catch (SQLException ex) {
+                    res = 0;
+                }
+                if(res == 0){
+                    exito = false;
+                }
+            }
+        }
+        if(exito){
+            conexion.transaccionCommit("commitear"); 
+            conexion.transaccionCommit("activarCommit"); 
+        }else{
+            conexion.transaccionCommit("rollBack");
+            conexion.transaccionCommit("activarCommit");
+        }
+        return exito;   
+    }
+/**
+    public int recuperarZona(String barrio) {
+      String SQL = "SELECT zona FROM barrio WHERE nombre ="+barrio;
+      ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+    }*/
 }

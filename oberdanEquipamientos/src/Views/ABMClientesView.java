@@ -16,8 +16,27 @@ import Models.Pais;
 import Models.Provincia;
 import Models.Localidad;
 import Models.Barrio;
+import Models.Contacto;
+import Models.Direccion;
 import Models.Mapa;
+import Statics.barrioCompare;
+import Statics.direccionCompare;
+import Statics.localidadCompare;
+import Statics.provinciaCompare;
+import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.ButtonGroup;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -27,19 +46,33 @@ import javax.swing.ListSelectionModel;
 public class ABMClientesView extends javax.swing.JPanel {
     private DireccionesDAO direccionesDAO;
     private Mapa direcciones;
-    private ClientesDAO clientesDAO;
+    private ClientesDAO clientesDao;
+    private Cliente clienteSeleccionado;
+    
     private boolean flagDireccionComercio;
     private boolean flagDireccionConyuge;
     private Pais Pais_selected;
     private Provincia Provincia_selected;
     private Barrio Barrio_selected;
     private Localidad Localidad_selected;
+    private Direccion direccion_selected;
+    private List <Cliente> listaCliente;
+    private boolean modificarTrue;
     /**
      * Creates new form ABMClientesView
      */
     public ABMClientesView() {
         
         initComponents();
+        Statics.style.setPlaceHolder(jTextF_IngresarNuevoElemento, "Ingrese nuevo");
+        habilitarCampos(false);
+        jComboBox_Provincias.setEnabled(false);
+        jComboBox_Ciudades.setEnabled(false);
+        jComboBox_Barrios.setEnabled(false);
+        jComboBox_calles.setEnabled(false);
+        clientesDao=ClientesDAO.getInstance();
+        direccionesDAO.getInstance();
+        direcciones =direccionesDAO.getMapa();
     }
 
     /**
@@ -152,8 +185,6 @@ public class ABMClientesView extends javax.swing.JPanel {
         jLabel28 = new javax.swing.JLabel();
         jComboBox_zonas = new javax.swing.JComboBox<>();
         jButton_añadirZona = new javax.swing.JButton();
-        jLabel36 = new javax.swing.JLabel();
-        jComboBox_relaciones = new javax.swing.JComboBox<>();
         jLabel35 = new javax.swing.JLabel();
         jCheckBox_dni = new javax.swing.JCheckBox();
         jCheckBox_Facturas = new javax.swing.JCheckBox();
@@ -163,8 +194,9 @@ public class ABMClientesView extends javax.swing.JPanel {
         jLabel34 = new javax.swing.JLabel();
         jComboBox_promotores = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
+        jCheckBoxEsSolicitante = new javax.swing.JCheckBox();
+        jLabel18 = new javax.swing.JLabel();
 
-        jTextF_IngresarNuevoElemento.setText("Ingrese nuevo");
         jTextF_IngresarNuevoElemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextF_IngresarNuevoElementoActionPerformed(evt);
@@ -352,9 +384,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField_codPostal_jDialog)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField_numeroDireccion_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField_numeroDireccion_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_añadirCalles_jDialog)
@@ -485,7 +515,11 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel11.setText("Referencia:");
 
-        jCombo_Naciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Argentina", "Bolivia", "Chile", "Uruguay" }));
+        jCombo_Naciones.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCombo_NacionesItemStateChanged(evt);
+            }
+        });
         jCombo_Naciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCombo_NacionesActionPerformed(evt);
@@ -494,7 +528,6 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel5.setText("Provincia");
 
-        jComboBox_Provincias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "San Luis", "Mendoza", "Cordoba" }));
         jComboBox_Provincias.setEnabled(false);
         jComboBox_Provincias.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -509,8 +542,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel12.setText("Ciudad");
 
-        jComboBox_Ciudades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "La Punta", "Merlo", "Villa Mercedes" }));
         jComboBox_Ciudades.setEnabled(false);
+        jComboBox_Ciudades.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_CiudadesItemStateChanged(evt);
+            }
+        });
         jComboBox_Ciudades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_CiudadesActionPerformed(evt);
@@ -519,8 +556,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel13.setText("Barrio");
 
-        jComboBox_Barrios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "UOCRA" }));
         jComboBox_Barrios.setEnabled(false);
+        jComboBox_Barrios.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_BarriosItemStateChanged(evt);
+            }
+        });
         jComboBox_Barrios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_BarriosActionPerformed(evt);
@@ -576,8 +617,12 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
-        jComboBox_calles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "San Martin", " " }));
         jComboBox_calles.setEnabled(false);
+        jComboBox_calles.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_callesItemStateChanged(evt);
+            }
+        });
         jComboBox_calles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_callesActionPerformed(evt);
@@ -771,7 +816,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                                         .addComponent(rbtn_clientesNombre))
                                     .addComponent(jLabel43)
                                     .addComponent(jLabel1))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 228, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -877,7 +922,6 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel17.setText("Numero");
 
-        jTextField_conyugeDni.setText("jTextField1");
         jTextField_conyugeDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_conyugeDniActionPerformed(evt);
@@ -996,7 +1040,6 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel28.setText("Zona");
 
-        jComboBox_zonas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "zona 1", "zona 2" }));
         jComboBox_zonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_zonasActionPerformed(evt);
@@ -1011,10 +1054,6 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
-        jLabel36.setText("Relacion");
-
-        jComboBox_relaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Solicitante", "Conyuge", "Socio", "Solicitante/conyuge" }));
-
         jLabel35.setText("Documentacion:");
 
         jCheckBox_dni.setText("DNI");
@@ -1026,6 +1065,11 @@ public class ABMClientesView extends javax.swing.JPanel {
         jLabel33.setText("Cobrador");
 
         jComboBox_cobradores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "cobrador 1", "cobrador 2" }));
+        jComboBox_cobradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_cobradoresActionPerformed(evt);
+            }
+        });
 
         jLabel34.setText("Promotor");
 
@@ -1034,33 +1078,52 @@ public class ABMClientesView extends javax.swing.JPanel {
         jLabel44.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel44.setText("Contactos");
 
+        jCheckBoxEsSolicitante.setText("SI");
+        jCheckBoxEsSolicitante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxEsSolicitanteActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setText("Solicitante?");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel33)
-                        .addGap(48, 48, 48)
-                        .addComponent(jComboBox_cobradores, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jComboBox_TipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel34)
-                                .addGap(49, 49, 49)
-                                .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(12, 12, 12)
+                        .addComponent(jComboBox_TipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19)
                         .addComponent(jButtonAñadirTipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton_eliminarContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton_eliminarContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel33))
+                        .addGap(53, 53, 53)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox_cobradores, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBoxEsSolicitante)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jComboBox_zonas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jCheckBox_dni)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jCheckBox_Facturas)
+                                .addGap(26, 26, 26)))
+                        .addComponent(jCheckBox_Otros)
+                        .addGap(119, 119, 119)))
                 .addGap(0, 35, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -1069,25 +1132,11 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jLabel44)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel36)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox_relaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel28)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel28)
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jButton_añadirZona))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel35)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox_dni)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCheckBox_Facturas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox_Otros)))
+                    .addComponent(jLabel34, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -1109,24 +1158,23 @@ public class ABMClientesView extends javax.swing.JPanel {
                     .addComponent(jLabel28))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel36)
-                    .addComponent(jComboBox_relaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBox_dni)
-                        .addComponent(jCheckBox_Facturas)
-                        .addComponent(jCheckBox_Otros))
-                    .addComponent(jLabel35))
-                .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
                     .addComponent(jComboBox_cobradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35)
+                    .addComponent(jCheckBox_dni)
+                    .addComponent(jCheckBox_Facturas)
+                    .addComponent(jCheckBox_Otros))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxEsSolicitante)
+                    .addComponent(jLabel18))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1224,12 +1272,14 @@ public class ABMClientesView extends javax.swing.JPanel {
 //        jDialogAñadirElemento.setLocationRelativeTo(this);
 //        jDialogAñadirElemento.setSize(400,221);
 //        jDialogAñadirElemento.setTitle("Añadir un nuevo tipo de contacto");
+         
          if(Funciones.controlText(jTextFieldContacto.getText())){
             DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
             Object[] nuevo = new Object[2];
             nuevo[0] = String.valueOf(jComboBox_TipoContacto.getSelectedItem());
             nuevo[1] = jTextFieldContacto.getText();
             model.addRow(nuevo);
+            jButton_eliminarContacto.setEnabled(true);
         }else{
             JOptionPane.showMessageDialog(null, "Debe llenar el campo de contacto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -1311,44 +1361,91 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton_okActionPerformed
 
     private void btn_añadirNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoElementoActionPerformed
-        String textoInput= jTextF_IngresarNuevoElemento.getText().toLowerCase();
+        
+        
+        String texto = jTextF_IngresarNuevoElemento.getText().toLowerCase();
         switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir una nueva Nacionalidad":{
-                direccionesDAO.añadirNacionalidad(textoInput);
-                jCombo_Naciones.addItem(textoInput);
-                jCombo_Naciones.setSelectedItem(textoInput);
+            case "Añadir una nueva nacionalidad":{
+                Provincia p = direccionesDAO.añadirNacionalidad(texto);
+                Pais pais = new Pais();
+                pais.setId(p.getId_pais());
+                pais.setNombre(texto);
+                //actualizo mapa
+                Set<Provincia> provincias = new TreeSet<>(new provinciaCompare());
+                provincias.add(p);
+                direcciones.getPais_Provincia().put(pais.getId(),provincias);
+                //actualizo cbox
+                jCombo_Naciones.addItem(pais);
+                jCombo_Naciones.setSelectedItem(pais);
+                jComboBox_Provincias.removeAllItems();
+                jComboBox_Provincias.addItem(p);
                 break;
             }
-            case "Añadir una nueva Provincia":{
-                direccionesDAO.añadirProvincia(textoInput);
-                jComboBox_Provincias.addItem(textoInput);
-                jComboBox_Provincias.setSelectedItem(textoInput);
-            }
-            case "Añadir una nueva Ciudad":{
-                direccionesDAO.añadirCiudad(textoInput);
-                jComboBox_Ciudades.addItem(textoInput);
-                jComboBox_Ciudades.setSelectedItem(textoInput);
+            case "Añadir una nueva provincia":{
+                Localidad l = direccionesDAO.añadirProvincia(texto,Pais_selected.getId());
+                Provincia p = new Provincia();
+                p.setId(l.getId_provincia());
+                p.setNombre(texto);
+                p.setId_pais(Pais_selected.getId());
+                //actualizo mapa
+                Set<Localidad> localidades = new TreeSet<>(new localidadCompare());
+                localidades.add(l);
+                direcciones.getProvincia_Localidad().put(p.getId(), localidades);
+                //actualizo cbox
+                jComboBox_Provincias.addItem(p);
+                jComboBox_Provincias.setSelectedItem(p);
+                jComboBox_Ciudades.removeAllItems();
+                jComboBox_Ciudades.addItem(l);
                 break;
             }
-            case "Añadir un nuevo Barrio":{
-                direccionesDAO.añadirBarrio(textoInput);
-                jComboBox_Barrios.addItem(textoInput);
-                jComboBox_Barrios.setSelectedItem(textoInput);
+            case "Añadir una nueva ciudad":{
+                Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId());
+                Localidad l = new Localidad();
+                l.setId(b.getId_localidad());
+                l.setNombre(texto);
+                l.setId_provincia(Provincia_selected.getId());
+                //actualizo mapa
+                Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
+                barrios.add(b);
+                direcciones.getLocalidad_Barrio().put(l.getId(), barrios);
+                //actualizo cbox
+                jComboBox_Ciudades.addItem(l);
+                jComboBox_Ciudades.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                jComboBox_Barrios.removeAllItems();
+                jComboBox_Barrios.addItem(b);
                 break;
             }
-            case "Añadir una nueva Calle/Manzana":{
-                direccionesDAO.añadirDireccion(textoInput);
-                jComboBox_calles.addItem(textoInput);
-                jComboBox_calles.setSelectedItem(textoInput);
+            case "Añadir un nuevo barrio":{
+                Direccion d = direccionesDAO.añadirBarrio(texto,Localidad_selected.getId());
+                Barrio b = new Barrio();
+                b.setId(d.getId_barrio());
+                b.setId_localidad(Localidad_selected.getId());
+                b.setNombre(texto);
+                //actualizo mapa
+                Set<Direccion> directs = new TreeSet<>(new direccionCompare());
+                directs.add(d);
+                direcciones.getBarrio_direccion().put(d.getId(), directs);
+                //actualizo cbox
+                jComboBox_Barrios.addItem(b);
+                jComboBox_Barrios.setSelectedItem(b);
+                jComboBox_calles.removeAllItems();
+                jComboBox_calles.addItem(d);
                 break;
             }
-            case "Añadir un nuevo tipo de contacto":{
-                //quizas necesite un contactosDAO
+            case "Añadir una nueva direccion":{
+                int id = direccionesDAO.añadirDireccion(texto,Barrio_selected.getId());
+                Direccion d = new Direccion();
+                d.setId(id);
+                d.setId_barrio(Barrio_selected.getId());
+                d.setNombre(texto);
+                direcciones.getBarrio_direccion().get(Barrio_selected.getId());
+                //actualizo cbox
+                jComboBox_calles.addItem(d);
+                jComboBox_calles.setSelectedItem(d);
+                break;
             }
-            case "Añadir una nueva Zona":{
-                //quizas necesite un zonaDAO
-            }
-            }
+        }
+        jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_btn_añadirNuevoElementoActionPerformed
 
     private void jCombo_NacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCombo_NacionesActionPerformed
@@ -1370,6 +1467,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jComboBox_zonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_zonasActionPerformed
         // TODO add your handling code here:
         jButton_añadirZona.setEnabled(true);
+        jComboBox_cobradores.setEnabled(true);
         
     }//GEN-LAST:event_jComboBox_zonasActionPerformed
 
@@ -1397,6 +1495,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jButton_agregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregarClienteActionPerformed
         // TODO add your handling code here:
         //aca mandale mecha a todos los controles baby
+       
         if(!Funciones.controlText(jTextField_nombreCliente.getText())){
             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de cliente","Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -1406,8 +1505,71 @@ public class ABMClientesView extends javax.swing.JPanel {
             return;
                     
         }
-        
-        
+        DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
+        if(model.getRowCount()==0){
+            JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+       //faltan algunos controles!!!
+       clienteSeleccionado.setNombre(jTextField_nombreCliente.getText());
+       clienteSeleccionado.setTipoDni(String.valueOf(jComboBox_tipoDocumento.getSelectedIndex()));
+       clienteSeleccionado.setDni(Integer.parseInt(jTextField_numeroDniCliente.getText()));
+       
+       //direccion
+       
+       clienteSeleccionado.setNacionalidad(String.valueOf(jCombo_Naciones.getSelectedIndex()));
+        clienteSeleccionado.setProvincia(String.valueOf(jComboBox_Provincias.getSelectedIndex()));
+        clienteSeleccionado.setCiudad(String.valueOf(jComboBox_Ciudades.getSelectedIndex()));
+        clienteSeleccionado.setBarrio(String.valueOf(jComboBox_Barrios.getSelectedIndex()));
+        clienteSeleccionado.setDireccion(String.valueOf(jComboBox_calles.getSelectedIndex()));
+        clienteSeleccionado.setDireccion_id(direccion_selected.getId());
+        clienteSeleccionado.setNumero(jTextField_numeroDomicilioCliente.getText());
+        clienteSeleccionado.setCodPostal(jTextField_codigoPostal.getText());
+        clienteSeleccionado.setReferencia(jTextField_referenciaDomicilioCliente.getText());
+        // Contactos
+        List<Contacto> list = new ArrayList<Contacto>();
+        for(int i = 0 ; i < model.getRowCount() ; i++){
+            Contacto c = new Contacto();
+            c.setContacto(String.valueOf(model.getValueAt(i, 1)));
+            c.setTipo(String.valueOf(model.getValueAt(i, 0)));
+            list.add(c);
+        }
+        clienteSeleccionado.setContacto((ArrayList<Contacto>) list);
+        // datos cobranza
+        //FAltan los datos de zonas y promotores
+        clienteSeleccionado.setEsSolicitante(jCheckBoxEsSolicitante.isSelected());
+        /////FAltan los datos de zonas y promotores
+        if(modificarTrue){
+        int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el cliente: \n"+jTextField_nombreCliente.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("result = " + result);
+            if(result == JOptionPane.OK_OPTION){
+                if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                    principal.lbl_estado.setForeground(Color.GREEN);
+                }else{
+                    principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                    principal.lbl_estado.setForeground(Color.RED);
+                }
+            }
+        }else{
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el cliente: \n"+jTextField_nombreCliente.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            if(result == JOptionPane.OK_OPTION){
+                if(clientesDao.guardarCliente(clienteSeleccionado)){
+                    principal.lbl_estado.setText("El proveedor se agrego con exito");
+                    principal.lbl_estado.setForeground(new Color(0,100,0));
+                }else{
+                    principal.lbl_estado.setText("Hubo un error al agregar el proveedor");
+                    principal.lbl_estado.setForeground(new Color(139,0,0));
+                }
+            }
+            limpiarCampos();
+            habilitarCampos(false);
+            long l = 3000;
+            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+            Runnable task1 = () -> principal.lbl_estado.setText("");
+            service.scheduleAtFixedRate(task1, 1, 5, TimeUnit.SECONDS);
+            
+        }
         
         
     }//GEN-LAST:event_jButton_agregarClienteActionPerformed
@@ -1458,6 +1620,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jComboBox_tipoDocumentoConyugeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoDocumentoConyugeActionPerformed
         // TODO add your handling code here:
+        jTextField_nombreConyuge.setEnabled(true);
     }//GEN-LAST:event_jComboBox_tipoDocumentoConyugeActionPerformed
 
     private void jTextField_conyugeDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_conyugeDniActionPerformed
@@ -1470,7 +1633,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jTextField_buscarClienteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteCaretUpdate
         
-        PantallaDinamica.cambioBusqueda(jTextField_buscarCliente.getText().toString());
+        cambioBusqueda(jTextField_buscarCliente.getText().toString(),rbtn_clientesDni.isSelected(),rbtn_clientesNombre.isSelected(),jTextField_buscarCliente,jTableClientes);
     }//GEN-LAST:event_jTextField_buscarClienteCaretUpdate
 
     private void jTextField_buscarClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteKeyTyped
@@ -1484,25 +1647,89 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_buscarClienteKeyTyped
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        modificarTrue = false;
+        habilitarCampos(true);
+        cargarNacionalidades();
+        clienteSeleccionado = new Cliente();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jComboBox_ProvinciasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_ProvinciasItemStateChanged
         // TODO add your handling code here:
         Provincia p=(Provincia) jComboBox_Provincias.getSelectedItem();
         Provincia_selected =p;
-        jComboBox_Provincias.removeAll();
+        jComboBox_Ciudades.removeAllItems();
+        try{
+            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t)->{
+                jComboBox_Ciudades.addItem(t);
+            });
+           jComboBox_Ciudades.setEnabled(true);
+        }catch(NullPointerException e){
+            
+        }
         
     }//GEN-LAST:event_jComboBox_ProvinciasItemStateChanged
 
     private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
-        // TODO add your handling code here:
-        int pos = jTableClientes.getSelectedRow();
-        if (pos != -1) {
-            PantallaDinamica.cargarCliente(pos);
-
-        }
+        int pos= jTableClientes.getSelectedRow();
+       if(pos!=-1){
+           cargarDatosCliente(pos);
+       }
     }//GEN-LAST:event_jTableClientesMouseClicked
+
+    private void jCombo_NacionesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCombo_NacionesItemStateChanged
+        Pais p = (Pais) jCombo_Naciones.getSelectedItem();
+        Pais_selected=p;
+        jComboBox_Provincias.removeAllItems();
+        try{
+            direcciones.getPais_Provincia().get(p.getId()).forEach((t)->
+            {jComboBox_Provincias.addItem(t);});
+            jComboBox_Provincias.setEnabled(true);
+        }catch(NullPointerException e){
+            
+        }
+        
+    }//GEN-LAST:event_jCombo_NacionesItemStateChanged
+
+    private void jComboBox_CiudadesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesItemStateChanged
+        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
+        Localidad_selected=l;
+        jComboBox_Barrios.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                jComboBox_Barrios.addItem(t);
+            });
+        }catch(NullPointerException e){
+            
+        }
+    }//GEN-LAST:event_jComboBox_CiudadesItemStateChanged
+
+    private void jComboBox_BarriosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BarriosItemStateChanged
+        Barrio b= (Barrio) jComboBox_Barrios.getSelectedItem();
+        Barrio_selected=b;
+        jComboBox_calles.removeAllItems();
+        try{
+            direcciones.getBarrio_direccion().get(b.getId()).forEach((t)->{
+                jComboBox_calles.addItem(t);
+            });
+            
+        }catch(NullPointerException e){
+            System.out.println("Epa paso algo que no debia pasar! linea 1279 ABMClientesView.java");
+        }
+    }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
+
+    private void jComboBox_callesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_callesItemStateChanged
+        direccion_selected= (Direccion) jComboBox_calles.getSelectedItem();
+        
+    }//GEN-LAST:event_jComboBox_callesItemStateChanged
+
+    private void jCheckBoxEsSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEsSolicitanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxEsSolicitanteActionPerformed
+
+    private void jComboBox_cobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_cobradoresActionPerformed
+        // TODO add your handling code here:
+        jComboBox_promotores.setEnabled(true);
+    }//GEN-LAST:event_jComboBox_cobradoresActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1530,28 +1757,28 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JButton jButton_eliminarContacto;
     private javax.swing.JButton jButton_modificar;
     private javax.swing.JButton jButton_ok;
+    private javax.swing.JCheckBox jCheckBoxEsSolicitante;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBox jCheckBox_Facturas;
     private javax.swing.JCheckBox jCheckBox_Otros;
     private javax.swing.JCheckBox jCheckBox_dni;
-    private javax.swing.JComboBox<String> jComboBox_Barrios;
+    private javax.swing.JComboBox<Models.Barrio> jComboBox_Barrios;
     private javax.swing.JComboBox<String> jComboBox_Ciudad_jDialog;
-    private javax.swing.JComboBox<String> jComboBox_Ciudades;
-    private javax.swing.JComboBox<String> jComboBox_Provincias;
+    private javax.swing.JComboBox<Models.Localidad> jComboBox_Ciudades;
+    private javax.swing.JComboBox<Models.Provincia> jComboBox_Provincias;
     private javax.swing.JComboBox<String> jComboBox_TipoContacto;
     private javax.swing.JComboBox<String> jComboBox_barrio_JDialog;
-    private javax.swing.JComboBox<String> jComboBox_calles;
+    private javax.swing.JComboBox<Models.Direccion> jComboBox_calles;
     private javax.swing.JComboBox<String> jComboBox_cobradores;
     private javax.swing.JComboBox<String> jComboBox_direccion_jDialog;
     private javax.swing.JComboBox<String> jComboBox_estadoCivil;
     private javax.swing.JComboBox<String> jComboBox_promotores;
     private javax.swing.JComboBox<String> jComboBox_provincia_jDialog;
     private javax.swing.JComboBox<String> jComboBox_relacionConyuge;
-    private javax.swing.JComboBox<String> jComboBox_relaciones;
     private javax.swing.JComboBox<String> jComboBox_tipoDocumento;
     private javax.swing.JComboBox<String> jComboBox_tipoDocumentoConyuge;
-    private javax.swing.JComboBox<String> jComboBox_zonas;
-    private javax.swing.JComboBox<String> jCombo_Naciones;
+    private javax.swing.JComboBox<Integer> jComboBox_zonas;
+    private javax.swing.JComboBox<Models.Pais> jCombo_Naciones;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser_fechaNacimientoConyuge;
     private javax.swing.JDialog jDialogAñadirElemento;
@@ -1565,6 +1792,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel24;
@@ -1579,7 +1807,6 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
@@ -1619,60 +1846,136 @@ public class ABMClientesView extends javax.swing.JPanel {
     protected javax.swing.JRadioButton rbtn_clientesDni;
     protected javax.swing.JRadioButton rbtn_clientesNombre;
     // End of variables declaration//GEN-END:variables
-public class PantallaDinamica extends Thread implements Comunicacion{
-    private Cliente clienteSeleccionado=null;
-    private ClientesDAO clientesDao;
-    private DefaultTableModel modelCliente;
-    private DefaultTableModel modelContacto;
-    public PantallaDinamica(ABMClientesView view){
-        clientesDao=ClientesDAO.getInstance();
-        clientesDao.setVista(view);
-        ButtonGroup grupo= new ButtonGroup();
-        grupo.add(rbtn_clientesDni);
-        grupo.add(rbtn_clientesNombre);
-        rbtn_clientesDni.setSelected(true);
-        modelCliente=(DefaultTableModel) jTableClientes.getModel();
-        modelContacto=(DefaultTableModel) jTable_tipoYcontacto.getModel();
-        jTableClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        limpiarCampos();
-        
-    }
+
+
     private void limpiarCampos(){
-        modelCliente.setNumRows(0);
+        
         
     }
-    public void cambioBusqueda(String txt){
+    public void cambioBusqueda(String txt,boolean dni,boolean nombre,JTextField buscador, JTable tablaBuscador ){
         if(txt.isEmpty()){
-            cargarClientes(clientesDao.buscarCliente("nombre",""));
+            cargarTablaBusqueda(clientesDao.buscarCliente("nombre",""),tablaBuscador);
             
-        }else if(rbtn_clientesDni.isSelected()){
+        }else if(dni){
             try{
                 int cod= Integer.parseInt(txt);
-                cargarClientes(clientesDao.buscarCliente(cod));
+                cargarTablaBusqueda(clientesDao.buscarCliente(cod),tablaBuscador);
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dni",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 jTextField_buscarCliente.setText("");
             }
-        }else if(rbtn_clientesNombre.isSelected()){
-            cargarClientes(clientesDao.buscarCliente("cliente_nombre",txt.toLowerCase()));
+        }else if(nombre){
+            cargarTablaBusqueda(clientesDao.buscarCliente("nombre",txt.toLowerCase()),tablaBuscador);
             
         }else {
              System.out.println("Error no selecciono tipo de busqueda");
         }
     }
-    private void cargarCliente(int pos){
-        if(pos != -1){
-            if(clienteSeleccionado!=null){
-                //habilitar botones
-                
-                //
-                jTextField_nombreCliente.setText(clienteSeleccionado.getNombre());
-            }
+    public void cargarTablaBusqueda(List<Cliente> client, JTable tablaBuscador){
+        listaCliente=client;
+        DefaultTableModel model = (DefaultTableModel) tablaBuscador.getModel();
+        model.setNumRows(0);
+        try{
+            Object[] obj = new Object [2];
+            for (int i=0; i< listaCliente.size();i++){
+            obj[0]=listaCliente.get(i).getDni();
+            obj[1]=listaCliente.get(i).getNombre();
+            model.addRow(obj);
         }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    
+    private void cargarDatosCliente(int pos){
+        if(pos !=-1){
+            
+            clienteSeleccionado=listaCliente.get(pos);
+            jTextField_nombreCliente.setText(clienteSeleccionado.getNombre());
+            jComboBox_tipoDocumento.removeAllItems();
+            jComboBox_tipoDocumento.addItem(clienteSeleccionado.getTipoDni());
+            jTextField_numeroDniCliente.setText(String.valueOf(clienteSeleccionado.getDni()));
+            //Contacto
+            jTextFieldContacto.setText("");
+            DefaultTableModel model= (DefaultTableModel) jTable_tipoYcontacto.getModel();
+            model.setNumRows(0);
+            clienteSeleccionado.getContacto().forEach((t) -> {
+                Object[] obj =new Object [2];
+                obj[0]= t.getTipo();
+                obj[1]= t.getContacto();
+                model.addRow(obj);
+            });
+            //dudoso
+            jComboBox_estadoCivil.setSelectedItem(clienteSeleccionado.getEstadoCivil());
+            //direccion
+            jCombo_Naciones.removeAllItems();
+            jCombo_Naciones.addItem(new Pais(clienteSeleccionado.getNacionalidad()));
+            jComboBox_Provincias.removeAllItems();
+            jComboBox_Provincias.addItem(new Provincia(clienteSeleccionado.getProvincia()));
+            jComboBox_Ciudades.removeAllItems();
+            jComboBox_Ciudades.addItem(new Localidad(clienteSeleccionado.getCiudad()));
+            jComboBox_Barrios.removeAllItems();
+            jComboBox_Barrios.addItem(new Barrio (clienteSeleccionado.getBarrio()));
+            jComboBox_calles.removeAllItems();
+            jComboBox_calles.addItem(new Direccion(clienteSeleccionado.getDireccion()));
+            jTextField_numeroDomicilioCliente.setText(clienteSeleccionado.getNumero());
+            jTextField_codigoPostal.setText(clienteSeleccionado.getCodPostal());
+            jTextField_referenciaDomicilioCliente.setText(clienteSeleccionado.getReferencia());
+            //Intento cargar la fecha:
+             //SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/mm/yyyy");
+             //Si no funciona esto, se puede hacer un try y parsear con el obj de arriba
+             Date fechaN=null;
+             fechaN = clienteSeleccionado.getFechaNacimiento();
+             jDateChooser1.setDate(fechaN);
+             // datos comerciales:
+             if(clienteSeleccionado.isEsSolicitante()){
+                jCheckBoxEsSolicitante.setSelected(true);
+             }
+             /// Manda un switch para completar los Check box!
+             //int zona= clientesDao.recuperarZona(clienteSeleccionado.getBarrio());
+             //jComboBox_zonas.setSelectedItem();
+             //DAtos del conyuge:
+            
+            Cliente conyuge=clientesDao.recuperarConyugue(clienteSeleccionado.getId());
+            jTextField_nombreConyuge.setText(conyuge.getNombre());
+            jTextField_conyugeDni.setText(String.valueOf(conyuge.getDni()));
+            jComboBox_tipoDocumentoConyuge.setSelectedItem(conyuge.getTipoDni());
+            fechaN=conyuge.getFechaNacimiento();
+            jDateChooser_fechaNacimientoConyuge.setDate(fechaN);
+            jComboBox_relacionConyuge.setSelectedItem(conyuge.getEstadoCivil());
+            
+        }
+    }
+    private void habilitarCampos(boolean b) {
+        //hay que agregar mas cosas a esto
+        // seguilo desde guardar, al final lo llamo
+        jButtonAñadirNacion.setEnabled(b);
+        jTextField_nombreCliente.setEnabled(b);
+        jComboBox_tipoDocumento.setEnabled(b);
+        jDateChooser1.setEnabled(b);
+        jComboBox_estadoCivil.setEnabled(b);
+        jTextField_codigoPostal.setEnabled(b);
+        jTextField_numeroDomicilioCliente.setEnabled(b);
+        
+        // datos de contacto:
+        jTextFieldContacto.setEnabled(b);
+        
+        //datos del conyuge
+        jTextField_nombreConyuge.setEnabled(b);
+        jComboBox_relacionConyuge.setEnabled(b);
+        jDateChooser_fechaNacimientoConyuge.setEnabled(b);
+        
+    }
+
+    private void cargarNacionalidades() {
+       jCombo_Naciones.removeAllItems();
+       direcciones.getPaises().values().forEach((t) ->{
+       jCombo_Naciones.addItem(t);
+       });
     }
     
 
 }
 
-}
+
