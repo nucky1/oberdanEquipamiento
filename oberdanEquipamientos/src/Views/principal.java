@@ -96,7 +96,7 @@ public class principal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.add(new Views.ProductosView());
-        jTabbedPane1.add(new Views.ABMClientesView());
+        jTabbedPane1.add(new Views.ProductosView());
         jTabbedPane1.add(new Views.ProveedoresView());
         jTabbedPane1.add(new Views.ProductosView());
         jTabbedPane1.add(new Views.ProductosView());
