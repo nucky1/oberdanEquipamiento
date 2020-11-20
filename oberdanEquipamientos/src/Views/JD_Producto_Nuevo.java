@@ -29,7 +29,7 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
     /**
      * Creates new form JD_Cliente_Nuevo
      */
-    public JD_Producto_Nuevo(java.awt.Frame parent, boolean modal, ProductosView p) {
+    public JD_Producto_Nuevo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         productoDAO = ProductoDAO.getInstance();
@@ -68,6 +68,7 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
         setResizable(false);
 
         btn_guardar_producto.setBackground(new java.awt.Color(255, 255, 255));
+        btn_guardar_producto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar.png"))); // NOI18N
         btn_guardar_producto.setText("Guardar");
         btn_guardar_producto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +96,7 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Asociar Proveedor"));
 
         btn_buscar_proveedores.setBackground(new java.awt.Color(255, 255, 255));
-        btn_buscar_proveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Statics/buscar_chico.png"))); // NOI18N
+        btn_buscar_proveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/buscar_chico.png"))); // NOI18N
         btn_buscar_proveedores.setText("Buscar");
         btn_buscar_proveedores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,7 +125,7 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_buscar_proveedores)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(15, 15, 15)
@@ -217,26 +218,29 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
                 p.setEstado(1);
                 p.setObservaciones(observaciones.getText());
                 p.setIdProveedorActual(id_proveedor_actual);
-                p.setCod(Integer.parseInt(codigo.getText()));
+                p.setId(Integer.parseInt(codigo.getText()));
                 if (!stockMinmo.getText().equals("")) {
                     int stock = Integer.parseInt(stockMinmo.getText());
                     p.setStockMin(stock);
                 }
                 else
                     p.setStockMin(0);
-                int coincidencia = productoDAO.productoEliminado(p.getId());
-                if(coincidencia != -1){
+                list.add(id_proveedor_actual);
+                ResultSet rs = productoDAO.productoEliminado(p.getId());
+                try {
+                    rs.next();
                     int i = 0;
-                    p.setId(coincidencia);
                     int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int coincidencia = rs.getInt("producto_id");
                     System.out.println("coincidencia = " + coincidencia);
                     int resp = JOptionPane.showConfirmDialog(null,"El codigo "+p.getId()+" pertenece a un producto ingresado.\n ¿ esta seguro que desea reactivarlo ?","Importante",dialogButton);
                     if(JOptionPane.YES_OPTION == resp){
-                        productoDAO.revalidarProd(p);
+                        productoDAO.eliminarProducto(p);
+                        productoDAO.actualizarProducto(p);
                         dispose();
                     }
-                }else{
-                    productoDAO.nuevoProducto(p);
+                } catch (SQLException ex) {
+                    productoDAO.nuevoProducto(p, list);
                 }
             }else
                 JOptionPane.showMessageDialog(null,"Debe ingresar un nombre y código del producto (valor numérico)", 

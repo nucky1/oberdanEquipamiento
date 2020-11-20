@@ -71,7 +71,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_Barrios.setEnabled(false);
         jComboBox_calles.setEnabled(false);
         clientesDao=ClientesDAO.getInstance();
-        direccionesDAO = direccionesDAO.getInstance();
+        direccionesDAO.getInstance();
         direcciones =direccionesDAO.getMapa();
     }
 

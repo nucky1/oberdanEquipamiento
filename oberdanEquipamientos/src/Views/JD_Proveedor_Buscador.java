@@ -69,6 +69,7 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
         btn_cliente_seleccionar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_cliente_seleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar_1.png"))); // NOI18N
         btn_cliente_seleccionar.setText("Seleccionar");
         btn_cliente_seleccionar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -268,7 +269,7 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
     
      public void cambioBusqueda(String txt){
             if(txt.isEmpty()){
-                actualizarTabla((ArrayList<Proveedor>) controler_buscador.buscarProveedorReducido(atributo,""));
+                actualizarTabla(controler_buscador.buscarProveedorReducido(atributo,""));
             }else if(rbutton_buscar_codigo.isSelected()){
                 try{
                     int cod = Integer.parseInt(txt);
@@ -279,7 +280,7 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
                     input_buscar_proveedor.setText("");
                 }
             }else if(rbutton_buscar_nombre.isSelected()){
-                actualizarTabla((ArrayList<Proveedor>) controler_buscador.buscarProveedorReducido(atributo, txt.toLowerCase()));
+                actualizarTabla(controler_buscador.buscarProveedorReducido(atributo, txt.toLowerCase()));
             }else{
                 System.out.println("Error no selecciono tipo de busqueda");
             }
