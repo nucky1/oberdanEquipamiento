@@ -16,6 +16,7 @@ public class Producto {
     private String codigoBarra;
     private String nombreRubro;
     private int Id;
+    private int cod;
     private int idProveedorActual;
     private int IdProductoRubro;
     private float iva;
@@ -29,6 +30,15 @@ public class Producto {
     private float precioCosto;
     private float costoFlete;
 
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
+
+    
     public float getIva() {
         return iva;
     }

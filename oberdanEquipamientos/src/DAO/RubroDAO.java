@@ -31,7 +31,7 @@ public class RubroDAO {
     public List<Rubro> getRubros() {
         List<Rubro> rubros = new ArrayList<>();
         
-        String SQL = "SELECT * from art_rubro"
+        String SQL = "SELECT art_rubro.* FROM art_rubro "
                + "WHERE state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try{

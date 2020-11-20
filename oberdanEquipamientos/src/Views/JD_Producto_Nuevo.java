@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
  */
 public class JD_Producto_Nuevo extends javax.swing.JDialog{
     private ProductoDAO productoDAO;
+    private ProductosView view;
     private List<Integer> list;
     int id_proveedor_actual = -1;
     
@@ -35,6 +37,14 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
         productoDAO = ProductoDAO.getInstance();
         list = new ArrayList<>();
        
+    }
+
+    JD_Producto_Nuevo(JFrame jFrame, boolean b, ProductosView aThis) {
+        super(jFrame, b);
+        initComponents();
+        productoDAO = ProductoDAO.getInstance();
+        list = new ArrayList<>();
+        view = aThis;
     }
 
     /**
@@ -226,22 +236,22 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
                 else
                     p.setStockMin(0);
                 list.add(id_proveedor_actual);
-                ResultSet rs = productoDAO.productoEliminado(p.getId());
-                try {
-                    rs.next();
-                    int i = 0;
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int coincidencia = rs.getInt("producto_id");
-                    System.out.println("coincidencia = " + coincidencia);
-                    int resp = JOptionPane.showConfirmDialog(null,"El codigo "+p.getId()+" pertenece a un producto ingresado.\n ¿ esta seguro que desea reactivarlo ?","Importante",dialogButton);
-                    if(JOptionPane.YES_OPTION == resp){
-                        productoDAO.eliminarProducto(p);
-                        productoDAO.actualizarProducto(p);
-                        dispose();
+                int rs = productoDAO.productoEliminado(p.getId());
+                    if(rs==-1){
+                        productoDAO.nuevoProducto(p);
+                        
+                    }else{
+                        int i = 0;
+                        int dialogButton = JOptionPane.YES_NO_OPTION;
+                        int coincidencia = rs;
+                        int resp = JOptionPane.showConfirmDialog(null,"El codigo "+p.getId()+" pertenece a un producto ingresado.\n ¿ esta seguro que desea reactivarlo ?","Importante",dialogButton);
+                        if(JOptionPane.YES_OPTION == resp){
+                            productoDAO.eliminarProducto(p);
+                            productoDAO.actualizarProducto(p);
+                            dispose();
+                        }
                     }
-                } catch (SQLException ex) {
-                    productoDAO.nuevoProducto(p, list);
-                }
+                    
             }else
                 JOptionPane.showMessageDialog(null,"Debe ingresar un nombre y código del producto (valor numérico)", 
                             "Error",  JOptionPane.ERROR_MESSAGE);

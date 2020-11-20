@@ -118,7 +118,7 @@ public class DireccionesDAO {
                 barrio.setId_localidad(rs.getInt("localidad_id"));
                 barrio.setNombre(rs.getString("nombre"));
                 barrio_direcciones.put(barrio.getId(), null);
-                if(barrio.getId_localidad()!= idLocalidad){
+                if(barrio.getId_localidad() != idLocalidad){
                     if(idLocalidad != -1){
                        localidades_barrio.replace(idLocalidad, barrios);
                     }
@@ -129,6 +129,7 @@ public class DireccionesDAO {
                     barrios.add(barrio);
                 }                
             }
+            localidades_barrio.replace(idLocalidad, barrios);
             //cargar direcciones
             SQL = "SELECT * FROM direccion ORDER BY barrio_id,id";
             rs = conexion.EjecutarConsultaSQL(SQL);
