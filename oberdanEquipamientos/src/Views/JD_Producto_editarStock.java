@@ -330,7 +330,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
             if (stock<0)
                 stock = Float.parseFloat("error numero negativo");
             stock += Float.parseFloat(stock_actual.getText());
-            productoDAO.setStock(idStock,stock);
+            //productoDAO.setStock(idStock,stock);
             stock_actual.setText("0");
             nuevo_stock.setText("");
         }catch(Exception ex){
@@ -350,7 +350,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
             if (stock<0)
             stock = Float.parseFloat("error numero negativo");
             stock += Float.parseFloat(stock_actual.getText());
-            productoDAO.setStock(idStock,stock);
+            //productoDAO.setStock(idStock,stock);
             dispose();
         }catch(Exception ex){
             nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255,0,0),1));

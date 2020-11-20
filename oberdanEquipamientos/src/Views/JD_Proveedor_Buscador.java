@@ -269,7 +269,7 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
     
      public void cambioBusqueda(String txt){
             if(txt.isEmpty()){
-                actualizarTabla(controler_buscador.buscarProveedorReducido(atributo,""));
+                actualizarTabla((ArrayList<Proveedor>) controler_buscador.buscarProveedorReducido(atributo,""));
             }else if(rbutton_buscar_codigo.isSelected()){
                 try{
                     int cod = Integer.parseInt(txt);
@@ -280,7 +280,7 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
                     input_buscar_proveedor.setText("");
                 }
             }else if(rbutton_buscar_nombre.isSelected()){
-                actualizarTabla(controler_buscador.buscarProveedorReducido(atributo, txt.toLowerCase()));
+                actualizarTabla((ArrayList<Proveedor>) controler_buscador.buscarProveedorReducido(atributo, txt.toLowerCase()));
             }else{
                 System.out.println("Error no selecciono tipo de busqueda");
             }
