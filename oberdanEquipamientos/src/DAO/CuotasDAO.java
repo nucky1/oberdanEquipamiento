@@ -27,14 +27,15 @@ public class CuotasDAO {
         }
         return controller;
     }
+
     public List<Cuota> getCuotasProd(int idProd) {
         List<Cuota> cuotas = new ArrayList<>();
         
         String SQL = "SELECT cuota.*, CASE WHEN articulo_cuota.articulo_id = "+idProd
                 + " AND cuota.id = articulo_cuota.cuota_id"
-                + "THEN 1 ELSE 0 END as cuota_activa"
+                + " THEN 1 ELSE 0 END as cuota_activa"
                 + " FROM cuota, articulo_cuota"
-                + " WHERE cuota.state = 'ACTIVO'";
+                + " WHERE cuota.estado = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try{
             while(rs.next()){

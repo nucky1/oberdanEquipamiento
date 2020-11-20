@@ -19,13 +19,9 @@ import Statics.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -678,50 +674,45 @@ public class ProveedoresView extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
                         .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btn_agregarNacionalidad))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
                         .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btn_agregarProvincia))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
                         .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btn_agregarCiudad))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
                         .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btn_agregarBarrio))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
                         .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btn_agregarDireccion))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
                         .addComponent(txtf_nro, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel69)
                         .addGap(4, 4, 4)
                         .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -729,61 +720,58 @@ public class ProveedoresView extends javax.swing.JPanel {
                 .addGap(11, 11, 11)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel60))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarNacionalidad))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarProvincia))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarCiudad))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarBarrio))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarDireccion))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtf_nro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel69)))
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_agregarNacionalidad))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel56))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_agregarProvincia))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel61))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_agregarCiudad))
-                .addGap(24, 24, 24)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel63))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_agregarBarrio))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel70))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_agregarDireccion))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtf_nro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtf_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel69))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel71)))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel96)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel60)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel56)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel61)
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel63)
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel70)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel71)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel96))))
         );
 
         btn_proveedores_nuevo.setBackground(new java.awt.Color(255, 255, 255));
@@ -865,16 +853,19 @@ public class ProveedoresView extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_proveedores_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel22Layout.createSequentialGroup()
-                                .addGap(106, 106, 106)
-                                .addComponent(btn_proveedores_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(65, 65, 65)
-                                .addComponent(btn_proveedores_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel22Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel22Layout.createSequentialGroup()
+                                        .addGap(106, 106, 106)
+                                        .addComponent(btn_proveedores_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(65, 65, 65)
+                                        .addComponent(btn_proveedores_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPanel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel22Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel22Layout.setVerticalGroup(
@@ -1890,7 +1881,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1263, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2259,14 +2250,11 @@ public class ProveedoresView extends javax.swing.JPanel {
                 pais.setId(p.getId_pais());
                 pais.setNombre(texto);
                 //actualizo mapa
-                Set<Provincia> provincias = new TreeSet<>(new provinciaCompare());
-                provincias.add(p);
-                direcciones.getPais_Provincia().put(pais.getId(),provincias);
+                
+                direcciones = direccionesDAO.getMapa();
                 //actualizo cbox
                 cbox_nacionalidad.addItem(pais);
                 cbox_nacionalidad.setSelectedItem(pais);
-                cbox_provincia.removeAllItems();
-                cbox_provincia.addItem(p);
                 break;
             }
             case "Añadir una nueva provincia":{
@@ -2276,9 +2264,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 p.setNombre(texto);
                 p.setId_pais(pais_selected.getId());
                 //actualizo mapa
-                Set<Localidad> localidades = new TreeSet<>(new localidadCompare());
-                localidades.add(l);
-                direcciones.getProvincia_Localidad().put(p.getId(), localidades);
+                direcciones = direccionesDAO.getMapa();
                 //actualizo cbox
                 cbox_provincia.addItem(p);
                 cbox_provincia.setSelectedItem(p);
@@ -2293,9 +2279,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 l.setNombre(texto);
                 l.setId_provincia(provincia_selected.getId());
                 //actualizo mapa
-                Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
-                barrios.add(b);
-                direcciones.getLocalidad_Barrio().put(l.getId(), barrios);
+                direcciones = direccionesDAO.getMapa();
                 //actualizo cbox
                 cbox_ciudad.addItem(l);
                 cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
@@ -2310,9 +2294,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 b.setId_localidad(localidad_selected.getId());
                 b.setNombre(texto);
                 //actualizo mapa
-                Set<Direccion> directs = new TreeSet<>(new direccionCompare());
-                directs.add(d);
-                direcciones.getBarrio_direccion().put(d.getId(), directs);
+                direcciones = direccionesDAO.getMapa();
                 //actualizo cbox
                 cbox_barrio.addItem(b);
                 cbox_barrio.setSelectedItem(b);
@@ -2337,6 +2319,8 @@ public class ProveedoresView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void cbox_nacionalidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_nacionalidadItemStateChanged
+        if(cbox_nacionalidad.getItemCount() == 0)
+            return;
         Pais p = (Pais) cbox_nacionalidad.getSelectedItem();
         pais_selected = p;
         cbox_provincia.removeAllItems();
@@ -2344,15 +2328,19 @@ public class ProveedoresView extends javax.swing.JPanel {
             direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
                 cbox_provincia.addItem(t);
             });
+            cbox_provincia.setSelectedIndex(0);
             cbox_provincia.setEnabled(true);
         }catch(NullPointerException e){
-            
+            e.printStackTrace();
         }
     }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
 
     private void cbox_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_provinciaItemStateChanged
+        if(cbox_provincia.getItemCount() == 0)
+            return;
         Provincia p = (Provincia) cbox_provincia.getSelectedItem();
         provincia_selected = p;
+        p.getId();
         cbox_ciudad.removeAllItems();
         try{
             direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
@@ -2360,11 +2348,13 @@ public class ProveedoresView extends javax.swing.JPanel {
             });
             cbox_ciudad.setEnabled(true);
         }catch(NullPointerException e){
-            
+            e.printStackTrace();
         }
     }//GEN-LAST:event_cbox_provinciaItemStateChanged
 
     private void cbox_ciudadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_ciudadItemStateChanged
+        if(cbox_ciudad.getItemCount() == 0)
+            return;
         Localidad l = (Localidad) cbox_ciudad.getSelectedItem();
         localidad_selected = l;
         cbox_barrio.removeAllItems();
@@ -2374,11 +2364,13 @@ public class ProveedoresView extends javax.swing.JPanel {
             });
             cbox_barrio.setEnabled(true);
         }catch(NullPointerException e){
-            
+            e.printStackTrace();
         }     
     }//GEN-LAST:event_cbox_ciudadItemStateChanged
 
     private void cbox_barrioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_barrioItemStateChanged
+        if(cbox_barrio.getItemCount() == 0)
+            return;
         Barrio b = (Barrio) cbox_barrio.getSelectedItem();
         barrio_selected = b;
         cbox_direccion.removeAllItems();
@@ -2386,6 +2378,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
                 cbox_direccion.addItem(t);
             });
+            cbox_direccion.setSelectedIndex(0);
             cbox_direccion.setEnabled(true);
         }catch(NullPointerException e){
         }
@@ -2393,6 +2386,8 @@ public class ProveedoresView extends javax.swing.JPanel {
     }//GEN-LAST:event_cbox_barrioItemStateChanged
 
     private void cbox_direccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_direccionItemStateChanged
+        if(cbox_direccion.getItemCount() == 0)
+            return;
         direccion_selected = (Direccion) cbox_direccion.getSelectedItem();
     }//GEN-LAST:event_cbox_direccionItemStateChanged
 

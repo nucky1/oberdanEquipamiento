@@ -35,8 +35,8 @@ public class ProveedoresDAO {
         
     public List<Proveedor> buscarProveedorReducido(String tipo_busqueda, String valor) {
         if(tipo_busqueda.equalsIgnoreCase("nombre"))
-            tipo_busqueda = "nombre";
-        String SQL = "SELECT proveedores.id, proveedores.nombre"
+            tipo_busqueda = "proveedor";
+        String SQL = "SELECT proveedores.id, proveedores.proveedor"
                 + " FROM proveedores"
                 + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
@@ -56,7 +56,7 @@ public class ProveedoresDAO {
     }
     public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
         if(tipo_busqueda.equalsIgnoreCase("nombre"))
-            tipo_busqueda = "nombre";
+            tipo_busqueda = "proveedor";
         String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
           + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
           + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'"

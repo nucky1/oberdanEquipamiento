@@ -6,13 +6,10 @@
 package DAO;
 
 import Models.Producto;
-import Views.ProductosView;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -22,22 +19,24 @@ import java.util.logging.Logger;
  */
 public class ProductoDAO {
     private static ProductoDAO ProductoDAO = null;
-    private ProductosView view;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
     public ProductoDAO(){}
     public static ProductoDAO getInstance(){
         if(ProductoDAO == null) ProductoDAO = new ProductoDAO();
         return ProductoDAO;
     }
-    
-    public void setVista(ProductosView view){
-        this.view = view;
-    }
+
     
     public List<Producto> cargarProductos(ResultSet rs){
         List<Producto> list =  new ArrayList<>();
         try{
             Producto p = new Producto();
+            if(rs.next()){
+                if(rs.getInt("id") == 0){
+                    return list;
+                }
+                rs.last();
+            }
             while(rs.next()){   
                 p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("nombre"));
@@ -82,37 +81,37 @@ public class ProductoDAO {
         return conexion.EjecutarOperacion(SQL);
     }
     public List<Producto> buscarProducto(String atributo, String valor) {
-        String SQL = "SELECT articulo.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro, MAX(art_stock.precio_compra),proveedores.proveedor as precioCosto"
-               + " FROM proveedores, articulo, art_rubro, art_stock"
-               + " WHERE articulo." + atributo+" like '%"+valor+"%'"
-               + " AND articulo.rubro_id = art_rubro.id"
-               + " AND articulo.id = art_stock.producto_id"
-               + " AND articulo.proveedor_id = proveedores.id"
-               + " AND articulo.state = 'ACTIVO'";
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0),proveedores.proveedor as precioCosto"
+               + " FROM proveedores, articulos, art_rubro, art_stock"
+               + " WHERE LOWER(articulos." + atributo+") like '%"+valor+"%'"
+               + " AND articulos.rubro_id = art_rubro.id"
+               + " AND articulos.id = art_stock.producto_id"
+               + " AND articulos.proveedor_id = proveedores.id"
+               + " AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
     public List<Producto> buscarProducto(int id){
-        String SQL = "SELECT articulo.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro, MAX(art_stock.precio_compra) as precioCosto,proveedores.proveedor"
-               + " FROM proveedores, articulo, art_rubro, art_stock"
-               + " WHERE articulo.cod LIKE '"+id+"%'"
-               + " AND articulo.rubro_id = art_rubro.id"
-               + " AND articulo.id = art_stock.producto_id"
-               + " AND articulo.proveedor_id = proveedores.id"
-               + " AND articulo.state = 'ACTIVO'";
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0) as precioCosto,proveedores.proveedor"
+               + " FROM proveedores, articulos, art_rubro, art_stock"
+               + " WHERE articulos.cod LIKE '"+id+"%'"
+               + " AND articulos.rubro_id = art_rubro.id"
+               + " AND articulos.id = art_stock.producto_id"
+               + " AND articulos.proveedor_id = proveedores.id"
+               + " AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
     
     public int productoEliminado(int cod){
-        String SQL = "SELECT articulo.id,COUNT(*)"
+        String SQL = "SELECT articulos.id,COUNT(*)"
                + " FROM articulo"
-               + " WHERE articulo.cod = "+cod;
+               + " WHERE articulos.cod = "+cod;
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             rs.next();
             
-            return rs.getInt("articulo.id");
+            return rs.getInt("articulos.id");
         } catch (SQLException ex) {
             return -1;
         }

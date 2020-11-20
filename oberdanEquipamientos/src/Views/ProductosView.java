@@ -51,6 +51,7 @@ public class ProductosView extends javax.swing.JPanel {
      */
     public ProductosView() {
         initComponents();
+        Pestaña1_dinamica = new Pestaña1_dinamica(this);
         proveedoresDAO = ProveedoresDAO.getInstance();
         productoDAO = ProductoDAO.getInstance();
         rubroDAO = RubroDAO.getInstance();        
@@ -68,10 +69,14 @@ public void limpiarCamposInventario() {
          txtf_productos_codigo.setText("");
          Producto_Proveedor = new JComboBox();
          Producto_Proveedor.setEnabled(false);
-         Producto_Proveedor.addItem("-No posee un proveedor asignado-");
+         Proveedor p = new Proveedor();
+         p.setNombre("-No posee un proveedor asignado-");
+         Producto_Proveedor.addItem(p);
          producto_Rubro = new JComboBox();
          producto_Rubro.setEnabled(false);
-         producto_Rubro.addItem("-No posee un rubro asignado-");
+         Rubro r = new Rubro();
+         r.setNombre("-No posee un rubro asignado-");
+         producto_Rubro.addItem(r);
          chk_venta_iva.setSelected(false);
          btn_Guardar.setEnabled(false);
          btn_Modificar.setEnabled(false);
@@ -486,7 +491,6 @@ public void limpiarCamposInventario() {
             }
         });
 
-        producto_plan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         producto_plan.setEnabled(false);
 
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
@@ -662,7 +666,7 @@ public void limpiarCamposInventario() {
                 .addGroup(jPanel85Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel174)
                     .addComponent(jSeparator26, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel85Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel85Layout.createSequentialGroup()
                         .addComponent(btn_consultar_historial, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -678,7 +682,7 @@ public void limpiarCamposInventario() {
                         .addGroup(jPanel85Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(fecha_fin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         btn_Guardar.setBackground(new java.awt.Color(255, 255, 255));
@@ -693,7 +697,7 @@ public void limpiarCamposInventario() {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel54.setText("Flete %");
+        jLabel54.setText("Flete $");
 
         txtf_productos_costoFlete.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtf_productos_costoFlete.addCaretListener(new javax.swing.event.CaretListener() {
@@ -856,7 +860,6 @@ public void limpiarCamposInventario() {
         jLabel57.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel57.setText("Proveedores");
 
-        Producto_Proveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Producto_Proveedor.setEnabled(false);
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
@@ -891,7 +894,6 @@ public void limpiarCamposInventario() {
         jLabel58.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel58.setText("Rubro");
 
-        producto_Rubro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         producto_Rubro.setEnabled(false);
 
         btn_crearRubro.setBackground(new java.awt.Color(255, 255, 255));
@@ -930,7 +932,7 @@ public void limpiarCamposInventario() {
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(producto_Rubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_crearRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btn_Cancelar.setBackground(new java.awt.Color(255, 255, 255));
@@ -1000,10 +1002,10 @@ public void limpiarCamposInventario() {
                     .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
                     .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel85, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel85, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1864,7 +1866,7 @@ public void limpiarCamposInventario() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -2057,12 +2059,29 @@ public void limpiarCamposInventario() {
         btn_producto_editarLote.setEnabled(true);
         producto_Rubro.removeAllItems();
         Producto_Proveedor.removeAllItems();
-        proveedoresDAO.buscarProveedorReducido("proveedor", "").forEach((t) -> {
-            Producto_Proveedor.addItem(TOOL_TIP_TEXT_KEY);
-        });
-        rubroDAO.getRubros().forEach((t) -> {
-            producto_Rubro.addItem(TOOL_TIP_TEXT_KEY);
-        });
+        List<Proveedor> p = proveedoresDAO.buscarProveedorReducido("proveedor", "");
+        if(p.isEmpty()){
+            Proveedor aux = new Proveedor();
+            aux.setNombre("No se encontraron proveedores");
+            aux.setId(-1);
+            Producto_Proveedor.addItem(aux);
+        }else{
+            p.forEach((t) -> {
+                Producto_Proveedor.addItem(t);
+            });
+        }
+        List<Rubro> r = rubroDAO.getRubros();
+        if(r.isEmpty()){
+            Rubro aux = new Rubro();
+            aux.setNombre("No se encontraron rubros");
+            aux.setId(-1);
+            producto_Rubro.addItem(aux);
+        }else{
+           r.forEach((t) -> {
+                producto_Rubro.addItem(t);
+            });
+        }
+        
     }//GEN-LAST:event_btn_ModificarActionPerformed
 
     private void btn_proveedores_nuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_nuevo1ActionPerformed
@@ -2117,7 +2136,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_productos_buscarKeyTyped
 
     private void txtf_productos_buscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_productos_buscarCaretUpdate
-        Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText().toString());
+        Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText());
     }//GEN-LAST:event_txtf_productos_buscarCaretUpdate
 
     private void tabla_productos_busquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_productos_busquedaMouseClicked
@@ -2188,7 +2207,7 @@ public void limpiarCamposInventario() {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Producto_Proveedor;
+    private javax.swing.JComboBox<Models.Proveedor> Producto_Proveedor;
     private javax.swing.JButton btn_Cancelar;
     private javax.swing.JButton btn_Guardar;
     private javax.swing.JButton btn_Modificar;
@@ -2301,8 +2320,8 @@ public void limpiarCamposInventario() {
     private javax.swing.JPanel panel_devos;
     private javax.swing.JPanel panel_pedidos;
     private javax.swing.JPanel panel_productos_detalle;
-    private javax.swing.JComboBox<String> producto_Rubro;
-    private javax.swing.JComboBox<String> producto_plan;
+    private javax.swing.JComboBox<Models.Rubro> producto_Rubro;
+    private javax.swing.JComboBox<Models.Cuota> producto_plan;
     protected javax.swing.JRadioButton rbtn_devolucion_codigo;
     protected javax.swing.JRadioButton rbtn_devolucion_nombre;
     private javax.swing.JRadioButton rbtn_lote_prod_codigo;
@@ -2348,15 +2367,17 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel unidades_vendidas;
     // End of variables declaration//GEN-END:variables
 
-public class Pestaña1_dinamica extends Thread implements Comunicacion {
+    public class Pestaña1_dinamica extends Thread{
         private Producto prodSeleccionado = null;
         private Producto devoSelect = null;
         private ProductoDAO productosDAO;
+        private ProductosView view;
         private List<Cuota> cuotas;
         private DefaultTableModel modelProducto, modelProv, modelInv, modelTop,modelDevo;
+        
         public Pestaña1_dinamica(ProductosView view) {
             productosDAO = ProductoDAO.getInstance();
-            productosDAO.setVista(view);
+            this.view = view;
             //impuestos = productosDAO.cargarImpuestos();
             ButtonGroup grupo = new ButtonGroup();
             grupo.add(rbtn_productos_codigo);
@@ -2412,8 +2433,7 @@ public class Pestaña1_dinamica extends Thread implements Comunicacion {
                     txtf_productos_buscar.setText("");
                 }
             } else if (rbtn_productos_nombre.isSelected()) {
-                cargarProductos(productosDAO.buscarProducto("producto_nombre",
-                        txt.toLowerCase()));
+                cargarProductos(productosDAO.buscarProducto("nombre",txt.toLowerCase()));
             } else {
                 System.out.println("Error no selecciono tipo de busqueda");
             }
@@ -2422,10 +2442,8 @@ public class Pestaña1_dinamica extends Thread implements Comunicacion {
         private void cargarProducto(int pos) {
             if (pos != -1) {
                 unidades_vendidas.setText("----");
-                btn_Guardar.setEnabled(true);
-                btn_Modificar.setEnabled(true);
                 btn_producto_editarLote.setEnabled(true);
-                btn_consultar_historial.setEnabled(true);
+                //btn_consultar_historial.setEnabled(true);
                 prodSeleccionado = listProductos.get(pos);
                 //Consultas extras
                 cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
@@ -2437,13 +2455,16 @@ public class Pestaña1_dinamica extends Thread implements Comunicacion {
                     } else {
                         txtf_productos_observaciones.setText(prodSeleccionado.getObservaciones());
                     }
-                    txtf_productos_codigo.setText("" + prodSeleccionado.getId());
+                    txtf_productos_codigo.setText("" + prodSeleccionado.getCod());
                     txtf_productos_nombre.setText(prodSeleccionado.getNombre());
                     txtf_productos_codigo_barra.setText(prodSeleccionado.getCodigoBarra());
                     txtf_productos_stockMinimo.setText("" + prodSeleccionado.getStockMin());
                     txtf_productos_costo.setText("" + prodSeleccionado.getPrecioCosto());
                     txtf_productos_costoFlete.setText("" + prodSeleccionado.getCostoFlete());
-
+                    txtf_iva.setText("" + prodSeleccionado.getIva());
+                    txtf_sobretasa_iva.setText(""+prodSeleccionado.getSobretasaIva());
+                    txtf_imp_int_fijo.setText(""+prodSeleccionado.getImpuesto_int_fijo());
+                    txtf_impuesto_int.setText(""+prodSeleccionado.getImpuesto_interno());
                     stock.setText("" + prodSeleccionado.getStock());
                     System.out.println("prodSeleccionado.getIdProveedorActual() = " + prodSeleccionado.getIdProveedorActual());
                     Producto_Proveedor = new JComboBox();
@@ -2451,17 +2472,14 @@ public class Pestaña1_dinamica extends Thread implements Comunicacion {
                     producto_Rubro = new JComboBox();
                     producto_Rubro.setEnabled(false);
                     if (prodSeleccionado.getIdProveedorActual() == -1) {
-                        Producto_Proveedor.addItem("-No posee un proveedor asignado-");
+                        Proveedor p = new Proveedor();
+                        p.setNombre("-No posee un proveedor asignado-");
+                        Producto_Proveedor.addItem(p);
                     } else {
                         Proveedor p = proveedoresDAO.getProveedor(prodSeleccionado.getIdProveedorActual());
-                        Producto_Proveedor.addItem(p.getNombre());
+                        Producto_Proveedor.addItem(p);
                     }
                     chk_venta_iva.setSelected(prodSeleccionado.isSinIva());
-                    if (prodSeleccionado.getIdProveedorActual() == -1) {
-                        producto_Rubro.addItem("-No posee un rubro asignado-");
-                    } else {
-                        producto_Rubro.addItem(prodSeleccionado.getNombreRubro());
-                    }
                 }
             }
         }
@@ -2630,7 +2648,7 @@ public class Pestaña1_dinamica extends Thread implements Comunicacion {
         }
         
         public void cargarProductos(List<Producto> list) {
-            listProductos = list;
+            listProductos = list;          
             try {
                 modelProducto.setNumRows(0);
                 Object[] obj = new Object[2];
@@ -2713,44 +2731,11 @@ public class Pestaña1_dinamica extends Thread implements Comunicacion {
                                 "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-        private void eliminar(Producto prod) {
-            /*if (prod != null) {
-                Producto p = new Producto();
-                p = prod;
-                p.setEstado(0);
-                if (productoDAO.eliminarProducto(p) == 1) {
-                    principal.lbl_estado.setText("Producto Eliminado");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ocurrio un problema al eliminar el producto " + prod.getNombre(),
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }*/
-        }
-
-
         
         public void errorActualizarStock() {
             JOptionPane.showMessageDialog(null, "No se pudo editar el lote", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        
-        public void loteActualizado() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-        
-        public void loteNoActualizado() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-         
-        public DefaultTableModel getTableModel(){
-            return null;
-        }
-        
-        public TextField getTextField(){
-            return null;
-        }
     }
 
 public class Pestaña3_dinamica {
