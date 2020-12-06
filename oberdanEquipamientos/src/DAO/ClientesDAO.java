@@ -243,10 +243,11 @@ public class ClientesDAO {
         int res = 1;
         boolean exito = true;
         String SQL = "INSERT INTO cliente (nombre,dni,fechaNacimiento,esSolicitante,codPostal,referencia,documentacion,numero,direccion_id,observaciones) "
-                + "VALUES('"+c.getNombre()+"',"+c.getDni()+","+c.getFechaNacimiento()+","+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"','"+
+                + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"','"+
                 c.getNumero()+"',"+c.getDireccion_id()+",'"+
                 c.getObservaciones()+"')";
         res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        System.out.println("SQL = " + SQL);
         if(res == 0){
             exito = false;
         }else{
@@ -279,6 +280,10 @@ public class ClientesDAO {
             conexion.transaccionCommit("activarCommit");
         }
         return exito;   
+    }
+
+    public int eliminarCliente(Cliente clienteSeleccionado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 /**
     public int recuperarZona(String barrio) {

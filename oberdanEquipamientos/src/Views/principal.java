@@ -62,7 +62,7 @@ public class principal extends javax.swing.JFrame {
             .addGroup(barra_estadoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 898, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                 .addComponent(jLabel21)
                 .addGap(37, 37, 37)
                 .addComponent(nombre_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -90,13 +90,13 @@ public class principal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 869, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(barra_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.add(new Views.ProductosView());
-        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.add(new Views.ABMClientesView());
         jTabbedPane1.add(new Views.ProveedoresView());
         jTabbedPane1.add(new Views.ProductosView());
         jTabbedPane1.add(new Views.ProductosView());

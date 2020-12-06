@@ -73,6 +73,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         clientesDao=ClientesDAO.getInstance();
         direccionesDAO = direccionesDAO.getInstance();
         direcciones =direccionesDAO.getMapa();
+        
     }
 
     /**
@@ -1282,42 +1283,46 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_tipoDocumentoActionPerformed
 
     private void jButtonAñadirNacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirNacionActionPerformed
+        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
+        
         
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirNacionActionPerformed
 
     private void jButtonAñadirProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirProvinciaActionPerformed
+        jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
+        
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirProvinciaActionPerformed
 
     private void jButtonAñadirCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCiudadActionPerformed
+        jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
+        
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirCiudadActionPerformed
 
     private void jButtonAñadirBarrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirBarrioActionPerformed
+        jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
+        
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirBarrioActionPerformed
@@ -1344,11 +1349,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jButtonAñadirCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCalleActionPerformed
         // TODO add your handling code here:
+        jDialogAñadirElemento.setTitle("Añadir una nueva Calle/Manzana");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva Calle/Manzana");
+        
     }//GEN-LAST:event_jButtonAñadirCalleActionPerformed
 
     private void jTextField_numeroDomicilioClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_numeroDomicilioClienteActionPerformed
@@ -1357,11 +1363,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jButton_añadirZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_añadirZonaActionPerformed
         // TODO add your handling code here:
+        jDialogAñadirElemento.setTitle("Añadir una nueva Zona");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva Zona");
+        
     }//GEN-LAST:event_jButton_añadirZonaActionPerformed
 
     private void jTextF_IngresarNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextF_IngresarNuevoElementoActionPerformed
@@ -1489,7 +1496,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                 jComboBox_calles.addItem(d);
                 break;
             }
-            case "Añadir una nueva direccion":{
+            case "Añadir una nueva Calle/Manzana":{
                 int id = direccionesDAO.añadirDireccion(texto,Barrio_selected.getId());
                 Direccion d = new Direccion();
                 d.setId(id);
@@ -1552,10 +1559,11 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jButtonNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoClienteActionPerformed
         // TODO add your handling code here:
+        clienteSeleccionado=new Cliente();
         modificarTrue = false;
         habilitarCampos(true);
         cargarNacionalidades();
-        clienteSeleccionado=new Cliente();
+        
         
        
         
@@ -1773,16 +1781,17 @@ public class ABMClientesView extends javax.swing.JPanel {
         }
          //faltan algunos controles!!!
        clienteSeleccionado.setNombre(jTextField_nombreCliente.getText());
-       clienteSeleccionado.setTipoDni(String.valueOf(jComboBox_tipoDocumento.getSelectedIndex()));
+      
+       clienteSeleccionado.setTipoDni(""+jComboBox_tipoDocumento.getSelectedItem());
        clienteSeleccionado.setDni(Integer.parseInt(jTextField_numeroDniCliente.getText()));
-       
+       clienteSeleccionado.setFechaNacimiento(jDateChooser1.getDate());
        //direccion
        
-       clienteSeleccionado.setNacionalidad(String.valueOf(jCombo_Naciones.getSelectedIndex()));
-        clienteSeleccionado.setProvincia(String.valueOf(jComboBox_Provincias.getSelectedIndex()));
-        clienteSeleccionado.setCiudad(String.valueOf(jComboBox_Ciudades.getSelectedIndex()));
-        clienteSeleccionado.setBarrio(String.valueOf(jComboBox_Barrios.getSelectedIndex()));
-        clienteSeleccionado.setDireccion(String.valueOf(jComboBox_calles.getSelectedIndex()));
+       clienteSeleccionado.setNacionalidad(String.valueOf(jCombo_Naciones.getSelectedItem()));
+        clienteSeleccionado.setProvincia(String.valueOf(jComboBox_Provincias.getSelectedItem()));
+        clienteSeleccionado.setCiudad(String.valueOf(jComboBox_Ciudades.getSelectedItem()));
+        clienteSeleccionado.setBarrio(String.valueOf(jComboBox_Barrios.getSelectedItem()));
+        clienteSeleccionado.setDireccion(String.valueOf(jComboBox_calles.getSelectedItem()));
         clienteSeleccionado.setDireccion_id(direccion_selected.getId());
         clienteSeleccionado.setNumero(jTextField_numeroDomicilioCliente.getText());
         clienteSeleccionado.setCodPostal(jTextField_codigoPostal.getText());
