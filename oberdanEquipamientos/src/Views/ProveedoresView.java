@@ -1977,43 +1977,47 @@ public class ProveedoresView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_agregarContactoActionPerformed
 
     private void btn_agregarNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarNacionalidadActionPerformed
+        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
     }//GEN-LAST:event_btn_agregarNacionalidadActionPerformed
 
     private void btn_agregarProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProvinciaActionPerformed
+        
+        jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
     }//GEN-LAST:event_btn_agregarProvinciaActionPerformed
 
     private void btn_agregarCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarCiudadActionPerformed
+        
+        jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
     }//GEN-LAST:event_btn_agregarCiudadActionPerformed
 
     private void btn_agregarBarrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarBarrioActionPerformed
+        
+        jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
     }//GEN-LAST:event_btn_agregarBarrioActionPerformed
 
     private void btn_agregarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarDireccionActionPerformed
+        
+        jDialogAñadirElemento.setTitle("Añadir una nueva direccion");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
         jDialogAñadirElemento.setSize(400,221);
-        jDialogAñadirElemento.setTitle("Añadir una nueva direccion");
     }//GEN-LAST:event_btn_agregarDireccionActionPerformed
 
     private void btn_proveedores_nuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_proveedores_nuevoMouseClicked

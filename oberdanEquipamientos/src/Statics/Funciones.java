@@ -25,7 +25,6 @@ import java.util.Comparator;
  */
 public class Funciones {
     
-    static SimpleDateFormat plantilla = new SimpleDateFormat("yyyy-MM-dd");
     public static boolean compareStrings(String s1, String s2){
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
@@ -44,6 +43,8 @@ public class Funciones {
             return true;
         }
     }
+    
+    static SimpleDateFormat plantilla = new SimpleDateFormat("yyyy-MM-dd");
     public static String dateFormat(Date date){
         Locale locale = new Locale("us", "US");
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
