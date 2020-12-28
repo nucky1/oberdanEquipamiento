@@ -33,6 +33,9 @@ public class Cliente {
     private String codPostal;
     private int direccion_id;
     private ArrayList<Contacto> contacto;
+
+    public Cliente() {
+    }
    
 public String getNombre() {
         return nombre;

@@ -10,8 +10,6 @@ import DAO.ProductoDAO;
 import DAO.ProveedoresDAO;
 import DAO.RubroDAO;
 import Models.*;
-import Statics.Comunicacion;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;

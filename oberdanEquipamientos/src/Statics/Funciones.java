@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 import java.math.BigInteger; 
 import java.util.Comparator;
+import java.sql.Timestamp; 
 
 /**
  *
@@ -49,6 +50,12 @@ public class Funciones {
         Locale locale = new Locale("us", "US");
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
         return plantilla.format(date);
+    }
+    
+    public static String dateParse(Date date){
+         Timestamp ts=new Timestamp(date.getTime());  
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+        return formatter.format(ts);
     }
     /**
      * 
