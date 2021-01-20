@@ -2335,7 +2335,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             cbox_provincia.setSelectedIndex(0);
             cbox_provincia.setEnabled(true);
         }catch(NullPointerException e){
-            e.printStackTrace();
+            new Statics.ExceptionManager().saveDump(e, "", false);
         }
     }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
 
@@ -2352,7 +2352,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             });
             cbox_ciudad.setEnabled(true);
         }catch(NullPointerException e){
-            e.printStackTrace();
+            new Statics.ExceptionManager().saveDump(e, "", false);
         }
     }//GEN-LAST:event_cbox_provinciaItemStateChanged
 
@@ -2368,7 +2368,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             });
             cbox_barrio.setEnabled(true);
         }catch(NullPointerException e){
-            e.printStackTrace();
+            new Statics.ExceptionManager().saveDump(e, "", false);
         }     
     }//GEN-LAST:event_cbox_ciudadItemStateChanged
 
@@ -2385,6 +2385,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             cbox_direccion.setSelectedIndex(0);
             cbox_direccion.setEnabled(true);
         }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
         }
         
     }//GEN-LAST:event_cbox_barrioItemStateChanged
