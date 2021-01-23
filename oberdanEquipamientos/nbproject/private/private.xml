@@ -2,10 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ABMClientesView.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ABMSolicitudesView.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProductosView.java</file>
             <file>file:/C:/Users/demig/Documents/oberdanEquipamiento/oberdanEquipamientos/src/Views/ABMCreditosView.java</file>
+=======
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ProductosView.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMSolicitudesView.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/ProductoDAO.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/ProveedoresDAO.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMCreditosView.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Statics/Funciones.java</file>
+>>>>>>> 0511127115b433e59765a180702b1ff5cc644817
         </group>
     </open-files>
 </project-private>
