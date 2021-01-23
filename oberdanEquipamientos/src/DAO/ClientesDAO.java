@@ -8,15 +8,23 @@ package DAO;
 import Views.ABMClientesView;
 import Models.Cliente;
 import Models.Contacto;
- 
+import com.mysql.jdbc.Connection;
+import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
 
 /**
  *
- * @author demig
+ * @author 
  */
 public class ClientesDAO {
     private static ClientesDAO ClientesDao=null;
@@ -59,8 +67,8 @@ public class ClientesDAO {
         return list;
     }
     public List<Cliente> buscarCliente(String tipo_busqueda, String valor) {
-        if(tipo_busqueda.equals("nombre")){
-            tipo_busqueda = "cliente";
+        if(tipo_busqueda.equalsIgnoreCase("nombre")){
+            tipo_busqueda = "nombre";
         }
            String SQL = "SELECT cliente.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
               + " FROM cliente,direccion,barrio,localidad,provincia,pais"
@@ -71,14 +79,14 @@ public class ClientesDAO {
               + " AND localidad.provincia_id = provincia.id"
               + " AND pais.id = provincia.pais_id";
            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-           
+           System.out.println("La consulta  buscarCliente doble fue: "+SQL);
            List<Cliente> list = new ArrayList<>();
            try{
                while(rs.next()){
                    //--CARGAR DATOS AL CLIENTE
                     Cliente p = new Cliente();
                     p.setId(rs.getInt("id"));
-                    p.setNombre(rs.getString("cliente"));
+                    p.setNombre(rs.getString("nombre"));
                     //direccion
                     p.setNacionalidad(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
@@ -127,13 +135,14 @@ public class ClientesDAO {
               + " AND localidad.provincia_id = provincia.id"
               + " AND pais.id = provincia.pais_id";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        System.out.println("La consulta  buscarCliente simple fue: "+SQL);
         List<Cliente> list = new ArrayList<>();
            try{
                while(rs.next()){
                    //--CARGAR DATOS AL Cliente
                     Cliente p = new Cliente();
                     p.setId(rs.getInt("id"));
-                    p.setNombre(rs.getString("proveedor"));
+                    p.setNombre(rs.getString("cliente"));
                     //direccion
                     p.setNacionalidad(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
@@ -284,6 +293,28 @@ public class ClientesDAO {
 
     public int eliminarCliente(Cliente clienteSeleccionado) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public JasperViewer generarReporteV1() throws FileNotFoundException{
+        JasperReport reporte = null;
+        JasperViewer view =null;
+        try{
+            Connection con = (Connection) conexion.getConexion();
+            
+            String path = "src\\Reportes\\report1.jasper";
+            //FileInputStream fileInputStream = new FileInputStream(path);
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jprint;
+            jprint = JasperFillManager.fillReport(reporte, null,con);
+           
+            
+            view = new JasperViewer (jprint, false);
+            
+        }
+        catch (JRException ex ){
+           ///aca iria lo de tratamiento de errores
+        }
+        
+        return view;
     }
 /**
     public int recuperarZona(String barrio) {

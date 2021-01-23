@@ -6,10 +6,19 @@
 package DAO;
 
 import Models.Producto;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 
@@ -161,4 +170,82 @@ public class ProductoDAO {
         return conexion.EjecutarOperacion(SQL);
     }
 
+    public List<Producto> getStockFiltrado(String seleccion) {
+        String SQL=null;
+        
+        switch (seleccion){
+        case "Existente" :
+        {  
+            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,"
+                + "articulos.precio_venta, articulos.tipo FROM articulos "
+                + "WHERE articulos.stock_existente >= 1 AND articulos.tipo = 1 AND articulos.state= 'ACTIVO'";
+            break;
+        }
+        case "Completo" :
+        {   
+            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,"
+                + "articulos.precio_venta, articulos.tipo FROM articulos "
+                + "WHERE articulos.state ='ACTIVO'";  
+            break;}
+        case "Pedido":{
+            
+            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,"
+                + "articulos.precio_venta, articulos.tipo FROM articulos "
+                + "WHERE articulos.stock_existente >= 1 AND articulos.tipo = 2";
+            break;
+        }
+    }
+        List<Producto> list =  new ArrayList<>();
+        
+       
+        ResultSet rs = null;
+        rs = conexion.EjecutarConsultaSQL(SQL);
+        
+        try{
+            
+            if(rs.next()){
+                if(rs.getInt("id") == 0){
+                    return list;
+                }
+                //rs.last();
+            }
+            rs.beforeFirst();
+        
+            while(rs.next()){ 
+                Producto p = new Producto();
+                p.setId(rs.getInt("id"));
+                p.setNombre(rs.getString("nombre"));
+                p.setStock(rs.getInt("stock_existente"));
+                p.setPrecioVenta(rs.getFloat("precio_venta"));
+                p.setTipo(rs.getInt("tipo"));
+                list.add(p);
+               
+                
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        
+        
+        return list;
+                
+       
+       
+    }
+    public JasperViewer generarReporteStock1 (){
+        JasperReport reporte = null;
+        JasperViewer view = null;
+        Connection con = (Connection) conexion.getConexion();
+        String path = "src\\Reportes\\ReporteControlStock.jasper";
+        try {
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jprint;
+            jprint = JasperFillManager.fillReport(reporte, null, con);
+            view = new JasperViewer (jprint,false);
+        } catch (JRException ex) {
+            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return view;
+    }
 }

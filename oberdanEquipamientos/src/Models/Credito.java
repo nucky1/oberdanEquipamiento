@@ -1,0 +1,18 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Models;
+
+/**
+ *
+ * @author Hernan
+ */
+public class Credito {
+    private int id;
+    private Cliente cliente;
+    private Solicitud solicitud;
+    private Comercio comercio;
+    
+}

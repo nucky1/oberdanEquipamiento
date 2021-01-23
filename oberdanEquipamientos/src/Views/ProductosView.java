@@ -11,26 +11,35 @@ import DAO.ProveedoresDAO;
 import DAO.RubroDAO;
 import Models.*;
 import Statics.Comunicacion;
+import static Statics.Funciones.getSelection;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -44,6 +53,7 @@ public class ProductosView extends javax.swing.JPanel {
     private RubroDAO rubroDAO;
     private ProductoDAO productoDAO;
     private Pestaña3_dinamica pedidos;
+    private Pestaña4_dinamica PantallaStock;
     private JD_Producto_Nuevo productoNuevo;
     private JD_Producto_editarStock editarStock;
     /**
@@ -52,6 +62,7 @@ public class ProductosView extends javax.swing.JPanel {
     public ProductosView() {
         initComponents();
         Pestaña1_dinamica = new Pestaña1_dinamica(this);
+        PantallaStock = new Pestaña4_dinamica(this);
         proveedoresDAO = ProveedoresDAO.getInstance();
         productoDAO = ProductoDAO.getInstance();
         rubroDAO = RubroDAO.getInstance();        
@@ -134,6 +145,7 @@ public void limpiarCamposInventario() {
     private void initComponents() {
 
         jDialog1 = new javax.swing.JDialog();
+        buttonGroupFiltroStock = new javax.swing.ButtonGroup();
         tabla_productos = new javax.swing.JTabbedPane();
         panel_productos_detalle = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -291,6 +303,18 @@ public void limpiarCamposInventario() {
         jPanel81 = new javax.swing.JPanel();
         txtf_lote_prod_flete = new javax.swing.JTextField();
         jLabel211 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jRadioButtonNegativo = new javax.swing.JRadioButton();
+        jRadioButtonExistente = new javax.swing.JRadioButton();
+        jRadioButtonCompleto = new javax.swing.JRadioButton();
+        jButtonBuscar = new javax.swing.JButton();
+        jButtonImprimirStock = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableTablaStock = new javax.swing.JTable();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -1856,6 +1880,155 @@ public void limpiarCamposInventario() {
 
         tabla_productos.addTab("Pedidos", panel_pedidos);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Listado de productos");
+
+        jLabel2.setText("Filtrar por:");
+
+        buttonGroupFiltroStock.add(jRadioButtonNegativo);
+        jRadioButtonNegativo.setText("Pedido");
+        jRadioButtonNegativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonNegativoActionPerformed(evt);
+            }
+        });
+
+        buttonGroupFiltroStock.add(jRadioButtonExistente);
+        jRadioButtonExistente.setText("Existente");
+        jRadioButtonExistente.setSelected(true);
+
+        buttonGroupFiltroStock.add(jRadioButtonCompleto);
+        jRadioButtonCompleto.setText("Completo");
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        jButtonImprimirStock.setText("Imprimir listado");
+        jButtonImprimirStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImprimirStockActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel2)
+                        .addGap(60, 60, 60)
+                        .addComponent(jRadioButtonExistente)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonNegativo)
+                        .addGap(28, 28, 28)
+                        .addComponent(jRadioButtonCompleto)
+                        .addGap(57, 57, 57)
+                        .addComponent(jButtonBuscar)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButtonImprimirStock)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jRadioButtonNegativo)
+                    .addComponent(jRadioButtonExistente)
+                    .addComponent(jRadioButtonCompleto)
+                    .addComponent(jButtonBuscar)
+                    .addComponent(jButtonImprimirStock))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTableTablaStock.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Codigo", "ARTICULO", "CANTIDAD", "TIPO"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableTablaStock);
+        if (jTableTablaStock.getColumnModel().getColumnCount() > 0) {
+            jTableTablaStock.getColumnModel().getColumn(0).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTableTablaStock.getColumnModel().getColumn(1).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(1).setPreferredWidth(160);
+            jTableTablaStock.getColumnModel().getColumn(2).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTableTablaStock.getColumnModel().getColumn(3).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(3).setPreferredWidth(60);
+        }
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 949, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addGap(249, 249, 249))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 216, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16))
+        );
+
+        tabla_productos.addTab("Stock", jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -2205,6 +2378,30 @@ public void limpiarCamposInventario() {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_crearPagoActionPerformed
 
+    private void jRadioButtonNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonNegativoActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jRadioButtonNegativoActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        // TODO add your handling code here:
+        JRadioButton jrb=getSelection(buttonGroupFiltroStock);
+       
+        PantallaStock.cargarTablaStock(jrb.getText());
+        //System.out.println("el jrb seleccionado es: "+jrb.getText());
+        
+        
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonImprimirStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirStockActionPerformed
+        JasperViewer view =null;
+        view = productoDAO.generarReporteStock1();
+        if(view!= null){
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+        }
+    }//GEN-LAST:event_jButtonImprimirStockActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Models.Proveedor> Producto_Proveedor;
@@ -2225,6 +2422,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JButton btn_producto_editarLote;
     private javax.swing.JButton btn_proveedores_imprimirTodo;
     private javax.swing.JButton btn_proveedores_nuevo1;
+    private javax.swing.ButtonGroup buttonGroupFiltroStock;
     private javax.swing.JCheckBox chk_venta_iva;
     private javax.swing.JComboBox combo_forma_pago;
     private com.toedter.calendar.JDateChooser date_lote_fecha_factura;
@@ -2232,7 +2430,10 @@ public void limpiarCamposInventario() {
     private com.toedter.calendar.JDateChooser fecha_fin;
     private com.toedter.calendar.JDateChooser fecha_inicio;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JButton jButtonImprimirStock;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel115;
     private javax.swing.JLabel jLabel137;
     private javax.swing.JLabel jLabel141;
@@ -2250,6 +2451,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel189;
     private javax.swing.JLabel jLabel190;
     private javax.swing.JLabel jLabel196;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel211;
     private javax.swing.JLabel jLabel212;
     private javax.swing.JLabel jLabel213;
@@ -2282,6 +2484,8 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLbl_devo_nuevaDevo;
     private javax.swing.JLabel jLbl_devo_prodAsociado;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel24;
@@ -2289,6 +2493,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel40;
@@ -2299,6 +2504,10 @@ public void limpiarCamposInventario() {
     private javax.swing.JPanel jPanelDevoluciones;
     private javax.swing.JPanel jPanelDevoluciones2;
     private javax.swing.JPanel jPanelDevoluciones3;
+    private javax.swing.JRadioButton jRadioButtonCompleto;
+    private javax.swing.JRadioButton jRadioButtonExistente;
+    private javax.swing.JRadioButton jRadioButtonNegativo;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
@@ -2316,6 +2525,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JSeparator jSeparator34;
     private javax.swing.JSeparator jSeparator35;
     private javax.swing.JSeparator jSeparator36;
+    private javax.swing.JTable jTableTablaStock;
     private javax.swing.JLabel jlbl_editDevo_disp;
     private javax.swing.JPanel panel_devos;
     private javax.swing.JPanel panel_pedidos;
@@ -2952,4 +3162,48 @@ public class Pestaña3_dinamica {
             }
         }
     }
+public class Pestaña4_dinamica extends Thread
+{
+  private Statics.Funciones funciones;
+  private DAO.ProductoDAO productosDAO;
+  private DefaultTableModel modeloStock;
+  private List<Producto> listaStock;
+  private ProductosView view;
+  public Pestaña4_dinamica(ProductosView view){
+      modeloStock=(DefaultTableModel) jTableTablaStock.getModel();
+      modeloStock.setNumRows(0);
+      listaStock= new ArrayList();
+      productosDAO = ProductoDAO.getInstance();
+      this.view=view;
+              
+  }
+  public void cargarTablaStock(String seleccion) {
+            
+            listaStock.clear();
+            listaStock=productosDAO.getStockFiltrado(seleccion);
+            try {
+                modeloStock.setNumRows(0);
+                Object[] obj = new Object[4];
+                
+                for (int i = 0; i < listaStock.size(); i++) {
+                    obj[0] = listaStock.get(i).getId();
+                    obj[1] = listaStock.get(i).getNombre();
+                    obj[2] = listaStock.get(i).getStock();
+                    //obj[2] = listaStock.get(i).getPrecioVenta();
+                    if(listaStock.get(i).getTipo()==1){
+                        obj[3]="EXISTENTE";
+                                }
+                    else if(listaStock.get(i).getTipo()==2){
+                        obj[3]="PEDIDO";
+                    }
+                    modeloStock.addRow(obj);
+                  
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            listaStock.clear();
+        }
+ }
+
 }

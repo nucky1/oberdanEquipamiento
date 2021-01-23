@@ -27,8 +27,10 @@ public class Producto {
     private int estado;
     private int StockMin;
     private int Stock;
+    private float precioVenta;
     private float precioCosto;
     private float costoFlete;
+    private int tipo;
 
     public int getCod() {
         return cod;
@@ -91,7 +93,7 @@ public class Producto {
     public int isEstado() {
         return estado;
     }
-
+   
     public void setEstado(int estado) {
         this.estado = estado;
     }
@@ -171,6 +173,14 @@ public class Producto {
         this.costoFlete = costoFlete;
     }
 
+    public float getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(float precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+
     
     public String getObservaciones() {
         return observaciones;
@@ -178,6 +188,14 @@ public class Producto {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
    

@@ -19,6 +19,9 @@ import java.util.regex.Pattern;
 import java.math.BigInteger; 
 import java.util.Comparator;
 import java.sql.Timestamp; 
+import java.util.Enumeration;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -98,6 +101,26 @@ public class Funciones {
         }
         else return true;
     }
+    
+    /**
+ * 
+ * @param group
+ * @return  JRadioButton jrb=getSelection(btgrp1);
+ * devuelve el boton seleccionado
+ */
+ public static JRadioButton getSelection(ButtonGroup group)
+{
+        for (Enumeration e=group.getElements(); e.hasMoreElements(); )
+        {
+            JRadioButton b = (JRadioButton)e.nextElement();
+            if (b.getModel() == group.getSelection())
+            {
+                return b;
+            }
+        }
+
+        return null;
+}
     /**
      * 
      * @param cadena

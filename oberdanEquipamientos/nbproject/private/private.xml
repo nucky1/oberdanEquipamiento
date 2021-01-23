@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMSolicitudesView.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/DireccionesDAO.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMUsuariosView.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Models/Cliente.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/ProveedoresDAO.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ProductosView.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/ProductoDAO.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/Auxiliar.java</file>
             <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ABMClientesView.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/ClientesDAO.java</file>
             <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Statics/Funciones.java</file>
-            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/Views/ProveedoresView.java</file>
+            <file>file:/C:/Users/Hernan/Documents/Proyecto%20Claudio/Nuevo%20sistema/oberdanEquipamientos/src/DAO/ClientesDAO.java</file>
         </group>
     </open-files>
 </project-private>

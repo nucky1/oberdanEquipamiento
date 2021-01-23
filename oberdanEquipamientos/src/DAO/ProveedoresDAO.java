@@ -66,10 +66,10 @@ public class ProveedoresDAO {
           + " AND localidad.provincia_id = provincia.id"
           + " AND pais.id = provincia.pais_id";
        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-
        List<Proveedor> list = new ArrayList<>();
        try{
            while(rs.next()){
+               System.out.println("Entre al while con 2 parametros");
                //--CARGAR DATOS AL PROVEEDOR
                 Proveedor p = new Proveedor();
                 p.setId(rs.getInt("id"));
@@ -130,6 +130,7 @@ public class ProveedoresDAO {
         List<Proveedor> list = new ArrayList<>();
            try{
                while(rs.next()){
+                   System.out.println("Entre al while con 1 parametro");
                    //--CARGAR DATOS AL PROVEEDOR
                     Proveedor p = new Proveedor();
                     p.setId(rs.getInt("id"));

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8157729-5fc9-44d4-a28e-5aa26ba28736">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     cliente.`id` AS cliente_id,
+     cliente.`nombre` AS cliente_nombre,
+     cliente.`state` AS cliente_state,
+     cliente.`dni` AS cliente_dni,
+     cliente.`fechaNacimiento` AS cliente_fechaNacimiento,
+     cliente.`esSolicitante` AS cliente_esSolicitante,
+     cliente.`codPostal` AS cliente_codPostal,
+     cliente.`referencia` AS cliente_referencia,
+     cliente.`documentacion` AS cliente_documentacion,
+     cliente.`numero` AS cliente_numero,
+     cliente.`direccion_id` AS cliente_direccion_id,
+     cliente.`created_at` AS cliente_created_at,
+     cliente.`updated_at` AS cliente_updated_at,
+     cliente.`tipo_dni` AS cliente_tipo_dni,
+     cliente.`observaciones` AS cliente_observaciones,
+     cliente.`zona` AS cliente_zona
+FROM
+     `cliente` cliente
+WHERE
+     cliente.state = "ACTIVO"]]>
+	</queryString>
+	<field name="cliente_nombre" class="java.lang.String"/>
+	<field name="cliente_dni" class="java.lang.Integer"/>
+	<field name="cliente_state" class="java.lang.String"/>
+	<group name="cliente_nombre">
+		<groupExpression><![CDATA[$F{cliente_nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="50"/>
+		</groupHeader>
+	</group>
+	<group name="cliente_dni">
+		<groupExpression><![CDATA[$F{cliente_dni}]]></groupExpression>
+	</group>
+	<group name="cliente_state">
+		<groupExpression><![CDATA[$F{cliente_state}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="153" y="20" width="221" height="20" uuid="1341808e-940b-4bce-8a24-94ea5e7652ae"/>
+				<text><![CDATA[HOLA MUNDO DE REPORTES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="12" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="18" y="0" width="135" height="20" uuid="58f1f843-f55a-4b0c-8d84-3e20529f9c6c"/>
+				<text><![CDATA[NOMBRE DEL CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="153" y="0" width="100" height="20" uuid="99532d45-c1d9-4c77-b677-8bb8793f2846"/>
+				<text><![CDATA[DNI CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="0" width="100" height="20" uuid="794faab8-b128-481d-9b2f-a7bdaf4fc972"/>
+				<text><![CDATA[ESTADO CLIENTE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="47" splitType="Stretch">
+			<textField>
+				<reportElement x="18" y="25" width="100" height="20" uuid="cfb1edb7-9e13-4112-86c7-47c1ef2027e8"/>
+				<textFieldExpression><![CDATA[$F{cliente_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="25" width="100" height="20" uuid="35e17cf4-5521-40e4-961c-ae7b8a1d53b5"/>
+				<textFieldExpression><![CDATA[$F{cliente_dni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="298" y="25" width="100" height="20" uuid="442c4039-d8bf-46c5-8801-c91a874398cb"/>
+				<textFieldExpression><![CDATA[$F{cliente_state}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="18" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="11" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="16" splitType="Stretch"/>
+	</summary>
+</jasperReport>

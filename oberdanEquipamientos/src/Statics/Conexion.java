@@ -40,13 +40,14 @@ public class Conexion {
     private ResultSet resultado;
     private Statement s;
     private static Conexion db;
+    private String url = "jdbc:mysql://localhost:3306/bd-oberdan"; // 127.0.0.1 tambien anda en vez de localhost
+    private String password = "";
+    private String user = "root";
     
     private Conexion(){
         resultado = null;
         s = null; 
-        String url = "jdbc:mysql://localhost:3306/bd-oberdan"; // 127.0.0.1 tambien anda en vez de localhost
-        String password = "";
-        String user = "root";
+        
         try{  
             Class.forName("com.mysql.jdbc.Driver");  
             conexion = DriverManager.getConnection(url,user,password); 
@@ -145,5 +146,21 @@ public class Conexion {
             }
         return respuesta;
       }
+    
+    public Connection getConexion()
+    {
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion = (Connection) DriverManager.getConnection(this.url, this.user, this.password);
+            
+        } catch(SQLException e)
+        {
+            System.err.println(e);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      return conexion;  
+    }
            
 }
