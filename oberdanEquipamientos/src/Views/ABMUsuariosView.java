@@ -7,7 +7,15 @@ package Views;
 
 import DAO.DireccionesDAO;
 import DAO.UsuariosDAO;
+import Models.Barrio;
+import Models.Direccion;
+import Models.Localidad;
+import Models.Mapa;
+import Models.Pais;
+import Models.Provincia;
 import Statics.Funciones;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +26,12 @@ import javax.swing.table.DefaultTableModel;
 public class ABMUsuariosView extends javax.swing.JPanel {
     private DireccionesDAO direccionesDAO;
     private UsuariosDAO usuariosDAO;
+    private Pais pais_selected;
+    private Provincia provincia_selected;
+    private Localidad localidad_selected;
+    private Barrio barrio_selected;
+    private Direccion direccion_selected;
+    private Mapa direcciones = null;
     /**
      * Creates new form ABMUsuariosView
      */
@@ -169,16 +183,10 @@ public class ABMUsuariosView extends javax.swing.JPanel {
         });
 
         jComboBox_TipoContacto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Celular", "Correo", "Red Social" }));
-        jComboBox_TipoContacto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_TipoContactoActionPerformed(evt);
-            }
-        });
 
-        jTextField_contacto.setText("contacto");
-        jTextField_contacto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_contactoActionPerformed(evt);
+        jTextField_contacto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_contactoKeyTyped(evt);
             }
         });
 
@@ -221,7 +229,11 @@ public class ABMUsuariosView extends javax.swing.JPanel {
 
         jLabel11.setText("Referencia");
 
-        jCombo_Naciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Argentina", "Bolivia", "Chile", "Uruguay" }));
+        jCombo_Naciones.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCombo_NacionesItemStateChanged(evt);
+            }
+        });
 
         jButton3.setText("Cancelar");
 
@@ -234,15 +246,27 @@ public class ABMUsuariosView extends javax.swing.JPanel {
 
         jLabel5.setText("Provincia");
 
-        jComboBox_Provincias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "San Luis", "Mendoza", "Cordoba" }));
+        jComboBox_Provincias.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_ProvinciasItemStateChanged(evt);
+            }
+        });
 
         jLabel12.setText("Ciudad");
 
-        jComboBox_Ciudades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "San Luis", "La Punta", "Merlo", "Villa Mercedes" }));
+        jComboBox_Ciudades.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_CiudadesItemStateChanged(evt);
+            }
+        });
 
         jLabel13.setText("Barrio");
 
-        jComboBox_Barrios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "UOCRA", "La Merced" }));
+        jComboBox_Barrios.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_BarriosItemStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("Direccion");
 
@@ -290,7 +314,11 @@ public class ABMUsuariosView extends javax.swing.JPanel {
 
         jLabel8.setText("Estado Civil");
 
-        jComboBox_calles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "San Martin", "25 de Mayo" }));
+        jComboBox_calles.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_callesItemStateChanged(evt);
+            }
+        });
 
         jButtonAñadirCalle.setText("+");
         jButtonAñadirCalle.addActionListener(new java.awt.event.ActionListener() {
@@ -609,38 +637,80 @@ public class ABMUsuariosView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btn_añadirElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirElementoActionPerformed
-        String textoInput= jTextF_IngresarNuevoElemento.getText().toLowerCase();
+        String texto = jTextF_IngresarNuevoElemento.getText().toLowerCase();
         switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir una nueva Nacionalidad":{
-                direccionesDAO.añadirNacionalidad(textoInput);
-                jCombo_Naciones.addItem(textoInput);
-                jCombo_Naciones.setSelectedItem(textoInput);
+            case "Añadir una nueva nacionalidad":{
+                Provincia p = direccionesDAO.añadirNacionalidad(texto);
+                Pais pais = new Pais();
+                pais.setId(p.getId_pais());
+                pais.setNombre(texto);
+                //actualizo mapa
+                
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                jCombo_Naciones.addItem(pais);
+                jCombo_Naciones.setSelectedItem(pais);
                 break;
             }
-            case "Añadir una nueva Provincia":{
-                direccionesDAO.añadirProvincia(textoInput);
-                jComboBox_Provincias.addItem(textoInput);
-                jComboBox_Provincias.setSelectedItem(textoInput);
-            }
-            case "Añadir una nueva Ciudad":{
-                direccionesDAO.añadirCiudad(textoInput);
-                jComboBox_Ciudades.addItem(textoInput);
-                jComboBox_Ciudades.setSelectedItem(textoInput);
+            case "Añadir una nueva provincia":{
+                Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
+                Provincia p = new Provincia();
+                p.setId(l.getId_provincia());
+                p.setNombre(texto);
+                p.setId_pais(pais_selected.getId());
+                //actualizo mapa
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                jComboBox_Provincias.addItem(p);
+                jComboBox_Provincias.setSelectedItem(p);
+                jComboBox_Ciudades.removeAllItems();
+                jComboBox_Ciudades.addItem(l);
                 break;
             }
-            case "Añadir un nuevo Barrio":{
-                direccionesDAO.añadirBarrio(textoInput);
-                jComboBox_Barrios.addItem(textoInput);
-                jComboBox_Barrios.setSelectedItem(textoInput);
+            case "Añadir una nueva ciudad":{
+                Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId());
+                Localidad l = new Localidad();
+                l.setId(b.getId_localidad());
+                l.setNombre(texto);
+                l.setId_provincia(provincia_selected.getId());
+                //actualizo mapa
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                jComboBox_Ciudades.addItem(l);
+                jComboBox_Ciudades.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                jComboBox_Barrios.removeAllItems();
+                jComboBox_Barrios.addItem(b);
                 break;
             }
-            case "Añadir una nueva Calle/Manzana":{
-                direccionesDAO.añadirDireccion(textoInput);
-                jComboBox_calles.addItem(textoInput);
-                jComboBox_calles.setSelectedItem(textoInput);
+            case "Añadir un nuevo barrio":{
+                Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
+                Barrio b = new Barrio();
+                b.setId(d.getId_barrio());
+                b.setId_localidad(localidad_selected.getId());
+                b.setNombre(texto);
+                //actualizo mapa
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                jComboBox_Barrios.addItem(b);
+                jComboBox_Barrios.setSelectedItem(b);
+                jComboBox_calles.removeAllItems();
+                jComboBox_calles.addItem(d);
+                break;
+            }
+            case "Añadir una nueva direccion":{
+                int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
+                Direccion d = new Direccion();
+                d.setId(id);
+                d.setId_barrio(barrio_selected.getId());
+                d.setNombre(texto);
+                direcciones.getBarrio_direccion().get(barrio_selected.getId());
+                //actualizo cbox
+                jComboBox_calles.addItem(d);
+                jComboBox_calles.setSelectedItem(d);
                 break;
             }
         }
+        jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_btn_añadirElementoActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -673,14 +743,38 @@ public class ABMUsuariosView extends javax.swing.JPanel {
 
     private void jButtonAñadirContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirContactoActionPerformed
         // TODO add your handling code here:
-        if(Funciones.controlText(jTextField_contacto.getText())){
+        String text = jTextField_contacto.getText();
+        boolean check = false;
+        String aviso = "Debe llenar el campo de contacto para agregarlo.";
+        if(String.valueOf(jComboBox_TipoContacto.getSelectedItem()).equals("Celular")){
+            if(Statics.Funciones.onlyNumbers(text, false)){
+                check = true;
+            }else{
+                aviso = "Debe colocar un numero de telefono válido.";
+            }
+        }else{
+            if(String.valueOf(jComboBox_TipoContacto.getSelectedItem()).equals("Correo")){
+                if(Statics.Funciones.isEmail(text, false)){
+                    check = true;
+                }else{
+                    aviso = "El email no tiene un formato válido.";
+                }
+            }else{
+                if(String.valueOf(jComboBox_TipoContacto.getSelectedItem()).equals("Red Social")){   
+                    if(Statics.Funciones.controlText(text)){
+                        check = true;
+                    }
+                }
+            }
+        }
+        if(check){
             DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
             Object[] nuevo = new Object[2];
             nuevo[0] = String.valueOf(jComboBox_TipoContacto.getSelectedItem());
             nuevo[1] = jTextField_contacto.getText();
             model.addRow(nuevo);
         }else{
-            JOptionPane.showMessageDialog(null, "Debe llenar el campo de contacto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, aviso, "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
     }//GEN-LAST:event_jButtonAñadirContactoActionPerformed
@@ -798,10 +892,6 @@ public class ABMUsuariosView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox_TipoContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_TipoContactoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_TipoContactoActionPerformed
-
     private void jTextField_ReferenciaCallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_ReferenciaCallesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_ReferenciaCallesActionPerformed
@@ -816,11 +906,89 @@ public class ABMUsuariosView extends javax.swing.JPanel {
         jButton_eliminarContacto.setEnabled(true);
     }//GEN-LAST:event_jTable_tipoYcontactoKeyPressed
 
-    private void jTextField_contactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_contactoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_contactoActionPerformed
+    private void jCombo_NacionesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCombo_NacionesItemStateChanged
+       if(jCombo_Naciones.getItemCount() == 0)
+            return;
+        Pais p = (Pais) jCombo_Naciones.getSelectedItem();
+        pais_selected = p;
+        jComboBox_Provincias.removeAllItems();
+        try{
+            direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+                jComboBox_Provincias.addItem(t);
+            });
+            jComboBox_Provincias.setSelectedIndex(0);
+            jComboBox_Provincias.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jCombo_NacionesItemStateChanged
 
+    private void jComboBox_ProvinciasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_ProvinciasItemStateChanged
+        if(jComboBox_Provincias.getItemCount() == 0)
+            return;
+        Provincia p = (Provincia) jComboBox_Provincias.getSelectedItem();
+        provincia_selected = p;
+        p.getId();
+        jComboBox_Ciudades.removeAllItems();
+        try{
+            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+                jComboBox_Ciudades.addItem(t);
+            });
+            jComboBox_Ciudades.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_ProvinciasItemStateChanged
 
+    private void jComboBox_CiudadesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesItemStateChanged
+        if(jComboBox_Ciudades.getItemCount() == 0)
+            return;
+        Localidad l = (Localidad) jComboBox_Ciudades.getSelectedItem();
+        localidad_selected = l;
+        jComboBox_Barrios.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                jComboBox_Barrios.addItem(t);
+            });
+            jComboBox_Barrios.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_CiudadesItemStateChanged
+
+    private void jComboBox_BarriosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BarriosItemStateChanged
+        if(jComboBox_Barrios.getItemCount() == 0)
+            return;
+        Barrio b = (Barrio) jComboBox_Barrios.getSelectedItem();
+        barrio_selected = b;
+        jComboBox_calles.removeAllItems();
+        try{
+            direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
+                jComboBox_calles.addItem(t);
+            });
+            jComboBox_calles.setSelectedIndex(0);
+            jComboBox_calles.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
+
+    private void jComboBox_callesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_callesItemStateChanged
+        if(jComboBox_calles.getItemCount() == 0)
+            return;
+        direccion_selected = (Direccion) jComboBox_calles.getSelectedItem();
+    }//GEN-LAST:event_jComboBox_callesItemStateChanged
+
+    private void jTextField_contactoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_contactoKeyTyped
+        if(jComboBox_TipoContacto.getSelectedItem().equals("Celular")){
+            char c = evt.getKeyChar();
+            if(c<'0' || c > '9'){
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_jTextField_contactoKeyTyped
+
+            
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirElemento;
     private javax.swing.JButton jButton1;
@@ -838,17 +1006,17 @@ public class ABMUsuariosView extends javax.swing.JPanel {
     private javax.swing.JButton jButtonAñadirProvincia;
     private javax.swing.JButton jButton_eliminarContacto;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox_Barrios;
-    private javax.swing.JComboBox<String> jComboBox_Ciudades;
-    private javax.swing.JComboBox<String> jComboBox_Provincias;
+    private javax.swing.JComboBox<Models.Barrio> jComboBox_Barrios;
+    private javax.swing.JComboBox<Models.Localidad> jComboBox_Ciudades;
+    private javax.swing.JComboBox<Models.Provincia> jComboBox_Provincias;
     private javax.swing.JComboBox<String> jComboBox_TipoContacto;
     private javax.swing.JComboBox<String> jComboBox_aporteOS;
-    private javax.swing.JComboBox<String> jComboBox_calles;
+    private javax.swing.JComboBox<Models.Direccion> jComboBox_calles;
     private javax.swing.JComboBox<String> jComboBox_categoria;
     private javax.swing.JComboBox<String> jComboBox_convenio;
     private javax.swing.JComboBox<String> jComboBox_estadoCivil;
     private javax.swing.JComboBox<String> jComboBox_tipoDni;
-    private javax.swing.JComboBox<String> jCombo_Naciones;
+    private javax.swing.JComboBox<Models.Pais> jCombo_Naciones;
     private javax.swing.JDialog jDialogAñadirElemento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

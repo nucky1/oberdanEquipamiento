@@ -13,7 +13,7 @@ import javax.swing.JFrame;
  * @author demig
  */
 public class Main {
-    
+    public static char nivel;
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         principal vista1 = new principal();
         vista1.setVisible(true);

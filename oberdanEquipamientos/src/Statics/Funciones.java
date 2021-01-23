@@ -28,8 +28,96 @@ import javax.swing.JRadioButton;
  * @author Note250
  */
 public class Funciones {
-    
-    static SimpleDateFormat plantilla = new SimpleDateFormat("yyyy-MM-dd");
+    private static Pattern pattern;
+    public static boolean onlyNumbers(String string, boolean allowEmpty) 
+    {
+        boolean ret;
+
+        if(allowEmpty)
+            pattern = Pattern.compile("[\\d]*");
+        else
+            pattern = Pattern.compile("[\\d]+");
+
+        if (pattern.matcher(string).matches())
+            ret = true;
+        else
+            ret = false;
+
+        return ret;
+    }
+
+    public static boolean onlyNumbers(String string, int digitLimit, boolean allowEmpty)
+    {
+        boolean ret;
+
+        if(allowEmpty)
+            pattern = Pattern.compile("[\\d]{0,"+digitLimit+"}");
+        else
+            pattern = Pattern.compile("[\\d]{1,"+digitLimit+"}");
+
+        if (pattern.matcher(string).matches())
+        {
+            System.out.println("true");
+            ret = true;
+        }
+        else
+        {
+            System.out.println("false");
+            ret = false;
+        }
+
+        return ret;
+    }
+    public static boolean onlyChars(String string, boolean allowEmpty)
+    {
+        boolean ret;
+
+        if(allowEmpty)
+            pattern = Pattern.compile("[a-zA-Z]*");
+        else
+            pattern = Pattern.compile("[a-zA-Z]+");
+
+        if (pattern.matcher(string).matches())
+            ret = true;
+        else
+            ret = false;
+
+        return ret;
+    }
+
+    public static boolean onlyCharsWithWhiteSpace(String string, boolean allowEmpty)
+    {
+        boolean ret;
+
+        if(allowEmpty)
+            pattern = Pattern.compile("[a-zA-Z]*[\\s[a-zA-Z]]*");
+        else
+            pattern = Pattern.compile("[a-zA-Z]+[\\s[a-zA-Z]]*");
+
+        if (pattern.matcher(string).matches())
+            ret = true;
+        else
+            ret = false;
+
+        return ret;
+    }
+
+    public static boolean isEmail(String string, boolean allowEmpty) 
+    {
+        boolean ret;
+
+        if(allowEmpty)
+            pattern = Pattern.compile("(^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$|^$)?");
+        else
+            pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$|^$");
+
+        if (pattern.matcher(string).matches())
+            ret = true;
+        else
+            ret = false;
+
+        return ret;
+    }
     public static boolean compareStrings(String s1, String s2){
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
@@ -48,6 +136,8 @@ public class Funciones {
             return true;
         }
     }
+    
+    static SimpleDateFormat plantilla = new SimpleDateFormat("yyyy-MM-dd");
     public static String dateFormat(Date date){
         Locale locale = new Locale("us", "US");
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
