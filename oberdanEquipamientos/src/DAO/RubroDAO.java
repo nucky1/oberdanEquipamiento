@@ -38,13 +38,35 @@ public class RubroDAO {
             while(rs.next()){
                 Rubro p = new Rubro();
                 p.setId(rs.getInt("id"));
-                p.setNombre(rs.getString("proveedores_nombre"));
+                p.setNombre(rs.getString("nombre"));
                 rubros.add(p);
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "Error al recorrer resultset todos los rubros", false);
         }
         return rubros;
+    }
+
+    public int InsertRubro(String texto) {
+        String SQL = "INSERT INTO art_rubro SET nombre = '"+texto+"'";
+        return conexion.EjecutarOperacion(SQL);
+    }
+    public Rubro getLastInsert(){
+        String SQL = "SELECT * FROM `art_rubro` "
+                + "WHERE `created_at` = "
+                + "(SELECT MAX(`created_at`) FROM `art_rubro` WHERE state = 'ACTIVO')";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        Rubro p = null;
+        try{
+            while(rs.next()){
+                p = new Rubro();
+                p.setId(rs.getInt("id"));
+                p.setNombre(rs.getString("nombre"));
+            }
+        }catch(Exception ex){
+            new Statics.ExceptionManager().saveDump(ex, "Error al recorrer resultset ultimo rubro", false);
+        }
+        return p;
     }
 
 }

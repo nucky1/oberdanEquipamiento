@@ -11,7 +11,16 @@ package Models;
  */
 public class Rubro {
     private String nombre;
+    private int id;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -19,9 +28,8 @@ public class Rubro {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public void setId(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String toString(){
+        return this.nombre;
     }
     
 }

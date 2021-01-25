@@ -69,7 +69,6 @@ public abstract class JD_Proveedor_Buscador extends javax.swing.JDialog{
         jPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
         btn_cliente_seleccionar.setBackground(new java.awt.Color(255, 255, 255));
-        btn_cliente_seleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar_1.png"))); // NOI18N
         btn_cliente_seleccionar.setText("Seleccionar");
         btn_cliente_seleccionar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

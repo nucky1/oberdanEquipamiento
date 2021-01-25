@@ -40,12 +40,6 @@ public class ProductoDAO {
         List<Producto> list =  new ArrayList<>();
         try{
             Producto p = new Producto();
-            if(rs.next()){
-                if(rs.getInt("id") == 0){
-                    return list;
-                }
-                rs.last();
-            }
             while(rs.next()){   
                 p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("nombre"));
@@ -90,23 +84,23 @@ public class ProductoDAO {
         return conexion.EjecutarOperacion(SQL);
     }
     public List<Producto> buscarProducto(String atributo, String valor) {
-        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0),proveedores.proveedor as precioCosto"
-               + " FROM proveedores, articulos, art_rubro, art_stock"
-               + " WHERE LOWER(articulos." + atributo+") like '%"+valor+"%'"
-               + " AND articulos.rubro_id = art_rubro.id"
-               + " AND articulos.id = art_stock.producto_id"
-               + " AND articulos.proveedor_id = proveedores.id"
-               + " AND articulos.state = 'ACTIVO'";
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0) as precioCosto,proveedores.proveedor"
+                + " FROM articulos "
+                + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
+                + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
+                + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
+                + "WHERE LOWER(articulos." + atributo+") like '%"+valor+"%' "
+                + "AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
     public List<Producto> buscarProducto(int id){
         String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0) as precioCosto,proveedores.proveedor"
                + " FROM proveedores, articulos, art_rubro, art_stock"
+               + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
+               + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
+               + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
                + " WHERE articulos.cod LIKE '"+id+"%'"
-               + " AND articulos.rubro_id = art_rubro.id"
-               + " AND articulos.id = art_stock.producto_id"
-               + " AND articulos.proveedor_id = proveedores.id"
                + " AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
@@ -114,7 +108,7 @@ public class ProductoDAO {
     
     public int productoEliminado(int cod){
         String SQL = "SELECT articulos.id,COUNT(*)"
-               + " FROM articulo"
+               + " FROM articulos"
                + " WHERE articulos.cod = "+cod;
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
@@ -164,9 +158,9 @@ public class ProductoDAO {
         return conexion.EjecutarOperacion(SQL);
     }
     public int nuevoProducto(Producto p) {
-        String SQL = "INSERT INTO `articulos` SET `nombre`='"+p.getNombre()+"',`cod`='"+p.getCod()+","
-                + ",`proveedor_id`="+p.getIdProveedorActual()+",`observaciones`='"+p.getObservaciones()+"',"
-                + "`stock_minimo`="+p.getStockMin()+",`state`='ACTIVO'";
+        String SQL = "INSERT INTO `articulos` SET `nombre`='"+p.getNombre()+"',`cod`="+p.getCod()+","
+                + "`proveedor_id`="+p.getIdProveedorActual()+",`observaciones`='"+p.getObservaciones()+"',"
+                + "`stock_minimo`="+p.getStockMin()+",`state`='ACTIVO';";
         return conexion.EjecutarOperacion(SQL);
     }
 
@@ -176,22 +170,25 @@ public class ProductoDAO {
         switch (seleccion){
         case "Existente" :
         {  
-            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,"
+            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente AS stock,"
                 + "articulos.precio_venta, articulos.tipo FROM articulos "
-                + "WHERE articulos.stock_existente >= 1 AND articulos.tipo = 1 AND articulos.state= 'ACTIVO'";
+                + "WHERE articulos.stock_existente >= 1 AND articulos.state= 'ACTIVO'";
             break;
         }
         case "Completo" :
         {   
-            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,"
-                + "articulos.precio_venta, articulos.tipo FROM articulos "
-                + "WHERE articulos.state ='ACTIVO'";  
-            break;}
+            SQL = "SELECT articulos.cod, articulos.nombre,articulos.precio_venta, articulos.tipo, stock.stock_completo AS stock "
+                    + "FROM articulos "
+                    + "LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado)AS stock_completo, producto_id FROM art_stock) AS stock "
+                    + "ON producto_id = articulos.id";
+            break;
+        }
         case "Pedido":{
             
-            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,"
+            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,stock_pedido AS stock"
                 + "articulos.precio_venta, articulos.tipo FROM articulos "
-                + "WHERE articulos.stock_existente >= 1 AND articulos.tipo = 2";
+                + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id"
+                + "WHERE articulos.state= 'ACTIVO'";
             break;
         }
     }
@@ -215,7 +212,7 @@ public class ProductoDAO {
                 Producto p = new Producto();
                 p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("nombre"));
-                p.setStock(rs.getInt("stock_existente"));
+                p.setStock(rs.getInt("stock"));
                 p.setPrecioVenta(rs.getFloat("precio_venta"));
                 p.setTipo(rs.getInt("tipo"));
                 list.add(p);
@@ -247,5 +244,10 @@ public class ProductoDAO {
             Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return view;
+    }
+
+    public void setStockActual(int idStock, float stock) {
+        String SQL = "INSERT INTO art_Stock SET stock_actual = "+stock;
+        conexion.EjecutarOperacion(SQL);
     }
 }
