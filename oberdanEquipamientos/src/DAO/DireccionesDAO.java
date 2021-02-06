@@ -2,6 +2,7 @@ package DAO;
 
 import Models.Barrio;
 import Models.Direccion;
+
 import Models.Localidad;
 import Models.Mapa;
 import Models.Pais;
@@ -27,6 +28,7 @@ import java.util.logging.Logger;
  * @author demig
  */ 
 public class DireccionesDAO {
+    
     private static DireccionesDAO controller = null;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
     protected DireccionesDAO() {
@@ -292,7 +294,7 @@ public class DireccionesDAO {
     }
 
     public Direccion añadirBarrio(String toLowerCase, int idLocalidad) {
-        String SQL = "INSERT INTO barrio(nombre,localidad_id,zona) VALUES ('"+toLowerCase+"',"+idLocalidad+",0)";
+        String SQL = "INSERT INTO barrio(nombre,localidad_id) VALUES ('"+toLowerCase+"',"+idLocalidad+",0)";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
