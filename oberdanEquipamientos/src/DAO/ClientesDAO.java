@@ -87,6 +87,10 @@ public class ClientesDAO {
                     Cliente p = new Cliente();
                     p.setId(rs.getInt("id"));
                     p.setNombre(rs.getString("nombre"));
+                    p.setDni(rs.getInt("dni"));
+                    p.setTipoDni(rs.getString("tipo_dni"));
+                    p.setEstadoCivil(rs.getString("estadoCivil"));
+                    p.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                     //direccion
                     p.setNacionalidad(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
@@ -94,10 +98,16 @@ public class ClientesDAO {
                     p.setBarrio(rs.getString("barrio.nombre"));
                     p.setDireccion_id(rs.getInt("direccion.id"));
                     p.setDireccion(rs.getString("direccion.nombre"));
+                    
+                    
                     p.setNumero(rs.getString("numero"));
                     p.setCodPostal(rs.getString("codPostal"));
                     p.setReferencia(rs.getString("referencia"));
+                    
+                    //datos extras
+                    p.setDocumentacion(rs.getString("documentacion"));
                     p.setEsSolicitante(rs.getBoolean("esSolicitante"));
+                    p.setObservaciones(rs.getString("observaciones"));
                     //contactos
                     SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
@@ -142,7 +152,11 @@ public class ClientesDAO {
                    //--CARGAR DATOS AL Cliente
                     Cliente p = new Cliente();
                     p.setId(rs.getInt("id"));
-                    p.setNombre(rs.getString("cliente"));
+                    p.setNombre(rs.getString("nombre"));
+                    p.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+                    p.setDni(rs.getInt("dni"));
+                    p.setTipoDni(rs.getString("tipo_dni"));
+                    p.setEstadoCivil(rs.getString("estadoCivil"));
                     //direccion
                     p.setNacionalidad(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
@@ -154,7 +168,9 @@ public class ClientesDAO {
                     p.setCodPostal(rs.getString("codPostal"));
                     p.setReferencia(rs.getString("referencia"));
                     //datos extras
+                    p.setDocumentacion(rs.getString("documentacion"));
                     p.setEsSolicitante(rs.getBoolean("esSolicitante"));
+                    p.setObservaciones(rs.getString("observaciones"));
                     //contactos
                     SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
@@ -183,6 +199,7 @@ public class ClientesDAO {
     }
     public Cliente recuperarConyugue(int idCliente){
         Cliente c = new Cliente();
+        c=null;
         String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
                 + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
                 + "FROM relacion,cliente WHERE (cliente1_id="+idCliente
@@ -190,6 +207,8 @@ public class ClientesDAO {
                 + " AND cliente.id!="+idCliente+
                 " AND relacion.state=ACTIVA";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        System.out.println("La consulta en recuperar Conyugue fue: ");
+        System.out.println(""+SQL);
         try{
             if(rs.next()){
 
@@ -215,11 +234,16 @@ public class ClientesDAO {
                 + ",numero = "+c.getNumero()+"'"
                 + ",codPostal = '"+c.getCodPostal()+"'"
                 + ",referencia = '"+c.getReferencia()+"'"
-                + ",esSolicitante = '"+c.isEsSolicitante()+"'"
-                + ",fechaNacimiento = '"+c.getFechaNacimiento()+"'"
-                + ",observaciones = '"+c.getObservaciones()+",'"
+                + ",esSolicitante = "+c.isEsSolicitante()+""
+                + ",fechaNacimiento = '"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"'"
+                + ",observaciones = '"+c.getObservaciones()+"',"
+                + ",documentacion = '"+c.getDocumentacion()+"'"
+                + ",estadoCivil  = '"+ c.getEstadoCivil()+"'"
+                +", tipo_dni = '"+c.getTipoDni()+"'"
                 +"' WHERE id = "+c.getId();
-        res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        res = conexion.EjecutarOperacion(SQL); //inserto el cliente el cual ahora sera el cliente con id mas alto
+        System.out.println("En Actualizar cliente, SQL tiene: ");
+        System.out.println(""+SQL);
         if(res == 0){
             exito = false;
         }else{
@@ -251,11 +275,11 @@ public class ClientesDAO {
      conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-        String SQL = "INSERT INTO cliente (nombre,dni,fechaNacimiento,esSolicitante,codPostal,referencia,documentacion,numero,direccion_id,observaciones) "
-                + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"','"+
+        String SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,fechaNacimiento,esSolicitante,codPostal,referencia,documentacion,numero,direccion_id,observaciones) "
+                + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"+c.getTipoDni()+"','"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"','"+
                 c.getNumero()+"',"+c.getDireccion_id()+",'"+
                 c.getObservaciones()+"')";
-        res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
+        res = conexion.EjecutarOperacion(SQL); //inserto el cliente el cual ahora sera el cliente con id mas alto
         System.out.println("SQL = " + SQL);
         if(res == 0){
             exito = false;
@@ -291,8 +315,19 @@ public class ClientesDAO {
         return exito;   
     }
 
-    public int eliminarCliente(Cliente clienteSeleccionado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int eliminarCliente(Cliente c) {
+        String SQL1 = "DELETE FROM contactos"
+                + "WHERE id_persona =" +c.getId()+" AND tipo='CLIENTE'";
+        int res1 = conexion.EjecutarOperacion(SQL1);
+        
+        String SQL = "DELETE FROM cliente "
+                + "WHERE id = " + c.getId();
+        int res = conexion.EjecutarOperacion(SQL);
+        if (res >0 && res1 >0) {
+          return res;  
+        }
+        
+        return res;
     }
     public JasperViewer generarReporteV1() throws FileNotFoundException{
         JasperReport reporte = null;

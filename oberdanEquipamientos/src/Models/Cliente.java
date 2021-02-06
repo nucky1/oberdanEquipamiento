@@ -33,6 +33,7 @@ public class Cliente {
     private String codPostal;
     private int direccion_id;
     private ArrayList<Contacto> contacto;
+    
 
     public Cliente() {
     }
@@ -108,6 +109,8 @@ public String getNombre() {
     public void setDireccion_id(int direccion_id) {
         this.direccion_id = direccion_id;
     }
+
+   
 
     public String getCodPostal() {
         return codPostal;
