@@ -20,10 +20,10 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
     private ProductoDAO productoDAO;
     private int idStock;
     private Map<Integer, Float> cantidades = new HashMap<Integer, Float>();
-    private Float stockAgregado; 
+    private Float stockExistente; 
     
     public Float getStockAgregado(){
-        return stockAgregado;
+        return stockExistente;
     }
     public JTextField getNuevo_stock() {
         return nuevo_stock;
@@ -70,7 +70,8 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         tabla_stock.setSize(0, 0);
         tabla_stock.setVisible(false);     
         lbl_nombre_producto.setText(prod.getNombre());
-        stock_actual.setText(""+prod.getStock());
+        stockTotal.setText(""+prod.getStock());
+        stockExistente = (float) prod.getStock();
         codigo.setText("# "+prod.getId());
     }
     
@@ -314,7 +315,6 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
     }// </editor-fold>//GEN-END:initComponents
     
     private void tabla_stockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_stockMouseClicked
-            stockAgregado = 0f;
             nameProdCombo.setVisible(true);
             aplicar.setEnabled(true);
             nuevo_stock.setEnabled(true);
@@ -330,9 +330,11 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
             if (stock<0)
                 stock = Float.parseFloat("error numero negativo");
             stock += Float.parseFloat(stock_actual.getText());
-            //productoDAO.setStock(idStock,stock);
+            productoDAO.setStockActual(idStock,stock);
             stock_actual.setText("0");
             nuevo_stock.setText("");
+            stockTotal.setText((stockExistente+stock_actual.getText()));
+            tabla_stock.setValueAt(stock,tabla_stock.getSelectedRow(), 1);
         }catch(Exception ex){
             nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255,0,0),1));
             //ex.printStackTrace();
@@ -348,9 +350,8 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         try{
             stock = Float.parseFloat(nuevo_stock.getText());
             if (stock<0)
-            stock = Float.parseFloat("error numero negativo");
+                stock = Float.parseFloat("error numero negativo");
             stock += Float.parseFloat(stock_actual.getText());
-            //productoDAO.setStock(idStock,stock);
             dispose();
         }catch(Exception ex){
             nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255,0,0),1));

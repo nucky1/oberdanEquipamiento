@@ -179,6 +179,15 @@ public class Funciones {
 		return false;
 	}
     }
+    public static boolean isFloat(String cadena){
+        try {
+		Float.parseFloat(cadena);
+               
+		return true;
+	} catch (NumberFormatException nfe){
+		return false;
+	}
+    }
     /**
      * 
      * @param cadena

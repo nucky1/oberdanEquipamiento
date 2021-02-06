@@ -227,12 +227,13 @@ public class ProveedoresDAO {
         int res = 1;
         boolean exito = true;
         String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto,observaciones) "
-                + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+","+p.getNro()+",'"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
+                + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+",'"+p.getNro()+"','"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
         p.getIva()+"',"+
         p.getCuit()+","+
         p.getSaldo()+",'"+
         p.getIngresoBruto()+"','"
                 + p.getObservaciones()+"')";
+        System.out.println(SQL);
         res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
         if(res == 0){
             exito = false;
@@ -276,7 +277,7 @@ public class ProveedoresDAO {
         try{
             while(rs.next()){
                 p.setId(id);
-                p.setNombre(rs.getString("proveedores_nombre"));
+                p.setNombre(rs.getString("proveedor"));
             }
         }catch(Exception ex){
             ex.printStackTrace();
@@ -293,7 +294,7 @@ public class ProveedoresDAO {
         try{
             while(rs.next()){
                 p.setId(rs.getInt("id"));
-                p.setNombre(rs.getString("proveedores_nombre"));
+                p.setNombre(rs.getString("proveedor"));
             }
         }catch(Exception ex){
             ex.printStackTrace();

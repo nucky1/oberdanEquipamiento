@@ -14,6 +14,7 @@ public class Producto {
     private String observaciones;
     private String nombre;
     private String codigoBarra;
+    private String codigoEAN;
     private String nombreRubro;
     private int Id;
     private int cod;
@@ -31,6 +32,14 @@ public class Producto {
     private float precioCosto;
     private float costoFlete;
     private int tipo;
+
+    public String getCodigoEAN() {
+        return codigoEAN;
+    }
+
+    public void setCodigoEAN(String codigoEAN) {
+        this.codigoEAN = codigoEAN;
+    }
 
     public int getCod() {
         return cod;
