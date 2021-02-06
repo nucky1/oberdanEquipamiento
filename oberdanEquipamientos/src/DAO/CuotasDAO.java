@@ -6,6 +6,7 @@
 package DAO;
 
 import Models.Cuota;
+import Views.Main;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +49,28 @@ public class CuotasDAO {
                 cuotas.add(p);
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return cuotas;
+    }
+
+    public void insertCuota(Cuota c) {
+        String SQL = "INSERT INTO cuota SET tipo = "+c.getTipo()+", cantidad = "+c.getCantidad()+", porcentaje_extra ="+c.getPorcentajeExtra();
+        conexion.EjecutarOperacion(SQL);
+    }
+
+    public void setCuotasProd(List<Cuota> cuotasProd, int idProd) {
+        String SQL = "INSERT INTO articulo_cuota (cuota_id,articulos_id) VALUES";
+        for (int i = 0; i < cuotasProd.size(); i++) {
+            if(cuotasProd.get(i).getActiva())
+                SQL += " ("+cuotasProd.get(i).getId()+","+idProd+"),";
+        }       
+        //Aca verificamos que entro al menos una vez al if del loop y por lo tanto hay algo que insertar. Además borramos la ultima coma.
+        if(SQL.charAt(SQL.length()-1)== ','){
+            SQL = SQL.substring(0,SQL.length()-2);
+            SQL += " ON DUPLICATE KEY UPDATE cuota_id = values(cuota_id),articulos_id = values(articulos_id)";
+            conexion.EjecutarOperacion(SQL);
+        }
     }
     
 }

@@ -6,7 +6,9 @@
 package DAO;
 
 import Models.Contacto;
+import Models.Pedido;
 import Models.Proveedor;
+import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class ProveedoresDAO {
                 list.add(p);
            }
         }catch(Exception ex){
-           ex.printStackTrace();
+           new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
        }
         return list;
     }
@@ -103,14 +105,14 @@ public class ProveedoresDAO {
                         contactos.add(c);
                     }
                 }catch(Exception ex){
-                    //no hago nada para que no se trabe
+                    new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                 }
                 p.setContacto((ArrayList<Contacto>) contactos);
                 //--FIN CARGA
                list.add(p);
             }
        }catch(Exception ex){
-           ex.printStackTrace();
+           new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
        }
 
        return list;
@@ -164,7 +166,7 @@ public class ProveedoresDAO {
                             contactos.add(c);
                         }
                     }catch(Exception ex){
-                        ex.printStackTrace();
+                        new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                         //no hago nada para que no se trabe
                     }
                     p.setContacto((ArrayList<Contacto>) contactos);
@@ -172,7 +174,7 @@ public class ProveedoresDAO {
                    list.add(p);
                 }
            }catch(Exception ex){
-               ex.printStackTrace();
+               new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
            }
            
            return list;
@@ -280,7 +282,7 @@ public class ProveedoresDAO {
                 p.setNombre(rs.getString("proveedor"));
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return p;
     }
@@ -297,7 +299,7 @@ public class ProveedoresDAO {
                 p.setNombre(rs.getString("proveedor"));
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return p;
     }
@@ -312,5 +314,9 @@ public class ProveedoresDAO {
         SQL = "DELETE FROM contactos"
                 + "WHERE id_persona = "+p.getId()+" AND tipo = 'PROVEEDOR'";
         return res;
+    }
+
+    public ArrayList<Pedido> getPedidos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

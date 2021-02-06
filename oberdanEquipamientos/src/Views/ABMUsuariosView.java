@@ -919,7 +919,7 @@ public class ABMUsuariosView extends javax.swing.JPanel {
             jComboBox_Provincias.setSelectedIndex(0);
             jComboBox_Provincias.setEnabled(true);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jCombo_NacionesItemStateChanged
 

@@ -6,13 +6,12 @@
 package DAO;
 
 import Models.Producto;
+import Views.Main;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -60,7 +59,7 @@ public class ProductoDAO {
                 list.add(p);
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return list;
     }
@@ -140,7 +139,7 @@ public class ProductoDAO {
                 totalVentas= rs.getInt("totalVentas");
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return totalVentas;
     }
@@ -177,10 +176,7 @@ public class ProductoDAO {
         }
         case "Completo" :
         {   
-            SQL = "SELECT articulos.cod, articulos.nombre,articulos.precio_venta, articulos.tipo, stock.stock_completo AS stock "
-                    + "FROM articulos "
-                    + "LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado)AS stock_completo, producto_id FROM art_stock) AS stock "
-                    + "ON producto_id = articulos.id";
+            SQL = "SELECT articulos.id,articulos.cod, articulos.nombre,articulos.precio_venta, articulos.tipo, stock.stock_completo AS stock FROM articulos LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado)AS stock_completo, producto_id FROM art_stock) AS stock ON producto_id = articulos.id";
             break;
         }
         case "Pedido":{
@@ -220,7 +216,7 @@ public class ProductoDAO {
                 
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
 
         
@@ -241,7 +237,7 @@ public class ProductoDAO {
             jprint = JasperFillManager.fillReport(reporte, null, con);
             view = new JasperViewer (jprint,false);
         } catch (JRException ex) {
-            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return view;
     }

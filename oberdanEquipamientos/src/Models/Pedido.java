@@ -5,6 +5,7 @@
  */
 package Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -18,19 +19,46 @@ import java.util.Date;
                 p.setFechaPago(fechaPago);
  */
 public class Pedido {
-    private String numFactura;
+    private String numPedido;
     private int idProv;
     private float flete;
-    private Date fechaPago;
+    private float total;
     private Date fecha;
-    private String formaPago;
+    private String estado;
+    private ArrayList<renglonPedido> renglones;
 
-    public String getNumFactura() {
-        return numFactura;
+    public float getTotal() {
+        return total;
     }
 
-    public void setNumFactura(String numFactura) {
-        this.numFactura = numFactura;
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public ArrayList<renglonPedido> getRenglones() {
+        return renglones;
+    }
+
+    public void setRenglones(ArrayList<renglonPedido> renglones) {
+        this.renglones = renglones;
+    }
+    
+    
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
+    public String getNumPedido() {
+        return numPedido;
+    }
+
+    public void setNumPedido(String numPedido) {
+        this.numPedido = numPedido;
     }
     
     public int getIdProv() {
@@ -49,14 +77,6 @@ public class Pedido {
         this.flete = flete;
     }
 
-    public Date getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(Date fechaPago) {
-        this.fechaPago = fechaPago;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -64,14 +84,5 @@ public class Pedido {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-
-    public String getFormaPago() {
-        return formaPago;
-    }
-
-    public void setFormaPago(String formaPago) {
-        this.formaPago = formaPago;
-    }
-    
     
 }

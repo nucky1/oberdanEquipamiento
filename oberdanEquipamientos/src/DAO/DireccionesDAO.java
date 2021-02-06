@@ -9,7 +9,6 @@ import Models.Provincia;
 import Statics.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
@@ -292,7 +291,7 @@ public class DireccionesDAO {
     }
 
     public Direccion añadirBarrio(String toLowerCase, int idLocalidad) {
-        String SQL = "INSERT INTO barrio(nombre,localidad_id,zona) VALUES ('"+toLowerCase+"',"+idLocalidad+",0)";
+        String SQL = "INSERT INTO barrio(nombre,localidad_id) VALUES ('"+toLowerCase+"',"+idLocalidad+")";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
