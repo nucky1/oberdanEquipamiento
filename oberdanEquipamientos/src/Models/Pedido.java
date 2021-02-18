@@ -21,12 +21,22 @@ import java.util.Date;
 public class Pedido {
     private String numPedido;
     private int idProv;
+    private int id;
     private float flete;
     private float total;
     private Date fecha;
     private String estado;
     private ArrayList<renglonPedido> renglones;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     public float getTotal() {
         return total;
     }
@@ -36,6 +46,9 @@ public class Pedido {
     }
 
     public ArrayList<renglonPedido> getRenglones() {
+        if(this.renglones == null){
+            this.renglones = new ArrayList<>();
+        }
         return renglones;
     }
 
@@ -84,5 +97,18 @@ public class Pedido {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+    public void addRenglon(renglonPedido rp) {
+        if(this.renglones == null){
+            this.renglones = new ArrayList<>();
+        }
+        this.renglones.add(rp);
+    }
+
+    @Override
+    public String toString() {
+        return estado+renglones.size();
+    }
+    
     
 }

@@ -18,8 +18,8 @@ public class Cuota {
 
     public Cuota(String tipo, float parseFloat, int parseInt) {
         this.tipo = tipo;
-        this.cantidad = cantidad;
-        this.porcentajeExtra = porcentajeExtra;
+        this.cantidad = parseInt;
+        this.porcentajeExtra = parseFloat;
     }
 
     public Cuota() {

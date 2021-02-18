@@ -139,7 +139,6 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jPanel2.add(nuevo_stock, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 108, 35));
 
         btn_guardar_lote.setBackground(new java.awt.Color(255, 255, 255));
-        btn_guardar_lote.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar_1.png"))); // NOI18N
         btn_guardar_lote.setText("Guardar");
         btn_guardar_lote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

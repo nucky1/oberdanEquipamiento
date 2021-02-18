@@ -31,12 +31,15 @@ public class CuotasDAO {
 
     public List<Cuota> getCuotasProd(int idProd) {
         List<Cuota> cuotas = new ArrayList<>();
-        
-        String SQL = "SELECT cuota.*, CASE WHEN articulo_cuota.articulos_id = "+idProd
-                + " AND cuota.id = articulo_cuota.cuota_id"
-                + " THEN 1 ELSE 0 END as cuota_activa"
-                + " FROM cuota, articulo_cuota"
-                + " WHERE cuota.state = 'ACTIVO'";
+        String SQL = "SELECT cuota.*,artC.*,IF(artC.id is null,0,1) AS cuota_activa "
+                + "FROM cuota "
+                + "LEFT JOIN ("
+                + "             SELECT * "
+                + "             FROM articulo_cuota "
+                + "             WHERE articulo_cuota.articulos_id = "+idProd+") "
+                + "AS artC "
+                + "ON artC.cuota_id = cuota.id "
+                + "WHERE cuota.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try{
             while(rs.next()){
@@ -55,21 +58,25 @@ public class CuotasDAO {
     }
 
     public void insertCuota(Cuota c) {
-        String SQL = "INSERT INTO cuota SET tipo = "+c.getTipo()+", cantidad = "+c.getCantidad()+", porcentaje_extra ="+c.getPorcentajeExtra();
+        String SQL = "INSERT INTO cuota SET tipo = '"+c.getTipo().toUpperCase()+"', cantidad = "+c.getCantidad()+", porcentaje_extra ="+c.getPorcentajeExtra();
         conexion.EjecutarOperacion(SQL);
     }
 
     public void setCuotasProd(List<Cuota> cuotasProd, int idProd) {
-        String SQL = "INSERT INTO articulo_cuota (cuota_id,articulos_id) VALUES";
+        String SQL = "DELETE FROM articulo_cuota WHERE articulos_id = "+idProd;
+        conexion.EjecutarOperacion(SQL);
+        SQL = "INSERT INTO articulo_cuota (cuota_id,articulos_id) VALUES";
         for (int i = 0; i < cuotasProd.size(); i++) {
-            if(cuotasProd.get(i).getActiva())
+            if(cuotasProd.get(i).getActiva()){
                 SQL += " ("+cuotasProd.get(i).getId()+","+idProd+"),";
+            }
         }       
         //Aca verificamos que entro al menos una vez al if del loop y por lo tanto hay algo que insertar. Además borramos la ultima coma.
         if(SQL.charAt(SQL.length()-1)== ','){
-            SQL = SQL.substring(0,SQL.length()-2);
+            SQL = SQL.substring(0,SQL.length()-1);
             SQL += " ON DUPLICATE KEY UPDATE cuota_id = values(cuota_id),articulos_id = values(articulos_id)";
-            conexion.EjecutarOperacion(SQL);
+            int res = conexion.EjecutarOperacion(SQL);
+            System.out.println(res);
         }
     }
     

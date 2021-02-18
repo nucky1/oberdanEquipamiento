@@ -7,11 +7,14 @@ package DAO;
 
 import Models.Contacto;
 import Models.Pedido;
+import Models.Producto;
 import Models.Proveedor;
+import Models.renglonPedido;
 import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -316,7 +319,5 @@ public class ProveedoresDAO {
         return res;
     }
 
-    public ArrayList<Pedido> getPedidos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }
