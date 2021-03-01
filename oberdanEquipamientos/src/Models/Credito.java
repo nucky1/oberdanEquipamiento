@@ -11,8 +11,6 @@ package Models;
  */
 public class Credito {
     private int id;
-    private Cliente cliente;
-    private Solicitud solicitud;
-    private Comercio comercio;
-    
+    private int cliente_id;
+    private 
 }

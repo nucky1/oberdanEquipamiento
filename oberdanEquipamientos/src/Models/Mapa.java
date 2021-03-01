@@ -19,7 +19,29 @@ public class Mapa {
     private HashMap<Integer,Set<Localidad>> provincia_Localidad;
     private HashMap<Integer,Set<Barrio>> localidad_Barrio;
     private HashMap<Integer,Set<Direccion>> barrio_direccion;
-
+    
+    public boolean controlPais(String nombre){
+        Pais p = new Pais();
+        p.setNombre(nombre);
+        paises.values().contains(p);
+        return false;
+    }
+    public boolean controlProvincia(int idPais, String nombre){
+        if(pais_Provincia.containsKey(idPais)){
+            Provincia p = new Provincia();
+            p.setNombre(nombre);
+            Set<Provincia> setProvincia = pais_Provincia.get(idPais);
+            if(setProvincia.contains(p)){
+                return true;
+            }
+            
+        }
+        return false;
+        
+        
+        
+                
+    }
     public HashMap<Integer, Set<Direccion>> getBarrio_direccion() {
         return barrio_direccion;
     }

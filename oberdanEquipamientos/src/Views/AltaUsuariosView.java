@@ -104,6 +104,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         jPasswordFieldCrear1 = new javax.swing.JPasswordField();
         jPasswordFieldCrear2 = new javax.swing.JPasswordField();
+        jLabelAdvertencia = new javax.swing.JLabel();
         jDialogModificarUser = new javax.swing.JDialog();
         jPanelGenerarUser1 = new javax.swing.JPanel();
         jTextFieldUsuario1 = new javax.swing.JTextField();
@@ -218,6 +219,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        jDialogGenerarUser.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialogGenerarUser.setMinimumSize(new java.awt.Dimension(520, 480));
         jDialogGenerarUser.setResizable(false);
         jDialogGenerarUser.setSize(new java.awt.Dimension(520, 480));
@@ -242,7 +244,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 jButtonOKjdialogUserActionPerformed(evt);
             }
         });
-        jPanelGenerarUser.add(jButtonOKjdialogUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 360, 70, -1));
+        jPanelGenerarUser.add(jButtonOKjdialogUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 390, 70, 30));
 
         jButtonCancelarJdialogUser.setText("Cancelar");
         jButtonCancelarJdialogUser.addActionListener(new java.awt.event.ActionListener() {
@@ -250,7 +252,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 jButtonCancelarJdialogUserActionPerformed(evt);
             }
         });
-        jPanelGenerarUser.add(jButtonCancelarJdialogUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
+        jPanelGenerarUser.add(jButtonCancelarJdialogUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, 30));
 
         jLabel6.setText("Ingrese la contraseña:");
         jPanelGenerarUser.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
@@ -259,7 +261,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jPanelGenerarUser.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, -1));
 
         jLabel20.setText("<html>GUARDE SU CONTRASEÑA Y USUARIO DONDE NO LO OLVIDE NI DONDE SEA ACCSESIBLE A NADIE. <br> SOLO UD. PUEDE ACCEDER A ELLA Y NO HAY MANERA DE RECUPERARLA EN CASO DE PERDIDA.<br>  LA EMPRESA NO SE RESPONSABILIZA POR LA PERDIDA DE ESTA.<br> AL GENERAR ESTE USUARIO, UD ENTIENDE QUE SE SOLICITARA EN LUGAR DE SU FIRMA Y POR ENDE,<br> TIENE EL VALOR DE  SU CONSENTIMIENTO PARA EL ALCANCE DE ESTE SISTEMA Y<br> SERA UTILIZADO PARA REGISTRAR SU APROBACION EN CADA PROCESO EN QUE<br> SE REQUIERA GUARDAR LA CONSTANCIA DE SU  CONTROL/AUTORIZACION </html>");
-        jPanelGenerarUser.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 470, 170));
+        jPanelGenerarUser.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 470, 170));
 
         jPasswordFieldCrear1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,6 +270,10 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         });
         jPanelGenerarUser.add(jPasswordFieldCrear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 230, -1));
         jPanelGenerarUser.add(jPasswordFieldCrear2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 230, -1));
+
+        jLabelAdvertencia.setForeground(new java.awt.Color(153, 0, 51));
+        jLabelAdvertencia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelGenerarUser.add(jLabelAdvertencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 440, 30));
 
         javax.swing.GroupLayout jDialogGenerarUserLayout = new javax.swing.GroupLayout(jDialogGenerarUser.getContentPane());
         jDialogGenerarUser.getContentPane().setLayout(jDialogGenerarUserLayout);
@@ -711,26 +717,28 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                         .addGap(8, 8, 8)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
                                     .addComponent(jLabel15))
-                                .addGap(36, 36, 36)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField_cuil, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldAporteOSocial)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addComponent(jTextFieldAporteOSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField_cuil, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel14))
                                 .addGap(79, 79, 79)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldConvenio)
-                                    .addComponent(jTextFieldCategoria)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButtonCrearUser, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextFieldCategoria, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonCrearUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldConvenio))))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
@@ -806,7 +814,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(jTextField_CodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(132, 132, 132)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -817,16 +825,13 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     .addComponent(jTextFieldTipo)
                     .addComponent(jDateChooserFN, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(jButtonCancelarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonGuardarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextFieldAporteOSocial, jTextFieldCategoria, jTextFieldConvenio, jTextField_cuil});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -882,13 +887,17 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     .addComponent(jComboBox_calles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonAñadirCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_ReferenciaCalles, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox_TipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAñadirContacto)
-                    .addComponent(jButtonCrearUser, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_eliminarContacto))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox_TipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonAñadirContacto)
+                            .addComponent(jButton_eliminarContacto)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCrearUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -902,12 +911,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                             .addComponent(jTextFieldConvenio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addGap(17, 17, 17))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextFieldAporteOSocial, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                            .addComponent(jLabel16)
+                            .addComponent(jTextFieldAporteOSocial, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(jTextField_cuil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -1445,6 +1451,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jComboBox_calles.setEnabled(true);
         modificarTrue = false;
         //limpiarCampos();
+        jButtonCrearUser.setForeground(Color.black);
         habilitarCampos(true);
         cargarNacionalidades();
         empleadoSelected = new Empleado();
@@ -1577,6 +1584,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private void jButtonCancelarMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarMainActionPerformed
         // TODO add your handling code here:
         empleadoSelected = null;
+        jButtonCrearUser.setForeground(Color.black);
         limpiarCampos();
         habilitarCampos(false);
     }//GEN-LAST:event_jButtonCancelarMainActionPerformed
@@ -1591,25 +1599,31 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         
         
           if(jTextFieldUsuario.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Error, ingrese un usuario y sin espacios por favor! Ej: juanPerez1", "Erorr", JOptionPane.ERROR_MESSAGE);
+              
+            //JOptionPane.showMessageDialog(jDialogGenerarUser.getRootPane(), "Error, ingrese un usuario y sin espacios por favor! Ej: juanPerez1", "Erorr", JOptionPane.ERROR_MESSAGE);
+            jLabelAdvertencia.setText("Error, ingrese un usuario y sin espacios por favor!");
+            
             return;
         }
         try {
             
             if(!empleadosDAO.verificarUsaurioOk(jTextFieldUsuario.getText())){
-                JOptionPane.showMessageDialog(null, "Error, el usuario que desea ingresar ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(this.getRootPane(), "Error, el usuario que desea ingresar ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                jLabelAdvertencia.setText("Error, el usuario que desea ingresar ya existe");
                 return;
             }
         } catch (SQLException ex) {
             Logger.getLogger(AltaUsuariosView.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(jPasswordFieldCrear1.getPassword().length<1){
-            JOptionPane.showMessageDialog(null, "Error, ingrese una clave", "Erorr", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(this.getRootPane(), "Error, ingrese una clave", "Erorr", JOptionPane.ERROR_MESSAGE);
+            jLabelAdvertencia.setText("Error, ingrese una clave");
             return;
             
         }
         if(jPasswordFieldCrear2.getPassword().length<1){
-            JOptionPane.showMessageDialog(null, "Error, repita su clave ", "Erorr", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(this.getRootPane(), "Error, repita su clave ", "Erorr", JOptionPane.ERROR_MESSAGE);
+            jLabelAdvertencia.setText("Error, repita su clave");
             return;
             
         }
@@ -1622,8 +1636,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         
         if(!Arrays.equals(cadena1, cadena2)){
             //no match!!.
-            
-                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden. Intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
+                
+                //JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden. Intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
+                jLabelAdvertencia.setText("Las contraseñas no coinciden. Intente nuevamente");
                 jPasswordFieldCrear1.setText("");
                 jPasswordFieldCrear2.setText("");
                 System.out.println("Las cadenas no son iguales");
@@ -1635,27 +1650,55 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     
         }
         if(Arrays.equals(cadena1, cadena2)){
-            //JOptionPane.showMessageDialog(this, "Se genero el usuario con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            
+          //  JOptionPane.showMessageDialog( jDialogGenerarUser.getOwner(), "Se genero el usuario con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+           
             System.out.println("Ta todo bien");
             empleadoSelected.setPass(String.valueOf(cadena1));
             empleadoSelected.setUser(jTextFieldUsuario.getText());
             altaUsuarioOk=true;
             jTextFieldUsuario.setText("");
+            jTextFieldUsuario.setEditable(false);
+            jPasswordFieldCrear1.setEditable(false);
             jPasswordFieldCrear1.setText("");
+            
             jPasswordFieldCrear2.setText("");
+             jPasswordFieldCrear2.setEditable(false);
+            jButtonCrearUser.setForeground(Color.green);
+            jButtonCrearUser.setEnabled(false);
+            jLabelAdvertencia.setText("");
+            //jLabelAdvertencia.setText("El usuario "+empleadoSelected.getUser()+" ha sido generado con exito");
             
+           
             
-            
-                
+             
                
         }
-        jDialogGenerarUser.dispose();  
+        
+        //jPanel1.requestFocus();
+        //jPanel1.setVisible(true);
+        //jPanel1.setEnabled(true);
+         //jDialogGenerarUser.getOwner();
+        //jDialogGenerarUser.toBack();
+        //jDialogGenerarUser.transferFocusBackward();
+        System.out.println("llego al final");
+       
+        //jDialogGenerarUser.getOwner().toFront();
+        //jDialogGenerarUser.getOwner().setEnabled(true);
+         //jDialogGenerarUser.getOwner().toFront();
+          //jDialogGenerarUser.getOwner().setVisible(true);
+        
+         jDialogGenerarUser.dispose();
+         
+        
         
     }//GEN-LAST:event_jButtonOKjdialogUserActionPerformed
 
     private void jButtonCancelarJdialogUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarJdialogUserActionPerformed
         // TODO add your handling code here:
+        jTextFieldUsuario.setText("");
+        jPasswordFieldCrear1.setText("");
+        jPasswordFieldCrear2.setText("");
+        jDialogGenerarUser.dispose();
     }//GEN-LAST:event_jButtonCancelarJdialogUserActionPerformed
 
     private void jPasswordFieldCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldCrear1ActionPerformed
@@ -1846,6 +1889,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAdvertencia;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel14;
@@ -1880,10 +1924,10 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     public void cambioBusqueda(String txt,JTextField buscador, JTable tablaBuscador){
             if(txt.isEmpty()){
-               cargarTablaBusqueda(empleadosDAO.buscarEmpleado(""),tablaBuscador); 
+               cargarTablaBusqueda(empleadosDAO.buscarEmpleado("","nombre"),tablaBuscador); 
             }else{
                 try{
-                    cargarTablaBusqueda(empleadosDAO.buscarEmpleado(txt.toLowerCase()),tablaBuscador);
+                    cargarTablaBusqueda(empleadosDAO.buscarEmpleado(txt.toLowerCase(),"nombre"),tablaBuscador);
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null,"Debe ingresar un nombre",
                             "Error",JOptionPane.ERROR_MESSAGE);

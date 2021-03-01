@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -13,7 +13,14 @@ public class Provincia {
     private String nombre;
     private int id;
     private int id_pais;
-
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Provincia){
+            Provincia p = (Provincia)o;
+            return p.getNombre().equalsIgnoreCase(nombre);
+        }
+        return false;
+    }
     public Provincia(String nombre){
         this.nombre = nombre;
     }

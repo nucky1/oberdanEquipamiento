@@ -21,6 +21,7 @@ import Statics.barrioCompare;
 import Statics.direccionCompare;
 import Statics.localidadCompare;
 import Statics.provinciaCompare;
+import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -194,8 +195,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_promotores = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
         jCheckBoxEsSolicitante = new javax.swing.JCheckBox();
-        jButtonGuardarCambios = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
+        jButtonGuardarCambios = new javax.swing.JButton();
 
         jTextF_IngresarNuevoElemento.setText("Ingrese nuevo");
         jTextF_IngresarNuevoElemento.addActionListener(new java.awt.event.ActionListener() {
@@ -1026,7 +1027,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jTextFieldObservaciones)))
-                .addContainerGap())
+                .addGap(40, 40, 40))
         );
 
         jTable_tipoYcontacto.setModel(new javax.swing.table.DefaultTableModel(
@@ -1034,9 +1035,17 @@ public class ABMClientesView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Tipo", "Title 2"
+                "Tipo", "Dato"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable_tipoYcontacto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_tipoYcontactoMouseClicked(evt);
@@ -1123,28 +1132,23 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton_eliminarContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanelContactosLayout.createSequentialGroup()
                             .addGap(8, 8, 8)
                             .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactosLayout.createSequentialGroup()
-                                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel35)
-                                        .addComponent(jLabel36))
-                                    .addGap(46, 46, 46))
+                                .addComponent(jLabel34)
+                                .addComponent(jLabel36)
+                                .addComponent(jLabel35))
+                            .addGap(46, 46, 46)
+                            .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                    .addComponent(jLabel34)
-                                    .addGap(79, 79, 79)))
-                            .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBox_promotores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBoxEsSolicitante)
-                                    .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                        .addComponent(jCheckBox_dni)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jCheckBox_Facturas))))
-                            .addGap(18, 18, 18)
-                            .addComponent(jCheckBox_Otros))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jCheckBox_dni)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jCheckBox_Facturas)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jCheckBox_Otros))
+                                .addComponent(jCheckBoxEsSolicitante)
+                                .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         jPanelContactosLayout.setVerticalGroup(
@@ -1158,36 +1162,36 @@ public class ABMClientesView extends javax.swing.JPanel {
                     .addComponent(jButtonAñadirTipoContacto)
                     .addComponent(jButton_eliminarContacto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34))
+                    .addComponent(jLabel34)
+                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
                     .addComponent(jCheckBoxEsSolicitante))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jCheckBox_dni)
                         .addComponent(jCheckBox_Facturas)
                         .addComponent(jCheckBox_Otros))
                     .addComponent(jLabel35))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
-
-        jButtonGuardarCambios.setText("Guardar");
-        jButtonGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarCambiosActionPerformed(evt);
-            }
-        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
+            }
+        });
+
+        jButtonGuardarCambios.setText("Guardar");
+        jButtonGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarCambiosActionPerformed(evt);
             }
         });
 
@@ -1205,19 +1209,19 @@ public class ABMClientesView extends javax.swing.JPanel {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonCancelar)
-                        .addGap(18, 18, 18)
+                        .addGap(50, 50, 50)
                         .addComponent(jButtonGuardarCambios)
-                        .addGap(59, 59, 59))))
+                        .addGap(19, 19, 19))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1225,9 +1229,9 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonGuardarCambios)
-                    .addComponent(jButtonCancelar))
-                .addGap(25, 25, 25))
+                    .addComponent(jButtonCancelar)
+                    .addComponent(jButtonGuardarCambios))
+                .addGap(13, 13, 13))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1496,6 +1500,16 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jTable_tipoYcontactoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_tipoYcontactoKeyPressed
         // TODO add your handling code here:
         jButton_eliminarContacto.setEnabled(true);
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            System.out.println("Apreto el enter gatito!!");
+        }
+        else{
+           int column= jTable_tipoYcontacto.getSelectedColumn();
+           if(column == 1){
+               int row = jTable_tipoYcontacto.getSelectedRow();
+               jTable_tipoYcontacto.setValueAt("", row, column);
+           }
+        }
         
         
     }//GEN-LAST:event_jTable_tipoYcontactoKeyPressed
@@ -1516,9 +1530,17 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jButtonNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoClienteActionPerformed
         // TODO add your handling code here:
+        // int respuesta=JOptionPane.showConfirmDialog(jPanel4.getParent(), "Esta seguro que desea terminar de ingresar cartones?", "Atencion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+         //System.out.println("respuesta es "+respuesta);
         clienteSeleccionado=new Cliente();
         modificarTrue = false;
+       
+        
         habilitarCampos(true);
+        //jTextField_numeroDomicilioCliente.setEnabled(true);
+        jTextField_nombreCliente.requestFocus();
+        //jTextField_numeroDireccion_jDialog.setCaretPosition(0);
+        // jTextField_numeroDireccion_jDialog
         cargarNacionalidades();
     }//GEN-LAST:event_jButtonNuevoClienteActionPerformed
 
