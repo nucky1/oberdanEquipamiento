@@ -7,8 +7,6 @@ package Views;
 import Statics.Funciones;
 import javax.swing.JOptionPane;
 import DAO.DireccionesDAO;
-import Models.Cliente;
-import Models.Solicitud;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;

@@ -6,13 +6,12 @@
 package DAO;
 
 import Models.Producto;
+import Views.Main;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -45,11 +44,13 @@ public class ProductoDAO {
                 p.setNombre(rs.getString("nombre"));
                 p.setCod(rs.getInt("cod"));
                 p.setCodigoBarra(rs.getString("codigo_barra"));
+                p.setCodigoEAN(rs.getString("codigo_ean"));
                 p.setObservaciones(rs.getString("observaciones"));
                 p.setNombreRubro(rs.getString("nombreRubro"));
                 p.setIdProductoRubro(rs.getInt("idRubro"));
                 p.setCostoFlete(rs.getFloat("costo_flete"));
                 p.setPrecioCosto(rs.getFloat("precioCosto"));
+                p.setPrecioVenta(rs.getFloat("precio_venta"));
                 p.setStock(rs.getInt("stock_existente"));
                 p.setStockMin(rs.getInt("stock_minimo"));
                 p.setIdProveedorActual(rs.getInt("proveedor_id"));
@@ -60,7 +61,7 @@ public class ProductoDAO {
                 list.add(p);
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return list;
     }
@@ -77,14 +78,14 @@ public class ProductoDAO {
     }
     public int actualizarProducto(Producto p){
         String SQL = "UPDATE `articulos` SET `nombre`='"+p.getNombre()+"',`cod`='"+p.getCod()+"',`codigo_barra`='"+p.getCodigoBarra()+"',`rubro_id`="+p.getIdProductoRubro()+","
-                + "`stock_existente`="+p.getStock()+","
+                + "`stock_existente`="+p.getStock()+",`codigo_ean`='"+p.getCodigoEAN()+"',`precio_venta`="+p.getPrecioVenta()+",`precio_compra`="+p.getPrecioCosto()+","
                 + "`stock_minimo`="+p.getStockMin()+",`proveedor_id`="+p.getIdProveedorActual()+",`iva`="+p.getIva()+",`observaciones`='"+p.getObservaciones()+"',"
                 + "`costo_flete`="+p.getCostoFlete()+",`sobretasa_iva`="+p.getSobretasaIva()+",`impuesto_interno`="+p.getImpuesto_interno()+",`impuesto_int_fijo`="+p.getImpuesto_int_fijo()
                 + " WHERE id = "+p.getId();
         return conexion.EjecutarOperacion(SQL);
     }
     public List<Producto> buscarProducto(String atributo, String valor) {
-        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0) as precioCosto,proveedores.proveedor"
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), articulos.precio_compra) as precioCosto,proveedores.proveedor"
                 + " FROM articulos "
                 + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                 + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
@@ -95,8 +96,8 @@ public class ProductoDAO {
         return cargarProductos(rs);
     }
     public List<Producto> buscarProducto(int id){
-        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), 0) as precioCosto,proveedores.proveedor"
-               + " FROM proveedores, articulos, art_rubro, art_stock"
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), articulos.precio_compra) as precioCosto,proveedores.proveedor"
+               + " FROM articulos "
                + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
                + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
@@ -140,7 +141,7 @@ public class ProductoDAO {
                 totalVentas= rs.getInt("totalVentas");
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return totalVentas;
     }
@@ -177,10 +178,7 @@ public class ProductoDAO {
         }
         case "Completo" :
         {   
-            SQL = "SELECT articulos.cod, articulos.nombre,articulos.precio_venta, articulos.tipo, stock.stock_completo AS stock "
-                    + "FROM articulos "
-                    + "LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado)AS stock_completo, producto_id FROM art_stock) AS stock "
-                    + "ON producto_id = articulos.id";
+            SQL = "SELECT articulos.id,articulos.cod, articulos.nombre,articulos.precio_venta, articulos.tipo, stock.stock_completo AS stock FROM articulos LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado)AS stock_completo, producto_id FROM art_stock) AS stock ON producto_id = articulos.id";
             break;
         }
         case "Pedido":{
@@ -220,7 +218,7 @@ public class ProductoDAO {
                 
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
 
         
@@ -241,7 +239,7 @@ public class ProductoDAO {
             jprint = JasperFillManager.fillReport(reporte, null, con);
             view = new JasperViewer (jprint,false);
         } catch (JRException ex) {
-            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return view;
     }
@@ -250,4 +248,5 @@ public class ProductoDAO {
         String SQL = "INSERT INTO art_Stock SET stock_actual = "+stock;
         conexion.EjecutarOperacion(SQL);
     }
+
 }

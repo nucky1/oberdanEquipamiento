@@ -5,6 +5,7 @@
  */
 package Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -18,19 +19,59 @@ import java.util.Date;
                 p.setFechaPago(fechaPago);
  */
 public class Pedido {
-    private String numFactura;
+    private String numPedido;
     private int idProv;
+    private int id;
     private float flete;
-    private Date fechaPago;
+    private float total;
     private Date fecha;
-    private String formaPago;
+    private String estado;
+    private ArrayList<renglonPedido> renglones;
 
-    public String getNumFactura() {
-        return numFactura;
+    public int getId() {
+        return id;
     }
 
-    public void setNumFactura(String numFactura) {
-        this.numFactura = numFactura;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public ArrayList<renglonPedido> getRenglones() {
+        if(this.renglones == null){
+            this.renglones = new ArrayList<>();
+        }
+        return renglones;
+    }
+
+    public void setRenglones(ArrayList<renglonPedido> renglones) {
+        this.renglones = renglones;
+    }
+    
+    
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
+    public String getNumPedido() {
+        return numPedido;
+    }
+
+    public void setNumPedido(String numPedido) {
+        this.numPedido = numPedido;
     }
     
     public int getIdProv() {
@@ -49,14 +90,6 @@ public class Pedido {
         this.flete = flete;
     }
 
-    public Date getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(Date fechaPago) {
-        this.fechaPago = fechaPago;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -65,12 +98,16 @@ public class Pedido {
         this.fecha = fecha;
     }
 
-    public String getFormaPago() {
-        return formaPago;
+    public void addRenglon(renglonPedido rp) {
+        if(this.renglones == null){
+            this.renglones = new ArrayList<>();
+        }
+        this.renglones.add(rp);
     }
 
-    public void setFormaPago(String formaPago) {
-        this.formaPago = formaPago;
+    @Override
+    public String toString() {
+        return estado+renglones.size();
     }
     
     

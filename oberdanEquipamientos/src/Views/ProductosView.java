@@ -6,11 +6,14 @@
 package Views;
 
 import DAO.CuotasDAO;
+import DAO.PedidoDAO;
 import DAO.ProductoDAO;
 import DAO.ProveedoresDAO;
 import DAO.RubroDAO;
 import Models.*;
 import static Statics.Funciones.getSelection;
+import Statics.MiRenderer;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -33,6 +36,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.view.JasperViewer;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -44,6 +48,7 @@ public class ProductosView extends javax.swing.JPanel {
     private List<Producto> listDevoluciones; // lista setteada en buscarDevoluciones ...
     private ProveedoresDAO proveedoresDAO;
     private RubroDAO rubroDAO;
+    private CuotasDAO cuotasDAO;
     private ProductoDAO productoDAO;
     private Pestaña3_dinamica pedidos;
     private Pestaña4_dinamica PantallaStock;
@@ -55,40 +60,64 @@ public class ProductosView extends javax.swing.JPanel {
     public ProductosView() {
         initComponents();
         Pestaña1_dinamica = new Pestaña1_dinamica(this);
+        pedidos = new Pestaña3_dinamica();
         PantallaStock = new Pestaña4_dinamica(this);
         proveedoresDAO = ProveedoresDAO.getInstance();
         productoDAO = ProductoDAO.getInstance();
+        cuotasDAO = CuotasDAO.getInstance();
         rubroDAO = RubroDAO.getInstance();        
     }
 public void limpiarCamposInventario() {
+        txtf_productos_nombre.setEnabled(false);
+        txtf_productos_costo.setEnabled(false);
+        txtf_productos_codigo_barra.setEnabled(false);
+        txtf_productos_costoFlete.setEnabled(false);
+        txtf_productos_observaciones.setEnabled(false);
+        txtf_iva.setEnabled(false);
+        txtf_imp_int_fijo.setEnabled(false);
+        txtf_impuesto_int.setEnabled(false);
+        txtf_sobretasa_iva.setEnabled(false);
+        txtf_productos_venta.setEnabled(false);
+        txtf_productos_codigo_ean.setEnabled(false);
          txtf_productos_nombre.setText("");
          txtf_productos_costo.setText("");
          txtf_productos_codigo_barra.setText("");
          txtf_productos_costoFlete.setText("");
          txtf_productos_observaciones.setText("");
+         txtf_iva.setText("");
+         txtf_imp_int_fijo.setText("");
+         txtf_impuesto_int.setText("");
+         txtf_sobretasa_iva.setText("");
+         txtf_productos_venta.setText("");
+         txtf_productos_codigo_ean.setText("");
          stock.setText("");
          fecha_inicio.setCalendar(null);
          fecha_fin.setCalendar(null);
          txtf_productos_stockMinimo.setText("");
          txtf_productos_codigo.setText("");
-         producto_Proveedor = new JComboBox();
+         producto_Proveedor.removeAllItems();
          producto_Proveedor.setEnabled(false);
          Proveedor p = new Proveedor();
          p.setNombre("-No posee un proveedor asignado-");
          producto_Proveedor.addItem(p);
-         producto_Rubro = new JComboBox();
+         producto_Rubro.removeAllItems();
          producto_Rubro.setEnabled(false);
          Rubro r = new Rubro();
          r.setNombre("-No posee un rubro asignado-");
          producto_Rubro.addItem(r);
          chk_venta_iva.setSelected(false);
          btn_Guardar.setEnabled(false);
+         btn_Cancelar.setEnabled(false);
          btn_Modificar.setEnabled(true);
          btn_productoNuevo.setEnabled(true);
          btn_eliminar.setEnabled(false);
          btn_crearRubro.setEnabled(false);
+         btn_crearPago.setEnabled(false);
          btn_producto_editarLote.setEnabled(false);
          btn_consultar_historial.setEnabled(false);
+        DefaultTableModel aux =(DefaultTableModel) tabla_producto_precioVenta.getModel();
+        aux.setNumRows(0);
+        tabla_producto_precioVenta.setEnabled(false);
      }
     public void limpiarCamposDevo(){
         Pestaña1_dinamica.devoSelect = null;
@@ -147,6 +176,38 @@ public void limpiarCamposInventario() {
         jLabel38 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
+        jDialogAñadirPlan = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        tipo_cuota = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        cantidad_cuota = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        porcentaje_cuota = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jDialogCrearNota = new javax.swing.JDialog();
+        jScrollPane28 = new javax.swing.JScrollPane();
+        tabla_nota_prodPedir = new javax.swing.JTable();
+        rbtn_productos_nombre1 = new javax.swing.JRadioButton();
+        rbtn_productos_codigo1 = new javax.swing.JRadioButton();
+        txtf_nota_buscar = new javax.swing.JTextField();
+        lbl_nota_proveedor = new javax.swing.JLabel();
+        jLabel167 = new javax.swing.JLabel();
+        jScrollPane29 = new javax.swing.JScrollPane();
+        tabla_nota_prodPedido = new javax.swing.JTable();
+        jLabel173 = new javax.swing.JLabel();
+        txtf_nota_cantidad = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtf_nota_total = new javax.swing.JTextField();
+        btn_nota_agregar = new javax.swing.JButton();
+        btn_nota_eliminar = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        generarNota = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        txtf_nota_costo = new javax.swing.JTextField();
+        jLabel175 = new javax.swing.JLabel();
+        txtf_nota_nro = new javax.swing.JTextField();
         tabla_productos = new javax.swing.JTabbedPane();
         panel_productos_detalle = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -277,37 +338,6 @@ public void limpiarCamposInventario() {
         txtf_codigoProd = new javax.swing.JTextField();
         btn_editDevolucion = new javax.swing.JButton();
         btn_eliminar_devolucion = new javax.swing.JButton();
-        panel_pedidos = new javax.swing.JPanel();
-        txtf_lote_prov = new javax.swing.JTextField();
-        btn_lotes_prod_buscarprov = new javax.swing.JButton();
-        jLabel165 = new javax.swing.JLabel();
-        txtf_lote_prod_cod = new javax.swing.JTextField();
-        jLabel168 = new javax.swing.JLabel();
-        txtf_lote_prod_stock = new javax.swing.JTextField();
-        btn_lotes_prod_agregar = new javax.swing.JButton();
-        jScrollPane27 = new javax.swing.JScrollPane();
-        tabla_productos_pedido = new javax.swing.JTable();
-        btn_lotes_prod_eliminar = new javax.swing.JButton();
-        btn_lote_aceptar = new javax.swing.JButton();
-        txtf_lote_prod_precio = new javax.swing.JTextField();
-        jLabel169 = new javax.swing.JLabel();
-        txtf_lote_prod_factura = new javax.swing.JTextField();
-        jLabel170 = new javax.swing.JLabel();
-        jLabel171 = new javax.swing.JLabel();
-        combo_forma_pago = new javax.swing.JComboBox();
-        date_lote_fecha_pago = new com.toedter.calendar.JDateChooser();
-        jLabel172 = new javax.swing.JLabel();
-        date_lote_fecha_factura = new com.toedter.calendar.JDateChooser();
-        txtf_lote_prod_nombre = new javax.swing.JComboBox();
-        rbtn_lote_prod_codigo = new javax.swing.JRadioButton();
-        rbtn_lote_prod_prod = new javax.swing.JRadioButton();
-        jSeparator14 = new javax.swing.JSeparator();
-        jLabel212 = new javax.swing.JLabel();
-        jLabel213 = new javax.swing.JLabel();
-        jSeparator16 = new javax.swing.JSeparator();
-        jPanel81 = new javax.swing.JPanel();
-        txtf_lote_prod_flete = new javax.swing.JTextField();
-        jLabel211 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -320,6 +350,42 @@ public void limpiarCamposInventario() {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTablaStock = new javax.swing.JTable();
+        panel_pedidos = new javax.swing.JPanel();
+        txtf_nota_proveedor = new javax.swing.JTextField();
+        btn_lotes_prod_buscarprov = new javax.swing.JButton();
+        jLabel165 = new javax.swing.JLabel();
+        txtf_nota_prod_cod = new javax.swing.JTextField();
+        jLabel168 = new javax.swing.JLabel();
+        txtf_nota_prod_stock = new javax.swing.JTextField();
+        btn_factura_agregar = new javax.swing.JButton();
+        jScrollPane27 = new javax.swing.JScrollPane();
+        tabla_productos_pedido = new javax.swing.JTable();
+        btn_factura_eliminar = new javax.swing.JButton();
+        btn_lote_aceptar = new javax.swing.JButton();
+        txtf_nota_prod_precio = new javax.swing.JTextField();
+        jLabel169 = new javax.swing.JLabel();
+        txtf_nota_prod_factura = new javax.swing.JTextField();
+        jLabel170 = new javax.swing.JLabel();
+        jLabel171 = new javax.swing.JLabel();
+        combo_forma_pago = new javax.swing.JComboBox();
+        date_nota_fecha_pago = new com.toedter.calendar.JDateChooser();
+        jLabel172 = new javax.swing.JLabel();
+        date_nota_fecha_factura = new com.toedter.calendar.JDateChooser();
+        txtf_nota_prod_nombre = new javax.swing.JComboBox();
+        rbtn_nota_prod_codigo = new javax.swing.JRadioButton();
+        rbtn_nota_prod_prod = new javax.swing.JRadioButton();
+        jSeparator14 = new javax.swing.JSeparator();
+        jLabel212 = new javax.swing.JLabel();
+        jLabel213 = new javax.swing.JLabel();
+        jSeparator16 = new javax.swing.JSeparator();
+        jPanel81 = new javax.swing.JPanel();
+        txtf_lote_prod_flete = new javax.swing.JTextField();
+        jLabel211 = new javax.swing.JLabel();
+        btn_nota_nueva = new javax.swing.JButton();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        tabla_nota_PedidossProveedor = new javax.swing.JTable();
+        jLabel177 = new javax.swing.JLabel();
+        cbox_tipo_factura = new javax.swing.JComboBox();
 
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -353,11 +419,315 @@ public void limpiarCamposInventario() {
         jDialogAñadirRubro.getContentPane().setLayout(jDialogAñadirRubroLayout);
         jDialogAñadirRubroLayout.setHorizontalGroup(
             jDialogAñadirRubroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
         );
         jDialogAñadirRubroLayout.setVerticalGroup(
             jDialogAñadirRubroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jDialogAñadirRubroLayout.createSequentialGroup()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel3.setText("Tipo");
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Cantidad de cuotas");
+
+        jLabel6.setText("Porcentaje extra");
+
+        javax.swing.GroupLayout jDialogAñadirPlanLayout = new javax.swing.GroupLayout(jDialogAñadirPlan.getContentPane());
+        jDialogAñadirPlan.getContentPane().setLayout(jDialogAñadirPlanLayout);
+        jDialogAñadirPlanLayout.setHorizontalGroup(
+            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(27, 27, 27)
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tipo_cuota, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 9, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jDialogAñadirPlanLayout.setVerticalGroup(
+            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogAñadirPlanLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tipo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
+        );
+
+        tabla_nota_prodPedir.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Producto", "Stock", "Precio compra actual"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_nota_prodPedir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_nota_prodPedirMouseClicked(evt);
+            }
+        });
+        jScrollPane28.setViewportView(tabla_nota_prodPedir);
+
+        rbtn_productos_nombre1.setText("Nombre");
+
+        rbtn_productos_codigo1.setSelected(true);
+        rbtn_productos_codigo1.setText("Código");
+
+        txtf_nota_buscar.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtf_nota_buscarCaretUpdate(evt);
+            }
+        });
+        txtf_nota_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtf_nota_buscarKeyTyped(evt);
+            }
+        });
+
+        lbl_nota_proveedor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbl_nota_proveedor.setText("Nombre de Proveedor");
+
+        jLabel167.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel167.setText("Seleccionar Productos");
+
+        tabla_nota_prodPedido.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Producto", "Cantidad", "Costo", "Subtotal"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_nota_prodPedido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_nota_prodPedidoMouseClicked(evt);
+            }
+        });
+        jScrollPane29.setViewportView(tabla_nota_prodPedido);
+
+        jLabel173.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel173.setText("Nota de pedido");
+
+        txtf_nota_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtf_nota_cantidadKeyTyped(evt);
+            }
+        });
+
+        jLabel7.setText("Cantidad");
+
+        jLabel8.setText("Total $");
+
+        btn_nota_agregar.setBackground(new java.awt.Color(0, 153, 0));
+        btn_nota_agregar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nota_agregar.setText("+ ");
+        btn_nota_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nota_agregarActionPerformed(evt);
+            }
+        });
+
+        btn_nota_eliminar.setBackground(new java.awt.Color(204, 51, 0));
+        btn_nota_eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nota_eliminar.setText("- ");
+        btn_nota_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nota_eliminarActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        generarNota.setText("Generar Nota");
+        generarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generarNotaActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Precio costo $");
+
+        jLabel175.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel175.setText("N°");
+
+        txtf_nota_nro.setEnabled(false);
+
+        javax.swing.GroupLayout jDialogCrearNotaLayout = new javax.swing.GroupLayout(jDialogCrearNota.getContentPane());
+        jDialogCrearNota.getContentPane().setLayout(jDialogCrearNotaLayout);
+        jDialogCrearNotaLayout.setHorizontalGroup(
+            jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_nota_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addComponent(jLabel167)
+                        .addGap(374, 374, 374)
+                        .addComponent(jLabel173)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel175)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtf_nota_nro, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtf_nota_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                        .addComponent(rbtn_productos_codigo1)
+                                        .addGap(2, 2, 2)
+                                        .addComponent(rbtn_productos_nombre1)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(txtf_nota_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(txtf_nota_costo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(8, 8, 8)
+                                .addComponent(btn_nota_agregar))
+                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(jLabel8)
+                                .addGap(10, 10, 10)
+                                .addComponent(txtf_nota_total, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(316, 316, 316)
+                                .addComponent(btn_nota_eliminar)))))
+                .addGap(0, 17, Short.MAX_VALUE))
+            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(generarNota)
+                .addContainerGap())
+        );
+        jDialogCrearNotaLayout.setVerticalGroup(
+            jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(lbl_nota_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel167, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel173, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel175, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtf_nota_nro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
+                .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addComponent(txtf_nota_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(rbtn_productos_codigo1)
+                                            .addComponent(rbtn_productos_nombre1)
+                                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                                .addGap(4, 4, 4)
+                                                .addComponent(jLabel8))
+                                            .addComponent(btn_nota_eliminar)))
+                                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addComponent(txtf_nota_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(11, 11, 11))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCrearNotaLayout.createSequentialGroup()
+                                .addComponent(btn_nota_agregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane29, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(generarNota)))
+                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel7))
+                            .addComponent(txtf_nota_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel9))
+                            .addComponent(txtf_nota_costo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         setMaximumSize(new java.awt.Dimension(1366, 735));
@@ -397,11 +767,6 @@ public void limpiarCamposInventario() {
         txtf_productos_buscar.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_buscarCaretUpdate(evt);
-            }
-        });
-        txtf_productos_buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtf_productos_buscarActionPerformed(evt);
             }
         });
         txtf_productos_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -504,14 +869,14 @@ public void limpiarCamposInventario() {
 
             },
             new String [] {
-                "#Cuotas", "Tipo", "Precio Final", "Precio Cuota", "Activo"
+                "id", "#Cuotas", "Tipo", "Precio Final", "Precio Cuota", "Activo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -522,12 +887,18 @@ public void limpiarCamposInventario() {
                 return canEdit [columnIndex];
             }
         });
+        tabla_producto_precioVenta.setEnabled(false);
         tabla_producto_precioVenta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabla_producto_precioVentaMouseClicked(evt);
             }
         });
         jScrollPane14.setViewportView(tabla_producto_precioVenta);
+        if (tabla_producto_precioVenta.getColumnModel().getColumnCount() > 0) {
+            tabla_producto_precioVenta.getColumnModel().getColumn(2).setHeaderValue("Tipo");
+            tabla_producto_precioVenta.getColumnModel().getColumn(3).setHeaderValue("Precio Final");
+            tabla_producto_precioVenta.getColumnModel().getColumn(4).setHeaderValue("Precio Cuota");
+        }
 
         jLabel53.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel53.setText("Plan de pago");
@@ -755,6 +1126,7 @@ public void limpiarCamposInventario() {
         jLabel54.setText("Flete $");
 
         txtf_productos_costoFlete.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_productos_costoFlete.setEnabled(false);
         txtf_productos_costoFlete.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_costoFleteCaretUpdate(evt);
@@ -762,6 +1134,7 @@ public void limpiarCamposInventario() {
         });
 
         txtf_productos_codigo_barra.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_productos_codigo_barra.setEnabled(false);
         txtf_productos_codigo_barra.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_codigo_barraCaretUpdate(evt);
@@ -774,6 +1147,7 @@ public void limpiarCamposInventario() {
         });
 
         txtf_productos_costo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_productos_costo.setEnabled(false);
         txtf_productos_costo.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_costoCaretUpdate(evt);
@@ -794,6 +1168,7 @@ public void limpiarCamposInventario() {
         txtf_productos_observaciones.setColumns(20);
         txtf_productos_observaciones.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtf_productos_observaciones.setRows(2);
+        txtf_productos_observaciones.setEnabled(false);
         jScrollPane9.setViewportView(txtf_productos_observaciones);
 
         jLabel56.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -809,6 +1184,7 @@ public void limpiarCamposInventario() {
         jLabel61.setText("Imp interno fijo %");
 
         txtf_iva.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_iva.setEnabled(false);
         txtf_iva.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_ivaCaretUpdate(evt);
@@ -816,6 +1192,7 @@ public void limpiarCamposInventario() {
         });
 
         txtf_sobretasa_iva.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_sobretasa_iva.setEnabled(false);
         txtf_sobretasa_iva.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_sobretasa_ivaCaretUpdate(evt);
@@ -823,6 +1200,7 @@ public void limpiarCamposInventario() {
         });
 
         txtf_impuesto_int.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_impuesto_int.setEnabled(false);
         txtf_impuesto_int.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_impuesto_intCaretUpdate(evt);
@@ -830,6 +1208,7 @@ public void limpiarCamposInventario() {
         });
 
         txtf_imp_int_fijo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_imp_int_fijo.setEnabled(false);
         txtf_imp_int_fijo.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_imp_int_fijoCaretUpdate(evt);
@@ -840,6 +1219,7 @@ public void limpiarCamposInventario() {
         jLabel238.setText("Codigo EAN");
 
         txtf_productos_codigo_ean.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_productos_codigo_ean.setEnabled(false);
         txtf_productos_codigo_ean.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_codigo_eanCaretUpdate(evt);
@@ -855,6 +1235,7 @@ public void limpiarCamposInventario() {
         jLabel64.setText("Precio venta $");
 
         txtf_productos_venta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_productos_venta.setEnabled(false);
         txtf_productos_venta.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_ventaCaretUpdate(evt);
@@ -938,7 +1319,7 @@ public void limpiarCamposInventario() {
                     .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtf_iva, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtf_impuesto_int, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1094,7 +1475,7 @@ public void limpiarCamposInventario() {
                             .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                            .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))))
+                            .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -1116,14 +1497,15 @@ public void limpiarCamposInventario() {
                         .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_productoNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jLabel44.setText("Nombre:");
@@ -1154,10 +1536,10 @@ public void limpiarCamposInventario() {
                     .addComponent(jLabel44)
                     .addComponent(jLabel42)
                     .addComponent(txtf_productos_stockMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(741, Short.MAX_VALUE))
             .addGroup(jPanel24Layout.createSequentialGroup()
-                .addComponent(jPanel84, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 209, Short.MAX_VALUE))
+                .addComponent(jPanel84, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel25.setBackground(new java.awt.Color(245, 245, 245));
@@ -1540,7 +1922,7 @@ public void limpiarCamposInventario() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDevoluciones2Layout.createSequentialGroup()
                 .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
-                .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, 516, Short.MAX_VALUE)
                 .addGap(51, 51, 51))
         );
 
@@ -1671,7 +2053,7 @@ public void limpiarCamposInventario() {
             .addGroup(panel_devosLayout.createSequentialGroup()
                 .addComponent(jPanelDevoluciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panel_devosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelDevoluciones3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1701,269 +2083,6 @@ public void limpiarCamposInventario() {
         );
 
         tabla_productos.addTab("Devoluciones", panel_devos);
-
-        panel_pedidos.setBackground(new java.awt.Color(245, 245, 245));
-
-        txtf_lote_prov.setEditable(false);
-        txtf_lote_prov.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-
-        btn_lotes_prod_buscarprov.setBackground(new java.awt.Color(255, 255, 255));
-        btn_lotes_prod_buscarprov.setText("Buscar proveedor");
-        btn_lotes_prod_buscarprov.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_lotes_prod_buscarprovActionPerformed(evt);
-            }
-        });
-
-        jLabel165.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel165.setText("Proveedor");
-
-        txtf_lote_prod_cod.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtf_lote_prod_codKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtf_lote_prod_codKeyTyped(evt);
-            }
-        });
-
-        jLabel168.setText("Stock:");
-
-        btn_lotes_prod_agregar.setBackground(new java.awt.Color(0, 153, 0));
-        btn_lotes_prod_agregar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_lotes_prod_agregar.setText("+ ");
-        btn_lotes_prod_agregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_lotes_prod_agregarActionPerformed(evt);
-            }
-        });
-
-        tabla_productos_pedido.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Código", "Producto", "Vencimiento", "Stock", "Precio"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane27.setViewportView(tabla_productos_pedido);
-
-        btn_lotes_prod_eliminar.setBackground(new java.awt.Color(204, 51, 0));
-        btn_lotes_prod_eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_lotes_prod_eliminar.setText("- ");
-        btn_lotes_prod_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_lotes_prod_eliminarActionPerformed(evt);
-            }
-        });
-
-        btn_lote_aceptar.setBackground(new java.awt.Color(255, 255, 255));
-        btn_lote_aceptar.setText("Guardar");
-        btn_lote_aceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_lote_aceptarActionPerformed(evt);
-            }
-        });
-
-        txtf_lote_prod_precio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtf_lote_prod_precioKeyPressed(evt);
-            }
-        });
-
-        jLabel169.setText("Costo:");
-
-        jLabel170.setText("Numero de factura");
-
-        jLabel171.setText("Forma de Pago:");
-
-        combo_forma_pago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Efectivo", "Diferido" }));
-
-        jLabel172.setText("Fecha");
-
-        txtf_lote_prod_nombre.setEnabled(false);
-
-        rbtn_lote_prod_codigo.setBackground(new java.awt.Color(245, 245, 245));
-        rbtn_lote_prod_codigo.setText("Código");
-
-        rbtn_lote_prod_prod.setBackground(new java.awt.Color(245, 245, 245));
-        rbtn_lote_prod_prod.setText("Producto");
-
-        jLabel212.setText("Fecha de Pago:");
-
-        jLabel213.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel213.setText("Ingresar Productos");
-
-        jPanel81.setBackground(new java.awt.Color(245, 245, 245));
-        jPanel81.setBorder(javax.swing.BorderFactory.createTitledBorder("Costo Flete"));
-
-        txtf_lote_prod_flete.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-
-        jLabel211.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel211.setText("%");
-
-        javax.swing.GroupLayout jPanel81Layout = new javax.swing.GroupLayout(jPanel81);
-        jPanel81.setLayout(jPanel81Layout);
-        jPanel81Layout.setHorizontalGroup(
-            jPanel81Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel81Layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(txtf_lote_prod_flete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel211)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel81Layout.setVerticalGroup(
-            jPanel81Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel81Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel81Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtf_lote_prod_flete, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel211))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout panel_pedidosLayout = new javax.swing.GroupLayout(panel_pedidos);
-        panel_pedidos.setLayout(panel_pedidosLayout);
-        panel_pedidosLayout.setHorizontalGroup(
-            panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_pedidosLayout.createSequentialGroup()
-                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_lote_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator14)
-                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                                .addComponent(jLabel171)
-                                                .addGap(0, 73, Short.MAX_VALUE))
-                                            .addComponent(combo_forma_pago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(date_lote_fecha_pago, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel212))
-                                        .addGap(61, 61, 61))
-                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                                .addComponent(jLabel170)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(txtf_lote_prod_factura))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel172)
-                                            .addComponent(date_lote_fecha_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18))
-                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtf_lote_prov, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                                                .addComponent(btn_lotes_prod_buscarprov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel81, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(jLabel165))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtf_lote_prod_cod)
-                                            .addComponent(rbtn_lote_prod_codigo, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(rbtn_lote_prod_prod)
-                                            .addComponent(txtf_lote_prod_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel168)
-                                            .addComponent(txtf_lote_prod_stock, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                                .addComponent(txtf_lote_prod_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btn_lotes_prod_agregar)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btn_lotes_prod_eliminar))
-                                            .addComponent(jLabel169)))
-                                    .addComponent(jSeparator16)
-                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addComponent(jLabel213)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jScrollPane27))))))
-                .addContainerGap())
-        );
-        panel_pedidosLayout.setVerticalGroup(
-            panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel213)
-                    .addComponent(jLabel165))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                        .addComponent(jSeparator16, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel169)
-                            .addComponent(jLabel168)
-                            .addComponent(rbtn_lote_prod_prod)
-                            .addComponent(rbtn_lote_prod_codigo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(btn_lotes_prod_eliminar)
-                            .addComponent(txtf_lote_prod_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtf_lote_prod_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtf_lote_prod_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtf_lote_prod_cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_lotes_prod_agregar))
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane27, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                        .addComponent(txtf_lote_prov, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_lotes_prod_buscarprov, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                .addComponent(jLabel170)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtf_lote_prod_factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                .addComponent(jLabel172)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(date_lote_fecha_factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel171)
-                            .addComponent(jLabel212))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(combo_forma_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(date_lote_fecha_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(11, 11, 11)
-                .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
-                .addComponent(btn_lote_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
-        );
-
-        tabla_productos.addTab("Pedidos", panel_pedidos);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2079,7 +2198,7 @@ public void limpiarCamposInventario() {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(216, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 949, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -2087,7 +2206,7 @@ public void limpiarCamposInventario() {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
                 .addGap(249, 249, 249))
         );
 
@@ -2095,12 +2214,12 @@ public void limpiarCamposInventario() {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 216, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2114,64 +2233,391 @@ public void limpiarCamposInventario() {
 
         tabla_productos.addTab("Stock", jPanel1);
 
+        panel_pedidos.setBackground(new java.awt.Color(245, 245, 245));
+
+        txtf_nota_proveedor.setEditable(false);
+        txtf_nota_proveedor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+
+        btn_lotes_prod_buscarprov.setBackground(new java.awt.Color(255, 255, 255));
+        btn_lotes_prod_buscarprov.setText("Buscar proveedor");
+        btn_lotes_prod_buscarprov.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lotes_prod_buscarprovActionPerformed(evt);
+            }
+        });
+
+        jLabel165.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel165.setText("Proveedor");
+
+        txtf_nota_prod_cod.setEnabled(false);
+        txtf_nota_prod_cod.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtf_nota_prod_codKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtf_nota_prod_codKeyTyped(evt);
+            }
+        });
+
+        jLabel168.setText("Cantidad:");
+
+        txtf_nota_prod_stock.setEnabled(false);
+
+        btn_factura_agregar.setBackground(new java.awt.Color(0, 153, 0));
+        btn_factura_agregar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_factura_agregar.setText("+ ");
+        btn_factura_agregar.setEnabled(false);
+        btn_factura_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_factura_agregarActionPerformed(evt);
+            }
+        });
+
+        tabla_productos_pedido.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Producto", "Stock", "Precio unitario", "Subtotal"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane27.setViewportView(tabla_productos_pedido);
+
+        btn_factura_eliminar.setBackground(new java.awt.Color(204, 51, 0));
+        btn_factura_eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_factura_eliminar.setText("- ");
+        btn_factura_eliminar.setEnabled(false);
+        btn_factura_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_factura_eliminarActionPerformed(evt);
+            }
+        });
+
+        btn_lote_aceptar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_lote_aceptar.setText("Guardar");
+        btn_lote_aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lote_aceptarActionPerformed(evt);
+            }
+        });
+
+        txtf_nota_prod_precio.setEnabled(false);
+        txtf_nota_prod_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtf_nota_prod_precioKeyPressed(evt);
+            }
+        });
+
+        jLabel169.setText("Subtotal:");
+
+        jLabel170.setText("Numero de factura");
+
+        jLabel171.setText("Forma de Pago:");
+
+        combo_forma_pago.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Efectivo", "Diferido" }));
+
+        jLabel172.setText("Fecha");
+
+        txtf_nota_prod_nombre.setEnabled(false);
+        txtf_nota_prod_nombre.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                txtf_nota_prod_nombreItemStateChanged(evt);
+            }
+        });
+
+        rbtn_nota_prod_codigo.setBackground(new java.awt.Color(245, 245, 245));
+        rbtn_nota_prod_codigo.setText("Código");
+        rbtn_nota_prod_codigo.setEnabled(false);
+
+        rbtn_nota_prod_prod.setBackground(new java.awt.Color(245, 245, 245));
+        rbtn_nota_prod_prod.setText("Producto");
+        rbtn_nota_prod_prod.setEnabled(false);
+
+        jLabel212.setText("Fecha de Pago:");
+
+        jLabel213.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel213.setText("Ingresar Productos");
+
+        jPanel81.setBackground(new java.awt.Color(245, 245, 245));
+        jPanel81.setBorder(javax.swing.BorderFactory.createTitledBorder("Costo Flete"));
+
+        txtf_lote_prod_flete.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
+        jLabel211.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel211.setText("%");
+
+        javax.swing.GroupLayout jPanel81Layout = new javax.swing.GroupLayout(jPanel81);
+        jPanel81.setLayout(jPanel81Layout);
+        jPanel81Layout.setHorizontalGroup(
+            jPanel81Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel81Layout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(txtf_lote_prod_flete, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel211)
+                .addContainerGap(93, Short.MAX_VALUE))
+        );
+        jPanel81Layout.setVerticalGroup(
+            jPanel81Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel81Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel81Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtf_lote_prod_flete, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel211, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        btn_nota_nueva.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nota_nueva.setText("Realizar Nota de Pedido");
+        btn_nota_nueva.setEnabled(false);
+        btn_nota_nueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nota_nuevaActionPerformed(evt);
+            }
+        });
+
+        tabla_nota_PedidossProveedor.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#Pedido", "Fecha", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_nota_PedidossProveedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_nota_PedidossProveedorMouseClicked(evt);
+            }
+        });
+        jScrollPane15.setViewportView(tabla_nota_PedidossProveedor);
+
+        jLabel177.setText("Tipo factura");
+
+        cbox_tipo_factura.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Factura A", "Factura B", "Remito" }));
+
+        javax.swing.GroupLayout panel_pedidosLayout = new javax.swing.GroupLayout(panel_pedidos);
+        panel_pedidos.setLayout(panel_pedidosLayout);
+        panel_pedidosLayout.setHorizontalGroup(
+            panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_nota_nueva, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_lote_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator14))
+                .addContainerGap())
+            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtf_nota_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_lotes_prod_buscarprov, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addComponent(jLabel170)
+                                .addGap(106, 106, 106)
+                                .addComponent(jLabel172))
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addComponent(txtf_nota_prod_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(date_nota_fecha_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel81, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addComponent(combo_forma_pago, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(date_nota_fecha_pago, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addComponent(jLabel171)
+                                .addGap(79, 79, 79)
+                                .addComponent(jLabel212))
+                            .addComponent(jLabel177)
+                            .addComponent(cbox_tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator16)
+                            .addComponent(jScrollPane27)
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                        .addComponent(txtf_nota_prod_cod, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(txtf_nota_prod_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtf_nota_prod_stock, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                        .addComponent(rbtn_nota_prod_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(rbtn_nota_prod_prod)
+                                        .addGap(371, 371, 371)
+                                        .addComponent(jLabel168)))
+                                .addGap(6, 6, 6)
+                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel169)
+                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                        .addComponent(txtf_nota_prod_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btn_factura_agregar)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btn_factura_eliminar))))))
+                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                        .addComponent(jLabel165)
+                        .addGap(263, 263, 263)
+                        .addComponent(jLabel213)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        panel_pedidosLayout.setVerticalGroup(
+            panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel165))
+                    .addComponent(jLabel213))
+                .addGap(6, 6, 6)
+                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                        .addComponent(txtf_nota_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(btn_lotes_prod_buscarprov, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel170)
+                            .addComponent(jLabel172))
+                        .addGap(6, 6, 6)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtf_nota_prod_factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(date_nota_fecha_factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel177)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbox_tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jPanel81, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel171)
+                            .addComponent(jLabel212))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(combo_forma_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(date_nota_fecha_pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                        .addComponent(jSeparator16, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbtn_nota_prod_codigo)
+                            .addComponent(rbtn_nota_prod_prod)
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel168)
+                                    .addComponent(jLabel169))))
+                        .addGap(2, 2, 2)
+                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_factura_agregar)
+                            .addComponent(btn_factura_eliminar)
+                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtf_nota_prod_cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_nota_prod_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_nota_prod_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_nota_prod_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(19, 19, 19)
+                        .addComponent(jScrollPane27, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_nota_nueva, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_lote_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        tabla_productos.addTab("Pedidos", panel_pedidos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtf_lote_prod_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_lote_prod_precioKeyPressed
+    private void txtf_nota_prod_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precioKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             pedidos.agregarProducto();
         }
-    }//GEN-LAST:event_txtf_lote_prod_precioKeyPressed
+    }//GEN-LAST:event_txtf_nota_prod_precioKeyPressed
 
     private void btn_lote_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lote_aceptarActionPerformed
-        pedidos.guardarPedido();
+        if(JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta factura?", "Generar Nota", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            pedidos.guardarFactura();
+        }
         Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText().toString());
     }//GEN-LAST:event_btn_lote_aceptarActionPerformed
 
-    private void btn_lotes_prod_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lotes_prod_eliminarActionPerformed
+    private void btn_factura_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_factura_eliminarActionPerformed
         pedidos.eliminarProducto();
-    }//GEN-LAST:event_btn_lotes_prod_eliminarActionPerformed
+    }//GEN-LAST:event_btn_factura_eliminarActionPerformed
 
-    private void btn_lotes_prod_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lotes_prod_agregarActionPerformed
+    private void btn_factura_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_factura_agregarActionPerformed
         pedidos.agregarProducto();
-    }//GEN-LAST:event_btn_lotes_prod_agregarActionPerformed
+    }//GEN-LAST:event_btn_factura_agregarActionPerformed
 
-    private void txtf_lote_prod_codKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_lote_prod_codKeyTyped
+    private void txtf_nota_prod_codKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_codKeyTyped
         char c = evt.getKeyChar();
-        if (this.rbtn_lote_prod_codigo.isSelected()) {
+        if (this.rbtn_nota_prod_codigo.isSelected()) {
             if ((c < '0' || c > '9')) {
                 evt.consume();
             }
         }
-    }//GEN-LAST:event_txtf_lote_prod_codKeyTyped
+    }//GEN-LAST:event_txtf_nota_prod_codKeyTyped
 
-    private void txtf_lote_prod_codKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_lote_prod_codKeyPressed
+    private void txtf_nota_prod_codKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_codKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            pedidos.buscarProducto(txtf_lote_prod_cod.getText());
+            pedidos.buscarProducto(txtf_nota_prod_cod.getText());
         }
-    }//GEN-LAST:event_txtf_lote_prod_codKeyPressed
+    }//GEN-LAST:event_txtf_nota_prod_codKeyPressed
 
     private void btn_lotes_prod_buscarprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lotes_prod_buscarprovActionPerformed
         JD_Proveedor_Buscador provBuscador = new JD_Proveedor_Buscador(new JDialog(), true) {
-
-            
             public void getIDProveedor(int id, String atributo) {
                 if (id != -1) {
                     pedidos.prov = new Proveedor();
                     pedidos.prov.setId(id);
                     pedidos.prov.setNombre(atributo);
-                    txtf_lote_prov.setText(id + " - " + atributo);
+                    txtf_nota_proveedor.setText(id + " - " + atributo);
+                    pedidos.activarCampos(true);
+                    pedidos.cargarTabla();
+                    pedidos.factura = new facturaProveedor();
                 }
 
             }
@@ -2310,12 +2756,25 @@ public void limpiarCamposInventario() {
 
     private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
         btn_Guardar.setEnabled(true);
+        btn_Cancelar.setEnabled(true);
         btn_Modificar.setEnabled(false);
         btn_productoNuevo.setEnabled(false);
         btn_eliminar.setEnabled(false);
         btn_crearRubro.setEnabled(true);
         btn_producto_editarLote.setEnabled(true);
         btn_consultar_historial.setEnabled(true);
+        tabla_producto_precioVenta.setEnabled(true);
+        txtf_productos_nombre.setEnabled(true);
+        txtf_productos_costo.setEnabled(true);
+        txtf_productos_codigo_barra.setEnabled(true);
+        txtf_productos_costoFlete.setEnabled(true);
+        txtf_productos_observaciones.setEnabled(true);
+        txtf_iva.setEnabled(true);
+        txtf_imp_int_fijo.setEnabled(true);
+        txtf_impuesto_int.setEnabled(true);
+        txtf_sobretasa_iva.setEnabled(true);
+        txtf_productos_venta.setEnabled(true);
+        txtf_productos_codigo_ean.setEnabled(true);
         producto_plan.setEnabled(true);
         producto_Rubro.setEnabled(true);
         producto_Proveedor.setEnabled(true);
@@ -2389,7 +2848,6 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_btn_proveedores_imprimirTodoMouseClicked
 
     private void txtf_productos_buscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_productos_buscarKeyTyped
-
         char c = evt.getKeyChar();
         if (this.rbtn_productos_codigo.isSelected()) {
             if ((c < '0' || c > '9')) {
@@ -2415,7 +2873,12 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_chk_venta_ivaItemStateChanged
 
     private void tabla_producto_precioVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_producto_precioVentaMouseClicked
-        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            int row = tabla_producto_precioVenta.getSelectedRow();
+            boolean activa = (boolean) tabla_producto_precioVenta.getValueAt(row, 5);
+            tabla_producto_precioVenta.setValueAt(!activa,row, 5);
+            Pestaña1_dinamica.cuotas.get(row).setActiva(!activa);
+        }
     }//GEN-LAST:event_tabla_producto_precioVentaMouseClicked
 
     private void txtf_productos_codigo_barraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_productos_codigo_barraActionPerformed
@@ -2441,10 +2904,6 @@ public void limpiarCamposInventario() {
         limpiarCamposInventario();
     }//GEN-LAST:event_btn_CancelarActionPerformed
 
-    private void txtf_productos_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_productos_buscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtf_productos_buscarActionPerformed
-
     private void txtf_ivaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_ivaCaretUpdate
         // TODO add your handling code here:
     }//GEN-LAST:event_txtf_ivaCaretUpdate
@@ -2462,11 +2921,19 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_imp_int_fijoCaretUpdate
 
     private void btn_crearRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearRubroActionPerformed
-        
+        jDialogAñadirRubro.setTitle("Añadir rubro");
+        jDialogAñadirRubro.setVisible(true);
+        jDialogAñadirRubro.setModal(true);
+        jDialogAñadirPlan.setSize(360,110);
+        jDialogAñadirRubro.setLocationRelativeTo(this);
     }//GEN-LAST:event_btn_crearRubroActionPerformed
 
     private void btn_crearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPagoActionPerformed
-        // TODO add your handling code here:
+        jDialogAñadirPlan.setTitle("Añadir Plan de pago");
+        jDialogAñadirPlan.setVisible(true);
+        jDialogAñadirPlan.setModal(true);
+        jDialogAñadirPlan.setSize(300, 250);
+        jDialogAñadirPlan.setLocationRelativeTo(this);
     }//GEN-LAST:event_btn_crearPagoActionPerformed
 
     private void jRadioButtonNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonNegativoActionPerformed
@@ -2502,6 +2969,8 @@ public void limpiarCamposInventario() {
         if(Statics.Funciones.controlText(texto)){
             int i = rubroDAO.InsertRubro(texto);
             Pestaña1_dinamica.actualizarRubro();
+        }else{
+            
         }
         jDialogAñadirRubro.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
@@ -2523,6 +2992,106 @@ public void limpiarCamposInventario() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtf_productos_ventaCaretUpdate
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tipo_cuota.setText("");
+        porcentaje_cuota.setText("");
+        cantidad_cuota.setText("");
+        jDialogAñadirPlan.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String tipo = tipo_cuota.getText();
+        String porcentaje = porcentaje_cuota.getText();
+        String cantidad = cantidad_cuota.getText();
+        if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
+            Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad));
+            cuotasDAO.insertCuota(c);
+            jDialogAñadirPlan.dispose();
+            Pestaña1_dinamica.actualizarPrecios();
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_nota_nuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_nuevaActionPerformed
+        jDialogCrearNota.setTitle("Crear nota de pedido");
+        jDialogCrearNota.setVisible(true);
+        jDialogCrearNota.setModal(true);
+        jDialogCrearNota.setSize(1050,600);
+        jDialogCrearNota.setLocationRelativeTo(this);
+        pedidos.cambioBusqueda("");
+        pedidos.CrearPedido();
+    }//GEN-LAST:event_btn_nota_nuevaActionPerformed
+
+    private void tabla_nota_PedidossProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_PedidossProveedorMouseClicked
+        pedidos.cargarTablaFactura();
+    }//GEN-LAST:event_tabla_nota_PedidossProveedorMouseClicked
+
+    private void txtf_nota_buscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_nota_buscarCaretUpdate
+        pedidos.cambioBusqueda(txtf_productos_buscar.getText());
+    }//GEN-LAST:event_txtf_nota_buscarCaretUpdate
+
+    private void txtf_nota_buscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_buscarKeyTyped
+        char c = evt.getKeyChar();
+        if (this.rbtn_productos_codigo.isSelected()) {
+            if ((c < '0' || c > '9')) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_txtf_nota_buscarKeyTyped
+
+    private void txtf_nota_cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_cantidadKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+                evt.consume();
+        }
+    }//GEN-LAST:event_txtf_nota_cantidadKeyTyped
+
+    private void btn_nota_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_agregarActionPerformed
+        if(!Statics.Funciones.isNumeric(txtf_nota_cantidad.getText())){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un valor valido en cantidad.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Statics.Funciones.isFloat(txtf_nota_costo.getText())){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un valor valido en costo.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        pedidos.agregarRenglonPedido(Float.parseFloat(txtf_nota_costo.getText()),Integer.parseInt(txtf_nota_cantidad.getText()));
+    }//GEN-LAST:event_btn_nota_agregarActionPerformed
+
+    private void btn_nota_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_eliminarActionPerformed
+        pedidos.eliminarRP();
+    }//GEN-LAST:event_btn_nota_eliminarActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        pedidos.cancelarNota();        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tabla_nota_prodPedirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_prodPedirMouseClicked
+        if(tabla_nota_prodPedir.getSelectedRow() != -1){
+            pedidos.selectProducto(tabla_nota_prodPedir.getSelectedRow());
+        }
+    }//GEN-LAST:event_tabla_nota_prodPedirMouseClicked
+
+    private void tabla_nota_prodPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_prodPedidoMouseClicked
+        pedidos.rpSelected  = tabla_nota_prodPedido.getSelectedRow();
+    }//GEN-LAST:event_tabla_nota_prodPedidoMouseClicked
+
+    private void generarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarNotaActionPerformed
+        if(JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta nota de pedido?", "Generar Nota", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            pedidos.terminarPedido();
+        }else{
+            pedidos.cancelarNota();
+        }
+    }//GEN-LAST:event_generarNotaActionPerformed
+
+    private void txtf_nota_prod_nombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtf_nota_prod_nombreItemStateChanged
+        
+    }//GEN-LAST:event_txtf_nota_prod_nombreItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancelar;
@@ -2534,40 +3103,55 @@ public void limpiarCamposInventario() {
     private javax.swing.JButton btn_editDevolucion;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_eliminar_devolucion;
+    private javax.swing.JButton btn_factura_agregar;
+    private javax.swing.JButton btn_factura_eliminar;
     private javax.swing.JButton btn_guardar_devolucion;
     private javax.swing.JButton btn_lote_aceptar;
-    private javax.swing.JButton btn_lotes_prod_agregar;
     private javax.swing.JButton btn_lotes_prod_buscarprov;
-    private javax.swing.JButton btn_lotes_prod_eliminar;
+    private javax.swing.JButton btn_nota_agregar;
+    private javax.swing.JButton btn_nota_eliminar;
+    private javax.swing.JButton btn_nota_nueva;
     private javax.swing.JButton btn_nuevaDevolucion;
     private javax.swing.JButton btn_productoNuevo;
     private javax.swing.JButton btn_producto_editarLote;
     private javax.swing.JButton btn_proveedores_imprimirTodo;
     private javax.swing.ButtonGroup buttonGroupFiltroStock;
+    private javax.swing.JTextField cantidad_cuota;
+    private javax.swing.JComboBox cbox_tipo_factura;
     private javax.swing.JCheckBox chk_venta_iva;
     private javax.swing.JComboBox combo_forma_pago;
-    private com.toedter.calendar.JDateChooser date_lote_fecha_factura;
-    private com.toedter.calendar.JDateChooser date_lote_fecha_pago;
+    private com.toedter.calendar.JDateChooser date_nota_fecha_factura;
+    private com.toedter.calendar.JDateChooser date_nota_fecha_pago;
     private com.toedter.calendar.JDateChooser fecha_fin;
     private com.toedter.calendar.JDateChooser fecha_inicio;
+    private javax.swing.JButton generarNota;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonImprimirStock;
+    private javax.swing.JDialog jDialogAñadirPlan;
     private javax.swing.JDialog jDialogAñadirRubro;
+    private javax.swing.JDialog jDialogCrearNota;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel115;
     private javax.swing.JLabel jLabel137;
     private javax.swing.JLabel jLabel141;
     private javax.swing.JLabel jLabel142;
     private javax.swing.JLabel jLabel165;
+    private javax.swing.JLabel jLabel167;
     private javax.swing.JLabel jLabel168;
     private javax.swing.JLabel jLabel169;
     private javax.swing.JLabel jLabel170;
     private javax.swing.JLabel jLabel171;
     private javax.swing.JLabel jLabel172;
+    private javax.swing.JLabel jLabel173;
     private javax.swing.JLabel jLabel174;
+    private javax.swing.JLabel jLabel175;
     private javax.swing.JLabel jLabel176;
+    private javax.swing.JLabel jLabel177;
     private javax.swing.JLabel jLabel187;
     private javax.swing.JLabel jLabel188;
     private javax.swing.JLabel jLabel189;
@@ -2582,11 +3166,13 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel237;
     private javax.swing.JLabel jLabel238;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
@@ -2595,18 +3181,22 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLbl_devo_nuevaDevo;
     private javax.swing.JLabel jLbl_devo_prodAsociado;
     private javax.swing.JPanel jPanel1;
@@ -2637,8 +3227,11 @@ public void limpiarCamposInventario() {
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane21;
     private javax.swing.JScrollPane jScrollPane27;
+    private javax.swing.JScrollPane jScrollPane28;
+    private javax.swing.JScrollPane jScrollPane29;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator16;
@@ -2653,25 +3246,33 @@ public void limpiarCamposInventario() {
     private javax.swing.JSeparator jSeparator36;
     private javax.swing.JTable jTableTablaStock;
     private javax.swing.JLabel jlbl_editDevo_disp;
+    private javax.swing.JLabel lbl_nota_proveedor;
     private javax.swing.JPanel panel_devos;
     private javax.swing.JPanel panel_pedidos;
     private javax.swing.JPanel panel_productos_detalle;
+    private javax.swing.JTextField porcentaje_cuota;
     private javax.swing.JComboBox<Models.Proveedor> producto_Proveedor;
     private javax.swing.JComboBox<Models.Rubro> producto_Rubro;
     private javax.swing.JComboBox<Models.Cuota> producto_plan;
     protected javax.swing.JRadioButton rbtn_devolucion_codigo;
     protected javax.swing.JRadioButton rbtn_devolucion_nombre;
-    private javax.swing.JRadioButton rbtn_lote_prod_codigo;
-    private javax.swing.JRadioButton rbtn_lote_prod_prod;
+    private javax.swing.JRadioButton rbtn_nota_prod_codigo;
+    private javax.swing.JRadioButton rbtn_nota_prod_prod;
     protected javax.swing.JRadioButton rbtn_productos_codigo;
+    protected javax.swing.JRadioButton rbtn_productos_codigo1;
     protected javax.swing.JRadioButton rbtn_productos_nombre;
+    protected javax.swing.JRadioButton rbtn_productos_nombre1;
     private javax.swing.JTextField stock;
     private javax.swing.JTable tabla_devo_preventistas;
     private javax.swing.JTable tabla_devos;
+    private javax.swing.JTable tabla_nota_PedidossProveedor;
+    private javax.swing.JTable tabla_nota_prodPedido;
+    private javax.swing.JTable tabla_nota_prodPedir;
     private javax.swing.JTable tabla_producto_precioVenta;
     private javax.swing.JTabbedPane tabla_productos;
     private javax.swing.JTable tabla_productos_busqueda;
     private javax.swing.JTable tabla_productos_pedido;
+    private javax.swing.JTextField tipo_cuota;
     private javax.swing.JTextField txtf_codDevolucion;
     private javax.swing.JTextField txtf_codigoProd;
     protected javax.swing.JTextField txtf_devo_codigo;
@@ -2683,14 +3284,19 @@ public void limpiarCamposInventario() {
     private javax.swing.JTextField txtf_imp_int_fijo;
     private javax.swing.JTextField txtf_impuesto_int;
     private javax.swing.JTextField txtf_iva;
-    private javax.swing.JTextField txtf_lote_prod_cod;
-    private javax.swing.JTextField txtf_lote_prod_factura;
     private javax.swing.JTextField txtf_lote_prod_flete;
-    private javax.swing.JComboBox txtf_lote_prod_nombre;
-    private javax.swing.JTextField txtf_lote_prod_precio;
-    private javax.swing.JTextField txtf_lote_prod_stock;
-    private javax.swing.JTextField txtf_lote_prov;
     private javax.swing.JTextField txtf_nombreDevo;
+    protected javax.swing.JTextField txtf_nota_buscar;
+    protected javax.swing.JTextField txtf_nota_cantidad;
+    protected javax.swing.JTextField txtf_nota_costo;
+    protected javax.swing.JTextField txtf_nota_nro;
+    private javax.swing.JTextField txtf_nota_prod_cod;
+    private javax.swing.JTextField txtf_nota_prod_factura;
+    private javax.swing.JComboBox txtf_nota_prod_nombre;
+    private javax.swing.JTextField txtf_nota_prod_precio;
+    private javax.swing.JTextField txtf_nota_prod_stock;
+    private javax.swing.JTextField txtf_nota_proveedor;
+    protected javax.swing.JTextField txtf_nota_total;
     private javax.swing.JTextField txtf_nuevo_rubro;
     private javax.swing.JTextField txtf_porcentaje;
     protected javax.swing.JTextField txtf_productos_buscar;
@@ -2805,6 +3411,8 @@ public void limpiarCamposInventario() {
                     txtf_sobretasa_iva.setText(""+prodSeleccionado.getSobretasaIva());
                     txtf_imp_int_fijo.setText(""+prodSeleccionado.getImpuesto_int_fijo());
                     txtf_impuesto_int.setText(""+prodSeleccionado.getImpuesto_interno());
+                    txtf_productos_venta.setText(""+prodSeleccionado.getPrecioVenta());
+                    txtf_productos_codigo_ean.setText(prodSeleccionado.getCodigoEAN());
                     stock.setText("" + prodSeleccionado.getStock());
                     producto_Proveedor.removeAllItems();
                     producto_Proveedor.setEnabled(false);
@@ -2817,6 +3425,12 @@ public void limpiarCamposInventario() {
                     } else {
                         Proveedor p = proveedoresDAO.getProveedor(prodSeleccionado.getIdProveedorActual());
                         producto_Proveedor.addItem(p);
+                    }
+                    if(prodSeleccionado.getIdProductoRubro() != -1){
+                        Rubro r = new Rubro();
+                        r.setId(prodSeleccionado.getIdProductoRubro());
+                        r.setNombre(prodSeleccionado.getNombreRubro());
+                        producto_Rubro.addItem(r);
                     }
                     chk_venta_iva.setSelected(prodSeleccionado.isSinIva());
                 }
@@ -2846,29 +3460,29 @@ public void limpiarCamposInventario() {
                     float precio_parcial = costo + flete;
                     try {
                         tablaProdPrecios.setNumRows(0);
-                        Object[] obj = new Object[5];
+                        Object[] obj = new Object[6];
                         for (int i = 0; i < cuotas.size(); i++) {
-                            obj[0] = cuotas.get(i).getCantidad();
-                            obj[1] = cuotas.get(i).getTipo();
+                            obj[0] = cuotas.get(i).getId();
+                            obj[1] = cuotas.get(i).getCantidad();
+                            obj[2] = cuotas.get(i).getTipo();
                             float precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra()/100) + 1);
-                            obj[2] = precio_final;
-                            obj[3] = precio_final / cuotas.get(i).getCantidad();
-                            obj[4] = cuotas.get(i).getActiva();
+                            obj[3] = precio_final;
+                            obj[4] = precio_final / cuotas.get(i).getCantidad();
+                            obj[5] = cuotas.get(i).getActiva();
                             tablaProdPrecios.addRow(obj);
                         }
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                     }
                     
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                 }
             }
 
         }
 
         private void actualizarProduto() {
-            System.err.println("entro actualizar producto");
             if (prodSeleccionado != null) {
                 prodSeleccionado.setNombre(txtf_productos_nombre.getText());
                 prodSeleccionado.setStockMin(Integer.parseInt(txtf_productos_stockMinimo.getText()));
@@ -2911,6 +3525,10 @@ public void limpiarCamposInventario() {
                     prodSeleccionado.setSinIva(false);
                 }
                 productosDAO.actualizarProducto(prodSeleccionado);
+                for (int i = 0; i < tabla_producto_precioVenta.getRowCount(); i++) {
+                    cuotas.get(i).setActiva((boolean)tabla_producto_precioVenta.getValueAt(i, 5));
+                }
+                cuotasDAO.setCuotasProd(cuotas,prodSeleccionado.getId());
             } else {
                 System.err.println("Error: prodSeleccionado null");
             }
@@ -3114,6 +3732,11 @@ public void limpiarCamposInventario() {
             JOptionPane.showMessageDialog(null, "No se pudo editar el lote", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
+        private void actualizarPrecios() {
+            cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
+            calcularPrecios();
+        }
+
         
 
     }
@@ -3121,8 +3744,21 @@ public void limpiarCamposInventario() {
 public class Pestaña3_dinamica {
 
         private DefaultTableModel model;
+        private DefaultTableModel modelNotas;
+        private DefaultTableModel modelNotaprodPedido;
+        private DefaultTableModel modelNotaprodPedir;
         private Proveedor prov;
+        private ProveedoresDAO proveedoresDAO;
+        private PedidoDAO pedidoDAO;
+        private ProductoDAO productosDAO;
         private List<Producto> listProd;
+        private List<Producto> listProdNota;
+        private List<Pedido> listPedidos;
+        private facturaProveedor factura;
+        private Pedido pedidoNuevo;
+        private Pedido pedidoFact;
+        private int rpSelected = -1;
+        private int rfSelected = -1;
         private Producto prodSelect;
         private DefaultComboBoxModel modelCombo;
         private ButtonGroup grupo;
@@ -3130,35 +3766,39 @@ public class Pestaña3_dinamica {
 
         public Pestaña3_dinamica() {
             listProd = new ArrayList<>();
+            listProdNota = new ArrayList<>();
+            proveedoresDAO = ProveedoresDAO.getInstance();
+            productosDAO = ProductoDAO.getInstance();
+            pedidoDAO = PedidoDAO.getInstance();
             posEdit = -1;
             prodSelect = null;
             modelCombo = new DefaultComboBoxModel();
             model = (DefaultTableModel) tabla_productos_pedido.getModel();
+            modelNotaprodPedido = (DefaultTableModel) tabla_nota_prodPedido.getModel();
+            modelNotaprodPedir = (DefaultTableModel) tabla_nota_prodPedir.getModel();
+            modelNotas = (DefaultTableModel) tabla_nota_PedidossProveedor.getModel();
             grupo = new ButtonGroup();
-            grupo.add(rbtn_lote_prod_codigo);
-            grupo.add(rbtn_lote_prod_prod);
-            rbtn_lote_prod_codigo.setSelected(true);
-            rbtn_lote_prod_codigo.addItemListener(new ItemListener() {
+            grupo.add(rbtn_nota_prod_codigo);
+            grupo.add(rbtn_nota_prod_prod);
+            rbtn_nota_prod_codigo.setSelected(true);
+            rbtn_nota_prod_codigo.addItemListener(new ItemListener() {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        txtf_lote_prod_cod.setEditable(true);
+                        txtf_nota_prod_cod.setEditable(true);
                     } else {
-                        txtf_lote_prod_cod.setEditable(false);
+                        txtf_nota_prod_cod.setEditable(false);
                     }
                 }
             });
-            rbtn_lote_prod_prod.addItemListener(new ItemListener() {
+            rbtn_nota_prod_prod.addItemListener(new ItemListener() {
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                        txtf_lote_prod_nombre.setEnabled(true);
+                        txtf_nota_prod_nombre.setEnabled(true);
                         inicializarBusquedaNombre_Pedidos("");
-                        txtf_lote_prod_cod.setText("");
-
-                    } else {
-                        txtf_lote_prod_nombre.setEnabled(false);
+                        txtf_nota_prod_cod.setText("");
                     }
                 }
             });
@@ -3175,63 +3815,68 @@ public class Pestaña3_dinamica {
                     }
                 }
             });
-            txtf_lote_prod_nombre.getEditor().addActionListener(new ActionListener() {
+            txtf_nota_prod_nombre.getEditor().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
-                    String select = (String) txtf_lote_prod_nombre.getSelectedItem();
+                    String select = (String) txtf_nota_prod_nombre.getSelectedItem();
                     buscarProducto(select);
                 }
             });
             Calendar c = Calendar.getInstance();
             Date hoy = c.getTime();
-            date_lote_fecha_factura.setDate(hoy);
+            date_nota_fecha_factura.setDate(hoy);
+            date_nota_fecha_pago.setDate(hoy);
         }
 
         private void seleccionarProductoTabla(int pos) {
-            prodSelect = listProd.get(pos);
-            if (prodSelect != null) {
+            renglonFactura rf = factura.getRenglones().get(pos);
+            if (rf != null) {
                 posEdit = pos;
-                txtf_lote_prod_cod.setText("" + prodSelect.getId());
-                txtf_lote_prod_nombre.setSelectedItem(prodSelect.getNombre());
-                txtf_lote_prod_cod.setEditable(false);
-                txtf_lote_prod_nombre.setEnabled(false);
-                txtf_lote_prod_stock.setText("" + prodSelect.getStock());
-                txtf_lote_prod_precio.setText("" + prodSelect.getPrecioCosto());
-                rbtn_lote_prod_codigo.setEnabled(false);
-                rbtn_lote_prod_prod.setEnabled(false);
+                txtf_nota_prod_cod.setText("" + rf.getP().getCod());
+                txtf_nota_prod_nombre.setSelectedItem(rf.getP().getNombre());
+                txtf_nota_prod_cod.setEditable(false);
+                txtf_nota_prod_nombre.setEnabled(false);
+                txtf_nota_prod_stock.setText("" + rf.getCantidad());
+                txtf_nota_prod_precio.setText("" + rf.getSubTotal());
+                rbtn_nota_prod_codigo.setEnabled(false);
+                rbtn_nota_prod_prod.setEnabled(false);
             }
         }
 
         private void buscarProducto(String aux_idP) {
-            /*if (!aux_idP.isEmpty()) {
-                if (rbtn_lote_prod_codigo.isSelected()) {
+            if (!aux_idP.isEmpty()) {
+                if (rbtn_nota_prod_codigo.isSelected()) {
                     int idP = Integer.parseInt(aux_idP);
-                    prodSelect = Pestaña1_dinamica.productosDAO.getItemInverntarioActivo(idP);
+                    listProd = Pestaña1_dinamica.productosDAO.buscarProducto(idP);
+                    if (listProd.size() == 1) {
+                        txtf_nota_prod_cod.setText("" + listProd.get(0).getCod());
+                        prodSelect = listProd.get(0);
+                    }
                     if (prodSelect != null && prodSelect.getId() == idP) {
                         String[] aux = new String[1];
                         aux[0] = prodSelect.getNombre();
                         modelCombo = new DefaultComboBoxModel(aux);
-                        txtf_lote_prod_nombre.setModel(modelCombo);
+                        txtf_nota_prod_nombre.setModel(modelCombo);
                     }
-                } else if (rbtn_lote_prod_prod.isSelected()) {
-                    List<Producto> list = Pestaña1_dinamica.productosDAO.searchProductName(aux_idP);
-                    if (list.size() == 1) {
-                        txtf_lote_prod_cod.setText("" + list.get(0).getId());
-                        prodSelect = list.get(0);
+                } else if (rbtn_nota_prod_prod.isSelected()) {
+                    listProd = Pestaña1_dinamica.productosDAO.buscarProducto("nombre", aux_idP);
+                    if (listProd.size() == 1) {
+                        txtf_nota_prod_cod.setText("" + listProd.get(0).getCod());
+                        prodSelect = listProd.get(0);
                     }
                 }
-            }*/
+            }
         }
 
         private void inicializarBusquedaNombre_Pedidos(String valor) {
-           /* listProd = Pestaña1_dinamica.productosDAO.searchProductName(valor);
+            listProd = Pestaña1_dinamica.productosDAO.buscarProducto("nombre",valor);
             String[] aux = new String[listProd.size()];
             for (int i = 0; i < listProd.size(); i++) {
                 aux[i] = listProd.get(i).getNombre();
             }
             modelCombo = new DefaultComboBoxModel(aux);
-            txtf_lote_prod_nombre.setModel(modelCombo);
-            AutoCompleteDecorator.decorate(txtf_lote_prod_nombre);*/
+            txtf_nota_prod_nombre.setModel(modelCombo);
+            AutoCompleteDecorator.decorate(txtf_nota_prod_nombre);
         }
 
         private void agregarProducto() {
@@ -3240,97 +3885,314 @@ public class Pestaña3_dinamica {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String auxStock = txtf_lote_prod_stock.getText();
-            String auxPrecio = txtf_lote_prod_precio.getText();
+            String auxStock = txtf_nota_prod_stock.getText();
+            String auxPrecio = txtf_nota_prod_precio.getText();
             try {
                 int stock = Integer.parseInt(auxStock);
                 float precio = Float.parseFloat(auxPrecio);
                 if (prodSelect != null) {
-                    prodSelect.setPrecioCosto(precio);
-                    prodSelect.setStock(stock);
+                    renglonFactura rf = new renglonFactura();
+                    rf.setCantidad(stock);
+                    rf.setCosto(precio);
+                    rf.setSubTotal(precio*stock);
                     Object[] obj = new Object[5];
                     if (posEdit != -1) {
-                        listProd.remove(posEdit);
-                        listProd.add(posEdit, prodSelect);
+                        rf.setP(factura.getRenglones().get(posEdit).getP());
+                        factura.getRenglones().remove(posEdit);
+                        factura.getRenglones().add(posEdit, rf);
                         model.setNumRows(0);
-                        for (int i = 0; i < listProd.size(); i++) {
-                            obj[0] = listProd.get(i).getId();
-                            obj[1] = listProd.get(i).getNombre();
-                            obj[2] = listProd.get(i).getStock();
-                            obj[3] = listProd.get(i).getPrecioCosto();
+                        for (int i = 0; i < factura.getRenglones().size(); i++) {
+                            obj[0] = factura.getRenglones().get(i).getP().getCod();
+                            obj[1] = factura.getRenglones().get(i).getP().getNombre();
+                            obj[2] = factura.getRenglones().get(i).getCantidad();
+                            obj[3] = factura.getRenglones().get(i).getCosto();
+                            obj[4] = factura.getRenglones().get(i).getSubTotal();
                             model.addRow(obj);
                         }
                         posEdit = -1;
                     } else {
-                        listProd.add(prodSelect);
-                        obj[0] = prodSelect.getId();
-                        obj[1] = prodSelect.getNombre();
-                        obj[2] = prodSelect.getStock();
-                        obj[3] = prodSelect.getPrecioCosto();
+                        rf.setP(prodSelect);
+                        factura.getRenglones().add(rf);
+                        obj[0] = rf.getP().getCod();
+                        obj[1] = rf.getP().getNombre();
+                        obj[2] = rf.getCantidad();
+                        obj[3] = rf.getCosto();
+                        obj[4] = rf.getSubTotal();
                         model.addRow(obj);
                     }
                     limpiarCampos();
+                    
                 }
             } catch (NumberFormatException ex) {
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "El formato de stock o precio no es correcto.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
         private void limpiarCampos() {
             prodSelect = null;
             posEdit = -1;
-            rbtn_lote_prod_codigo.setEnabled(true);
-            rbtn_lote_prod_prod.setEnabled(true);
-            txtf_lote_prod_cod.setText("");
-            txtf_lote_prod_stock.setText("");
-            txtf_lote_prod_precio.setText("");
-            if (rbtn_lote_prod_codigo.isSelected()) {
-                txtf_lote_prod_cod.setEditable(true);
-                txtf_lote_prod_cod.requestFocus();
+            rbtn_nota_prod_codigo.setEnabled(true);
+            rbtn_nota_prod_prod.setEnabled(true);
+            btn_nota_nueva.setEnabled(true);
+            txtf_nota_prod_cod.setText("");
+            txtf_nota_prod_stock.setText("");
+            txtf_nota_prod_precio.setText("");
+            modelNotas.setNumRows(0);
+            if (rbtn_nota_prod_codigo.isSelected()) {
+                txtf_nota_prod_cod.setEditable(true);
+                txtf_nota_prod_cod.requestFocus();
             } else {
-                txtf_lote_prod_nombre.setEnabled(true);
-                txtf_lote_prod_nombre.requestFocus();
+                txtf_nota_prod_nombre.setEnabled(true);
+                txtf_nota_prod_nombre.requestFocus();
             }
             listProd = new ArrayList<>();
         }
 
         private void eliminarProducto() {
             int pos = tabla_productos_pedido.getSelectedRow();
-            if (pos != -1 && pos <= listProd.size()) {
+            if (pos != -1 && pos <= factura.getRenglones().size()) {
                 try {
-                    listProd.remove(pos);
+                    factura.getRenglones().remove(pos);
                     model.removeRow(pos);
                     limpiarCampos();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    new Statics.ExceptionManager().saveDump(ex, "Eliminar producto en tabla de pedidos", Main.isProduccion);
                 }
             }
         }
 
-        private void guardarPedido() {
-            if (txtf_lote_prod_flete.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Debe ingresar el flete",
+        private void guardarFactura() {
+            int flete = 0;
+            String numFac = "";
+            String formaPago = (String) combo_forma_pago.getSelectedItem();
+            Date fechaPago = date_nota_fecha_pago.getDate();
+            Date fechaFac = date_nota_fecha_factura.getDate();
+            //Controles
+            if (Statics.Funciones.isNumeric(txtf_lote_prod_flete.getText())) {
+                flete = Integer.parseInt(txtf_lote_prod_flete.getText());
+            }
+            if (Statics.Funciones.controlText(txtf_nota_prod_factura.getText())) {
+                numFac = txtf_nota_prod_factura.getText();
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe poner el numero de factura que figura en la misma.",
                         "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                int flete = Integer.parseInt(txtf_lote_prod_flete.getText());
-                String formaPago = (String) combo_forma_pago.getSelectedItem();
-                Date fechaPago = date_lote_fecha_pago.getDate();
-                String numFac = txtf_lote_prod_factura.getText();
-                Date fechaFac = date_lote_fecha_factura.getDate();
+                return;
+            }
+            if(fechaFac.after(fechaPago) || fechaFac.equals(fechaPago)){
+                factura.setEstado("PAGADA");
+            }else{
+                factura.setEstado("PENDIENTE");
+            }
+            if(factura.getRenglones().isEmpty()){
+                JOptionPane.showMessageDialog(null, "No se puede generar una factura sin renglones.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            //FIN CONTROLES
+            factura.setNumFactura(numFac);
+            factura.setIdProv(prov.getId());
+            factura.setFlete(flete);
+            factura.setTipo_factura((String) cbox_tipo_factura.getSelectedItem());
+            factura.setFecha_factura(fechaFac);
+            factura.setFecha_pago(fechaPago);
+            factura.setForma_pago(formaPago);
+            pedidoDAO.insertarFactura(factura);
+            if(!pedidoFact.getNumPedido().equals(factura.getNumPedido())){
+                pedidoDAO.checkStockPedido(factura,pedidoFact);
+            }
+            pedidoFact = null;
+        }
 
-                Pedido p = new Pedido();
-                p.setNumFactura(numFac);
-                p.setIdProv(prov.getId());
-                p.setFlete(flete);
-                p.setFormaPago(formaPago);
-                p.setFecha(fechaFac);
-                p.setFechaPago(fechaPago);
-                for (int i = 0; i < listProd.size(); i++) {
-                    Producto prod = listProd.get(i);
-                   // Pestaña1_dinamica.productosDAO.addStock(prod.getId(), prod.getStock());
-                }
+        private void cargarTabla() {
+            listPedidos = pedidoDAO.getPedidos(prov.getId());
+            modelNotas.setNumRows(0);
+            model.setRowCount(0);
+            for(int i = 0; i < listPedidos.size();i++){
+                Object[] c = new Object[3];
+                c[0] = listPedidos.get(i).getNumPedido();
+                c[1] = listPedidos.get(i).getFecha();
+                c[2] = listPedidos.get(i).getEstado();
+                modelNotas.addRow(c);
             }
         }
+
+        private void cargarTablaFactura() {
+            int pos = tabla_nota_PedidossProveedor.getSelectedRow();
+            pedidoFact = listPedidos.get(pos);
+            model.setNumRows(0);
+            factura = new facturaProveedor();
+            factura.setNumPedido(pedidoFact.getNumPedido());
+            for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
+                renglonPedido rp = pedidoFact.getRenglones().get(i);
+                renglonFactura rf = new renglonFactura(rp.getP(),rp.getCantidad(),rp.getCosto(),rp.getSubTotal());
+                Object[] obj = new Object[5];
+                obj[0] = rp.getP().getCod();
+                obj[1] = rp.getP().getNombre();
+                obj[2] = rp.getCantidad();
+                obj[3] = rp.getCosto();
+                obj[4] = rp.getSubTotal();
+                factura.addRenglon(rf);
+                model.addRow(obj);
+            }
+        }
+
+
+
+        private void selectProducto(int pos) {
+            prodSelect = listProdNota.get(pos);
+            txtf_nota_costo.setText(prodSelect.getPrecioCosto()+"");
+            txtf_nota_buscar.setText(prodSelect.getNombre());
+            txtf_nota_cantidad.requestFocus();
+            txtf_nota_cantidad.selectAll();
+        }
+
+        private void cambioBusqueda(String text) {
+            if (text.isEmpty()) {
+                cargarProductos(productosDAO.buscarProducto("nombre", ""));
+            } else if (rbtn_productos_codigo.isSelected()) {
+                try {
+                    int cod = Integer.parseInt(text);
+                    cargarProductos(productosDAO.buscarProducto(cod));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un c�digo",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    txtf_productos_buscar.setText("");
+                }
+            } else if (rbtn_productos_nombre.isSelected()) {
+                cargarProductos(productosDAO.buscarProducto("nombre",text.toLowerCase()));
+            } else {
+                System.out.println("Error no selecciono tipo de busqueda");
+            }
+        }
+        
+        public void cargarProductos(List<Producto> list) {
+            listProdNota = list;          
+            try {
+                
+                modelNotaprodPedir.setNumRows(0);
+                Object[] obj = new Object[4];
+                for (int i = 0; i < list.size(); i++) {
+                    obj[0] = list.get(i).getCod();
+                    obj[1] = list.get(i).getNombre();
+                    obj[2] = list.get(i).getStock();
+                    obj[3] = list.get(i).getPrecioCosto();
+                    modelNotaprodPedir.addRow(obj);
+                }
+                tabla_nota_prodPedido.setDefaultRenderer(Object.class, new MiRenderer(listProdNota));
+            } catch (Exception ex) {
+                new Statics.ExceptionManager().saveDump(ex, "Error al cargar producto en la tabla de nota nueva.", Main.isProduccion);
+            }
+        }
+
+        private void agregarRenglonPedido(float parseFloat, int parseInt) {
+            if(prodSelect == null){
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un producto.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            renglonPedido rp = new renglonPedido();
+            rp.setCantidad(parseInt);
+            rp.setCantFaltante(parseInt);
+            rp.setCosto(parseFloat);
+            rp.setP(prodSelect);
+            rp.setSubTotal(parseFloat*parseInt);
+            float rest = 0f;
+            if(pedidoNuevo.getRenglones().contains(rp)){
+                for(int i = 0; i< pedidoNuevo.getRenglones().size() ; i++){
+                    if(pedidoNuevo.getRenglones().get(i).getP().getId() == prodSelect.getId()){
+                        rest = pedidoNuevo.getRenglones().get(i).getSubTotal();
+                        pedidoNuevo.getRenglones().get(i).setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
+                        pedidoNuevo.getRenglones().get(i).setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
+                        // pedidoNuevo.getRenglones().get(i).setCantidad(rp.getCantidad());//reemplaza la cantidad actual por la del txt
+                        pedidoNuevo.getRenglones().get(i).setSubTotal(pedidoNuevo.getRenglones().get(i).getCantidad()*rp.getCosto());
+                        pedidoNuevo.getRenglones().get(i).setCosto(rp.getCosto());
+                        rp.setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad());
+                        rp.setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad());
+                        rp.setSubTotal(pedidoNuevo.getRenglones().get(i).getSubTotal());
+                        modelNotaprodPedido.setValueAt(rp.getCantidad(), i, 2);
+                        modelNotaprodPedido.setValueAt(rp.getCosto(), i, 3);
+                        modelNotaprodPedido.setValueAt(rp.getSubTotal(), i, 4);
+                    }
+                }
+            }else{
+                pedidoNuevo.addRenglon(rp);
+                Object[] o = new Object [5];
+                o[0] = rp.getP().getCod();
+                o[1] = rp.getP().getNombre();
+                o[2] = rp.getCantidad();
+                o[3] = rp.getCosto();
+                o[4] = rp.getSubTotal();
+                modelNotaprodPedido.addRow(o);
+            }
+            txtf_nota_buscar.setText("");
+            txtf_nota_cantidad.setText("");
+            txtf_nota_costo.setText("");
+            if(Statics.Funciones.isFloat(txtf_nota_total.getText())){
+                float total = Float.parseFloat(txtf_nota_total.getText());
+                total += rp.getSubTotal() - rest;
+                txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(total));
+            }else{
+                float total = rp.getSubTotal();
+                txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(total));
+            }
+        }
+
+        private void CrearPedido() {
+            pedidoNuevo = pedidoDAO.insertPedido(prov.getId());
+            if(pedidoNuevo != null){
+                txtf_nota_nro.setText(pedidoNuevo.getNumPedido());
+                lbl_nota_proveedor.setText(prov.getNombre());
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al crear pedido",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+
+        private void eliminarRP() {
+            if(rpSelected != -1){
+                pedidos.pedidoNuevo.getRenglones().remove(rpSelected);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error no seleccionó ningun producto.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        private void terminarPedido() {
+            if(Statics.Funciones.isFloat(txtf_nota_total.getText())){
+                float total = Float.parseFloat(txtf_nota_total.getText());
+                pedidoNuevo.setTotal(total);
+                pedidoNuevo.setFecha(new Date());
+            }
+            System.out.println("va a insertar pedido");
+            pedidoDAO.insertRP(pedidoNuevo);
+            System.out.println("inserto el pedido");
+            txtf_nota_buscar.setText("");
+            txtf_nota_cantidad.setText("");
+            txtf_nota_costo.setText("");
+            modelNotaprodPedido.setRowCount(0);
+            jDialogCrearNota.dispose();
+            cargarTabla();
+        }
+
+        private void activarCampos(boolean flag) {
+            btn_nota_nueva.setEnabled(flag);
+            btn_factura_agregar.setEnabled(flag);
+            btn_factura_eliminar.setEnabled(flag);
+            txtf_nota_prod_cod.setEnabled(flag);
+            txtf_nota_prod_nombre.setEnabled(flag);
+            txtf_nota_prod_stock.setEnabled(flag);
+            txtf_nota_prod_precio.setEnabled(flag);
+            rbtn_nota_prod_codigo.setEnabled(flag);
+            rbtn_nota_prod_prod.setEnabled(flag);
+        }
+
+        private void cancelarNota() {
+            pedidoDAO.eliminarPedido(pedidoNuevo);
+            jDialogCrearNota.dispose();
+        }
+
     }
 public class Pestaña4_dinamica extends Thread
 {

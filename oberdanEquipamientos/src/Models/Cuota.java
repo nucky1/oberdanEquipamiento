@@ -16,6 +16,16 @@ public class Cuota {
     private float porcentajeExtra;
     private boolean activa; //para saber si el producto seleccionado la usa
 
+    public Cuota(String tipo, float parseFloat, int parseInt) {
+        this.tipo = tipo;
+        this.cantidad = parseInt;
+        this.porcentajeExtra = parseFloat;
+    }
+
+    public Cuota() {
+        
+    }
+
     public boolean getActiva() {
         return activa;
     }
@@ -26,6 +36,9 @@ public class Cuota {
         }else{
             this.activa = false;   
         }
+    }
+    public void setActiva(boolean activa) {
+        this.activa = activa;
     }
 
     
