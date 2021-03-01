@@ -83,9 +83,9 @@ public class EmpleadosDAO {
         return res;
     }
     
-     public List<Empleado> buscarEmpleado(String valor) {
+     public List<Empleado> buscarEmpleado(String valor,String tipo_busqueda) {
        
-       String  tipo_busqueda = "nombre";
+       //String  tipo_busqueda = "nombre";
         String SQL = "SELECT empleado.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
           + " FROM empleado,direccion,barrio,localidad,provincia,pais"
           + " WHERE empleado."+tipo_busqueda+" like '%"+valor+"%' AND empleado.state = 'ACTIVO'"
