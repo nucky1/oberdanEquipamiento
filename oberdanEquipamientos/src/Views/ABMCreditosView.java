@@ -5,6 +5,7 @@
  */
 package Views;
 
+import java.util.Date;
 import javax.swing.JTable;
 
 /**
@@ -18,6 +19,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
      */
     public ABMCreditosView() {
         initComponents();
+        new Statics.TextPrompt("Buscar por Titular o numero de crédito/solicitud", txt_buscar);
         //PARA EL SCROLL HORIZONTAL
         table_articulos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table_articulos.doLayout();
@@ -47,11 +49,14 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jLabel44 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane12 = new javax.swing.JScrollPane();
         tabla_Solicitudes = new javax.swing.JTable();
         jLabel41 = new javax.swing.JLabel();
-        txt_buscarSoli = new javax.swing.JTextField();
+        txt_buscar = new javax.swing.JTextField();
+        rbtn_solicitud = new javax.swing.JRadioButton();
+        rbtn_credito = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_NroSoli = new javax.swing.JLabel();
         lbl_FechaSoli = new javax.swing.JLabel();
@@ -64,41 +69,41 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         txt_nombreSolicitante = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        txt_nombreComercio2 = new javax.swing.JTextField();
+        txt_saldoCredito = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txt_nombreComercio = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btn_verSolicitante = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        txt_nombreComercio1 = new javax.swing.JTextField();
+        btn_verCreditosCliente = new javax.swing.JButton();
+        txt_limiteCredito = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txt_nombreArticulo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        txt_nombreComercio6 = new javax.swing.JTextField();
+        txt_importeCuotaProd = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        txt_nombreComercio8 = new javax.swing.JTextField();
+        txt_importeTotal = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         btn_crearPago = new javax.swing.JButton();
-        txt_nombreComercio10 = new javax.swing.JTextField();
+        txt_importeMinimo = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_articulos = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
-        txt_nombreComercio11 = new javax.swing.JTextField();
+        txt_importeCredito = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        txt_nombreComercio12 = new javax.swing.JTextField();
+        txt_cantidadCuotas = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        txt_nombreComercio13 = new javax.swing.JTextField();
+        txt_importeCuotaTotal = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        txt_nombreComercio14 = new javax.swing.JTextField();
-        btn_crearPago2 = new javax.swing.JButton();
-        btn_crearPago3 = new javax.swing.JButton();
-        btn_crearPago4 = new javax.swing.JButton();
-        producto_plan1 = new javax.swing.JComboBox<>();
+        txt_importePrimeraCuota = new javax.swing.JTextField();
+        btn_terminarCredito = new javax.swing.JButton();
+        btn_agregarArticulo = new javax.swing.JButton();
+        btn_comprobarUnificacion = new javax.swing.JButton();
+        producto_plan = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
-        txt_nombreComercio7 = new javax.swing.JTextField();
+        txt_cantidadProd = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
@@ -110,27 +115,27 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        txt_nombreComercio19 = new javax.swing.JTextField();
+        txt_importeFinalCredito = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        txt_nombreComercio17 = new javax.swing.JTextField();
+        txt_importeUltimaCuota = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        txt_nombreComercio18 = new javax.swing.JTextField();
-        btn_crearPago5 = new javax.swing.JButton();
-        txt_nombreComercio15 = new javax.swing.JTextField();
+        txt_importeCuotaFin = new javax.swing.JTextField();
+        btn_cancelar = new javax.swing.JButton();
+        txt_cantidadCuotasFin = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtArea_observaciones = new javax.swing.JTextArea();
         jLabel32 = new javax.swing.JLabel();
-        txt_nombreComercio20 = new javax.swing.JTextField();
+        txt_porcentajeComision = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
-        txt_nombreComercio16 = new javax.swing.JTextField();
-        btn_crearPago6 = new javax.swing.JButton();
-        btn_crearPago7 = new javax.swing.JButton();
+        btn_imprimirCredito = new javax.swing.JButton();
+        btn_guardarCredito = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
-        producto_plan5 = new javax.swing.JComboBox<>();
+        cbox_cobrador = new javax.swing.JComboBox<>();
         jLabel35 = new javax.swing.JLabel();
+        date_vencimientoPrimerCuota = new com.toedter.calendar.JDateChooser();
 
         jButton3.setText("Calcular unificación");
 
@@ -270,18 +275,24 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jScrollPane12.setViewportView(tabla_Solicitudes);
 
         jLabel41.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel41.setText("Buscar solicitud");
+        jLabel41.setText("Buscar");
 
-        txt_buscarSoli.addCaretListener(new javax.swing.event.CaretListener() {
+        txt_buscar.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txt_buscarSoliCaretUpdate(evt);
+                txt_buscarCaretUpdate(evt);
             }
         });
-        txt_buscarSoli.addKeyListener(new java.awt.event.KeyAdapter() {
+        txt_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_buscarSoliKeyTyped(evt);
+                txt_buscarKeyTyped(evt);
             }
         });
+
+        buttonGroup1.add(rbtn_solicitud);
+        rbtn_solicitud.setText("Solicitud");
+
+        buttonGroup1.add(rbtn_credito);
+        rbtn_credito.setText("Crédito");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -290,8 +301,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(rbtn_solicitud)
+                        .addGap(18, 18, 18)
+                        .addComponent(rbtn_credito))
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_buscarSoli, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel41))
                 .addContainerGap())
         );
@@ -301,9 +316,13 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel41)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_buscarSoli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbtn_solicitud)
+                    .addComponent(rbtn_credito))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -371,19 +390,19 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jLabel1.setText("Solicitante:");
 
-        txt_nombreComercio2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio2.setText("0.00");
+        txt_saldoCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_saldoCredito.setText("0.00");
 
         jLabel3.setText("Límite de crédito:");
 
-        jButton1.setText("Ver solicitante");
+        btn_verSolicitante.setText("Ver solicitante");
 
-        jLabel6.setText("Límite de crédito:");
+        jLabel6.setText("Saldo crédito");
 
-        jButton2.setText("Ver Créditos");
+        btn_verCreditosCliente.setText("Ver Créditos");
 
-        txt_nombreComercio1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio1.setText("0.00");
+        txt_limiteCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_limiteCredito.setText("0.00");
 
         jLabel2.setText("Nombre del comercio:");
 
@@ -397,11 +416,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreComercio1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_limiteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(39, 39, 39)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreComercio2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_saldoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(293, 293, 293))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,8 +434,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
                                 .addComponent(txt_nombreSolicitante)))
                         .addGap(53, 53, 53)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_verSolicitante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_verCreditosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
@@ -426,18 +445,18 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txt_nombreSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btn_verSolicitante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txt_nombreComercio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btn_verCreditosCliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txt_nombreComercio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_limiteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(txt_nombreComercio2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_saldoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -449,15 +468,15 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jLabel13.setText("Articulo:");
 
-        txt_nombreComercio6.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio6.setText("0.00");
+        txt_importeCuotaProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeCuotaProd.setText("0.00");
 
         jLabel14.setText("Importe:");
 
         jLabel15.setText("Cuota $");
 
-        txt_nombreComercio8.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio8.setText("0.00");
+        txt_importeTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeTotal.setText("0.00");
 
         jLabel16.setText("Plan:");
 
@@ -469,8 +488,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
             }
         });
 
-        txt_nombreComercio10.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio10.setText("0.00");
+        txt_importeMinimo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeMinimo.setText("0.00");
 
         jLabel18.setText("Importe mínimo:");
 
@@ -516,54 +535,54 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jLabel19.setText("Importe crédito:");
 
-        txt_nombreComercio11.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio11.setText("0.00");
+        txt_importeCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeCredito.setText("0.00");
 
         jLabel20.setText("Cantidad de cuotas:");
 
-        txt_nombreComercio12.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio12.setText("1");
+        txt_cantidadCuotas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_cantidadCuotas.setText("1");
 
         jLabel21.setText("importe cuota:");
 
-        txt_nombreComercio13.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio13.setText("0.00");
+        txt_importeCuotaTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeCuotaTotal.setText("0.00");
 
         jLabel22.setText("importe 1° cuota:");
 
-        txt_nombreComercio14.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio14.setText("0.00");
+        txt_importePrimeraCuota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importePrimeraCuota.setText("0.00");
 
-        btn_crearPago2.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearPago2.setText("Terminar");
-        btn_crearPago2.addActionListener(new java.awt.event.ActionListener() {
+        btn_terminarCredito.setBackground(new java.awt.Color(255, 255, 255));
+        btn_terminarCredito.setText("Terminar");
+        btn_terminarCredito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crearPago2ActionPerformed(evt);
+                btn_terminarCreditoActionPerformed(evt);
             }
         });
 
-        btn_crearPago3.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearPago3.setText("Agregar articulo");
-        btn_crearPago3.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarArticulo.setBackground(new java.awt.Color(255, 255, 255));
+        btn_agregarArticulo.setText("Agregar articulo");
+        btn_agregarArticulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crearPago3ActionPerformed(evt);
+                btn_agregarArticuloActionPerformed(evt);
             }
         });
 
-        btn_crearPago4.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearPago4.setText("Comprobar posibilidad de unificación");
-        btn_crearPago4.addActionListener(new java.awt.event.ActionListener() {
+        btn_comprobarUnificacion.setBackground(new java.awt.Color(255, 255, 255));
+        btn_comprobarUnificacion.setText("Comprobar posibilidad de unificación");
+        btn_comprobarUnificacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crearPago4ActionPerformed(evt);
+                btn_comprobarUnificacionActionPerformed(evt);
             }
         });
 
-        producto_plan1.setEnabled(false);
+        producto_plan.setEnabled(false);
 
         jLabel17.setText("Cantidad");
 
-        txt_nombreComercio7.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio7.setText("1");
+        txt_cantidadProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_cantidadProd.setText("1");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -576,19 +595,19 @@ public class ABMCreditosView extends javax.swing.JPanel {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreComercio11, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_importeCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_nombreComercio12, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_cantidadCuotas, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_nombreComercio13, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_importeCuotaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_nombreComercio14, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_importePrimeraCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
@@ -598,7 +617,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addGap(18, 18, 18)
-                                .addComponent(producto_plan1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(producto_plan, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
@@ -608,26 +627,26 @@ public class ABMCreditosView extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_nombreComercio7, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txt_cantidadProd, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_crearPago4)
+                        .addComponent(btn_comprobarUnificacion)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_crearPago2))
+                        .addComponent(btn_terminarCredito))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreComercio10, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_importeMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreComercio8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_importeTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreComercio6, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_importeCuotaProd, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_crearPago3)))
+                        .addComponent(btn_agregarArticulo)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -637,7 +656,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel17)
-                        .addComponent(txt_nombreComercio7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_cantidadProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel13)
                         .addComponent(txt_nombreArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -645,32 +664,32 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(btn_crearPago, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(producto_plan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(producto_plan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(txt_nombreComercio10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_importeMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(txt_nombreComercio8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_importeTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(txt_nombreComercio6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_crearPago3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_importeCuotaProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_agregarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(txt_nombreComercio11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_importeCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
-                    .addComponent(txt_nombreComercio12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_cantidadCuotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21)
-                    .addComponent(txt_nombreComercio13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_importeCuotaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22)
-                    .addComponent(txt_nombreComercio14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_importePrimeraCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_crearPago2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_crearPago4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_terminarCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_comprobarUnificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -748,13 +767,13 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
-        txt_nombreComercio19.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio19.setText("0.00");
+        txt_importeFinalCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeFinalCredito.setText("0.00");
 
         jLabel30.setText("Importe por cuota:");
 
-        txt_nombreComercio17.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio17.setText("0.00");
+        txt_importeUltimaCuota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeUltimaCuota.setText("0.00");
 
         jLabel28.setText("Vencimiento primera cuota:");
 
@@ -764,53 +783,50 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jLabel31.setText("Importe final crédito:");
 
-        txt_nombreComercio18.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio18.setText("0.00");
+        txt_importeCuotaFin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeCuotaFin.setText("0.00");
 
-        btn_crearPago5.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearPago5.setText("Cancelar");
-        btn_crearPago5.addActionListener(new java.awt.event.ActionListener() {
+        btn_cancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crearPago5ActionPerformed(evt);
+                btn_cancelarActionPerformed(evt);
             }
         });
 
-        txt_nombreComercio15.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio15.setText("1");
+        txt_cantidadCuotasFin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_cantidadCuotasFin.setText("1");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtArea_observaciones.setColumns(20);
+        txtArea_observaciones.setRows(5);
+        jScrollPane1.setViewportView(txtArea_observaciones);
 
         jLabel32.setText("Observaciones:");
 
-        txt_nombreComercio20.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_nombreComercio20.setText("0.00");
+        txt_porcentajeComision.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_porcentajeComision.setText("0.00");
 
         jLabel33.setText("Comisión promotor %");
 
-        txt_nombreComercio16.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_nombreComercio16.setText("18/11/1212");
-
-        btn_crearPago6.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearPago6.setText("Imprimir");
-        btn_crearPago6.addActionListener(new java.awt.event.ActionListener() {
+        btn_imprimirCredito.setBackground(new java.awt.Color(255, 255, 255));
+        btn_imprimirCredito.setText("Imprimir");
+        btn_imprimirCredito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crearPago6ActionPerformed(evt);
+                btn_imprimirCreditoActionPerformed(evt);
             }
         });
 
-        btn_crearPago7.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearPago7.setText("Guardar");
-        btn_crearPago7.addActionListener(new java.awt.event.ActionListener() {
+        btn_guardarCredito.setBackground(new java.awt.Color(255, 255, 255));
+        btn_guardarCredito.setText("Guardar");
+        btn_guardarCredito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_crearPago7ActionPerformed(evt);
+                btn_guardarCreditoActionPerformed(evt);
             }
         });
 
         jLabel34.setText("Cobrador:");
 
-        producto_plan5.setEnabled(false);
+        cbox_cobrador.setEnabled(false);
 
         jLabel35.setText("Asignar Cobrador");
 
@@ -828,11 +844,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
                                 .addGroup(jPanel6Layout.createSequentialGroup()
                                     .addComponent(jLabel27)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txt_nombreComercio15, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txt_cantidadCuotasFin, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel6Layout.createSequentialGroup()
                                     .addComponent(jLabel30)
                                     .addGap(18, 18, 18)
-                                    .addComponent(txt_nombreComercio18, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txt_importeCuotaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(36, 36, 36)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel28)
@@ -843,26 +859,26 @@ public class ABMCreditosView extends javax.swing.JPanel {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel34)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(producto_plan5, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel35)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(btn_crearPago5)
+                        .addComponent(btn_cancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_crearPago6)
+                        .addComponent(btn_imprimirCredito)
                         .addGap(51, 51, 51)
-                        .addComponent(btn_crearPago7))
+                        .addComponent(btn_guardarCredito))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombreComercio17, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nombreComercio16, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33)
+                            .addComponent(txt_importeUltimaCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(date_vencimientoPrimerCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel31)
                             .addComponent(jLabel33))
                         .addGap(22, 22, 22)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombreComercio20, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nombreComercio19, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txt_porcentajeComision, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_importeFinalCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -872,24 +888,25 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_nombreComercio15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_cantidadCuotasFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel27))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel30)
-                            .addComponent(txt_nombreComercio18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txt_importeCuotaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel28)
-                            .addComponent(txt_nombreComercio16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel31)
-                            .addComponent(txt_nombreComercio19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel28)
+                                .addComponent(jLabel31)
+                                .addComponent(txt_importeFinalCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(date_vencimientoPrimerCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel29)
-                            .addComponent(txt_nombreComercio17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_importeUltimaCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel33)
-                            .addComponent(txt_nombreComercio20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txt_porcentajeComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -901,12 +918,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel34)
-                            .addComponent(producto_plan5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_crearPago7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_crearPago6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_crearPago5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_guardarCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_imprimirCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -921,7 +938,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -948,13 +965,13 @@ public class ABMCreditosView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_buscarSoliCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_buscarSoliCaretUpdate
-        
-    }//GEN-LAST:event_txt_buscarSoliCaretUpdate
+    private void txt_buscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_buscarCaretUpdate
+        cambioBusqueda(txt_buscar.getText(),rbtn_solicitud.isSelected(),rbtn_credito.isSelected());
+    }//GEN-LAST:event_txt_buscarCaretUpdate
 
-    private void txt_buscarSoliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarSoliKeyTyped
+    private void txt_buscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyTyped
 
-    }//GEN-LAST:event_txt_buscarSoliKeyTyped
+    }//GEN-LAST:event_txt_buscarKeyTyped
 
     private void tabla_SolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_SolicitudesMouseClicked
         int pos = tabla_Solicitudes.getSelectedRow();
@@ -975,41 +992,46 @@ public class ABMCreditosView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_crearPagoActionPerformed
 
-    private void btn_crearPago2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPago2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearPago2ActionPerformed
+    private void btn_terminarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_terminarCreditoActionPerformed
+        if(controlTodo()){
+            terminarCredito();
+        }
+    }//GEN-LAST:event_btn_terminarCreditoActionPerformed
 
-    private void btn_crearPago3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPago3ActionPerformed
+    private void btn_agregarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarArticuloActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearPago3ActionPerformed
+    }//GEN-LAST:event_btn_agregarArticuloActionPerformed
 
-    private void btn_crearPago4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPago4ActionPerformed
+    private void btn_comprobarUnificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_comprobarUnificacionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearPago4ActionPerformed
+    }//GEN-LAST:event_btn_comprobarUnificacionActionPerformed
 
-    private void btn_crearPago5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPago5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearPago5ActionPerformed
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btn_cancelarActionPerformed
 
-    private void btn_crearPago6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPago6ActionPerformed
+    private void btn_imprimirCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirCreditoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearPago6ActionPerformed
+    }//GEN-LAST:event_btn_imprimirCreditoActionPerformed
 
-    private void btn_crearPago7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPago7ActionPerformed
+    private void btn_guardarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCreditoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearPago7ActionPerformed
+    }//GEN-LAST:event_btn_guardarCreditoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_agregarArticulo;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_comprobarUnificacion;
     private javax.swing.JButton btn_crearPago;
-    private javax.swing.JButton btn_crearPago2;
-    private javax.swing.JButton btn_crearPago3;
-    private javax.swing.JButton btn_crearPago4;
-    private javax.swing.JButton btn_crearPago5;
-    private javax.swing.JButton btn_crearPago6;
-    private javax.swing.JButton btn_crearPago7;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_guardarCredito;
+    private javax.swing.JButton btn_imprimirCredito;
+    private javax.swing.JButton btn_terminarCredito;
+    private javax.swing.JButton btn_verCreditosCliente;
+    private javax.swing.JButton btn_verSolicitante;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<Models.Cuota> cbox_cobrador;
+    private com.toedter.calendar.JDateChooser date_vencimientoPrimerCuota;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -1067,7 +1089,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -1076,33 +1097,97 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_FechaSoli;
     private javax.swing.JLabel lbl_NroCred;
     private javax.swing.JLabel lbl_NroSoli;
-    private javax.swing.JComboBox<Models.Cuota> producto_plan1;
-    private javax.swing.JComboBox<Models.Cuota> producto_plan5;
+    private javax.swing.JComboBox<Models.Cuota> producto_plan;
+    private javax.swing.JRadioButton rbtn_credito;
+    private javax.swing.JRadioButton rbtn_solicitud;
     private javax.swing.JTable tabla_Solicitudes;
     private javax.swing.JTable table_articulos;
-    protected javax.swing.JTextField txt_buscarSoli;
+    private javax.swing.JTextArea txtArea_observaciones;
+    protected javax.swing.JTextField txt_buscar;
+    private javax.swing.JTextField txt_cantidadCuotas;
+    private javax.swing.JTextField txt_cantidadCuotasFin;
+    private javax.swing.JTextField txt_cantidadProd;
+    private javax.swing.JTextField txt_importeCredito;
+    private javax.swing.JTextField txt_importeCuotaFin;
+    private javax.swing.JTextField txt_importeCuotaProd;
+    private javax.swing.JTextField txt_importeCuotaTotal;
+    private javax.swing.JTextField txt_importeFinalCredito;
+    private javax.swing.JTextField txt_importeMinimo;
+    private javax.swing.JTextField txt_importePrimeraCuota;
+    private javax.swing.JTextField txt_importeTotal;
+    private javax.swing.JTextField txt_importeUltimaCuota;
+    private javax.swing.JTextField txt_limiteCredito;
     private javax.swing.JTextField txt_nombreArticulo;
     private javax.swing.JTextField txt_nombreComercio;
-    private javax.swing.JTextField txt_nombreComercio1;
-    private javax.swing.JTextField txt_nombreComercio10;
-    private javax.swing.JTextField txt_nombreComercio11;
-    private javax.swing.JTextField txt_nombreComercio12;
-    private javax.swing.JTextField txt_nombreComercio13;
-    private javax.swing.JTextField txt_nombreComercio14;
-    private javax.swing.JTextField txt_nombreComercio15;
-    private javax.swing.JTextField txt_nombreComercio16;
-    private javax.swing.JTextField txt_nombreComercio17;
-    private javax.swing.JTextField txt_nombreComercio18;
-    private javax.swing.JTextField txt_nombreComercio19;
-    private javax.swing.JTextField txt_nombreComercio2;
-    private javax.swing.JTextField txt_nombreComercio20;
-    private javax.swing.JTextField txt_nombreComercio6;
-    private javax.swing.JTextField txt_nombreComercio7;
-    private javax.swing.JTextField txt_nombreComercio8;
     private javax.swing.JTextField txt_nombreSolicitante;
+    private javax.swing.JTextField txt_porcentajeComision;
+    private javax.swing.JTextField txt_saldoCredito;
     // End of variables declaration//GEN-END:variables
 
     private void cargarDatosSoli(int pos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+
+    private void limpiarCampos() {
+        txt_saldoCredito.setText("");
+        txt_nombreComercio.setText("");
+        txt_nombreArticulo.setText("");
+        txt_limiteCredito.setText("");
+        txt_importeUltimaCuota.setText("");
+        txt_importeTotal.setText("");
+        txt_importePrimeraCuota.setText("");
+        txt_importeMinimo.setText("");
+        txt_importeFinalCredito.setText("");
+        txt_importeCuotaTotal.setText("");
+        txt_importeCuotaProd.setText("");
+        txt_importeCuotaFin.setText("");
+        txt_importeCredito.setText("");
+        txt_cantidadCuotasFin.setText("");
+        txt_cantidadProd.setText("");
+        txt_cantidadCuotas.setText("");
+        txt_buscar.setText("");
+        txtArea_observaciones.setText("");
+        lbl_FechaCred.setText("");
+        lbl_FechaSoli.setText("");
+        lbl_NroCred.setText("");
+        lbl_NroSoli.setText("");
+        date_vencimientoPrimerCuota.setDate(new Date());
+        btn_agregarArticulo.setEnabled(false);
+        btn_cancelar.setEnabled(false);
+        btn_comprobarUnificacion.setEnabled(false);
+        btn_crearPago.setEnabled(false);
+        btn_guardarCredito.setEnabled(false);
+        btn_imprimirCredito.setEnabled(false);
+        btn_terminarCredito.setEnabled(false);
+        btn_verCreditosCliente.setEnabled(false);
+        btn_verSolicitante.setEnabled(false);
+    }
+
+    private boolean controlTodo() {
+        
+        return false;
+    }
+
+    private void terminarCredito() {
+        
+    }
+
+
+    private void cambioBusqueda(String text, boolean solicitud, boolean credito) {
+        if(solicitud){
+            if(Statics.Funciones.isNumeric(text)){
+                
+            }else{
+                
+            }
+        }else{
+            if (credito) {
+                if(Statics.Funciones.isNumeric(text)){
+                
+                }else{
+
+                }
+            }
+        }
     }
 }
