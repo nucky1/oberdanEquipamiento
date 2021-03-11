@@ -32,7 +32,7 @@ public class Cliente {
     private String numero;
     private String codPostal;
     private int direccion_id;
-    private ArrayList<Contacto> contacto;
+    private ArrayList<Contacto> contacto= null;
     
 
     public Cliente() {
