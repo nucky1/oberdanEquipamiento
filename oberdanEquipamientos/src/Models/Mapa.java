@@ -37,11 +37,50 @@ public class Mapa {
             
         }
         return false;
-        
-        
-        
-                
     }
+    
+        public boolean controlLocalidad(int idProv, String nombre) {
+        if(provincia_Localidad.containsKey(idProv)){
+            Localidad l = new Localidad();
+            l.setNombre(nombre);
+            Set<Localidad> setLoca = provincia_Localidad.get(idProv);
+            if(setLoca.contains(l)){
+                return true;
+            }
+            
+        }
+        return false;
+    }
+
+    public boolean controlBarrio(int idLoca, String nombre) {
+        if(localidad_Barrio.containsKey(idLoca)){
+            Barrio b = new Barrio();
+            b.setNombre(nombre);
+            Set<Barrio> setBarrio = localidad_Barrio.get(idLoca);
+            if(setBarrio.contains(b)){
+                return true;
+            }
+            
+        }
+        return false;
+    }
+
+    public boolean controlDireccion(int idBarrio, String nombre) {
+        if(barrio_direccion.containsKey(idBarrio)){
+           Direccion d = new Direccion();
+            d.setNombre(nombre);
+            Set<Direccion> setDir = barrio_direccion.get(idBarrio);
+            if(setDir.contains(d)){
+                return true;
+            }
+            
+        }
+        return false;
+    }
+        
+        
+        
+      
     public HashMap<Integer, Set<Direccion>> getBarrio_direccion() {
         return barrio_direccion;
     }
@@ -81,6 +120,7 @@ public class Mapa {
     public void setLocalidad_Barrio(HashMap<Integer, Set<Barrio>> localidad_Barrio) {
         this.localidad_Barrio = localidad_Barrio;
     }
-    
+
+
         
 }

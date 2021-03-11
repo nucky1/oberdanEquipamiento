@@ -17,7 +17,14 @@ public class Barrio {
     public Barrio() {
         
     }
-
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Barrio){
+            Barrio b = (Barrio) o;
+            return b.getNombre().equalsIgnoreCase(nombre);
+        }
+        return false;
+    }
     public String getNombre() {
         return nombre;
     }
