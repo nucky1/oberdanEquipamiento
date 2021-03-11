@@ -232,6 +232,8 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -256,7 +258,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel3" pref="0" max="32767" attributes="0"/>
+                  <Component id="jPanel3" max="32767" attributes="0"/>
                   <Component id="jPanel5" alignment="1" max="32767" attributes="0"/>
                   <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
                   <Component id="jPanel6" max="32767" attributes="0"/>
@@ -294,11 +296,16 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="rbtn_solicitud" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="rbtn_credito" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Component id="jScrollPane12" alignment="0" min="-2" pref="344" max="-2" attributes="0"/>
-                      <Component id="txt_buscarSoli" alignment="0" min="-2" pref="349" max="-2" attributes="0"/>
+                      <Component id="txt_buscar" alignment="0" min="-2" pref="349" max="-2" attributes="0"/>
                       <Component id="jLabel41" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -311,9 +318,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txt_buscarSoli" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="rbtn_solicitud" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbtn_credito" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="10" max="32767" attributes="0"/>
+                  <Component id="txt_buscar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jScrollPane12" min="-2" pref="321" max="-2" attributes="0"/>
+                  <Component id="jScrollPane12" min="-2" pref="292" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -370,17 +382,33 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Buscar solicitud"/>
+            <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_buscarSoli">
+        <Component class="javax.swing.JTextField" name="txt_buscar">
           <Events>
-            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txt_buscarSoliCaretUpdate"/>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_buscarSoliKeyTyped"/>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txt_buscarCaretUpdate"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_buscarKeyTyped"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbtn_solicitud">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Solicitud"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="rbtn_credito">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cr&#xe9;dito"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -485,11 +513,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio1" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="txt_limiteCredito" min="-2" pref="103" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio2" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="txt_saldoCredito" min="-2" pref="103" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="293" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -507,8 +535,8 @@
                           </Group>
                           <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jButton1" max="32767" attributes="0"/>
-                              <Component id="jButton2" min="-2" pref="99" max="-2" attributes="0"/>
+                              <Component id="btn_verSolicitante" max="32767" attributes="0"/>
+                              <Component id="btn_verCreditosCliente" min="-2" pref="99" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -523,20 +551,20 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txt_nombreSolicitante" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_verSolicitante" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txt_nombreComercio" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_verCreditosCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_limiteCredito" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_saldoCredito" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -554,7 +582,7 @@
             <Property name="text" type="java.lang.String" value="Solicitante:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio2">
+        <Component class="javax.swing.JTextField" name="txt_saldoCredito">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -567,22 +595,22 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_nombreComercio">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btn_verSolicitante">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ver solicitante"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
-            <Property name="text" type="java.lang.String" value="L&#xed;mite de cr&#xe9;dito:"/>
+            <Property name="text" type="java.lang.String" value="Saldo cr&#xe9;dito"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btn_verCreditosCliente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ver Cr&#xe9;ditos"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio1">
+        <Component class="javax.swing.JTextField" name="txt_limiteCredito">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -607,19 +635,19 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio11" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="txt_importeCredito" min="-2" pref="103" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio12" min="-2" pref="51" max="-2" attributes="0"/>
+                          <Component id="txt_cantidadCuotas" min="-2" pref="51" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio13" min="-2" pref="51" max="-2" attributes="0"/>
+                          <Component id="txt_importeCuotaTotal" min="-2" pref="51" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="32767" attributes="0"/>
                           <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio14" min="-2" pref="51" max="-2" attributes="0"/>
+                          <Component id="txt_importePrimeraCuota" min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -631,7 +659,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="producto_plan1" min="-2" pref="443" max="-2" attributes="0"/>
+                                  <Component id="producto_plan" min="-2" pref="443" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -644,30 +672,30 @@
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="txt_nombreComercio7" min="-2" pref="103" max="-2" attributes="0"/>
+                                  <Component id="txt_cantidadProd" min="-2" pref="103" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="btn_crearPago4" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_comprobarUnificacion" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btn_crearPago2" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_terminarCredito" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio10" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="txt_importeMinimo" min="-2" pref="103" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio8" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="txt_importeTotal" min="-2" pref="103" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio6" min="-2" pref="103" max="-2" attributes="0"/>
+                          <Component id="txt_importeCuotaProd" min="-2" pref="103" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btn_crearPago3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_agregarArticulo" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -681,7 +709,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txt_nombreComercio7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_cantidadProd" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -692,35 +720,35 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btn_crearPago" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="producto_plan1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="producto_plan" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio10" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_importeMinimo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_importeTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_crearPago3" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="txt_importeCuotaProd" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_agregarArticulo" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" pref="100" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio11" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_importeCredito" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio12" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_cantidadCuotas" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio13" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_importeCuotaTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_nombreComercio14" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_importePrimeraCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_crearPago2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="btn_crearPago4" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_terminarCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_comprobarUnificacion" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -738,7 +766,7 @@
             <Property name="text" type="java.lang.String" value="Articulo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio6">
+        <Component class="javax.swing.JTextField" name="txt_importeCuotaProd">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -754,7 +782,7 @@
             <Property name="text" type="java.lang.String" value="Cuota $"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio8">
+        <Component class="javax.swing.JTextField" name="txt_importeTotal">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -776,7 +804,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPagoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio10">
+        <Component class="javax.swing.JTextField" name="txt_importeMinimo">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -868,7 +896,7 @@
             <Property name="text" type="java.lang.String" value="Importe cr&#xe9;dito:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio11">
+        <Component class="javax.swing.JTextField" name="txt_importeCredito">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -879,7 +907,7 @@
             <Property name="text" type="java.lang.String" value="Cantidad de cuotas:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio12">
+        <Component class="javax.swing.JTextField" name="txt_cantidadCuotas">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="1"/>
@@ -890,7 +918,7 @@
             <Property name="text" type="java.lang.String" value="importe cuota:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio13">
+        <Component class="javax.swing.JTextField" name="txt_importeCuotaTotal">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -901,13 +929,13 @@
             <Property name="text" type="java.lang.String" value="importe 1&#xb0; cuota:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio14">
+        <Component class="javax.swing.JTextField" name="txt_importePrimeraCuota">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_crearPago2">
+        <Component class="javax.swing.JButton" name="btn_terminarCredito">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -915,10 +943,10 @@
             <Property name="text" type="java.lang.String" value="Terminar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPago2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_terminarCreditoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_crearPago3">
+        <Component class="javax.swing.JButton" name="btn_agregarArticulo">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -926,10 +954,10 @@
             <Property name="text" type="java.lang.String" value="Agregar articulo"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPago3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarArticuloActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_crearPago4">
+        <Component class="javax.swing.JButton" name="btn_comprobarUnificacion">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -937,10 +965,10 @@
             <Property name="text" type="java.lang.String" value="Comprobar posibilidad de unificaci&#xf3;n"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPago4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_comprobarUnificacionActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="producto_plan1">
+        <Component class="javax.swing.JComboBox" name="producto_plan">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -953,7 +981,7 @@
             <Property name="text" type="java.lang.String" value="Cantidad"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio7">
+        <Component class="javax.swing.JTextField" name="txt_cantidadProd">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="1"/>
@@ -1099,12 +1127,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="txt_nombreComercio15" min="-2" pref="78" max="-2" attributes="0"/>
+                                      <Component id="txt_cantidadCuotasFin" min="-2" pref="78" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="txt_nombreComercio18" min="-2" pref="76" max="-2" attributes="0"/>
+                                      <Component id="txt_importeCuotaFin" min="-2" pref="76" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -1121,30 +1149,30 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="producto_plan5" min="-2" pref="241" max="-2" attributes="0"/>
+                          <Component id="cbox_cobrador" min="-2" pref="241" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="btn_crearPago5" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_cancelar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btn_crearPago6" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_imprimirCredito" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                          <Component id="btn_crearPago7" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_guardarCredito" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txt_nombreComercio17" min="-2" pref="51" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio16" min="-2" pref="101" max="-2" attributes="0"/>
+                              <Component id="txt_importeUltimaCuota" min="-2" pref="51" max="-2" attributes="0"/>
+                              <Component id="date_vencimientoPrimerCuota" min="-2" pref="116" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel31" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel33" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txt_nombreComercio20" min="-2" pref="51" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio19" min="-2" pref="51" max="-2" attributes="0"/>
+                              <Component id="txt_porcentajeComision" min="-2" pref="51" max="-2" attributes="0"/>
+                              <Component id="txt_importeFinalCredito" min="-2" pref="51" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1159,28 +1187,30 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txt_nombreComercio15" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_cantidadCuotasFin" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio18" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_importeCuotaFin" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio16" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio19" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel31" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txt_importeFinalCredito" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="date_vencimientoPrimerCuota" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio17" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_importeUltimaCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_nombreComercio20" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_porcentajeComision" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -1196,15 +1226,15 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="producto_plan5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbox_cobrador" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_crearPago7" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="btn_crearPago6" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="btn_crearPago5" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_guardarCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_imprimirCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_cancelar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -1212,7 +1242,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio19">
+        <Component class="javax.swing.JTextField" name="txt_importeFinalCredito">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -1223,7 +1253,7 @@
             <Property name="text" type="java.lang.String" value="Importe por cuota:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio17">
+        <Component class="javax.swing.JTextField" name="txt_importeUltimaCuota">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -1249,13 +1279,13 @@
             <Property name="text" type="java.lang.String" value="Importe final cr&#xe9;dito:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio18">
+        <Component class="javax.swing.JTextField" name="txt_importeCuotaFin">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_crearPago5">
+        <Component class="javax.swing.JButton" name="btn_cancelar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -1263,10 +1293,10 @@
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPago5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cancelarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio15">
+        <Component class="javax.swing.JTextField" name="txt_cantidadCuotasFin">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="1"/>
@@ -1279,7 +1309,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
+            <Component class="javax.swing.JTextArea" name="txtArea_observaciones">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -1292,7 +1322,7 @@
             <Property name="text" type="java.lang.String" value="Observaciones:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio20">
+        <Component class="javax.swing.JTextField" name="txt_porcentajeComision">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="text" type="java.lang.String" value="0.00"/>
@@ -1303,13 +1333,7 @@
             <Property name="text" type="java.lang.String" value="Comisi&#xf3;n promotor %"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_nombreComercio16">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="18/11/1212"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btn_crearPago6">
+        <Component class="javax.swing.JButton" name="btn_imprimirCredito">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -1317,10 +1341,10 @@
             <Property name="text" type="java.lang.String" value="Imprimir"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPago6ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_imprimirCreditoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_crearPago7">
+        <Component class="javax.swing.JButton" name="btn_guardarCredito">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -1328,7 +1352,7 @@
             <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPago7ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarCreditoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel34">
@@ -1336,7 +1360,7 @@
             <Property name="text" type="java.lang.String" value="Cobrador:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="producto_plan5">
+        <Component class="javax.swing.JComboBox" name="cbox_cobrador">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -1348,6 +1372,8 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Asignar Cobrador"/>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="date_vencimientoPrimerCuota">
         </Component>
       </SubComponents>
     </Container>
