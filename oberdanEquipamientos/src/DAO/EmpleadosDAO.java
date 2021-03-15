@@ -7,10 +7,13 @@ package DAO;
 
 import Models.Contacto;
 import Models.Empleado;
+import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -294,5 +297,22 @@ public class EmpleadosDAO {
             conexion.transaccionCommit("activarCommit");
         }
         return exito;
+    }
+
+    public ArrayList<Empleado> getCobradores() {
+        ArrayList<Empleado> emple = new ArrayList();
+        try {
+            String SQL = "SELECT id,nombre FROM empleado WHERE state = 'ACTIVO' AND tipo = 'COBRADOR'";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            while (rs.next()) {
+                Empleado e = new Empleado();
+                e.setNombre(rs.getString("nombre"));
+                e.setId(rs.getInt("id"));
+                emple.add(e);
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error al obtener cobradores metodo getCobradores", Main.isProduccion);
+        }
+        return emple;
     }
 }

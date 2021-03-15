@@ -135,7 +135,7 @@ public class ClientesDAO {
            
     }
 
-    public List<Cliente> buscarCliente(int id) {
+    public Cliente buscarCliente(int id) {
        String SQL = "SELECT cliente.*,barrio.nombre,barrio.id,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
               + " FROM cliente,direccion,barrio,localidad,provincia,pais"
               + " WHERE cliente.id = "+id+" AND cliente.state = 'ACTIVO'"
@@ -146,9 +146,8 @@ public class ClientesDAO {
               + " AND pais.id = provincia.pais_id";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         System.out.println("La consulta  buscarCliente simple fue: "+SQL);
-        List<Cliente> list = new ArrayList<>();
            try{
-               while(rs.next()){
+               if(rs.next()){
                    //--CARGAR DATOS AL Cliente
                     Cliente p = new Cliente();
                     p.setId(rs.getInt("id"));
@@ -189,13 +188,13 @@ public class ClientesDAO {
                     }
                     p.setContacto((ArrayList<Contacto>) contactos);
                     //--FIN CARGA
-                   list.add(p);
+                   return p;
                 }
            }catch(Exception ex){
                ex.printStackTrace();
            }
            
-           return list;
+           return null;
     }
     
     public Cliente recuperarConyugue(int idCliente){
@@ -203,10 +202,13 @@ public class ClientesDAO {
         c=null;
         String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
                 + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
-                + "FROM relacion,cliente WHERE (cliente1_id="+idCliente
+                + "FROM relacion"
+                + "INNER JOIN cliente ON cliente1_id = cliente.id OR cliente2_id = cliente.id"
+                + " WHERE (cliente1_id="+idCliente
                 +" OR cliente2_id="+idCliente+")"
                 + " AND cliente.id!="+idCliente+
-                " AND relacion.state=ACTIVA";
+                " AND relacion.state=ACTIVA"
+                + " ORDER BY relacion.created_at DESC";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         System.out.println("La consulta en recuperar Conyugue fue: ");
         System.out.println(""+SQL);
@@ -352,6 +354,7 @@ public class ClientesDAO {
         
         return view;
     }
+
 /**
     public int recuperarZona(String barrio) {
       String SQL = "SELECT zona FROM barrio WHERE nombre ="+barrio;

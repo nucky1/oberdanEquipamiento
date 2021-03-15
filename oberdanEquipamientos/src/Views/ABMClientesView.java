@@ -2029,7 +2029,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         }else if(dni){
             try{
                 int cod= Integer.parseInt(txt);
-                cargarTablaBusqueda(clientesDao.buscarCliente(cod),tablaBuscador);
+                cargarTablaBusqueda(clientesDao.buscarCliente("id",cod+""),tablaBuscador);
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dni",
                             "Error", JOptionPane.ERROR_MESSAGE);

@@ -176,15 +176,6 @@ public void limpiarCamposInventario() {
         jLabel38 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jDialogAñadirPlan = new javax.swing.JDialog();
-        jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        tipo_cuota = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        cantidad_cuota = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        porcentaje_cuota = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         jDialogCrearNota = new javax.swing.JDialog();
         jScrollPane28 = new javax.swing.JScrollPane();
         tabla_nota_prodPedir = new javax.swing.JTable();
@@ -208,6 +199,20 @@ public void limpiarCamposInventario() {
         txtf_nota_costo = new javax.swing.JTextField();
         jLabel175 = new javax.swing.JLabel();
         txtf_nota_nro = new javax.swing.JTextField();
+        jDialogAñadirPlan = new javax.swing.JDialog();
+        jLabel36 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        tipo_cuota = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        cantidad_cuota = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        porcentaje_cuota = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        dia_vencimiento = new javax.swing.JTextField();
+        mes_vencimiento = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
         tabla_productos = new javax.swing.JTabbedPane();
         panel_productos_detalle = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -426,73 +431,6 @@ public void limpiarCamposInventario() {
             .addGroup(jDialogAñadirRubroLayout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel3.setText("Tipo");
-
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Cantidad de cuotas");
-
-        jLabel6.setText("Porcentaje extra");
-
-        javax.swing.GroupLayout jDialogAñadirPlanLayout = new javax.swing.GroupLayout(jDialogAñadirPlan.getContentPane());
-        jDialogAñadirPlan.getContentPane().setLayout(jDialogAñadirPlanLayout);
-        jDialogAñadirPlanLayout.setHorizontalGroup(
-            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
-                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(27, 27, 27)
-                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(tipo_cuota, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 9, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jDialogAñadirPlanLayout.setVerticalGroup(
-            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogAñadirPlanLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tipo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
         );
 
         tabla_nota_prodPedir.setModel(new javax.swing.table.DefaultTableModel(
@@ -727,6 +665,121 @@ public void limpiarCamposInventario() {
                                 .addComponent(jLabel9))
                             .addComponent(txtf_nota_costo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jLabel36.setText("Tipo");
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        cantidad_cuota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cantidad_cuotaKeyTyped(evt);
+            }
+        });
+
+        jLabel37.setText("Cantidad de cuotas");
+
+        jLabel39.setText("Porcentaje extra");
+
+        dia_vencimiento.setText("0");
+        dia_vencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dia_vencimientoKeyTyped(evt);
+            }
+        });
+
+        mes_vencimiento.setText("0");
+        mes_vencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mes_vencimientoKeyTyped(evt);
+            }
+        });
+
+        jLabel40.setText("Dias");
+
+        jLabel45.setText("Mes");
+
+        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel46.setText("Intervalo de vencimiento");
+
+        javax.swing.GroupLayout jDialogAñadirPlanLayout = new javax.swing.GroupLayout(jDialogAñadirPlan.getContentPane());
+        jDialogAñadirPlan.getContentPane().setLayout(jDialogAñadirPlanLayout);
+        jDialogAñadirPlanLayout.setHorizontalGroup(
+            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel39, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tipo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(83, Short.MAX_VALUE))
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(10, 10, 10))
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dia_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(mes_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel46))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jDialogAñadirPlanLayout.setVerticalGroup(
+            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogAñadirPlanLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(tipo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mes_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dia_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -2992,28 +3045,6 @@ public void limpiarCamposInventario() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtf_productos_ventaCaretUpdate
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        tipo_cuota.setText("");
-        porcentaje_cuota.setText("");
-        cantidad_cuota.setText("");
-        jDialogAñadirPlan.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String tipo = tipo_cuota.getText();
-        String porcentaje = porcentaje_cuota.getText();
-        String cantidad = cantidad_cuota.getText();
-        if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
-            Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad));
-            cuotasDAO.insertCuota(c);
-            jDialogAñadirPlan.dispose();
-            Pestaña1_dinamica.actualizarPrecios();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe completar todos los campos",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void btn_nota_nuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_nuevaActionPerformed
         jDialogCrearNota.setTitle("Crear nota de pedido");
         jDialogCrearNota.setVisible(true);
@@ -3092,6 +3123,56 @@ public void limpiarCamposInventario() {
         
     }//GEN-LAST:event_txtf_nota_prod_nombreItemStateChanged
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String tipo = tipo_cuota.getText();
+        String porcentaje = porcentaje_cuota.getText();
+        String cantidad = cantidad_cuota.getText();
+        String mes = mes_vencimiento.getText();
+        String dia = dia_vencimiento.getText();
+        if(!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) >0 || Integer.parseInt(dia) > 0 )){
+            JOptionPane.showMessageDialog(null, "Debe completar el intervalo de vencimiento entre cuotas. \n Es decir cuantos dias y/o meses deben pasar entre el vencimiento cada cuota",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
+            Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad),Integer.parseInt(dia),Integer.parseInt(mes));
+            cuotasDAO.insertCuota(c);
+            jDialogAñadirPlan.dispose();
+            Pestaña1_dinamica.actualizarPrecios();
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos correctamente.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tipo_cuota.setText("");
+        porcentaje_cuota.setText("");
+        cantidad_cuota.setText("");
+        jDialogAñadirPlan.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cantidad_cuotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidad_cuotaKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cantidad_cuotaKeyTyped
+
+    private void dia_vencimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dia_vencimientoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_dia_vencimientoKeyTyped
+
+    private void mes_vencimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mes_vencimientoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_mes_vencimientoKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancelar;
@@ -3122,6 +3203,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JComboBox combo_forma_pago;
     private com.toedter.calendar.JDateChooser date_nota_fecha_factura;
     private com.toedter.calendar.JDateChooser date_nota_fecha_pago;
+    private javax.swing.JTextField dia_vencimiento;
     private com.toedter.calendar.JDateChooser fecha_fin;
     private com.toedter.calendar.JDateChooser fecha_inicio;
     private javax.swing.JButton generarNota;
@@ -3166,13 +3248,17 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel237;
     private javax.swing.JLabel jLabel238;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
@@ -3181,7 +3267,6 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
@@ -3247,6 +3332,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JTable jTableTablaStock;
     private javax.swing.JLabel jlbl_editDevo_disp;
     private javax.swing.JLabel lbl_nota_proveedor;
+    private javax.swing.JTextField mes_vencimiento;
     private javax.swing.JPanel panel_devos;
     private javax.swing.JPanel panel_pedidos;
     private javax.swing.JPanel panel_productos_detalle;

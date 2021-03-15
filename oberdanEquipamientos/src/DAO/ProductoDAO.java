@@ -38,8 +38,8 @@ public class ProductoDAO {
     public List<Producto> cargarProductos(ResultSet rs){
         List<Producto> list =  new ArrayList<>();
         try{
-            Producto p = new Producto();
-            while(rs.next()){   
+            while(rs.next()){
+                Producto p = new Producto();
                 p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("nombre"));
                 p.setCod(rs.getInt("cod"));
@@ -85,22 +85,22 @@ public class ProductoDAO {
         return conexion.EjecutarOperacion(SQL);
     }
     public List<Producto> buscarProducto(String atributo, String valor) {
-        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), articulos.precio_compra) as precioCosto,proveedores.proveedor"
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(artStock.precio_compra, articulos.precio_compra) as precioCosto,proveedores.proveedor"
                 + " FROM articulos "
                 + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                 + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
-                + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
+                + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
                 + "WHERE LOWER(articulos." + atributo+") like '%"+valor+"%' "
                 + "AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
     public List<Producto> buscarProducto(int id){
-        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(MAX(art_stock.precio_compra), articulos.precio_compra) as precioCosto,proveedores.proveedor"
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(artStock.precio_compra, articulos.precio_compra) as precioCosto,proveedores.proveedor"
                + " FROM articulos "
                + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
-               + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
+               + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
                + " WHERE articulos.cod LIKE '"+id+"%'"
                + " AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
