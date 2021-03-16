@@ -81,6 +81,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_estadoCivil.setSelectedIndex(0);
         jButtonNuevoCliente.setEnabled(false);
         jButton_eliminar.setEnabled(false);
+        
     }
 
     /**
@@ -1602,6 +1603,9 @@ public class ABMClientesView extends javax.swing.JPanel {
         
         //jTextField_numeroDomicilioCliente.setEnabled(true);
         jTextField_nombreCliente.requestFocus();
+        //jTextField_nombreCliente.setText("dsadsadd");
+        //jTextField_nombreCliente.setForeground(Color.MAGENTA);
+        //jTextField_nombreCliente.setForeground(Color.);
         jButton_modificar.setEnabled(false);
         //jTextField_numeroDireccion_jDialog.setCaretPosition(0);
         // jTextField_numeroDireccion_jDialog
@@ -2305,6 +2309,17 @@ public class ABMClientesView extends javax.swing.JPanel {
         }
         }catch(Exception ex){
             ex.printStackTrace();
+        }
+       //JTable tabla= new JTable();
+       //tabla.setModel(model);
+       
+       ColorFilasCobranza c = new ColorFilasCobranza();
+       c.setBackground(Color.red);
+       c.setForeground(Color.black);
+       //jTableClientes es el modelo de la tabla.
+       for(int i=0; i<jTableClientes.getColumnCount(); i++){
+            jTableClientes.getColumnModel().getColumn(i).setCellRenderer(c);
+            
         }
     }
     
