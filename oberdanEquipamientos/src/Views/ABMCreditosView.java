@@ -5,15 +5,48 @@
  */
 package Views;
 
+import DAO.ClientesDAO;
+import DAO.CreditosDAO;
+import DAO.CuotasDAO;
+import DAO.EmpleadosDAO;
+import DAO.ProductoDAO;
+import Models.Carton;
+import Models.Cliente;
+import Models.Credito;
+import Models.Cuota;
+import Models.Producto;
+import Models.Empleado;
+import Models.RenglonCredito;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author demig
  */
 public class ABMCreditosView extends javax.swing.JPanel {
-
+    private CreditosDAO creditoDAO;
+    private ClientesDAO clienteDAO;
+    private CuotasDAO cuotasDAO;
+    private EmpleadosDAO empleadosDAO;
+    private ProductoDAO productoDAO;
+    private ArrayList<Credito> listCreditos;
+    private ArrayList<Credito> listCredUnificables;
+    private Credito creditoSelected = null;
+    private ArrayList<Cuota> listPlanes;
+    private ArrayList<Empleado> listCobradores;
+    private Cuota cuotaSelected = null;
+    private ArrayList<Producto> listProductos;
+    private int posProductoSelected = 0;
+    private ArrayList<Producto> filteredList;
+    
+    
     /**
      * Creates new form ABMCreditosView
      */
@@ -23,6 +56,14 @@ public class ABMCreditosView extends javax.swing.JPanel {
         //PARA EL SCROLL HORIZONTAL
         table_articulos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table_articulos.doLayout();
+        this.tabla_cuotasCredCliente.setDefaultRenderer(Object.class, new Statics.RendererCuotasCliente());
+        creditoDAO = CreditosDAO.getInstance();
+        cuotasDAO = CuotasDAO.getInstance();
+        clienteDAO = ClientesDAO.getInstance();
+        empleadosDAO = EmpleadosDAO.getInstance();
+        productoDAO = ProductoDAO.getInstance();
+        listProductos = (ArrayList<Producto>) productoDAO.buscarProducto("nombre", "");
+        limpiarCampos();
     }
 
     /**
@@ -34,10 +75,10 @@ public class ABMCreditosView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        jDialogUnificarCreditos = new javax.swing.JDialog();
         jButton3 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla_creditosUnificar = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -50,6 +91,58 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jDialogAñadirPlan = new javax.swing.JDialog();
+        jLabel36 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        tipo_cuota = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        cantidad_cuota = new javax.swing.JTextField();
+        jLabel37 = new javax.swing.JLabel();
+        porcentaje_cuota = new javax.swing.JTextField();
+        jLabel38 = new javax.swing.JLabel();
+        dia_vencimiento = new javax.swing.JTextField();
+        mes_vencimiento = new javax.swing.JTextField();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        jDialogVerSolicitante = new javax.swing.JDialog();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
+        lbl_domicilioCliente = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        lbl_nombreConyugue = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        lbl_estadoCivilClient = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        lbl_limiteCredito = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        lbl_documentoConyugue = new javax.swing.JLabel();
+        lbl_nombreCliente = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        lbl_saldoActual = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        lbl_fechaNacimientoConyugue = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        lbl_barrioCliente = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        lbl_localidadCliente = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        lbl_provinciaCliente = new javax.swing.JLabel();
+        lbl_contactoCliente = new javax.swing.JLabel();
+        lbl_fechaNacimientoClient = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tabla_creditosCliente = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tabla_cuotasCredCliente = new javax.swing.JTable();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane12 = new javax.swing.JScrollPane();
         tabla_Solicitudes = new javax.swing.JTable();
@@ -74,20 +167,19 @@ public class ABMCreditosView extends javax.swing.JPanel {
         txt_nombreComercio = new javax.swing.JTextField();
         btn_verSolicitante = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        btn_verCreditosCliente = new javax.swing.JButton();
         txt_limiteCredito = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        txt_anticipo = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txt_nombreArticulo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txt_importeCuotaProd = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        txt_importeTotal = new javax.swing.JTextField();
+        txt_importeSubTotal = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         btn_crearPago = new javax.swing.JButton();
-        txt_importeMinimo = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_articulos = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
@@ -101,7 +193,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         btn_terminarCredito = new javax.swing.JButton();
         btn_agregarArticulo = new javax.swing.JButton();
         btn_comprobarUnificacion = new javax.swing.JButton();
-        producto_plan = new javax.swing.JComboBox<>();
+        cbox_plan = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
         txt_cantidadProd = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
@@ -110,10 +202,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
+        lbl_vendedor = new javax.swing.JLabel();
+        lbl_cobrador = new javax.swing.JLabel();
+        lbl_administrador = new javax.swing.JLabel();
+        lbl_gerente = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        lbl_fechaAprobacion = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         txt_importeFinalCredito = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
@@ -139,26 +233,26 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jButton3.setText("Calcular unificación");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_creditosUnificar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "N°", "Fecha entrega", "Importe Cred", "Unificado con", "Saldo Anterior", "Anticipo", "Importe cuota", "Total crédito", "Saldo Actual"
+                "N°", "Fecha emisión", "Importe Cred", "Tipo", "Saldo pendiente", "Anticipo", "Importe cuota", "Total crédito"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tabla_creditosUnificar);
 
         jLabel7.setText("Creditos disponibles para unificar:");
 
@@ -182,40 +276,40 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jButton5.setText("Cancelar");
 
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jDialog1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jDialogUnificarCreditosLayout = new javax.swing.GroupLayout(jDialogUnificarCreditos.getContentPane());
+        jDialogUnificarCreditos.getContentPane().setLayout(jDialogUnificarCreditosLayout);
+        jDialogUnificarCreditosLayout.setHorizontalGroup(
+            jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
+                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
-                            .addGroup(jDialog1Layout.createSequentialGroup()
-                                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
+                                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
-                                    .addGroup(jDialog1Layout.createSequentialGroup()
-                                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
+                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel10)
                                             .addComponent(jLabel12))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(34, 34, 34)
-                                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel44)
                                             .addComponent(jLabel40))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogUnificarCreditosLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton3))))
-                    .addGroup(jDialog1Layout.createSequentialGroup()
+                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
                         .addGap(190, 190, 190)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 294, Short.MAX_VALUE)
@@ -223,9 +317,9 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addGap(257, 257, 257)))
                 .addContainerGap())
         );
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+        jDialogUnificarCreditosLayout.setVerticalGroup(
+            jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogUnificarCreditosLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -233,22 +327,472 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel40)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel44)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel36.setText("Tipo");
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        cantidad_cuota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cantidad_cuotaKeyTyped(evt);
+            }
+        });
+
+        jLabel37.setText("Cantidad de cuotas");
+
+        jLabel38.setText("Porcentaje extra");
+
+        dia_vencimiento.setText("0");
+        dia_vencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dia_vencimientoKeyTyped(evt);
+            }
+        });
+
+        mes_vencimiento.setText("0");
+        mes_vencimiento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mes_vencimientoKeyTyped(evt);
+            }
+        });
+
+        jLabel39.setText("Dias");
+
+        jLabel45.setText("Mes");
+
+        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel46.setText("Intervalo de vencimiento");
+
+        javax.swing.GroupLayout jDialogAñadirPlanLayout = new javax.swing.GroupLayout(jDialogAñadirPlan.getContentPane());
+        jDialogAñadirPlan.getContentPane().setLayout(jDialogAñadirPlanLayout);
+        jDialogAñadirPlanLayout.setHorizontalGroup(
+            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel38, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tipo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(83, Short.MAX_VALUE))
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(10, 10, 10))
+                    .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                        .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogAñadirPlanLayout.createSequentialGroup()
+                                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dia_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(mes_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel46))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jDialogAñadirPlanLayout.setVerticalGroup(
+            jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogAñadirPlanLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(tipo_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cantidad_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(porcentaje_cuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mes_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dia_vencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(jDialogAñadirPlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
+        );
+
+        jDialogVerSolicitante.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel47.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel47.setText("Datos del cliente:");
+
+        jLabel50.setText("Domicilio:");
+
+        lbl_domicilioCliente.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_domicilioCliente.setText("El cliente ");
+
+        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel52.setText("Conyugue");
+
+        lbl_nombreConyugue.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_nombreConyugue.setText("nombre ");
+
+        jLabel54.setText("Estado civil");
+
+        lbl_estadoCivilClient.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_estadoCivilClient.setText("Aguante el poliamor");
+
+        jLabel56.setText("Límite de crédito");
+
+        lbl_limiteCredito.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_limiteCredito.setText("Ilimitado");
+
+        jLabel58.setText("N° documento:");
+
+        jLabel59.setText("Nombre:");
+
+        lbl_documentoConyugue.setText("nombre ");
+
+        lbl_nombreCliente.setText("asdasd");
+
+        jLabel62.setText("Saldo actual");
+
+        lbl_saldoActual.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_saldoActual.setText("Ilimitado");
+
+        jLabel64.setText("Fecha de nacimiento:");
+
+        lbl_fechaNacimientoConyugue.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_fechaNacimientoConyugue.setText("nombre ");
+
+        jLabel66.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel66.setText("Saldo y limites");
+
+        jLabel67.setText("Contacto:");
+
+        jLabel69.setText("Fecha de nacimiento:");
+
+        jLabel70.setText("Barrio:");
+
+        lbl_barrioCliente.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_barrioCliente.setText("El cliente ");
+
+        jLabel72.setText("Localidad:");
+
+        lbl_localidadCliente.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_localidadCliente.setText("El cliente ");
+
+        jLabel74.setText("Provincia:");
+
+        lbl_provinciaCliente.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_provinciaCliente.setText("El cliente ");
+
+        lbl_contactoCliente.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_contactoCliente.setText("El cliente ");
+
+        lbl_fechaNacimientoClient.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        lbl_fechaNacimientoClient.setText("Aguante el poliamor");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel47)
+                        .addGap(6, 6, 6)
+                        .addComponent(lbl_nombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel70)
+                            .addComponent(jLabel50)
+                            .addComponent(jLabel54))
+                        .addGap(67, 67, 67)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_barrioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_domicilioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addComponent(jLabel66)
+                                        .addGap(20, 20, 20))
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addComponent(jLabel62)
+                                        .addGap(38, 38, 38))
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addComponent(jLabel56)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_saldoActual, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_limiteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(lbl_estadoCivilClient)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel69)
+                            .addComponent(jLabel67))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_contactoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_fechaNacimientoClient))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel58)
+                            .addComponent(jLabel59)
+                            .addComponent(jLabel64)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel7Layout.createSequentialGroup()
+                                    .addComponent(jLabel72)
+                                    .addGap(17, 17, 17)
+                                    .addComponent(lbl_localidadCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel7Layout.createSequentialGroup()
+                                    .addComponent(jLabel74)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(lbl_provinciaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel52)
+                                .addGap(61, 61, 61)))))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_fechaNacimientoConyugue, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_documentoConyugue, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_nombreConyugue, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel66)
+                    .addComponent(jLabel47)
+                    .addComponent(lbl_nombreCliente))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(lbl_saldoActual)
+                    .addComponent(lbl_localidadCliente)
+                    .addComponent(jLabel72)
+                    .addComponent(lbl_domicilioCliente)
+                    .addComponent(jLabel50)
+                    .addComponent(jLabel62))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel70)
+                    .addComponent(lbl_barrioCliente)
+                    .addComponent(jLabel74)
+                    .addComponent(lbl_provinciaCliente)
+                    .addComponent(lbl_limiteCredito)
+                    .addComponent(jLabel56))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel54)
+                            .addComponent(lbl_estadoCivilClient)
+                            .addComponent(jLabel52))
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel67)
+                            .addComponent(lbl_contactoCliente))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel69)
+                            .addComponent(lbl_fechaNacimientoClient)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel59)
+                            .addComponent(lbl_nombreConyugue))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel58, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_documentoConyugue, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel64)
+                            .addComponent(lbl_fechaNacimientoConyugue))))
+                .addGap(22, 22, 22))
+        );
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setText("Datos crediticios");
+
+        tabla_creditosCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "# Crédito", "Cant cuotas", "Deuda", "Importe crédito", "Estado", "Tipo", "Cobrador"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_creditosCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_creditosClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tabla_creditosCliente);
+        if (tabla_creditosCliente.getColumnModel().getColumnCount() > 0) {
+            tabla_creditosCliente.getColumnModel().getColumn(0).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tabla_creditosCliente.getColumnModel().getColumn(1).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tabla_creditosCliente.getColumnModel().getColumn(2).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tabla_creditosCliente.getColumnModel().getColumn(3).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tabla_creditosCliente.getColumnModel().getColumn(4).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(4).setPreferredWidth(75);
+            tabla_creditosCliente.getColumnModel().getColumn(5).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(6).setResizable(false);
+            tabla_creditosCliente.getColumnModel().getColumn(6).setPreferredWidth(150);
+        }
+
+        tabla_cuotasCredCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "# Cuota", "Importe cuota", "Importe cancelado", "Estado", "Vencimiento"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tabla_cuotasCredCliente);
+        if (tabla_cuotasCredCliente.getColumnModel().getColumnCount() > 0) {
+            tabla_cuotasCredCliente.getColumnModel().getColumn(0).setResizable(false);
+            tabla_cuotasCredCliente.getColumnModel().getColumn(1).setResizable(false);
+            tabla_cuotasCredCliente.getColumnModel().getColumn(2).setResizable(false);
+            tabla_cuotasCredCliente.getColumnModel().getColumn(3).setResizable(false);
+            tabla_cuotasCredCliente.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        jLabel48.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel48.setText("Creditos y solicitudes");
+
+        jLabel49.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel49.setText("Cuotas");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5)
+                    .addComponent(jScrollPane4)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel18)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel48)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel49)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialogVerSolicitanteLayout = new javax.swing.GroupLayout(jDialogVerSolicitante.getContentPane());
+        jDialogVerSolicitante.getContentPane().setLayout(jDialogVerSolicitanteLayout);
+        jDialogVerSolicitanteLayout.setHorizontalGroup(
+            jDialogVerSolicitanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogVerSolicitanteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialogVerSolicitanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jDialogVerSolicitanteLayout.setVerticalGroup(
+            jDialogVerSolicitanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogVerSolicitanteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tabla_Solicitudes.setModel(new javax.swing.table.DefaultTableModel(
@@ -396,15 +940,28 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jLabel3.setText("Límite de crédito:");
 
         btn_verSolicitante.setText("Ver solicitante");
+        btn_verSolicitante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_verSolicitanteActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Saldo crédito");
-
-        btn_verCreditosCliente.setText("Ver Créditos");
 
         txt_limiteCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_limiteCredito.setText("0.00");
 
         jLabel2.setText("Nombre del comercio:");
+
+        txt_anticipo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_anticipo.setText("0.00");
+        txt_anticipo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_anticipoKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setText("Anticipo:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -417,26 +974,28 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_limiteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_saldoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(293, 293, 293))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_anticipo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_nombreComercio))
+                                .addComponent(txt_nombreComercio, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txt_nombreSolicitante)))
                         .addGap(53, 53, 53)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_verSolicitante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_verCreditosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                        .addComponent(btn_verSolicitante)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -449,20 +1008,23 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txt_nombreComercio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_verCreditosCliente))
+                    .addComponent(txt_nombreComercio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_limiteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_saldoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(txt_anticipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txt_limiteCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(txt_saldoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        txt_nombreArticulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nombreArticuloActionPerformed(evt);
+        txt_nombreArticulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_nombreArticuloKeyReleased(evt);
             }
         });
 
@@ -471,12 +1033,17 @@ public class ABMCreditosView extends javax.swing.JPanel {
         txt_importeCuotaProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_importeCuotaProd.setText("0.00");
 
-        jLabel14.setText("Importe:");
+        jLabel14.setText("Subtotal:");
 
         jLabel15.setText("Cuota $");
 
-        txt_importeTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_importeTotal.setText("0.00");
+        txt_importeSubTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txt_importeSubTotal.setText("0.00");
+        txt_importeSubTotal.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txt_importeSubTotalCaretUpdate(evt);
+            }
+        });
 
         jLabel16.setText("Plan:");
 
@@ -488,21 +1055,16 @@ public class ABMCreditosView extends javax.swing.JPanel {
             }
         });
 
-        txt_importeMinimo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txt_importeMinimo.setText("0.00");
-
-        jLabel18.setText("Importe mínimo:");
-
         table_articulos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "artículo", "P. Unitario", "Cant.", "Anticipo", "V. Cuota", "Importe", "C.C", "N° de Serie"
+                "Código", "artículo", "P. Unitario", "Cant.", "subtotal", "P. Cuota", "C.C", "N° de Serie"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -524,13 +1086,10 @@ public class ABMCreditosView extends javax.swing.JPanel {
             table_articulos.getColumnModel().getColumn(4).setResizable(false);
             table_articulos.getColumnModel().getColumn(4).setPreferredWidth(100);
             table_articulos.getColumnModel().getColumn(5).setResizable(false);
-            table_articulos.getColumnModel().getColumn(5).setPreferredWidth(50);
             table_articulos.getColumnModel().getColumn(6).setResizable(false);
-            table_articulos.getColumnModel().getColumn(6).setPreferredWidth(100);
+            table_articulos.getColumnModel().getColumn(6).setPreferredWidth(50);
             table_articulos.getColumnModel().getColumn(7).setResizable(false);
-            table_articulos.getColumnModel().getColumn(7).setPreferredWidth(50);
-            table_articulos.getColumnModel().getColumn(8).setResizable(false);
-            table_articulos.getColumnModel().getColumn(8).setPreferredWidth(100);
+            table_articulos.getColumnModel().getColumn(7).setPreferredWidth(100);
         }
 
         jLabel19.setText("Importe crédito:");
@@ -547,6 +1106,14 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         txt_importeCuotaTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_importeCuotaTotal.setText("0.00");
+        txt_importeCuotaTotal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_importeCuotaTotalKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_importeCuotaTotalKeyTyped(evt);
+            }
+        });
 
         jLabel22.setText("importe 1° cuota:");
 
@@ -554,7 +1121,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         txt_importePrimeraCuota.setText("0.00");
 
         btn_terminarCredito.setBackground(new java.awt.Color(255, 255, 255));
-        btn_terminarCredito.setText("Terminar");
+        btn_terminarCredito.setText("Guardar");
         btn_terminarCredito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_terminarCreditoActionPerformed(evt);
@@ -577,12 +1144,20 @@ public class ABMCreditosView extends javax.swing.JPanel {
             }
         });
 
-        producto_plan.setEnabled(false);
+        cbox_plan.setEnabled(false);
 
         jLabel17.setText("Cantidad");
 
         txt_cantidadProd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_cantidadProd.setText("1");
+        txt_cantidadProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_cantidadProdKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_cantidadProdKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -604,7 +1179,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_importeCuotaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGap(18, 21, Short.MAX_VALUE)
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_importePrimeraCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -617,7 +1192,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addGap(18, 18, 18)
-                                .addComponent(producto_plan, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cbox_plan, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
@@ -634,13 +1209,9 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(btn_terminarCredito))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_importeMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_importeTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_importeSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -664,13 +1235,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(btn_crearPago, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(producto_plan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbox_plan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(txt_importeMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(txt_importeTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_importeSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(txt_importeCuotaProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_agregarArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -704,17 +1273,22 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jLabel24.setText("Vendedor:");
 
-        jLabel36.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jLabel36.setText("Nombre de la persona que aprobo");
+        lbl_vendedor.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        lbl_vendedor.setText("Nombre de la persona que aprobo");
 
-        jLabel37.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jLabel37.setText("Nombre de la persona que aprobo");
+        lbl_cobrador.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        lbl_cobrador.setText("Nombre de la persona que aprobo");
 
-        jLabel38.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jLabel38.setText("Nombre de la persona que aprobo");
+        lbl_administrador.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        lbl_administrador.setText("Nombre de la persona que aprobo");
 
-        jLabel39.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
-        jLabel39.setText("Nombre de la persona que aprobo");
+        lbl_gerente.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        lbl_gerente.setText("Nombre de la persona que aprobo");
+
+        jLabel43.setText("Fecha aprobación:");
+
+        lbl_fechaAprobacion.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
+        lbl_fechaAprobacion.setText("1/1/1");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -723,23 +1297,25 @@ public class ABMCreditosView extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel42)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel43, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(30, 30, 30)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(24, 24, 24)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel36)
-                            .addComponent(jLabel38)
-                            .addComponent(jLabel37)
-                            .addComponent(jLabel39)))
-                    .addComponent(jLabel42))
+                            .addComponent(lbl_fechaAprobacion)
+                            .addComponent(lbl_gerente)
+                            .addComponent(lbl_administrador)
+                            .addComponent(lbl_cobrador)
+                            .addComponent(lbl_vendedor))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel36, jLabel37, jLabel38, jLabel39});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_administrador, lbl_cobrador, lbl_gerente, lbl_vendedor});
 
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -757,21 +1333,27 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addGap(27, 27, 27)
                         .addComponent(jLabel23))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel36)
+                        .addComponent(lbl_vendedor)
                         .addGap(27, 27, 27)
-                        .addComponent(jLabel37)
+                        .addComponent(lbl_cobrador)
                         .addGap(30, 30, 30)
-                        .addComponent(jLabel38)
+                        .addComponent(lbl_administrador)
                         .addGap(27, 27, 27)
-                        .addComponent(jLabel39)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addComponent(lbl_gerente)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel43)
+                    .addComponent(lbl_fechaAprobacion))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        txt_importeFinalCredito.setEditable(false);
         txt_importeFinalCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_importeFinalCredito.setText("0.00");
 
         jLabel30.setText("Importe por cuota:");
 
+        txt_importeUltimaCuota.setEditable(false);
         txt_importeUltimaCuota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_importeUltimaCuota.setText("0.00");
 
@@ -783,6 +1365,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jLabel31.setText("Importe final crédito:");
 
+        txt_importeCuotaFin.setEditable(false);
         txt_importeCuotaFin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_importeCuotaFin.setText("0.00");
 
@@ -794,6 +1377,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
             }
         });
 
+        txt_cantidadCuotasFin.setEditable(false);
         txt_cantidadCuotasFin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txt_cantidadCuotasFin.setText("1");
 
@@ -817,7 +1401,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         });
 
         btn_guardarCredito.setBackground(new java.awt.Color(255, 255, 255));
-        btn_guardarCredito.setText("Guardar");
+        btn_guardarCredito.setText("Aprobar");
         btn_guardarCredito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_guardarCreditoActionPerformed(evt);
@@ -856,18 +1440,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
                     .addComponent(jLabel32))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel34)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel35)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(btn_cancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_imprimirCredito)
-                        .addGap(51, 51, 51)
-                        .addComponent(btn_guardarCredito))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_importeUltimaCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(date_vencimientoPrimerCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -878,7 +1452,21 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addGap(22, 22, 22)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_porcentajeComision, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_importeFinalCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txt_importeFinalCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(btn_cancelar)
+                        .addGap(56, 56, 56)
+                        .addComponent(btn_imprimirCredito)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_guardarCredito))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel34)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel35))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -984,26 +1572,86 @@ public class ABMCreditosView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_nombreSolicitanteActionPerformed
 
-    private void txt_nombreArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreArticuloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreArticuloActionPerformed
-
     private void btn_crearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPagoActionPerformed
-        // TODO add your handling code here:
+        jDialogAñadirPlan.setTitle("Añadir Plan de pago");
+        jDialogAñadirPlan.setVisible(true);
+        jDialogAñadirPlan.setModal(true);
+        jDialogAñadirPlan.setSize(300, 250);
+        jDialogAñadirPlan.setLocationRelativeTo(this);
     }//GEN-LAST:event_btn_crearPagoActionPerformed
 
     private void btn_terminarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_terminarCreditoActionPerformed
-        if(controlTodo()){
-            terminarCredito();
+        if(creditoSelected.getRenglones().size() > 0){
+            creditoSelected.setPlan(cuotaSelected);
+            creditoSelected.setFecha_credito(new Timestamp(System.currentTimeMillis()));
+            if(Statics.Funciones.isFloat(txt_anticipo.getText()))
+                creditoSelected.setAnticipo(Float.parseFloat(txt_anticipo.getText()));
+            else
+            creditoSelected.setAnticipo(0f);
+            creditoSelected.setTipo("CREDITO");
+            creditoSelected.setEstado("PENDIENTE");
+            creditoDAO.insertCreditoNuevo(creditoSelected);
+            //actualizo txt finales
+            txt_cantidadCuotasFin.setText(creditoSelected.getPlan().getCantidad()+"");
+            txt_importeCuotaFin.setText(creditoSelected.getImporte_cuota()+"");
+            txt_importeUltimaCuota.setText(creditoSelected.getImporte_ult_cuota()+"");
+            txt_importeFinalCredito.setText(creditoSelected.getImporte_credito()+"");         
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede terminar el credito sin agregar al menos un producto.",
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_terminarCreditoActionPerformed
 
     private void btn_agregarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarArticuloActionPerformed
-        // TODO add your handling code here:
+        if(cuotaSelected != null && posProductoSelected != -1 && Statics.Funciones.isFloat(txt_importeSubTotal.getText()) && Statics.Funciones.isFloat(txt_importeCuotaProd.getText())){
+           Producto p = filteredList.get(posProductoSelected);
+           float precioCuota = Float.parseFloat(txt_importeCuotaProd.getText());
+           float subtotal = Float.parseFloat(txt_importeSubTotal.getText());
+           int cantidad = Integer.parseInt(txt_cantidadProd.getText());
+           Object[] o = new Object[8];
+           o[0] = p.getCod();
+           o[1] = p.getNombre();
+           o[2] = p.getPrecioVenta();
+           o[3] = cantidad;
+           o[4] = subtotal;
+           o[5] = precioCuota;
+           o[6] = cuotaSelected.getCantidad();
+           o[7] = "";
+           DefaultTableModel model = (DefaultTableModel) table_articulos.getModel();
+           model.addRow(o);
+           //creamos el renglon
+            RenglonCredito rc = new RenglonCredito();
+            rc.setCantidad(cantidad);
+            rc.setCosto(p.getPrecioCosto());
+            rc.setImporte_cuota(precioCuota);
+            rc.setSubTotal(subtotal);
+            rc.setP(p);
+            creditoSelected.addRenglon(rc);
+            float aux = precioCuota+creditoSelected.getImporte_cuota();
+            creditoSelected.setImporte_cuota(aux);
+            aux = subtotal+creditoSelected.getImporte_total();
+            creditoSelected.setImporte_total(aux);
+            creditoSelected.setImporte_credito(aux);
+            //actualizamos valores del credito
+            txt_importeCredito.setText(creditoSelected.getImporte_credito()+"");
+            txt_cantidadCuotas.setText(creditoSelected.getPlan().getCantidad()+"");
+            txt_importeCuotaTotal.setText(creditoSelected.getImporte_cuota()+"");
+            txt_importePrimeraCuota.setText(creditoSelected.getImporte_cuota()+"");
+           //limpiamos los campos
+           posProductoSelected = -1;
+           txt_nombreArticulo.setText("");
+           txt_cantidadProd.setText("1");
+           txt_importeSubTotal.setText("0.00");
+           txt_importeCuotaProd.setText("0.00");
+        }else{
+            JOptionPane.showMessageDialog(null, "Por favor verifique que selecciono un producto, un plan y coloco la cantidad.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+            
     }//GEN-LAST:event_btn_agregarArticuloActionPerformed
 
     private void btn_comprobarUnificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_comprobarUnificacionActionPerformed
-        // TODO add your handling code here:
+        comprobarUnificacion();
     }//GEN-LAST:event_btn_comprobarUnificacionActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -1015,8 +1663,206 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_imprimirCreditoActionPerformed
 
     private void btn_guardarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCreditoActionPerformed
-        // TODO add your handling code here:
+        switch(Main.logueado.getTipo()){
+            case "VENDEDOR":{
+                creditoSelected.setVendedor(Main.logueado);
+                lbl_vendedor.setText(Main.logueado.getNombre());
+                break;
+            }
+            case "COBRADOR":{
+                creditoSelected.setCobrador(Main.logueado);
+                lbl_cobrador.setText(Main.logueado.getNombre());
+                break;
+            }
+            case "ADMINISTRADOR":{
+                creditoSelected.setAdmin(Main.logueado);
+                lbl_administrador.setText(Main.logueado.getNombre());
+                break;
+            }
+            case "GERENTE":{
+                creditoSelected.setGerente(Main.logueado);
+                lbl_gerente.setText(Main.logueado.getNombre());
+                break;
+            }
+        }
+        if(creditoSelected.getCobrador() != null && creditoSelected.getVendedor()!= null && creditoSelected.getGerente()!= null  && creditoSelected.getAdmin()!= null ){
+            if(date_vencimientoPrimerCuota.getDate().after(new Date())){
+                creditoSelected.setVenc_pri_cuota(new Timestamp(date_vencimientoPrimerCuota.getDate().getTime()));
+            }
+        }
     }//GEN-LAST:event_btn_guardarCreditoActionPerformed
+
+    private void btn_verSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verSolicitanteActionPerformed
+        jDialogVerSolicitante.setTitle("Datos del solicitante");
+        jDialogVerSolicitante.setVisible(true);
+        jDialogVerSolicitante.setModal(true);
+        jDialogVerSolicitante.setSize(875, 714);
+        jDialogVerSolicitante.setLocationRelativeTo(this);
+        cargarDatosSolicitante();
+    }//GEN-LAST:event_btn_verSolicitanteActionPerformed
+
+    private void txt_nombreArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreArticuloKeyReleased
+        if(filteredList!=null && filteredList.size() > 0){
+            if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
+                posProductoSelected = (posProductoSelected+1)%filteredList.size();
+                txt_nombreArticulo.setText(filteredList.get(posProductoSelected).getNombre());
+            }else if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP){
+                if(posProductoSelected == 0){
+                    posProductoSelected = filteredList.size()-1;
+                }else{
+                    posProductoSelected--;
+                }
+                txt_nombreArticulo.setText(filteredList.get(posProductoSelected).getNombre());
+            }
+        }
+        if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            filteredList = (ArrayList<Producto>) listProductos.stream().filter((Producto t) -> {
+                System.out.println(t.getNombre() + "      "+ txt_nombreArticulo.getText());
+                return t.getNombre().toLowerCase().contains(txt_nombreArticulo.getText().toLowerCase());
+            }).collect(Collectors.toList());
+            if(filteredList.size() > 0){
+                posProductoSelected = 0;
+                txt_nombreArticulo.setText(filteredList.get(0).getNombre());
+            }
+        }
+    }//GEN-LAST:event_txt_nombreArticuloKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String tipo = tipo_cuota.getText();
+        String porcentaje = porcentaje_cuota.getText();
+        String cantidad = cantidad_cuota.getText();
+        String mes = mes_vencimiento.getText();
+        String dia = dia_vencimiento.getText();
+        if(!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) >0 || Integer.parseInt(dia) > 0 )){
+            JOptionPane.showMessageDialog(null, "Debe completar el intervalo de vencimiento entre cuotas. \n Es decir cuantos dias y/o meses deben pasar entre el vencimiento cada cuota",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
+            Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad),Integer.parseInt(dia),Integer.parseInt(mes));
+            cuotasDAO.insertCuota(c);
+            jDialogAñadirPlan.dispose();
+            c = CuotasDAO.getInstance().getUltimoAñadido();
+            listPlanes.add(c);
+            cbox_plan.setSelectedItem(CuotasDAO.getInstance().getUltimoAñadido());
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe completar todos los campos correctamente.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tipo_cuota.setText("");
+        porcentaje_cuota.setText("");
+        cantidad_cuota.setText("");
+        jDialogAñadirPlan.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txt_cantidadProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadProdKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_cantidadProdKeyTyped
+
+    private void txt_cantidadProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadProdKeyReleased
+        if(txt_cantidadProd.getText() != "" && posProductoSelected != -1){
+            int val = Integer.valueOf(txt_cantidadProd.getText());
+            Producto p = filteredList.get(posProductoSelected);
+            if(cbox_plan.getItemCount() > 0){
+                if(cuotaSelected == null)
+                    cuotaSelected = (Cuota) cbox_plan.getSelectedItem();
+                float precio_final = (p.getCostoFlete() + p.getPrecioVenta()) * ((cuotaSelected.getPorcentajeExtra()/100) + 1);
+                txt_importeSubTotal.setText(precio_final+"");
+            }else{
+                JOptionPane.showMessageDialog(null, "No hay planes de pago disponibles, debe crear un nuevo plan.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un producto y poner un valor en cantidad",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txt_cantidadProdKeyReleased
+
+    private void txt_importeSubTotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_importeSubTotalCaretUpdate
+        if(cuotaSelected != null && Statics.Funciones.isFloat(txt_importeSubTotal.getText())){
+            float subt = Float.parseFloat(txt_importeSubTotal.getText());
+            txt_importeCuotaProd.setText(subt/cuotaSelected.getCantidad() + "");
+        }
+    }//GEN-LAST:event_txt_importeSubTotalCaretUpdate
+
+    private void mes_vencimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mes_vencimientoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_mes_vencimientoKeyTyped
+
+    private void dia_vencimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dia_vencimientoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_dia_vencimientoKeyTyped
+
+    private void cantidad_cuotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidad_cuotaKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cantidad_cuotaKeyTyped
+
+    private void txt_importeCuotaTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_importeCuotaTotalKeyReleased
+        if(!"".equals(txt_importeCuotaTotal.getText()) && creditoSelected.getRenglones().size()>0){
+            int impCuota = Integer.valueOf(txt_importeCuotaTotal.getText());
+            creditoSelected.setImporte_cuota(impCuota);
+            if(Statics.Funciones.isFloat(txt_anticipo.getText())){
+                float f = creditoSelected.getImporte_credito()-Float.parseFloat(txt_anticipo.getText());
+                creditoSelected.setImporte_total(f);
+                creditoSelected.setImporte_credito(f);
+            }
+            float total = creditoSelected.getImporte_total();
+            float resto = total % impCuota;
+            if(resto != 0){
+               creditoSelected.setImporte_ult_cuota(resto+impCuota);
+               total = total-resto;
+            }
+            creditoSelected.setImporte_pri_cuota(impCuota);
+            creditoSelected.setCant_cuotas((int)total/impCuota);
+            //seteamos los txt
+            txt_importePrimeraCuota.setText(""+impCuota);
+            txt_importeUltimaCuota.setText(""+creditoSelected.getImporte_ult_cuota());
+            txt_cantidadCuotas.setText(""+creditoSelected.getCant_cuotas());
+            txt_cantidadCuotasFin.setText(""+creditoSelected.getCant_cuotas());
+            txt_importeCuotaFin.setText(txt_importeCuotaTotal.getText());
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un producto y poner un valor en cantidad",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txt_importeCuotaTotalKeyReleased
+
+    private void txt_importeCuotaTotalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_importeCuotaTotalKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_importeCuotaTotalKeyTyped
+
+    private void txt_anticipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_anticipoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_anticipoKeyTyped
+
+    private void tabla_creditosClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_creditosClienteMouseClicked
+        if(tabla_creditosCliente.getSelectedRow() != -1){
+            int idCredito = (int) tabla_creditosCliente.getValueAt(tabla_creditosCliente.getSelectedRow(), 0);
+            cargarCuotasCredito(idCredito);
+        }
+    }//GEN-LAST:event_tabla_creditosClienteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1027,17 +1873,24 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JButton btn_guardarCredito;
     private javax.swing.JButton btn_imprimirCredito;
     private javax.swing.JButton btn_terminarCredito;
-    private javax.swing.JButton btn_verCreditosCliente;
     private javax.swing.JButton btn_verSolicitante;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<Models.Cuota> cbox_cobrador;
+    private javax.swing.JTextField cantidad_cuota;
+    private javax.swing.JComboBox<Models.Empleado> cbox_cobrador;
+    private javax.swing.JComboBox<Models.Cuota> cbox_plan;
     private com.toedter.calendar.JDateChooser date_vencimientoPrimerCuota;
+    private javax.swing.JTextField dia_vencimiento;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialogAñadirPlan;
+    private javax.swing.JDialog jDialogUnificarCreditos;
+    private javax.swing.JDialog jDialogVerSolicitante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1072,10 +1925,30 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -1084,11 +1957,14 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -1097,12 +1973,36 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_FechaSoli;
     private javax.swing.JLabel lbl_NroCred;
     private javax.swing.JLabel lbl_NroSoli;
-    private javax.swing.JComboBox<Models.Cuota> producto_plan;
+    private javax.swing.JLabel lbl_administrador;
+    private javax.swing.JLabel lbl_barrioCliente;
+    private javax.swing.JLabel lbl_cobrador;
+    private javax.swing.JLabel lbl_contactoCliente;
+    private javax.swing.JLabel lbl_documentoConyugue;
+    private javax.swing.JLabel lbl_domicilioCliente;
+    private javax.swing.JLabel lbl_estadoCivilClient;
+    private javax.swing.JLabel lbl_fechaAprobacion;
+    private javax.swing.JLabel lbl_fechaNacimientoClient;
+    private javax.swing.JLabel lbl_fechaNacimientoConyugue;
+    private javax.swing.JLabel lbl_gerente;
+    private javax.swing.JLabel lbl_limiteCredito;
+    private javax.swing.JLabel lbl_localidadCliente;
+    private javax.swing.JLabel lbl_nombreCliente;
+    private javax.swing.JLabel lbl_nombreConyugue;
+    private javax.swing.JLabel lbl_provinciaCliente;
+    private javax.swing.JLabel lbl_saldoActual;
+    private javax.swing.JLabel lbl_vendedor;
+    private javax.swing.JTextField mes_vencimiento;
+    private javax.swing.JTextField porcentaje_cuota;
     private javax.swing.JRadioButton rbtn_credito;
     private javax.swing.JRadioButton rbtn_solicitud;
     private javax.swing.JTable tabla_Solicitudes;
+    private javax.swing.JTable tabla_creditosCliente;
+    private javax.swing.JTable tabla_creditosUnificar;
+    private javax.swing.JTable tabla_cuotasCredCliente;
     private javax.swing.JTable table_articulos;
+    private javax.swing.JTextField tipo_cuota;
     private javax.swing.JTextArea txtArea_observaciones;
+    private javax.swing.JTextField txt_anticipo;
     protected javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_cantidadCuotas;
     private javax.swing.JTextField txt_cantidadCuotasFin;
@@ -1112,9 +2012,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JTextField txt_importeCuotaProd;
     private javax.swing.JTextField txt_importeCuotaTotal;
     private javax.swing.JTextField txt_importeFinalCredito;
-    private javax.swing.JTextField txt_importeMinimo;
     private javax.swing.JTextField txt_importePrimeraCuota;
-    private javax.swing.JTextField txt_importeTotal;
+    private javax.swing.JTextField txt_importeSubTotal;
     private javax.swing.JTextField txt_importeUltimaCuota;
     private javax.swing.JTextField txt_limiteCredito;
     private javax.swing.JTextField txt_nombreArticulo;
@@ -1125,32 +2024,87 @@ public class ABMCreditosView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void cargarDatosSoli(int pos) {
+        creditoSelected = listCreditos.get(pos);
+        //datos en comun entre credito y solicitud
+        txt_nombreComercio.setText(creditoSelected.getComerce().getNombre());
+        txt_nombreSolicitante.setText(creditoSelected.getCliente().getNombre());
+        txt_limiteCredito.setText(""+creditoSelected.getCliente().getLimite_credito());
+        txt_saldoCredito.setText(""+creditoSelected.getImporte_deuda());
+        lbl_FechaSoli.setText(Statics.Funciones.dateFormat(creditoSelected.getFecha_solicitud()));
+        lbl_NroSoli.setText(""+creditoSelected.getSolicitud_id());
+        //carga de datos en caso de que sea un credito
+        if(!creditoSelected.getTipo().equals("SOLICITUD")){
+            txtArea_observaciones.setText(creditoSelected.getObservacion());
+            lbl_FechaCred.setText(Statics.Funciones.dateFormat(creditoSelected.getFecha_credito()));
+            lbl_NroCred.setText(""+creditoSelected.getId());
+            if(creditoSelected.getCobrador() != null){
+                lbl_cobrador.setText(creditoSelected.getCobrador().getNombre());
+            }
+            if(creditoSelected.getAdmin()!= null){
+                lbl_administrador.setText(creditoSelected.getAdmin().getNombre());
+            }
+            if(creditoSelected.getVendedor()!= null){
+                lbl_vendedor.setText(creditoSelected.getVendedor().getNombre());
+            }
+            if(creditoSelected.getGerente()!= null){
+                lbl_gerente.setText(creditoSelected.getGerente().getNombre());
+            }
+            txt_importeUltimaCuota.setText(creditoSelected.getImporte_ult_cuota()+"");
+            txt_importePrimeraCuota.setText(creditoSelected.getImporte_pri_cuota()+"");
+            txt_importeFinalCredito.setText(creditoSelected.getImporte_credito()+"");
+            txt_importeCuotaTotal.setText(creditoSelected.getImporte_cuota()+"");
+            txt_importeCuotaFin.setText(creditoSelected.getImporte_cuota()+"");
+            txt_importeCredito.setText(creditoSelected.getImporte_credito()+"");
+            txt_cantidadCuotasFin.setText(creditoSelected.getPlan().getCantidad()+"");
+            //cargamos los renglones.
+            DefaultTableModel model = (DefaultTableModel) table_articulos.getModel();
+            Object[] o = new Object[9];
+            creditoSelected.getRenglones().forEach((t) -> {
+                o[0] = t.getP().getCod();
+                o[1] = t.getP().getNombre();
+                o[2] = t.getCosto();
+                o[3] = t.getCantidad();
+                o[4] = t.getSubTotal();
+                o[5] = t.getImporte_cuota();
+                o[6] = creditoSelected.getPlan().getCantidad();
+                o[7] = t.getNroSerie();
+                model.addRow(o);
+            });
+            if(creditoSelected.getCobrador() != null)
+                cbox_cobrador.setSelectedItem(creditoSelected.getCobrador());
+            cbox_plan.setSelectedItem(creditoSelected.getPlan());
+        }
         
     }
 
     private void limpiarCampos() {
-        txt_saldoCredito.setText("");
+        txt_saldoCredito.setText("0.00");
         txt_nombreComercio.setText("");
         txt_nombreArticulo.setText("");
-        txt_limiteCredito.setText("");
-        txt_importeUltimaCuota.setText("");
-        txt_importeTotal.setText("");
-        txt_importePrimeraCuota.setText("");
-        txt_importeMinimo.setText("");
-        txt_importeFinalCredito.setText("");
-        txt_importeCuotaTotal.setText("");
-        txt_importeCuotaProd.setText("");
-        txt_importeCuotaFin.setText("");
-        txt_importeCredito.setText("");
-        txt_cantidadCuotasFin.setText("");
-        txt_cantidadProd.setText("");
-        txt_cantidadCuotas.setText("");
+        txt_nombreSolicitante.setText("");
         txt_buscar.setText("");
         txtArea_observaciones.setText("");
         lbl_FechaCred.setText("");
         lbl_FechaSoli.setText("");
         lbl_NroCred.setText("");
         lbl_NroSoli.setText("");
+        lbl_cobrador.setText("Nombre de la persona que aprobo");
+        lbl_administrador.setText("Nombre de la persona que aprobo");
+        lbl_gerente.setText("Nombre de la persona que aprobo");
+        lbl_vendedor.setText("Nombre de la persona que aprobo");
+        lbl_fechaAprobacion.setText("");
+        txt_limiteCredito.setText("0.00");
+        txt_importeUltimaCuota.setText("0.00");
+        txt_importeSubTotal.setText("0.00");
+        txt_importePrimeraCuota.setText("0.00");
+        txt_importeFinalCredito.setText("0.00");
+        txt_importeCuotaTotal.setText("0.00");
+        txt_importeCuotaProd.setText("0.00");
+        txt_importeCuotaFin.setText("0.00");
+        txt_importeCredito.setText("0.00");
+        txt_cantidadCuotasFin.setText("1");
+        txt_cantidadProd.setText("1");
+        txt_cantidadCuotas.setText("1");
         date_vencimientoPrimerCuota.setDate(new Date());
         btn_agregarArticulo.setEnabled(false);
         btn_cancelar.setEnabled(false);
@@ -1159,35 +2113,153 @@ public class ABMCreditosView extends javax.swing.JPanel {
         btn_guardarCredito.setEnabled(false);
         btn_imprimirCredito.setEnabled(false);
         btn_terminarCredito.setEnabled(false);
-        btn_verCreditosCliente.setEnabled(false);
         btn_verSolicitante.setEnabled(false);
+        //CARGO LOS COMBO BOX CON PLANES Y COBRADORES VIGENTES.
+        cbox_cobrador.setEnabled(true);
+        cbox_plan.setEnabled(true);
+        listPlanes = cuotasDAO.getCuotas();
+        listCobradores = empleadosDAO.getCobradores();
+        Collections.sort(listPlanes);
+        Collections.sort(listCobradores);
+        listPlanes.forEach((t) -> {
+            cbox_plan.addItem(t);
+        });
+        listCobradores.forEach((t) -> {
+            cbox_cobrador.addItem(t);
+        });
+        cbox_cobrador.setEnabled(false);
+        cbox_plan.setEnabled(false);
     }
-
-    private boolean controlTodo() {
-        
-        return false;
-    }
-
-    private void terminarCredito() {
-        
-    }
-
 
     private void cambioBusqueda(String text, boolean solicitud, boolean credito) {
+        String atributoBusqueda = "nombre";
+        if(Statics.Funciones.isNumeric(text)){
+            atributoBusqueda = "id";
+        }
         if(solicitud){
-            if(Statics.Funciones.isNumeric(text)){
-                
-            }else{
-                
-            }
+            listCreditos = creditoDAO.buscarSolicitud(text,atributoBusqueda);
         }else{
             if (credito) {
-                if(Statics.Funciones.isNumeric(text)){
-                
-                }else{
-
-                }
+                listCreditos = creditoDAO.buscarCreditoActivo(text,atributoBusqueda);
             }
         }
+        cargarTablaCreditos();
+        
     }
+
+    private void cargarTablaCreditos() {
+        DefaultTableModel model = (DefaultTableModel) tabla_Solicitudes.getModel();
+        model.setNumRows(0);
+        listCreditos.sort((o1, o2) -> {
+            if(o1.getTipo().equals(o2.getTipo()) || o1.getEstado().equals(o2.getEstado())){
+                return 0;
+            }
+            if(o1.getTipo().equals("SOLICITUD")|| (o1.getEstado().equals("PENDIENTE") && !o2.getTipo().equals("SOLICITUD")) || o2.getEstado().equals("FINALIZADO")){
+                return -1;
+            }else{
+                return 1;
+            }
+        });
+        listCreditos.forEach((t) -> {
+           Object[] o = new Object[3];
+           o[0] = t.getId();
+           o[1] = t.getCliente().getNombre();
+           o[2] = t.getEstado();
+           model.addRow(o);
+        });
+    }
+
+    private void cargarDatosSolicitante() {
+        ArrayList<Credito> cred = creditoDAO.getCreditosCliente(creditoSelected.getCliente().getId());
+        DefaultTableModel model = (DefaultTableModel) tabla_creditosCliente.getModel();
+        float saldoActual = 0f;
+        for(int i = 0 ; i < cred.size(); i++){
+            Object[] o = new Object[6];
+            o[0] = cred.get(i).getId();
+            o[1] = cred.get(i).getCant_cuotas();
+            o[2] = cred.get(i).getImporte_deuda();
+            o[3] = cred.get(i).getImporte_credito();
+            o[4] = cred.get(i).getEstado();
+            o[5] = cred.get(i).getTipo();
+            if(cred.get(i).getCobrador() != null)
+                o[6] = cred.get(i).getCobrador().getNombre();
+            else
+                o[6] = "-";
+            saldoActual += cred.get(i).getImporte_deuda();
+            model.addRow(o);
+        }
+        Cliente conyugue = clienteDAO.recuperarConyugue(creditoSelected.getCliente().getId());
+        Cliente cliente = clienteDAO.buscarCliente(creditoSelected.getCliente().getId());
+        lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
+        if(cliente.getContacto().size()>0)
+            lbl_contactoCliente.setText(cliente.getContacto().get(0).getContacto());
+        lbl_nombreCliente.setText(cliente.getNombre());
+        lbl_domicilioCliente.setText(cliente.getDireccion()+" "+cliente.getNumero());
+        lbl_estadoCivilClient.setText(cliente.getEstadoCivil());
+        lbl_localidadCliente.setText(cliente.getCiudad());
+        lbl_barrioCliente.setText(cliente.getBarrio());
+        lbl_provinciaCliente.setText(cliente.getProvincia());
+        //datos monetarios we
+        lbl_limiteCredito.setText(cliente.getLimite_credito()+"");
+        lbl_saldoActual.setText(saldoActual+"");
+        //datos conyugue
+        lbl_nombreConyugue.setText(conyugue.getNombre());
+        lbl_fechaNacimientoConyugue.setText(Statics.Funciones.dateFormat(conyugue.getFechaNacimiento()));
+        lbl_documentoConyugue.setText(conyugue.getDni()+"");
+        
+    }
+
+    private void cargarCuotasCredito(int idCredito) {
+        ArrayList<Carton> cartones = creditoDAO.getCartonesCredito(idCredito);
+        DefaultTableModel model = (DefaultTableModel) tabla_creditosCliente.getModel();
+        for (int i = 0; i < cartones.size(); i++) {
+            Object[] o = new Object[5];
+            o[0] = cartones.get(i).getNro_cuota();
+            o[1] = cartones.get(i).getImporte_cuota();
+            o[2] = cartones.get(i).getImporte_cancelado();
+            o[3] = cartones.get(i).getEstado();
+            o[4] = Statics.Funciones.dateParse(cartones.get(i).getVencimiento());
+            model.addRow(o);
+        }
+    }
+
+    private void comprobarUnificacion() {
+        if(creditoSelected.getPlan() == null){
+            JOptionPane.showMessageDialog(null, "Debe agregar productos y seleccionar un plan para poder unificar.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        ArrayList<Credito> creditos = creditoDAO.getCreditosUnificables(creditoSelected.getPlan(),creditoSelected.getCliente().getId());
+        if(creditos.size() > 0){
+            jDialogUnificarCreditos.setTitle("Creditos para unificar");
+            jDialogUnificarCreditos.setVisible(true);
+            jDialogUnificarCreditos.setModal(true);
+            jDialogUnificarCreditos.setSize(895, 274);
+            jDialogUnificarCreditos.setLocationRelativeTo(this);
+            DefaultTableModel model = (DefaultTableModel) tabla_creditosUnificar.getModel();
+            for (int i = 0; i < creditos.size(); i++) {
+                Object[] o = new Object[9];
+                if(creditos.get(i).getTipo().equals("SOLICITUD")){
+                    o[0] = creditos.get(i).getSolicitud_id();
+                    o[1] = creditos.get(i).getFecha_solicitud();
+                }else{
+                    o[0] = creditos.get(i).getId();
+                    o[1] = creditos.get(i).getFecha_credito();
+                    o[2] = creditos.get(i).getImporte_credito();
+                    o[3] = creditos.get(i).getTipo();
+                    o[4] = creditos.get(i).getImporte_deuda();
+                    o[5] = creditos.get(i).getAnticipo();
+                    o[6] = creditos.get(i).getImporte_cuota();
+                    o[7] = creditos.get(i).getImporte_total();
+                }
+                model.addRow(o);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "El cliente no tiene creditos con el mismo plan para unificar.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
+    
 }

@@ -46,6 +46,8 @@ public class CuotasDAO {
                 Cuota p = new Cuota();
                 p.setId(rs.getInt("id"));
                 p.setCantidad(rs.getInt("cantidad"));
+                p.setMes(rs.getInt("mes"));
+                p.setDia(rs.getInt("dia"));
                 p.setPorcentajeExtra(rs.getFloat("porcentaje_extra"));
                 p.setActiva(rs.getInt("cuota_activa"));
                 p.setTipo(rs.getString("tipo"));
@@ -58,7 +60,9 @@ public class CuotasDAO {
     }
 
     public void insertCuota(Cuota c) {
-        String SQL = "INSERT INTO cuota SET tipo = '"+c.getTipo().toUpperCase()+"', cantidad = "+c.getCantidad()+", porcentaje_extra ="+c.getPorcentajeExtra();
+        String SQL = "INSERT INTO cuota SET tipo = '"+c.getTipo().toUpperCase()+"', cantidad = "+c.getCantidad()+
+                        ", porcentaje_extra ="+c.getPorcentajeExtra()+", dia="+c.getDia()+
+                ", mes ="+c.getMes();
         conexion.EjecutarOperacion(SQL);
     }
 
@@ -78,6 +82,46 @@ public class CuotasDAO {
             int res = conexion.EjecutarOperacion(SQL);
             System.out.println(res);
         }
+    }
+
+    public ArrayList<Cuota> getCuotas() {
+        ArrayList<Cuota> cuotas = new ArrayList<>();
+        String SQL = "SELECT *"
+                + "FROM cuota "
+                + "WHERE cuota.state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try{
+            while(rs.next()){
+                Cuota p = new Cuota();
+                p.setId(rs.getInt("id"));
+                p.setCantidad(rs.getInt("cantidad"));
+                p.setPorcentajeExtra(rs.getFloat("porcentaje_extra"));
+                p.setTipo(rs.getString("tipo"));
+                cuotas.add(p);
+            }
+        }catch(Exception ex){
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+        }
+        return cuotas;
+    }
+
+    public Cuota getUltimoAñadido() {
+        Cuota p = new Cuota();
+        String SQL = "SELECT * "
+                + "FROM cuota "
+                + "WHERE created_at = (SELECT MAX(created_at) FROM cuota WHERE cuota.state = 'ACTIVO')";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try{
+            if(rs.next()){
+                p.setId(rs.getInt("id"));
+                p.setCantidad(rs.getInt("cantidad"));
+                p.setPorcentajeExtra(rs.getFloat("porcentaje_extra"));
+                p.setTipo(rs.getString("tipo"));
+            }
+        }catch(Exception ex){
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+        }
+        return p;
     }
     
 }

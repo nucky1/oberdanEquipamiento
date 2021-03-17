@@ -32,13 +32,24 @@ public class Cliente {
     private String numero;
     private String codPostal;
     private int direccion_id;
-    private ArrayList<Contacto> contacto= null;
+    private ArrayList<Contacto> contacto;
+    private float limite_credito;
     
-
+    
     public Cliente() {
     }
-   
-public String getNombre() {
+
+    public float getLimite_credito() {
+        return limite_credito;
+    }
+
+    public void setLimite_credito(float limite_credito) {
+        this.limite_credito = limite_credito;
+    }
+    
+    
+    
+    public String getNombre() {
         return nombre;
     }
 

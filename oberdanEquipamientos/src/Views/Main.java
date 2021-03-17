@@ -5,6 +5,7 @@
  */
 package Views;
 
+import Models.Empleado;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
  */
 public class Main {
     public static char nivel;
+    public static Empleado logueado;
     public static boolean isProduccion = false;
     //public static boolean isProduccion = true;
     public static void main(String[] args) throws SQLException, ClassNotFoundException {

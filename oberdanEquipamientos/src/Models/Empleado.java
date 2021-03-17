@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author Hernan
  */
-public class Empleado {
+public class Empleado implements Comparable<Empleado>{
     private int id;
     private int dni;
     private String tipoDni;
@@ -229,4 +229,12 @@ public class Empleado {
             this.tipo= tipo;
             }
     
+    public String toString(){
+        return this.nombre;
+    }
+
+    @Override
+    public int compareTo(Empleado o) {
+        return this.nombre.compareTo(o.getNombre());
+    }
 }

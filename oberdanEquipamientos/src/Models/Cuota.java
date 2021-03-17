@@ -9,23 +9,52 @@ package Models;
  *
  * @author demig
  */
-public class Cuota {
+public class Cuota implements Comparable<Cuota>{
     private int id;
     private String tipo;
     private int cantidad;
+    private int mes;
+    private int dia;
     private float porcentajeExtra;
     private boolean activa; //para saber si el producto seleccionado la usa
 
-    public Cuota(String tipo, float parseFloat, int parseInt) {
+    public int getMes() {
+        return mes;
+    }
+
+    public void setMes(int mes) {
+        this.mes = mes;
+    }
+
+    public int getDia() {
+        return dia;
+    }
+
+    public void setDia(int dia) {
+        this.dia = dia;
+    }
+
+    public Cuota(String tipo, float porcentajeExtra, int cantidad, int dia, int mes) {
         this.tipo = tipo;
-        this.cantidad = parseInt;
-        this.porcentajeExtra = parseFloat;
+        this.cantidad = cantidad;
+        this.porcentajeExtra = porcentajeExtra;
+        this.mes = mes;
+        this.dia = dia;
     }
 
     public Cuota() {
         
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Cuota){
+            return this.tipo.equalsIgnoreCase(((Cuota) o).getTipo()) 
+                    && this.cantidad == ((Cuota) o).getCantidad() 
+                    && this.porcentajeExtra == ((Cuota) o).getPorcentajeExtra();
+        }
+        return false;
+    }
     public boolean getActiva() {
         return activa;
     }
@@ -73,6 +102,19 @@ public class Cuota {
     public void setPorcentajeExtra(float porcentajeExtra) {
         this.porcentajeExtra = porcentajeExtra;
     }
+    public String toString(){
+        return this.cantidad + "-" + this.tipo + "-" + this.porcentajeExtra + "%";
+    }
+
+    @Override
+    public int compareTo(Cuota o) {
+        int comp = this.tipo.compareTo(o.getTipo());
+        if(comp == 0)
+            comp = Integer.compare(this.cantidad, o.getCantidad());
+        if(comp == 0)
+            comp = Float.compare(porcentajeExtra, o.getPorcentajeExtra());
+        return comp;
+    }   
     
     
 }

@@ -157,7 +157,7 @@ public class ClientesDAO {
         
            try{
                if(rs.first()){
-                   //--CARGAR DATOS AL Cliente
+                     //--CARGAR DATOS AL Cliente
                     
                     p.setId(rs.getInt("id"));
                     p.setNombre(rs.getString("nombre"));
@@ -197,13 +197,16 @@ public class ClientesDAO {
                     }
                     p.setContacto((ArrayList<Contacto>) contactos);
                     //--FIN CARGA
-                  
+                    return p;
+
                 }
            }catch(Exception ex){
                ex.printStackTrace();
            }
            
-           return p;
+
+            return null;
+
     }
     public boolean insertarClientes(Cliente c1, Cliente c2, String tipo){
       

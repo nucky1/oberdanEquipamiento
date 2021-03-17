@@ -207,5 +207,16 @@ public class Producto {
         this.tipo = tipo;
     }
 
-   
+    public String toString(){
+        return this.nombre;
+    }
+    @Override
+    public boolean equals(Object p){
+        Producto aux = (Producto) p;
+        if(aux.getId() == -1){
+            return this.nombre.contains(aux.getNombre());
+        }else{
+            return this.nombre.equals(aux.getNombre());
+        }
+    }
 }
