@@ -315,4 +315,21 @@ public class EmpleadosDAO {
         }
         return emple;
     }
+
+    public ArrayList<Empleado> getVendedores() {
+        ArrayList<Empleado> emple = new ArrayList();
+        try {
+            String SQL = "SELECT id,nombre FROM empleado WHERE state = 'ACTIVO' AND tipo = 'VENDEDOR'";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            while (rs.next()) {
+                Empleado e = new Empleado();
+                e.setNombre(rs.getString("nombre"));
+                e.setId(rs.getInt("id"));
+                emple.add(e);
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error al obtener vendedores metodo getvendedores", Main.isProduccion);
+        }
+        return emple;
+    }
 }

@@ -270,5 +270,9 @@ public class CreditosDAO {
     public ArrayList<Credito> getCreditosUnificables(Cuota plan, int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public int getCantCredPorPareja(int id, int id0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

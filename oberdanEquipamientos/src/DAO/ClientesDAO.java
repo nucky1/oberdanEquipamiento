@@ -8,6 +8,8 @@ package DAO;
 import Views.ABMClientesView;
 import Models.Cliente;
 import Models.Contacto;
+import Models.Rubro;
+import Views.Main;
 import com.mysql.jdbc.Connection;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
