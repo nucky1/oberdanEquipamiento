@@ -10,6 +10,7 @@ import DAO.EmpleadosDAO;
 import DAO.TipoPagoDAO;
 import Models.Carton;
 import Models.Cliente;
+import Models.Credito;
 import Models.Empleado;
 import Models.TipoPago;
 import Statics.*;
@@ -49,14 +50,14 @@ public class IngresoCobranzas extends javax.swing.JPanel {
     private Cliente clienteSeleccionado;
     private int cantCuotasAdela=0;
     private TipoPagoDAO tipoPagoDAO;
-    
+    private CreditosDAO creditosDao;
     
     /**
      * Creates new form NewJPanel
      */
     public IngresoCobranzas() {
         initComponents();
-        ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+        //ColorFilasCobranza colorFilas = new ColorFilasCobranza();
         modeloPlanillas = (DefaultTableModel) jTablePlanillas.getModel();
         modeloCartones= (DefaultTableModel) jTableCartones.getModel();
         modeloTipoMonto= (DefaultTableModel) jTableTipoyMonto.getModel();
@@ -185,6 +186,8 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             }
         });
 
+        jLabelAdvertencia.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
         jDialogAñadirElementoLayout.setHorizontalGroup(
@@ -279,32 +282,36 @@ public class IngresoCobranzas extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel41))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jButtonLimpiarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                                .addComponent(jButtonIngresarCobranza, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(39, 39, 39)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldZona, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldFechaEmision)
-                                    .addComponent(jTextFieldCobrador)
-                                    .addComponent(jTextFieldPlanillaNumero))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel41))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jButtonLimpiarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                    .addComponent(jButtonIngresarCobranza, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGap(21, 21, 21)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4))
+                                    .addGap(39, 39, 39)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jTextFieldZona, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                                        .addComponent(jTextFieldFechaEmision)
+                                        .addComponent(jTextFieldCobrador)
+                                        .addComponent(jTextFieldPlanillaNumero)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 10, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonIngresarCobranza, jButtonLimpiarSeccion});
@@ -314,9 +321,9 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel41)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 89, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextFieldPlanillaNumero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -403,6 +410,11 @@ public class IngresoCobranzas extends javax.swing.JPanel {
                 jTextFieldGastosRecorridoActionPerformed(evt);
             }
         });
+        jTextFieldGastosRecorrido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldGastosRecorridoKeyPressed(evt);
+            }
+        });
 
         jTableTipoyMonto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -427,6 +439,11 @@ public class IngresoCobranzas extends javax.swing.JPanel {
         });
 
         jButtonQuitarTipoyMonto.setText("-");
+        jButtonQuitarTipoyMonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonQuitarTipoyMontoActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Monto");
 
@@ -548,7 +565,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
         jLabel23.setText("Pago parcial");
         jLabel23.setOpaque(true);
 
-        jLabel24.setBackground(new java.awt.Color(255, 51, 255));
+        jLabel24.setBackground(new java.awt.Color(153, 0, 153));
         jLabel24.setText("Cred. cancelado");
         jLabel24.setOpaque(true);
 
@@ -566,6 +583,11 @@ public class IngresoCobranzas extends javax.swing.JPanel {
         jTextFieldMonto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldMontoActionPerformed(evt);
+            }
+        });
+        jTextFieldMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldMontoKeyPressed(evt);
             }
         });
 
@@ -875,6 +897,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             nuevo[1]=jTextFieldMonto.getText();
             model.addRow(nuevo);
             jTextFieldMonto.setText("");
+            procesarCampos();
         }
         else{
             JOptionPane.showMessageDialog(null, "Debe llenar el campo de monto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -916,10 +939,60 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             float importeCuota=listaCartones.get(jTableCartones.getSelectedRow()).getImporte_cuota();
             listaCartones.get(jTableCartones.getSelectedRow()).setImporte_cancelado((float)jTableCartones.getValueAt(jTableCartones.getSelectedRow(), 5));
             System.out.println("Estoy cargando el valor :"+((float)jTableCartones.getValueAt(jTableCartones.getSelectedRow(), 5)));
-            if (importeCuota < listaCartones.get(jTableCartones.getSelectedRow()).getImporte_cancelado() ){
+            //CONTROLAR QUE CARGUE LO MISMO!
+            // Color de cuota al dia:
+            float importeCancelado=0;
+            
+            importeCancelado= Float.valueOf(String.valueOf(modeloCartones.getValueAt(jTableCartones.getSelectedRow(), 5)));
+            if(importeCancelado == importeCuota){
+                //cuota al dia
+                for(int i=0; i<jTableCartones.getColumnCount(); i++){
+                    ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+                    colorFilas.setBackground(Color.GREEN);
+                    jTableCartones.getColumnModel().getColumn(i).setCellRenderer(colorFilas);
+            
+                }
+            }
+            // color de cuota no pagada: 
+            if(importeCancelado != importeCuota && importeCancelado == 0){
+                for(int i=0; i<jTableCartones.getColumnCount(); i++){
+                    ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+                    colorFilas.setBackground(Color.GRAY);
+                    jTableCartones.getColumnModel().getColumn(i).setCellRenderer(colorFilas);
+            
+                }
+            }
+            if(importeCuota > importeCancelado){
+                for(int i=0; i<jTableCartones.getColumnCount(); i++){
+                    ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+                    colorFilas.setBackground(Color.YELLOW);
+                    jTableCartones.getColumnModel().getColumn(i).setCellRenderer(colorFilas);
+            
+                }
+            }
+            if (importeCuota < importeCancelado ){
                 
                 cantCuotasAdela+= (int)(listaCartones.get(jTableCartones.getSelectedRow()).getImporte_cancelado()/importeCuota)-1;
+                //aca deberia cambiar el color de la celda
+                for(int i=0; i<jTableCartones.getColumnCount(); i++){
+                    ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+                    colorFilas.setBackground(Color.ORANGE);
+                    jTableCartones.getColumnModel().getColumn(i).setCellRenderer(colorFilas);
+            
+                }
+                
             }
+            //CONTROLAR ESTO!
+            //credito cancelado:
+            if(listaCartones.get(jTableCartones.getSelectedRow()).getDeuda()<= importeCancelado){
+                for(int i=0; i<jTableCartones.getColumnCount(); i++){
+                    ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+                    colorFilas.setBackground(Color.MAGENTA);
+                    jTableCartones.getColumnModel().getColumn(i).setCellRenderer(colorFilas);
+            
+                }
+            }
+            
             
             System.out.println("Apreto el enter gatito!!");
         }
@@ -988,15 +1061,19 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             jComboBoxTipoPago.addItem(tp);
             jComboBoxTipoPago.setSelectedItem(tp);
             jTextF_IngresarNuevoElemento.setText("");
+            jTextFieldMonto.requestFocus();
         }
         else{
-            JOptionPane.
+            
+            jLabelAdvertencia.setText("ERROR, NO SE PUDO GUARDAR EL METODO DE PAGO ELEGIDO");
         }
         jDialogAñadirElemento.dispose();
+        jLabelAdvertencia.setText("");
     }//GEN-LAST:event_jButtonOKjdialogActionPerformed
 
     private void jButtonCancelarJdialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarJdialogActionPerformed
         jTextF_IngresarNuevoElemento.setText("");
+         jLabelAdvertencia.setText("");
         jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButtonCancelarJdialogActionPerformed
 
@@ -1014,6 +1091,40 @@ public class IngresoCobranzas extends javax.swing.JPanel {
     private void jButtonGrabarCobranzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGrabarCobranzaActionPerformed
         //grabando los tipos de pago y sus montos:
     }//GEN-LAST:event_jButtonGrabarCobranzaActionPerformed
+
+    private void jTextFieldGastosRecorridoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGastosRecorridoKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           procesarCampos();
+       }
+    }//GEN-LAST:event_jTextFieldGastosRecorridoKeyPressed
+
+    private void jTextFieldMontoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldMontoKeyPressed
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+           if(Funciones.controlText(jTextFieldMonto.getText())){
+            DefaultTableModel model = (DefaultTableModel) jTableTipoyMonto.getModel();
+            Object[] nuevo = new Object[2];
+            nuevo[0]=String.valueOf(jComboBoxTipoPago.getSelectedItem());
+            nuevo[1]=jTextFieldMonto.getText();
+            model.addRow(nuevo);
+            jTextFieldMonto.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Debe llenar el campo de monto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }   
+           procesarCampos();
+       }
+    }//GEN-LAST:event_jTextFieldMontoKeyPressed
+
+    private void jButtonQuitarTipoyMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarTipoyMontoActionPerformed
+        int row = jTableTipoyMonto.getSelectedRow();
+        if(row!=-1){
+            DefaultTableModel model = (DefaultTableModel) jTableTipoyMonto.getModel();
+            model.removeRow(row);
+            procesarCampos();
+        }
+        
+    }//GEN-LAST:event_jButtonQuitarTipoyMontoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1091,7 +1202,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
         jComboBoxTipoPago.removeAllItems();
         HashMap <Integer, TipoPago> tiposDePago = new HashMap();
         tiposDePago=auxiliarDAO.traerTiposDePago();
-        tiposDePago.values().forEach((t) -> {jComboBoxTipoPago.addItem(t.getNombre());});
+        tiposDePago.values().forEach((t) -> {jComboBoxTipoPago.addItem(t);});
     }
     private void limpiarCampos(){
         //tablas:
@@ -1187,6 +1298,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
     }
     private void cargarCartones() throws SQLException{
         try {
+            Credito creditoAux = new Credito();
             //sumatoria de todos los importes de las cuotas
             float SumImporte=0;
            
@@ -1200,7 +1312,13 @@ public class IngresoCobranzas extends javax.swing.JPanel {
                 obj[0]= listaCartones.get(i).getCredito_id();
                 //trar el cliente. Saco el id del credito, lo traigo, y luego invoco al cliente, le saco el nombre
                 
-                Credito creditoAux= creditosDAO.buscarCredito(listaCartones.get(i).getCredito_id());
+                List <Credito> creditos= creditosDao.buscarCredito(listaCartones.get(i).getCredito_id());
+                //necesito un solo credito!
+                for(int m=0; m<creditos.size(); m++){
+                    if(creditos.get(m).getcliente_id()== listaCartones.get(i).getCredito_id() ){
+                        creditoAux=creditos.get(m);
+                    }
+                }
                 int idCliente = creditoAux.getCliente_id();
                 Cliente clienteAux= clientesDao.buscarCliente(idCliente);
                 obj[1]=clienteAux.getNombre();
@@ -1224,7 +1342,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             jTextFieldCobranzaSPlanilla.setText(String.valueOf(SumImporte));
             planillaSelected.setCuotas_aCobrar(listaCartones.size());
             jTextFieldCuotasACobrar.setText(String.valueOf(planillaSelected.getCuotas_aCobrar()));
-            planilla
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(IngresoCobranzas.class.getName()).log(Level.SEVERE, null, ex);

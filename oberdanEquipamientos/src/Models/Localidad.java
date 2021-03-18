@@ -13,7 +13,15 @@ public class Localidad {
     private String nombre;
     private int id;
     private int id_provincia;
-
+    
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Localidad){
+            Localidad l = (Localidad) o;
+            return l.getNombre().equalsIgnoreCase(nombre);
+        }
+        return false;
+    }
     public Localidad() {
         
     }

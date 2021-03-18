@@ -53,6 +53,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private ClientesDAO clientesDao;
     private DireccionesDAO direccionesDAO;
     private Cliente clienteSeleccionado;
+    private Cliente clienteConyugue;
     private Mapa direcciones=null;
     private Pais Pais_selected;
     private Provincia Provincia_selected;
@@ -61,6 +62,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private Direccion direccion_selected;
     private List <Cliente> listaCliente;
     private boolean modificarTrue=false;
+    private String tipoRelacion;
     /**
      * Creates new form ABMClientesView
      */
@@ -77,6 +79,9 @@ public class ABMClientesView extends javax.swing.JPanel {
         direccionesDAO = direccionesDAO.getInstance();
         direcciones =direccionesDAO.getMapa();
         jComboBox_estadoCivil.setSelectedIndex(0);
+        jButtonNuevoCliente.setEnabled(false);
+        jButton_eliminar.setEnabled(false);
+        
     }
 
     /**
@@ -198,7 +203,6 @@ public class ABMClientesView extends javax.swing.JPanel {
         jButtonCancelar = new javax.swing.JButton();
         jButtonGuardarCambios = new javax.swing.JButton();
 
-        jTextF_IngresarNuevoElemento.setText("Ingrese nuevo");
         jTextF_IngresarNuevoElemento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextF_IngresarNuevoElementoActionPerformed(evt);
@@ -225,18 +229,19 @@ public class ABMClientesView extends javax.swing.JPanel {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel38)
+                        .addGap(34, 34, 34)
+                        .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addComponent(jButtonCancelarJdialog)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,27 +250,22 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(btn_añadirNuevoElemento))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonCancelarJdialog)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_añadirNuevoElemento)
+                    .addComponent(jButtonCancelarJdialog))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
         jDialogAñadirElementoLayout.setHorizontalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogAñadirElementoLayout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDialogAñadirElementoLayout.setVerticalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jLabel24.setText("Provincia");
@@ -562,9 +562,24 @@ public class ABMClientesView extends javax.swing.JPanel {
                 jComboBox_CiudadesItemStateChanged(evt);
             }
         });
+        jComboBox_Ciudades.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jComboBox_CiudadesFocusGained(evt);
+            }
+        });
+        jComboBox_Ciudades.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox_CiudadesMouseClicked(evt);
+            }
+        });
         jComboBox_Ciudades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_CiudadesActionPerformed(evt);
+            }
+        });
+        jComboBox_Ciudades.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox_CiudadesKeyPressed(evt);
             }
         });
 
@@ -678,6 +693,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         });
 
         jButtonNuevoCliente.setText("Nuevo");
+        jButtonNuevoCliente.setEnabled(false);
         jButtonNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNuevoClienteActionPerformed(evt);
@@ -782,29 +798,29 @@ public class ABMClientesView extends javax.swing.JPanel {
                                 .addComponent(jButtonAñadirNacion, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jComboBox_Provincias, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButtonAñadirProvincia))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jComboBox_Ciudades, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButtonAñadirCiudad))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jComboBox_Barrios, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButtonAñadirBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jComboBox_calles, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButtonAñadirCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextField_referenciaDomicilioCliente, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                        .addGap(55, 55, 55)
                                         .addComponent(jButton_modificar)
-                                        .addGap(69, 69, 69)
-                                        .addComponent(jButtonNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jComboBox_Provincias, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButtonAñadirProvincia))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jComboBox_Ciudades, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButtonAñadirCiudad))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jComboBox_Barrios, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButtonAñadirBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jComboBox_calles, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButtonAñadirCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jTextField_referenciaDomicilioCliente, javax.swing.GroupLayout.Alignment.LEADING)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -918,9 +934,9 @@ public class ABMClientesView extends javax.swing.JPanel {
                     .addComponent(jTextField_referenciaDomicilioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonNuevoCliente)
+                    .addComponent(jButton_eliminar)
                     .addComponent(jButton_modificar)
-                    .addComponent(jButton_eliminar))
+                    .addComponent(jButtonNuevoCliente))
                 .addContainerGap())
         );
 
@@ -1039,7 +1055,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1203,35 +1219,39 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelar)
-                        .addGap(50, 50, 50)
                         .addComponent(jButtonGuardarCambios)
-                        .addGap(19, 19, 19))))
+                        .addGap(109, 109, 109)
+                        .addComponent(jButtonCancelar)
+                        .addGap(33, 33, 33))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonCancelar)
+                            .addComponent(jButtonGuardarCambios))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCancelar)
-                    .addComponent(jButtonGuardarCambios))
-                .addGap(13, 13, 13))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1253,7 +1273,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jComboBox_tipoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoDocumentoActionPerformed
         // TODO add your handling code here:
-        jTextField_numeroDniCliente.setEnabled(true);
+       
     }//GEN-LAST:event_jComboBox_tipoDocumentoActionPerformed
 
     private void jButtonAñadirNacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirNacionActionPerformed
@@ -1261,7 +1281,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(534,198);
         
         
 
@@ -1273,7 +1293,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(534,198);
         
 
         //llama al controller de esto
@@ -1284,7 +1304,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(534,198);
         
 
         //llama al controller de esto
@@ -1295,7 +1315,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(534,198);
         
 
         //llama al controller de esto
@@ -1327,7 +1347,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(534,198);
         
     }//GEN-LAST:event_jButtonAñadirCalleActionPerformed
 
@@ -1342,6 +1362,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jButtonCancelarJdialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarJdialogActionPerformed
         // TODO add your handling code here:
         jTextF_IngresarNuevoElemento.setText("");
+        jTextF_IngresarNuevoElemento.setForeground(Color.black);
         jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButtonCancelarJdialogActionPerformed
 
@@ -1391,10 +1412,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void btn_añadirNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoElementoActionPerformed
         
-        
+        boolean todook=true;
         String texto = jTextF_IngresarNuevoElemento.getText().toLowerCase();
         switch(jDialogAñadirElemento.getTitle()){
             case "Añadir una nueva nacionalidad":{
+               if(!direcciones.controlPais(texto)){
+                 todook=true;
                 Provincia p = direccionesDAO.añadirNacionalidad(texto);
                 Pais pais = new Pais();
                 pais.setId(p.getId_pais());
@@ -1407,90 +1430,127 @@ public class ABMClientesView extends javax.swing.JPanel {
                 jCombo_Naciones.setSelectedItem(pais);
                 jTextF_IngresarNuevoElemento.setText("");
                 break;
+               }
+               else{
+                   //jTextF_IngresarNuevoElemento.setFColor.red);
+                   jTextF_IngresarNuevoElemento.setText("El pais que intenta ingresar ya existe!");
+                   todook=false;
+               }
             }
             case "Añadir una nueva provincia":{
-                Localidad l = direccionesDAO.añadirProvincia(texto,Pais_selected.getId());
-                Provincia p = new Provincia();
-                p.setId(l.getId_provincia());
-                p.setNombre(texto);
-                p.setId_pais(Pais_selected.getId());
-                //actualizo mapa
-              
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                jComboBox_Provincias.addItem(p);
-                jComboBox_Provincias.setSelectedItem(p);
-                jComboBox_Ciudades.removeAllItems();
-                jComboBox_Ciudades.addItem(l);
-                jTextF_IngresarNuevoElemento.setText("");
-                break;
+               if(!direcciones.controlProvincia(Pais_selected.getId(), texto)){
+                    todook=true;
+                    Localidad l = direccionesDAO.añadirProvincia(texto,Pais_selected.getId());
+                    Provincia p = new Provincia();
+                    p.setId(l.getId_provincia());
+                    p.setNombre(texto);
+                    p.setId_pais(Pais_selected.getId());
+                    //actualizo mapa
+
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    jComboBox_Provincias.addItem(p);
+                    jComboBox_Provincias.setSelectedItem(p);
+                    jComboBox_Ciudades.removeAllItems();
+                    jComboBox_Ciudades.addItem(l);
+                    jTextF_IngresarNuevoElemento.setText("");
+                    break;
+               }
+               else{
+                   todook=false;
+                    jTextF_IngresarNuevoElemento.setText("La provincia que intenta ingresar ya existe!");
+               }
             }
             case "Añadir una nueva ciudad":{
-                Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId());
-                Localidad l = new Localidad();
-                l.setId(b.getId_localidad());
-                l.setNombre(texto);
-                l.setId_provincia(Provincia_selected.getId());
-                //actualizo mapa
-                //Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
-                //barrios.add(b);
-                //direcciones.getLocalidad_Barrio().put(l.getId(), barrios);
-                 direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                jComboBox_Ciudades.addItem(l);
-                jComboBox_Ciudades.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
-                jComboBox_Barrios.removeAllItems();
-                jComboBox_Barrios.addItem(b);
-                jTextF_IngresarNuevoElemento.setText("");
-                break;
+                if(!direcciones.controlLocalidad(Provincia_selected.getId(), texto)){
+                     todook=true;
+                    Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId());
+                    Localidad l = new Localidad();
+                    l.setId(b.getId_localidad());
+                    l.setNombre(texto);
+                    l.setId_provincia(Provincia_selected.getId());
+                    //actualizo mapa
+                    //Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
+                    //barrios.add(b);
+                    //direcciones.getLocalidad_Barrio().put(l.getId(), barrios);
+                     direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    jComboBox_Ciudades.addItem(l);
+                    jComboBox_Ciudades.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                    jComboBox_Barrios.removeAllItems();
+                    jComboBox_Barrios.addItem(b);
+                    jTextF_IngresarNuevoElemento.setText("");
+                    break;
+                }
+                else{
+                     todook=false;
+                    jTextF_IngresarNuevoElemento.setText("La localidad que intenta ingresar ya existe!");
+                }
             }
             case "Añadir un nuevo barrio":{
-                Direccion d = direccionesDAO.añadirBarrio(texto,Localidad_selected.getId());
-                Barrio b = new Barrio();
-                b.setId(d.getId_barrio());
-                b.setId_localidad(Localidad_selected.getId());
-                b.setNombre(texto);
-                //actualizo mapa
-                //Set<Direccion> directs = new TreeSet<>(new direccionCompare());
-                //directs.add(d);
-                //direcciones.getBarrio_direccion().put(d.getId(), directs);
-                 direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                jComboBox_Barrios.addItem(b);
-                jComboBox_Barrios.setSelectedItem(b);
-                jComboBox_calles.removeAllItems();
-                jComboBox_calles.addItem(d);
-                jTextF_IngresarNuevoElemento.setText("");
-                break;
+                if(!direcciones.controlBarrio(Localidad_selected.getId(), texto)){
+                     todook=true;
+                    Direccion d = direccionesDAO.añadirBarrio(texto,Localidad_selected.getId());
+                    Barrio b = new Barrio();
+                    b.setId(d.getId_barrio());
+                    b.setId_localidad(Localidad_selected.getId());
+                    b.setNombre(texto);
+                    //actualizo mapa
+                    //Set<Direccion> directs = new TreeSet<>(new direccionCompare());
+                    //directs.add(d);
+                    //direcciones.getBarrio_direccion().put(d.getId(), directs);
+                     direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    jComboBox_Barrios.addItem(b);
+                    jComboBox_Barrios.setSelectedItem(b);
+                    jComboBox_calles.removeAllItems();
+                    jComboBox_calles.addItem(d);
+                    jTextF_IngresarNuevoElemento.setText("");
+                    break;
+                }
+                else{
+                     todook=false;
+                    jTextF_IngresarNuevoElemento.setText("El barrio que intenta ingresar ya existe!");
+                }
             }
             case "Añadir una nueva calle/manzana":{
-                int id = direccionesDAO.añadirDireccion(texto,Barrio_selected.getId());
-                Direccion d = new Direccion();
-                d.setId(id);
-                d.setId_barrio(Barrio_selected.getId());
-                d.setNombre(texto);
-                direcciones.getBarrio_direccion().get(Barrio_selected.getId());
-                //actualizo cbox
-                jComboBox_calles.addItem(d);
-                jComboBox_calles.setSelectedItem(d);
-                jTextF_IngresarNuevoElemento.setText("");
-                break;
+                if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
+                     todook=true;
+                    int id = direccionesDAO.añadirDireccion(texto,Barrio_selected.getId());
+                    Direccion d = new Direccion();
+                    d.setId(id);
+                    d.setId_barrio(Barrio_selected.getId());
+                    d.setNombre(texto);
+                    direcciones.getBarrio_direccion().get(Barrio_selected.getId());
+                    //actualizo cbox
+                    jComboBox_calles.addItem(d);
+                    jComboBox_calles.setSelectedItem(d);
+                    jTextF_IngresarNuevoElemento.setText("");
+                    break;
+                }
+                else{
+                     todook=false;
+                    jTextF_IngresarNuevoElemento.setText("La direccion que intenta ingresar ya existe!");
+                }
             }
         }
         //direcciones = direccionesDAO.getMapa();
-        jDialogAñadirElemento.dispose();
+        
+        if(todook) {
+            jTextF_IngresarNuevoElemento.setText("");
+            jDialogAñadirElemento.dispose();
+        }
     }//GEN-LAST:event_btn_añadirNuevoElementoActionPerformed
 
     private void jCombo_NacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCombo_NacionesActionPerformed
         // TODO add your handling code here:
-        jComboBox_Provincias.setEnabled(true);
+        
         
     }//GEN-LAST:event_jCombo_NacionesActionPerformed
 
     private void jComboBox_ProvinciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_ProvinciasActionPerformed
         // TODO add your handling code here:
-        jComboBox_Ciudades.setEnabled(true);
-        jButtonAñadirProvincia.setEnabled(true);
+      
     }//GEN-LAST:event_jComboBox_ProvinciasActionPerformed
 
     private void jComboBox_estadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoCivilActionPerformed
@@ -1499,7 +1559,8 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jTable_tipoYcontactoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_tipoYcontactoKeyPressed
         // TODO add your handling code here:
-        jButton_eliminarContacto.setEnabled(true);
+        if(modificarTrue){
+            jButton_eliminarContacto.setEnabled(true);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             System.out.println("Apreto el enter gatito!!");
         }
@@ -1510,13 +1571,14 @@ public class ABMClientesView extends javax.swing.JPanel {
                jTable_tipoYcontacto.setValueAt("", row, column);
            }
         }
+        }
         
         
     }//GEN-LAST:event_jTable_tipoYcontactoKeyPressed
 
     private void jTable_tipoYcontactoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_tipoYcontactoMouseClicked
         // TODO add your handling code here:
-        jButton_eliminarContacto.setEnabled(true);
+       if(modificarTrue)  jButton_eliminarContacto.setEnabled(true);
     }//GEN-LAST:event_jTable_tipoYcontactoMouseClicked
 
     private void jButton_eliminarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarContactoActionPerformed
@@ -1533,33 +1595,37 @@ public class ABMClientesView extends javax.swing.JPanel {
         // int respuesta=JOptionPane.showConfirmDialog(jPanel4.getParent(), "Esta seguro que desea terminar de ingresar cartones?", "Atencion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
          //System.out.println("respuesta es "+respuesta);
         clienteSeleccionado=new Cliente();
+        clienteConyugue= new Cliente();
         modificarTrue = false;
-       
-        
+       cargarNacionalidades();
+        limpiarCampos();
         habilitarCampos(true);
+        
         //jTextField_numeroDomicilioCliente.setEnabled(true);
         jTextField_nombreCliente.requestFocus();
+        //jTextField_nombreCliente.setText("dsadsadd");
+        //jTextField_nombreCliente.setForeground(Color.MAGENTA);
+        //jTextField_nombreCliente.setForeground(Color.);
+        jButton_modificar.setEnabled(false);
         //jTextField_numeroDireccion_jDialog.setCaretPosition(0);
         // jTextField_numeroDireccion_jDialog
-        cargarNacionalidades();
+        
     }//GEN-LAST:event_jButtonNuevoClienteActionPerformed
 
     private void jComboBox_CiudadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesActionPerformed
         // TODO add your handling code here:
-        jButtonAñadirCiudad.setEnabled(true);
-        jComboBox_Barrios.setEnabled(true);
+       
         
     }//GEN-LAST:event_jComboBox_CiudadesActionPerformed
 
     private void jComboBox_BarriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_BarriosActionPerformed
         // TODO add your handling code here:
-        jButtonAñadirBarrio.setEnabled(true);
-        jComboBox_calles.setEnabled(true);
+        
     }//GEN-LAST:event_jComboBox_BarriosActionPerformed
 
     private void jComboBox_callesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_callesActionPerformed
         // TODO add your handling code here:
-        jButtonAñadirCalle.setEnabled(true);
+       
     }//GEN-LAST:event_jComboBox_callesActionPerformed
 
     private void jTextFieldContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldContactoActionPerformed
@@ -1602,13 +1668,15 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_rbtn_clientesDniActionPerformed
 
     private void jTextField_buscarClienteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteCaretUpdate
-        jTextField_nombreCliente.setEnabled(true);
-        jTextField_nombreCliente.setEditable(true);
+        jButtonNuevoCliente.setEnabled(true);
+        //jTextField_nombreCliente.setEnabled(true);
+        //jTextField_nombreCliente.setEditable(true);
         cambioBusqueda(jTextField_buscarCliente.getText().toString(),rbtn_clientesDni.isSelected(),rbtn_clientesNombre.isSelected(),jTextField_buscarCliente,jTableClientes);
+        
     }//GEN-LAST:event_jTextField_buscarClienteCaretUpdate
 
     private void jTextField_buscarClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteKeyTyped
-
+        jButtonNuevoCliente.setEnabled(true);
         char c = evt.getKeyChar();
         if (this.rbtn_clientesDni.isSelected()) {
             if ((c < '0' || c > '9')) {
@@ -1628,6 +1696,12 @@ public class ABMClientesView extends javax.swing.JPanel {
         try{
             direcciones.getProvincia_Localidad().get(p.getId()).forEach((t)->{
                 jComboBox_Ciudades.addItem(t);
+                if(modificarTrue){
+                    Localidad  l = new Localidad();
+                    l.setNombre(clienteSeleccionado.getCiudad());
+                    jComboBox_Ciudades.setSelectedItem(l);
+                    
+                }
             });
            jComboBox_Ciudades.setEnabled(true);
         }catch(NullPointerException e){
@@ -1638,11 +1712,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
         int pos= jTableClientes.getSelectedRow();
-       if(pos!=-1){
-           cargarDatosCliente(pos);
-           jButton_modificar.setEnabled(true);
-           jButton_eliminar.setEnabled(true);
-       }
+        if(pos!=-1){
+            jButton_modificar.setEnabled(true);
+            jButton_eliminar.setEnabled(true);
+            cargarDatosCliente(pos);
+            
+        }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
     private void jCombo_NacionesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCombo_NacionesItemStateChanged
@@ -1656,6 +1731,11 @@ public class ABMClientesView extends javax.swing.JPanel {
             direcciones.getPais_Provincia().get(p.getId()).forEach((t)->
             {jComboBox_Provincias.addItem(t);});
             jComboBox_Provincias.setEnabled(true);
+            if(modificarTrue){
+                Provincia provincia = new Provincia();
+                provincia.setNombre(clienteSeleccionado.getProvincia());
+                jComboBox_Provincias.setSelectedItem(provincia);
+            }
         }catch(NullPointerException e){
             new Statics.ExceptionManager().saveDump(e, "", false);
         }
@@ -1671,6 +1751,11 @@ public class ABMClientesView extends javax.swing.JPanel {
         try{
             direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
                 jComboBox_Barrios.addItem(t);
+                if(modificarTrue){
+                    Barrio b = new Barrio();
+                    b.setNombre(clienteSeleccionado.getBarrio());
+                    jComboBox_Barrios.setSelectedItem(b);
+                }
             });
         }catch(NullPointerException e){
              new Statics.ExceptionManager().saveDump(e, "", false);
@@ -1687,12 +1772,17 @@ public class ABMClientesView extends javax.swing.JPanel {
         try{
                 direcciones.getBarrio_direccion().get(b.getId()).forEach((t)->{
                 jComboBox_calles.addItem(t);
+                if(modificarTrue){
+                    Direccion d = new Direccion();
+                    d.setNombre(clienteSeleccionado.getDireccion());
+                    jComboBox_calles.setSelectedItem(d);
+                }
             });
             jComboBox_calles.setSelectedIndex(0);
             jComboBox_calles.setEnabled(true);
         }catch(NullPointerException e){
             new Statics.ExceptionManager().saveDump(e, "", false);
-            System.out.println("Epa no pude añadir la nueva calle en jComboBox_BarriosItemStateChanged en ABMClientesView.java");
+            
         }
     }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
 
@@ -1716,11 +1806,12 @@ public class ABMClientesView extends javax.swing.JPanel {
         // TODO add your handling code here
        // jTextField_nombreCliente.setEditable(true);
         //jTextField_nombreCliente.setEnabled(true);
+        jButtonNuevoCliente.setEnabled(true);
     }//GEN-LAST:event_jTextField_buscarClienteActionPerformed
 
     private void jTextField_nombreClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_nombreClienteKeyPressed
         // TODO add your handling code here:
-        jComboBox_tipoDocumento.setEnabled(true);
+       
     }//GEN-LAST:event_jTextField_nombreClienteKeyPressed
 
     private void jButton_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificarActionPerformed
@@ -1728,11 +1819,12 @@ public class ABMClientesView extends javax.swing.JPanel {
             modificarTrue = true;
             habilitarCampos(true);
             cargarNacionalidades();
+            jTextField_nombreCliente.requestFocus();
         }  
     }//GEN-LAST:event_jButton_modificarActionPerformed
 
     private void jButtonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarCambiosActionPerformed
-        //aca mandale mecha a todos los controles baby
+       
         if(!Funciones.controlText(jTextField_nombreCliente.getText())){
             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de cliente","Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -1761,9 +1853,20 @@ public class ABMClientesView extends javax.swing.JPanel {
       
        
         int selectedIndex = jComboBox_tipoDocumento.getSelectedIndex();
+        if(String.valueOf(jComboBox_tipoDocumento.getItemAt(selectedIndex)).equalsIgnoreCase("-")){
+            JOptionPane.showMessageDialog(null, "Debe colocar un tipo de dni", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         clienteSeleccionado.setTipoDni(String.valueOf(jComboBox_tipoDocumento.getItemAt(selectedIndex)));
-       clienteSeleccionado.setDni(Integer.parseInt(jTextField_numeroDniCliente.getText()));
-       clienteSeleccionado.setFechaNacimiento(jDateChooser1.getDate());
+        clienteSeleccionado.setDni(Integer.parseInt(jTextField_numeroDniCliente.getText()));
+        clienteSeleccionado.setFechaNacimiento(jDateChooser1.getDate());
+        int aux = jComboBox_estadoCivil.getSelectedIndex();
+        if(String.valueOf(jComboBox_estadoCivil.getItemAt(aux)).equalsIgnoreCase("-")){
+                JOptionPane.showMessageDialog(null, "Debe ingresar un estado civil para el cliente","Error", JOptionPane.ERROR_MESSAGE);
+                return;
+        }
+        clienteSeleccionado.setEstadoCivil(String.valueOf(jComboBox_estadoCivil.getItemAt(aux)));
+        
        //direccion
        
         clienteSeleccionado.setNacionalidad(String.valueOf(jCombo_Naciones.getSelectedItem()));
@@ -1795,31 +1898,115 @@ public class ABMClientesView extends javax.swing.JPanel {
         clienteSeleccionado.setEsSolicitante(jCheckBoxEsSolicitante.isSelected());
         clienteSeleccionado.setObservaciones(jTextFieldObservaciones.getText());
         /////FAltan promotores
+        
+        
+        
+        if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
+            //controlo que existan los campos del conyugue:
+            if(!Funciones.controlText(jTextField_nombreConyuge.getText())){
+                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de conyuge","Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            clienteConyugue.setNombre(jTextField_nombreConyuge.getText());
+            
+            int aux2= jComboBox_tipoDocumentoConyuge.getSelectedIndex();
+            if(String.valueOf(jComboBox_tipoDocumentoConyuge.getItemAt(aux2)).equalsIgnoreCase("-")){
+                JOptionPane.showMessageDialog(null, "Debe ingresar un tipo de dni para el conyuge","Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            clienteConyugue.setTipoDni(String.valueOf(jComboBox_tipoDocumentoConyuge.getItemAt(aux2)));
+            if(!Funciones.controlText(jTextField_conyugeDni.getText()) || !Funciones.isNumeric(jTextField_conyugeDni.getText())){
+                JOptionPane.showMessageDialog(null, "Debe ingresar un dni  del conyugue que sea valido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            clienteConyugue.setDni(Integer.parseInt(jTextField_conyugeDni.getText()));
+            
+            int aux3= jComboBox_relacionConyuge.getSelectedIndex();
+            if(String.valueOf(jComboBox_relacionConyuge.getItemAt(aux3)).equalsIgnoreCase("-")){
+                JOptionPane.showMessageDialog(null, "Debe ingresar un tipo de relacion para el conyuge","Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            tipoRelacion=String.valueOf(jComboBox_relacionConyuge.getItemAt(aux3));
+            
+         clienteConyugue.setFechaNacimiento(jDateChooser_fechaNacimientoConyuge.getDate());
+            
+            
+        }
+            
+            
+        
         if(modificarTrue){
         int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el cliente: \n"+jTextField_nombreCliente.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             System.out.println("result = " + result);
             if(result == JOptionPane.OK_OPTION){
-                if(clientesDao.actualizarCliente(clienteSeleccionado)){
-                    principal.lbl_estado.setText("El cliente se actualizo con exito");
-                    principal.lbl_estado.setForeground(Color.GREEN);
-                    limpiarCampos();
-                    habilitarCampos(false);
-                }else{
-                    principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                    principal.lbl_estado.setForeground(Color.RED);
+                
+                if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
+                	//llamo al medoto actualizarClientes(c1, c2, tipo)
+                	if(actualizarClientes(clienteSeleccionado,clienteConyugue,tipoRelacion)){
+                		//actualize los clientes con exito
+                		principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                principal.lbl_estado.setForeground(Color.GREEN);
+                                limpiarCampos();
+                                habilitarCampos(false);
+                	}
+                	else{
+                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                   		 principal.lbl_estado.setForeground(Color.RED);
+                	}
+
+                }
+                else{
+                	//Soltero 
+                	if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                            principal.lbl_estado.setText("El cliente se actualizo con exito");
+                            principal.lbl_estado.setForeground(Color.GREEN);
+                            limpiarCampos();
+                            habilitarCampos(false);
+                        }else{
+                            principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                            principal.lbl_estado.setForeground(Color.RED);
+                        }
                 }
             }
         }else{
+
+        	// no estoy modificando, estoy agregando cliente/s nuevo/S
             int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el cliente: \n"+jTextField_nombreCliente.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(result == JOptionPane.OK_OPTION){
-                if(clientesDao.guardarCliente(clienteSeleccionado)){
-                    principal.lbl_estado.setText("El cliente se agrego con exito");
-                    principal.lbl_estado.setForeground(new Color(0,100,0));
-                    limpiarCampos();
-                    habilitarCampos(false);
-                }else{
-                    principal.lbl_estado.setText("Hubo un error al agregar el cliente");
-                    principal.lbl_estado.setForeground(new Color(139,0,0));
+                if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
+                	//agrego un cliente casado
+                       if(clientesDao.insertarClientes(clienteSeleccionado, clienteConyugue,tipoRelacion)){
+                           System.out.println("en abm clientes pude insertar clientes");
+                            principal.lbl_estado.setText("El cliente se agrego con exito");
+	                    principal.lbl_estado.setForeground(new Color(0,100,0));
+	                    limpiarCampos();
+	                    habilitarCampos(false);
+	                    jButton_eliminar.setEnabled(false);
+                    }
+                    else{
+                         //limpiarCampos();
+	                 //habilitarCampos(false);
+                    	principal.lbl_estado.setText("Hubo un error al agregar el cliente");
+                        principal.lbl_estado.setForeground(new Color(139,0,0));
+                    }
+                    
+                }
+                else{
+                	//agrego un cliente soltero
+
+                    if(clientesDao.guardarCliente(clienteSeleccionado)){
+                    	principal.lbl_estado.setText("El cliente se agrego con exito");
+	                    principal.lbl_estado.setForeground(new Color(0,100,0));
+	                    limpiarCampos();
+	                    habilitarCampos(false);
+	                    jButton_eliminar.setEnabled(false);
+                    }
+                    else{
+                    	principal.lbl_estado.setText("Hubo un error al agregar el cliente");
+                        principal.lbl_estado.setForeground(new Color(139,0,0));
+                    }
+                    
+                }
                 }
             }
             cambioBusqueda("",false,true,jTextField_buscarCliente,jTableClientes);
@@ -1827,9 +2014,6 @@ public class ABMClientesView extends javax.swing.JPanel {
             ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
             Runnable task1 = () -> principal.lbl_estado.setText("");
             service.scheduleAtFixedRate(task1, 1, 5, TimeUnit.SECONDS);
-            
-        }
-        
         
     }//GEN-LAST:event_jButtonGuardarCambiosActionPerformed
 
@@ -1838,6 +2022,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         
         limpiarCampos();
         habilitarCampos(false);
+        jButton_eliminar.setEnabled(false);
+        jButton_modificar.setEnabled(false);
         
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
@@ -1845,9 +2031,14 @@ public class ABMClientesView extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminar el cliente: \n"+clienteSeleccionado.getNombre(),"ELIMINAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
         if(result == JOptionPane.OK_OPTION){
             if(clientesDao.eliminarCliente(clienteSeleccionado) > 0){
+                limpiarCampos();
                 principal.lbl_estado.setText("El cliente se elimino con exito");
                 principal.lbl_estado.setForeground(Color.GREEN);
                 cambioBusqueda("", false, true,jTextField_buscarCliente,jTableClientes);
+                habilitarCampos(false);
+                jButton_eliminar.setEnabled(false);
+                jButton_modificar.setEnabled(false);
+                
             }else{
                 principal.lbl_estado.setText("Hubo un error al eliminar el cliente");
                 principal.lbl_estado.setForeground(Color.RED);
@@ -1862,6 +2053,66 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jTextFieldObservacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldObservacionesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldObservacionesActionPerformed
+
+    private void jComboBox_CiudadesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesKeyPressed
+        if(jComboBox_Ciudades.getItemCount() == 0)
+            return;
+        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
+        Localidad_selected=l;
+        jComboBox_Barrios.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                jComboBox_Barrios.addItem(t);
+                if(modificarTrue){
+                    Barrio b = new Barrio();
+                    b.setNombre(clienteSeleccionado.getBarrio());
+                    jComboBox_Barrios.setSelectedItem(b);
+                }
+            });
+        }catch(NullPointerException e){
+             new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_CiudadesKeyPressed
+
+    private void jComboBox_CiudadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesMouseClicked
+        if(jComboBox_Ciudades.getItemCount() == 0)
+            return;
+        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
+        Localidad_selected=l;
+        jComboBox_Barrios.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                jComboBox_Barrios.addItem(t);
+                if(modificarTrue){
+                    Barrio b = new Barrio();
+                    b.setNombre(clienteSeleccionado.getBarrio());
+                    jComboBox_Barrios.setSelectedItem(b);
+                }
+            });
+        }catch(NullPointerException e){
+             new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_CiudadesMouseClicked
+
+    private void jComboBox_CiudadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesFocusGained
+        if(jComboBox_Ciudades.getItemCount() == 0)
+            return;
+        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
+        Localidad_selected=l;
+        jComboBox_Barrios.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                jComboBox_Barrios.addItem(t);
+                if(modificarTrue){
+                    Barrio b = new Barrio();
+                    b.setNombre(clienteSeleccionado.getBarrio());
+                    jComboBox_Barrios.setSelectedItem(b);
+                }
+            });
+        }catch(NullPointerException e){
+             new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_CiudadesFocusGained
 
 
 
@@ -2011,6 +2262,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jTextField_referenciaDomicilioCliente.setText("");
         jTextField_codigoPostal.setText("");
         
+        jCheckBoxEsSolicitante.setSelected(false);
+        buttonGroupDocumentacionEntregada.clearSelection();
         
         //datos del conyugue
         jTextField_nombreConyuge.setText("");
@@ -2029,7 +2282,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         }else if(dni){
             try{
                 int cod= Integer.parseInt(txt);
-                cargarTablaBusqueda(clientesDao.buscarCliente("id",cod+""),tablaBuscador);
+                cargarTablaBusqueda(clientesDao.buscarCliente("dni",""),tablaBuscador);
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dni",
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -2056,6 +2309,17 @@ public class ABMClientesView extends javax.swing.JPanel {
         }
         }catch(Exception ex){
             ex.printStackTrace();
+        }
+       //JTable tabla= new JTable();
+       //tabla.setModel(model);
+       
+       ColorFilasCobranza c = new ColorFilasCobranza();
+       c.setBackground(Color.red);
+       c.setForeground(Color.black);
+       //jTableClientes es el modelo de la tabla.
+       for(int i=0; i<jTableClientes.getColumnCount(); i++){
+            jTableClientes.getColumnModel().getColumn(i).setCellRenderer(c);
+            
         }
     }
     
@@ -2117,16 +2381,20 @@ public class ABMClientesView extends javax.swing.JPanel {
              //jComboBox_zonas.setSelectedItem();
              
              //DAtos del conyuge:
-            
-            Cliente conyuge=clientesDao.recuperarConyugue(clienteSeleccionado.getId());
-           if(conyuge!= null){
-            jTextField_nombreConyuge.setText(conyuge.getNombre());
-            jTextField_conyugeDni.setText(String.valueOf(conyuge.getDni()));
-            jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(conyuge.getTipoDni()).toUpperCase());
+            //apa la papa, puede traer varios conyugues, nos tenemos que quedar con el ultimo
+            System.out.println("Cargando los datos del cliente cuyo id es: "+clienteSeleccionado.getId());
+           List<Cliente> list =clientesDao.recuperarConyugues(clienteSeleccionado.getId());
+           if(list!= null){
+               System.out.println("En cargar clientes, estoy recuperando conyuge");
+            jTextField_nombreConyuge.setText(list.get(0).getNombre());
+            jTextField_conyugeDni.setText(String.valueOf(list.get(0).getDni()));
+            jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(list.get(0).getTipoDni()).toUpperCase());
             Date fechaNC= null;
-            fechaNC=conyuge.getFechaNacimiento();
+            fechaNC=list.get(0).getFechaNacimiento();
             jDateChooser_fechaNacimientoConyuge.setDate(fechaNC);
-            jComboBox_relacionConyuge.setSelectedItem(String.valueOf(conyuge.getEstadoCivil()).toUpperCase());
+            
+            /////una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
+            jComboBox_relacionConyuge.setSelectedItem(String.valueOf(list.get(0).getEstadoCivil()).toUpperCase());
            }
                
             
@@ -2143,12 +2411,15 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_tipoDocumento.setEnabled(b);
         jTextField_numeroDniCliente.setEnabled(b);
         jComboBox_estadoCivil.setEnabled(b);
+        
         //Direcciones
         jCombo_Naciones.setEnabled(b);
+        //jCombo_Naciones.setEditable(b);
         jComboBox_Provincias.setEnabled(b);
         jComboBox_Ciudades.setEnabled(b);
         jComboBox_Barrios.setEnabled(b);
         jComboBox_calles.setEnabled(b);
+        jButtonAñadirNacion.setEnabled(b);
         jButtonAñadirProvincia.setEnabled(b);
         jButtonAñadirCiudad.setEnabled(b);
         jButtonAñadirBarrio.setEnabled(b);
@@ -2166,6 +2437,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_TipoContacto.setEnabled(b);
         jButtonAñadirTipoContacto.setEnabled(b);
         jTextFieldContacto.setEnabled(b);
+        jTable_tipoYcontacto.setEnabled(b);
         //datos de vendedor/cobrador
        
         jCheckBoxEsSolicitante.setEnabled(b);
@@ -2190,11 +2462,23 @@ public class ABMClientesView extends javax.swing.JPanel {
     }
 
     private void cargarNacionalidades() {
+        
+                
        jCombo_Naciones.removeAllItems();
        direcciones.getPaises().values().forEach((t) ->{
        jCombo_Naciones.addItem(t);
        
        });
+       if(modificarTrue){
+           System.out.println("Entre con true y el pais es "+String.valueOf(clienteSeleccionado.getNacionalidad()));
+           Pais p = new Pais();
+           p.setNombre(String.valueOf(clienteSeleccionado.getNacionalidad()));
+           jCombo_Naciones.setSelectedItem(p);
+        }
+    }
+
+    private boolean actualizarClientes(Cliente clienteSeleccionado, Cliente clienteConyugue, String tipoRelacion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 

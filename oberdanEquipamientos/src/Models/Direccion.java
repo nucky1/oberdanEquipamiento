@@ -18,6 +18,14 @@ public class Direccion {
     public Direccion() {
         
     }
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Direccion){
+            Direccion d = (Direccion) o;
+            return d.getNombre().equalsIgnoreCase(nombre);
+        }
+        return false;
+    }
     
     public int getId() {
         return id;
