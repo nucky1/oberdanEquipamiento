@@ -12,15 +12,23 @@ import javax.swing.JOptionPane;
 import DAO.DireccionesDAO;
 import DAO.EmpleadosDAO;
 import DAO.RubroDAO;
+import Models.Barrio;
 import Models.Carton;
 import Models.Cliente;
 import Models.Comercio;
 import Models.Credito;
+import Models.Direccion;
 import Models.Empleado;
+import Models.Localidad;
+import Models.Mapa;
+import Models.Pais;
 import Models.Producto;
+import Models.Provincia;
 import Models.Rubro;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JTable;
@@ -45,6 +53,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private List <Cliente> listaCliente;
     private ArrayList <Comercio> listaComercios;
     private int posComercioSelected;
+    private Mapa direcciones = null;
+    private Pais pais_selected;
+    private Provincia provincia_selected;
+    private Localidad localidad_selected;
+    private Barrio barrio_selected;
+    private Direccion direccion_selected;
     /**
      * Creates new form ABMSolicitudesView
      */
@@ -54,7 +68,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         empleadosDAO = EmpleadosDAO.getInstance();
         creditoDAO = CreditosDAO.getInstance();
         comercioDAO = ComercioDAO.getInstance();
-        direccionesDAO = direccionesDAO.getInstance();
+        direccionesDAO = DireccionesDAO.getInstance();
+        direcciones = direccionesDAO.getMapa();
         cargarCbox();
     }
 
@@ -69,32 +84,35 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jDialogClienteCargarDireccion = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
-        jLabel24 = new javax.swing.JLabel();
-        jButtonAñadirBarrio2 = new javax.swing.JButton();
-        jButton_añadirCiudad_jDialog = new javax.swing.JButton();
-        jComboBox_Ciudad_jDialog = new javax.swing.JComboBox<>();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jComboBox_barrio_JDialog = new javax.swing.JComboBox<>();
-        jButton_añadirCalles_jDialog = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
-        jComboBox_provincia_jDialog = new javax.swing.JComboBox<>();
-        jLabel25 = new javax.swing.JLabel();
-        jTextField_codPostal_jDialog = new javax.swing.JTextField();
-        jButton_añadirProvincia_jDialog = new javax.swing.JButton();
-        jLabel30 = new javax.swing.JLabel();
-        jTextField_numeroDireccion_jDialog = new javax.swing.JTextField();
-        jComboBox_direccion_jDialog = new javax.swing.JComboBox<>();
-        jButton_añadirCalle_jDialog = new javax.swing.JButton();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        txt_nroDireccion = new javax.swing.JTextField();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel73 = new javax.swing.JLabel();
+        txt_codigoPostal = new javax.swing.JTextField();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        cbox_nacionalidad = new javax.swing.JComboBox<>();
+        cbox_provincia = new javax.swing.JComboBox<>();
+        cbox_barrio = new javax.swing.JComboBox<>();
+        cbox_ciudad = new javax.swing.JComboBox<>();
+        cbox_direccion = new javax.swing.JComboBox<>();
+        btn_agregarNacionalidad = new javax.swing.JButton();
+        btn_agregarProvincia = new javax.swing.JButton();
+        btn_agregarCiudad = new javax.swing.JButton();
+        btn_agregarBarrio = new javax.swing.JButton();
+        btn_agregarDireccion = new javax.swing.JButton();
+        btn_cancelarCargaDireccion = new javax.swing.JButton();
         jButton_ok = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jLabel26 = new javax.swing.JLabel();
-        jTextField_referencia_jDialog = new javax.swing.JTextField();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        txt_referenciaComercio = new javax.swing.JTextArea();
+        jLabel96 = new javax.swing.JLabel();
         jDialogAñadirElemento = new javax.swing.JDialog();
-        jPanel6 = new javax.swing.JPanel();
-        jTextF_IngresarNuevoElemento = new javax.swing.JTextField();
+        jPanel14 = new javax.swing.JPanel();
+        txtf_nuevo_elemento = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
-        btn_añadirNuevoElemento = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDialogVerSolicitante = new javax.swing.JDialog();
@@ -142,7 +160,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         cbox_rubro = new javax.swing.JComboBox<>();
         txt_nombreComercio = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        txt_referenciaComercio = new javax.swing.JTextField();
+        txt_observacionSolicitud = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         btn_nuevoRubro = new javax.swing.JButton();
         btn_añadirDireccionComercio = new javax.swing.JButton();
@@ -167,7 +185,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         txt_nombreConyugue = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txt_nroSolicitud = new javax.swing.JTextField();
         btn_cargarRelacion = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -184,170 +202,101 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         rbtn_clientesNombre = new javax.swing.JRadioButton();
         rbtn_clientesDni = new javax.swing.JRadioButton();
 
-        jLabel24.setText("Provincia");
+        jPanel5.setBackground(java.awt.Color.white);
 
-        jButtonAñadirBarrio2.setText("+");
-        jButtonAñadirBarrio2.addActionListener(new java.awt.event.ActionListener() {
+        jLabel60.setText("Nacionalidad");
+
+        jLabel57.setText("Provincia");
+
+        jLabel61.setText("Ciudad");
+
+        jLabel71.setText("Nro");
+
+        jLabel73.setText("Codigo Postal");
+
+        jLabel63.setText("Barrio");
+
+        jLabel75.setText("Dirección");
+
+        cbox_nacionalidad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_nacionalidadItemStateChanged(evt);
+            }
+        });
+
+        cbox_provincia.setEnabled(false);
+        cbox_provincia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_provinciaItemStateChanged(evt);
+            }
+        });
+
+        cbox_barrio.setEnabled(false);
+        cbox_barrio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_barrioItemStateChanged(evt);
+            }
+        });
+
+        cbox_ciudad.setEnabled(false);
+        cbox_ciudad.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_ciudadItemStateChanged(evt);
+            }
+        });
+
+        cbox_direccion.setEnabled(false);
+        cbox_direccion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbox_direccionItemStateChanged(evt);
+            }
+        });
+
+        btn_agregarNacionalidad.setText("+");
+        btn_agregarNacionalidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAñadirBarrio2ActionPerformed(evt);
+                btn_agregarNacionalidadActionPerformed(evt);
             }
         });
 
-        jButton_añadirCiudad_jDialog.setText("+");
-        jButton_añadirCiudad_jDialog.setEnabled(false);
-        jButton_añadirCiudad_jDialog.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarProvincia.setText("+");
+        btn_agregarProvincia.setEnabled(false);
+        btn_agregarProvincia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_añadirCiudad_jDialogActionPerformed(evt);
+                btn_agregarProvinciaActionPerformed(evt);
             }
         });
 
-        jComboBox_Ciudad_jDialog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "La Punta", "Merlo", "Villa Mercedes" }));
-        jComboBox_Ciudad_jDialog.setEnabled(false);
-        jComboBox_Ciudad_jDialog.setPreferredSize(new java.awt.Dimension(59, 20));
-
-        jLabel14.setText("Ciudad");
-
-        jLabel15.setText("Barrio");
-
-        jComboBox_barrio_JDialog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "UOCRA" }));
-        jComboBox_barrio_JDialog.setEnabled(false);
-        jComboBox_barrio_JDialog.setPreferredSize(new java.awt.Dimension(59, 20));
-
-        jButton_añadirCalles_jDialog.setText("+");
-        jButton_añadirCalles_jDialog.setEnabled(false);
-        jButton_añadirCalles_jDialog.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarCiudad.setText("+");
+        btn_agregarCiudad.setEnabled(false);
+        btn_agregarCiudad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_añadirCalles_jDialogActionPerformed(evt);
+                btn_agregarCiudadActionPerformed(evt);
             }
         });
 
-        jLabel16.setText("Direccion");
-
-        jComboBox_provincia_jDialog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "San Luis" }));
-
-        jLabel25.setText("Codigo Postal");
-
-        jTextField_codPostal_jDialog.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarBarrio.setText("+");
+        btn_agregarBarrio.setEnabled(false);
+        btn_agregarBarrio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_codPostal_jDialogActionPerformed(evt);
+                btn_agregarBarrioActionPerformed(evt);
             }
         });
 
-        jButton_añadirProvincia_jDialog.setText("+");
-        jButton_añadirProvincia_jDialog.setEnabled(false);
-        jButton_añadirProvincia_jDialog.addActionListener(new java.awt.event.ActionListener() {
+        btn_agregarDireccion.setText("+");
+        btn_agregarDireccion.setEnabled(false);
+        btn_agregarDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_añadirProvincia_jDialogActionPerformed(evt);
+                btn_agregarDireccionActionPerformed(evt);
             }
         });
 
-        jLabel30.setText("Numero");
-
-        jTextField_numeroDireccion_jDialog.setEnabled(false);
-        jTextField_numeroDireccion_jDialog.addActionListener(new java.awt.event.ActionListener() {
+        btn_cancelarCargaDireccion.setText("Cancelar");
+        btn_cancelarCargaDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_numeroDireccion_jDialogActionPerformed(evt);
+                btn_cancelarCargaDireccionActionPerformed(evt);
             }
         });
-        jTextField_numeroDireccion_jDialog.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField_numeroDireccion_jDialogKeyTyped(evt);
-            }
-        });
-
-        jComboBox_direccion_jDialog.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "San Martin" }));
-        jComboBox_direccion_jDialog.setEnabled(false);
-        jComboBox_direccion_jDialog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_direccion_jDialogActionPerformed(evt);
-            }
-        });
-
-        jButton_añadirCalle_jDialog.setText("+");
-        jButton_añadirCalle_jDialog.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox_direccion_jDialog, 0, 238, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox_Ciudad_jDialog, 0, 238, Short.MAX_VALUE)
-                            .addComponent(jComboBox_barrio_JDialog, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel24)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox_provincia_jDialog, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jButton_añadirProvincia_jDialog)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonAñadirBarrio2)
-                                .addGap(26, 26, 26))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jButton_añadirCalle_jDialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(162, 162, 162)))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel30)
-                            .addComponent(jLabel25))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField_codPostal_jDialog)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField_numeroDireccion_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton_añadirCalles_jDialog)
-                            .addComponent(jButton_añadirCiudad_jDialog))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(25, 25, 25))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAñadirBarrio2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox_provincia_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel25)
-                        .addComponent(jTextField_codPostal_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton_añadirProvincia_jDialog)
-                        .addComponent(jLabel24)))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jComboBox_Ciudad_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_añadirCiudad_jDialog))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jComboBox_barrio_JDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_añadirCalles_jDialog))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel30)
-                    .addComponent(jTextField_numeroDireccion_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox_direccion_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_añadirCalle_jDialog))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         jButton_ok.setText("OK");
         jButton_ok.setEnabled(false);
@@ -357,61 +306,158 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             }
         });
 
-        jButton5.setText("Cancelar");
+        txt_referenciaComercio.setColumns(20);
+        txt_referenciaComercio.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        txt_referenciaComercio.setRows(2);
+        jScrollPane11.setViewportView(txt_referenciaComercio);
 
-        jLabel26.setText("Referencia");
+        jLabel96.setText("Referencia:");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btn_cancelarCargaDireccion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_ok))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel75, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btn_agregarNacionalidad))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btn_agregarProvincia))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btn_agregarCiudad))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btn_agregarBarrio))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(btn_agregarDireccion))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(txt_nroDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel73)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(txt_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 24, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarNacionalidad))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_provincia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarProvincia))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarCiudad))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_barrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarBarrio))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(cbox_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_agregarDireccion))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txt_nroDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel71))
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txt_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel73))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel60)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel57)
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel61)
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel63)
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel75)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel96)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_cancelarCargaDireccion)
+                    .addComponent(jButton_ok))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jDialogClienteCargarDireccionLayout = new javax.swing.GroupLayout(jDialogClienteCargarDireccion.getContentPane());
         jDialogClienteCargarDireccion.getContentPane().setLayout(jDialogClienteCargarDireccionLayout);
         jDialogClienteCargarDireccionLayout.setHorizontalGroup(
             jDialogClienteCargarDireccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogClienteCargarDireccionLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jDialogClienteCargarDireccionLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jDialogClienteCargarDireccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jDialogClienteCargarDireccionLayout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_ok))
-                    .addGroup(jDialogClienteCargarDireccionLayout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField_referencia_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jDialogClienteCargarDireccionLayout.setVerticalGroup(
             jDialogClienteCargarDireccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogClienteCargarDireccionLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(jDialogClienteCargarDireccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
-                    .addComponent(jTextField_referencia_jDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(jDialogClienteCargarDireccionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton_ok))
-                .addGap(41, 41, 41))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTextF_IngresarNuevoElemento.setText("Ingrese nuevo");
-        jTextF_IngresarNuevoElemento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextF_IngresarNuevoElementoActionPerformed(evt);
-            }
-        });
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel14.add(txtf_nuevo_elemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 21, 233, -1));
 
         jLabel38.setText("Nuevo:");
+        jPanel14.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 24, -1, -1));
 
-        btn_añadirNuevoElemento.setText("OK");
-        btn_añadirNuevoElemento.addActionListener(new java.awt.event.ActionListener() {
+        jButton12.setText("OK");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_añadirNuevoElementoActionPerformed(evt);
+                jButton12ActionPerformed(evt);
             }
         });
+        jPanel14.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 77, 70, -1));
 
         jButton13.setText("Cancelar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -419,47 +465,17 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 jButton13ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(52, Short.MAX_VALUE))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel38)
-                    .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_añadirNuevoElemento)
-                    .addComponent(jButton13))
-                .addGap(33, 33, 33))
-        );
+        jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 77, -1, -1));
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
         jDialogAñadirElementoLayout.setHorizontalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
         );
         jDialogAñadirElementoLayout.setVerticalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
         );
 
         jDialogVerSolicitante.setBackground(new java.awt.Color(255, 255, 255));
@@ -796,13 +812,13 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel19.setText("El comercio se ubica en el domicilio del cliente:");
 
-        txt_referenciaComercio.addActionListener(new java.awt.event.ActionListener() {
+        txt_observacionSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_referenciaComercioActionPerformed(evt);
+                txt_observacionSolicitudActionPerformed(evt);
             }
         });
 
-        jLabel23.setText("Referencia");
+        jLabel23.setText("Observación de la solicitud:");
 
         btn_nuevoRubro.setText("+");
         btn_nuevoRubro.setEnabled(false);
@@ -821,9 +837,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         cbox_habilitarDireccionComercio.setText("NO");
-        cbox_habilitarDireccionComercio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbox_habilitarDireccionComercioActionPerformed(evt);
+        cbox_habilitarDireccionComercio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbox_habilitarDireccionComercioStateChanged(evt);
             }
         });
 
@@ -874,14 +890,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                 .addComponent(cbox_rubro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_nuevoRubro))))
-                    .addComponent(txt_referenciaComercio)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel19)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(124, 124, 124)
-                                .addComponent(jLabel6))
-                            .addComponent(jLabel23))
+                                .addComponent(jLabel6)))
                         .addGap(26, 26, 26)
                         .addComponent(cbox_habilitarDireccionComercio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
@@ -912,7 +926,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                 .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_añadirZona)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txt_observacionSolicitud)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addGap(247, 247, 247)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -923,29 +941,25 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(txt_nombreComercio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(cbox_rubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_nuevoRubro))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btn_añadirDireccionComercio)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel19)
                         .addComponent(cbox_habilitarDireccionComercio)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
                     .addComponent(cbox_EsPropietario)
                     .addComponent(jLabel28)
                     .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_añadirZona, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addComponent(jLabel23)
-                .addGap(18, 18, 18)
-                .addComponent(txt_referenciaComercio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cbox_tipoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -955,7 +969,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(date_inicioActividades, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addGap(60, 60, 60)
+                .addComponent(jLabel23)
+                .addGap(18, 18, 18)
+                .addComponent(txt_observacionSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jLabel41.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -966,11 +984,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_crearSolicitud.setMaximumSize(new java.awt.Dimension(133, 39));
         btn_crearSolicitud.setMinimumSize(new java.awt.Dimension(133, 39));
         btn_crearSolicitud.setPreferredSize(new java.awt.Dimension(133, 39));
-        btn_crearSolicitud.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_crearSolicitudMouseClicked(evt);
-            }
-        });
         btn_crearSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_crearSolicitudActionPerformed(evt);
@@ -978,12 +991,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         jLabel5.setText("Nombre:");
-
-        txt_nombreCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_nombreClienteActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("DNI");
 
@@ -997,9 +1004,14 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel4.setText("Solicitud Numero:");
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txt_nroSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                txt_nroSolicitudActionPerformed(evt);
+            }
+        });
+        txt_nroSolicitud.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nroSolicitudKeyTyped(evt);
             }
         });
 
@@ -1008,20 +1020,15 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_cargarRelacion.setMaximumSize(new java.awt.Dimension(133, 39));
         btn_cargarRelacion.setMinimumSize(new java.awt.Dimension(133, 39));
         btn_cargarRelacion.setPreferredSize(new java.awt.Dimension(133, 39));
-        btn_cargarRelacion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_cargarRelacionMouseClicked(evt);
-            }
-        });
 
         btn_cancelar.setBackground(new java.awt.Color(255, 255, 255));
         btn_cancelar.setText("Cancelar");
         btn_cancelar.setMaximumSize(new java.awt.Dimension(133, 39));
         btn_cancelar.setMinimumSize(new java.awt.Dimension(133, 39));
         btn_cancelar.setPreferredSize(new java.awt.Dimension(133, 39));
-        btn_cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_cancelarMouseClicked(evt);
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
             }
         });
 
@@ -1130,7 +1137,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5))
+                                .addComponent(txt_nroSolicitud))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
@@ -1172,7 +1179,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_nroSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_buscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1209,7 +1216,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cargarRelacion, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_crearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1224,9 +1231,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_nuevoRubro.setEnabled(true);
     }//GEN-LAST:event_cbox_rubroActionPerformed
 
-    private void txt_referenciaComercioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_referenciaComercioActionPerformed
+    private void txt_observacionSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_observacionSolicitudActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_referenciaComercioActionPerformed
+    }//GEN-LAST:event_txt_observacionSolicitudActionPerformed
 
     private void btn_nuevoRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRubroActionPerformed
         // TODO add your handling code here:
@@ -1244,31 +1251,49 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jDialogClienteCargarDireccion.setLocationRelativeTo(this);
         //jDialogClienteCargarDireccion.setSize(400,221);
         jDialogClienteCargarDireccion.setTitle("Añadir la direccion del comercio");
+        cargarDatosDireccion();
     }//GEN-LAST:event_btn_añadirDireccionComercioActionPerformed
 
-    private void cbox_habilitarDireccionComercioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_habilitarDireccionComercioActionPerformed
-        btn_añadirDireccionComercio.setEnabled(true);
-    }//GEN-LAST:event_cbox_habilitarDireccionComercioActionPerformed
-
-    private void btn_crearSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearSolicitudMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_crearSolicitudMouseClicked
-
     private void btn_crearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearSolicitudActionPerformed
-        // TODO add your handling code here:
+        if(listaComercios != null && listaComercios.size()>0 && posComercioSelected != -1){
+            if(!controlCampos()){
+                return;
+            }
+            Comercio c = listaComercios.get(posComercioSelected);
+            c.setNombre(txt_nombreComercio.getText());
+            c.setZona(String.valueOf(cbox_zonas.getSelectedItem()));
+            c.setRubro((Rubro)cbox_rubro.getSelectedItem());
+            c.setIncio_actividades(new Timestamp(date_inicioActividades.getDate().getTime()));
+            c.setTipo_iva(String.valueOf(cbox_tipoIva.getSelectedItem()));
+            c.setCuit(txt_cuitComercio.getText());
+            if(cbox_EsPropietario.isSelected())
+                c.setPropietario(1);
+            else
+                c.setPropietario(1);
+            if(cbox_habilitarDireccionComercio.isSelected()){
+                if(c.getDireccion()==null){
+                    JOptionPane.showMessageDialog(null,"Debe ingresar la dirección del comercio o destildar el checkbox, \n lo cual indica que el comercio se encuentra en la misma que el cliente","Error",JOptionPane.ERROR_MESSAGE);
+                }
+            }else{
+                Direccion d = new Direccion();
+                d.setId(clienteSelected.getDireccion_id());
+                d.setNombre(clienteSelected.getNombre());
+                c.setDireccion(d);
+                c.setCodPostal(Integer.parseInt(clienteSelected.getCodPostal()));
+                c.setNumero(Integer.parseInt(clienteSelected.getNumero()));
+                c.setReferencia(clienteSelected.getReferencia());
+            }
+            if(c.getId() == -1){
+                int id = comercioDAO.insertComercio(c);
+                c.setId(id);
+            }else{
+                comercioDAO.updateComercio(c);
+            }
+            creditoDAO.insertarSolicitud(clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),(Empleado)cbox_cobrador.getSelectedItem());
+        }else{
+            System.out.println("la lista es null, tiene 0 elementos o el posComercioSelected es -1");
+        }
     }//GEN-LAST:event_btn_crearSolicitudActionPerformed
-
-    private void btn_cargarRelacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cargarRelacionMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_cargarRelacionMouseClicked
-
-    private void txt_nombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_nombreClienteActionPerformed
-
-    private void btn_cancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cancelarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_cancelarMouseClicked
 
     private void cbox_zonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_zonasActionPerformed
         // TODO add your handling code here:
@@ -1285,123 +1310,47 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setTitle("Añadir una nueva Zona");
     }//GEN-LAST:event_btn_añadirZonaActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void txt_nroSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nroSolicitudActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_txt_nroSolicitudActionPerformed
 
     private void txt_dniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_dniClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_dniClienteActionPerformed
 
-    private void jButtonAñadirBarrio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirBarrio2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonAñadirBarrio2ActionPerformed
-
-    private void jButton_añadirCiudad_jDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_añadirCiudad_jDialogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_añadirCiudad_jDialogActionPerformed
-
-    private void jButton_añadirCalles_jDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_añadirCalles_jDialogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_añadirCalles_jDialogActionPerformed
-
-    private void jTextField_codPostal_jDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_codPostal_jDialogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_codPostal_jDialogActionPerformed
-
-    private void jButton_añadirProvincia_jDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_añadirProvincia_jDialogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_añadirProvincia_jDialogActionPerformed
-
-    private void jTextField_numeroDireccion_jDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_numeroDireccion_jDialogActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_numeroDireccion_jDialogActionPerformed
-
-    private void jTextField_numeroDireccion_jDialogKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_numeroDireccion_jDialogKeyTyped
-        // TODO add your handling code here:
-        jButton_ok.setEnabled(true);
-    }//GEN-LAST:event_jTextField_numeroDireccion_jDialogKeyTyped
-
-    private void jComboBox_direccion_jDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_direccion_jDialogActionPerformed
-        // TODO add your handling code here:
-        jTextField_numeroDireccion_jDialog.setEnabled(true);
-    }//GEN-LAST:event_jComboBox_direccion_jDialogActionPerformed
-
     private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_okActionPerformed
-        // TODO add your handling code here:
         //At the end of all controls, it enables the flag of the commerce address;
-
-        if(Funciones.compareStrings("-",String.valueOf(jComboBox_provincia_jDialog.getSelectedItem()))){
+        if(Funciones.compareStrings("-",String.valueOf(cbox_nacionalidad.getSelectedItem()))){
+            JOptionPane.showMessageDialog(null,"Debe ingresar un pais valido","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(Funciones.compareStrings("-",String.valueOf(cbox_provincia.getSelectedItem()))){
             JOptionPane.showMessageDialog(null,"Debe ingresar una provincia valida","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Funciones.compareStrings("-", String.valueOf(jComboBox_Ciudad_jDialog.getSelectedItem()))){
+        if(Funciones.compareStrings("-", String.valueOf(cbox_ciudad.getSelectedItem()))){
             JOptionPane.showMessageDialog(null,"Debe ingresar una ciudad validad","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Funciones.compareStrings("-",String.valueOf(jComboBox_direccion_jDialog.getSelectedItem()))){
+        if(Funciones.compareStrings("-",String.valueOf(cbox_direccion.getSelectedItem()))){
             JOptionPane.showMessageDialog(null, "Debe ingresar una direccion valida", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!Funciones.isNumeric(jTextField_numeroDireccion_jDialog.getText())){
+        if(!Funciones.isNumeric(txt_nroDireccion.getText())){
             JOptionPane.showMessageDialog(null,"Debe ingresar un numero de direccion","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!Funciones.isNumeric(jTextField_codPostal_jDialog.getText())){
+        if(!Funciones.isNumeric(txt_codigoPostal.getText())){
             JOptionPane.showMessageDialog(null,"Debe ingresar un codigo postal","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
+        listaComercios.get(posComercioSelected).setDireccion((Direccion) cbox_direccion.getSelectedItem());
+        listaComercios.get(posComercioSelected).setNumero(Integer.parseInt(txt_nroDireccion.getText()));
+        listaComercios.get(posComercioSelected).setCodPostal(Integer.parseInt(txt_codigoPostal.getText()));
+        listaComercios.get(posComercioSelected).setReferencia(txt_referenciaComercio.getText());
+        jDialogClienteCargarDireccion.dispose();
 
     }//GEN-LAST:event_jButton_okActionPerformed
-
-    private void jTextF_IngresarNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextF_IngresarNuevoElementoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextF_IngresarNuevoElementoActionPerformed
-
-    private void btn_añadirNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoElementoActionPerformed
-        String textoInput= jTextF_IngresarNuevoElemento.getText().toLowerCase();
-        switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir una nueva Nacionalidad":{
-                direccionesDAO.añadirNacionalidad(textoInput);
-                jCombo_Naciones.addItem(textoInput);
-                jCombo_Naciones.setSelectedItem(textoInput);
-                break;
-            }
-            case "Añadir una nueva Provincia":{
-                direccionesDAO.añadirProvincia(textoInput);
-                jComboBox_Provincias.addItem(textoInput);
-                jComboBox_Provincias.setSelectedItem(textoInput);
-            }
-            case "Añadir una nueva Ciudad":{
-                direccionesDAO.añadirCiudad(textoInput);
-                jComboBox_Ciudades.addItem(textoInput);
-                jComboBox_Ciudades.setSelectedItem(textoInput);
-                break;
-            }
-            case "Añadir un nuevo Barrio":{
-                direccionesDAO.añadirBarrio(textoInput);
-                jComboBox_Barrios.addItem(textoInput);
-                jComboBox_Barrios.setSelectedItem(textoInput);
-                break;
-            }
-            case "Añadir una nueva Calle/Manzana":{
-                direccionesDAO.añadirDireccion(textoInput);
-                jComboBox_calles.addItem(textoInput);
-                jComboBox_calles.setSelectedItem(textoInput);
-                break;
-            }
-            case "Añadir un nuevo tipo de contacto":{
-                //quizas necesite un contactosDAO
-            }
-            case "Añadir una nueva Zona":{
-                //quizas necesite un zonaDAO
-            }
-        }
-    }//GEN-LAST:event_btn_añadirNuevoElementoActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
 
     private void btn_verSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verSolicitanteActionPerformed
         jDialogVerSolicitante.setTitle("Datos del solicitante");
@@ -1455,7 +1404,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 posComercioSelected = (posComercioSelected+1)%listaComercios.size();
                 txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
                 cbox_rubro.setSelectedItem(listaComercios.get(posComercioSelected).getRubro());
-                txt_referenciaComercio.setText(listaComercios.get(posComercioSelected).getReferencia());
+                txt_observacionSolicitud.setText(listaComercios.get(posComercioSelected).getReferencia());
                 txt_cuitComercio.setText(listaComercios.get(posComercioSelected).getCuit());
                 date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
                 cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
@@ -1475,56 +1424,271 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txt_nombreComercioKeyReleased
 
+    private void cbox_nacionalidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_nacionalidadItemStateChanged
+        if(cbox_nacionalidad.getItemCount() == 0)
+        return;
+        Pais p = (Pais) cbox_nacionalidad.getSelectedItem();
+        pais_selected = p;
+        cbox_provincia.removeAllItems();
+        try{
+            direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+                cbox_provincia.addItem(t);
+            });
+            cbox_provincia.setSelectedIndex(0);
+            cbox_provincia.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
+
+    private void cbox_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_provinciaItemStateChanged
+        if(cbox_provincia.getItemCount() == 0)
+        return;
+        Provincia p = (Provincia) cbox_provincia.getSelectedItem();
+        provincia_selected = p;
+        p.getId();
+        cbox_ciudad.removeAllItems();
+        try{
+            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+                cbox_ciudad.addItem(t);
+            });
+            cbox_ciudad.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_cbox_provinciaItemStateChanged
+
+    private void cbox_barrioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_barrioItemStateChanged
+        if(cbox_barrio.getItemCount() == 0)
+        return;
+        Barrio b = (Barrio) cbox_barrio.getSelectedItem();
+        barrio_selected = b;
+        cbox_direccion.removeAllItems();
+        try{
+            direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
+                cbox_direccion.addItem(t);
+            });
+            cbox_direccion.setSelectedIndex(0);
+            cbox_direccion.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+
+    }//GEN-LAST:event_cbox_barrioItemStateChanged
+
+    private void cbox_ciudadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_ciudadItemStateChanged
+        if(cbox_ciudad.getItemCount() == 0)
+        return;
+        Localidad l = (Localidad) cbox_ciudad.getSelectedItem();
+        localidad_selected = l;
+        cbox_barrio.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                cbox_barrio.addItem(t);
+            });
+            cbox_barrio.setEnabled(true);
+        }catch(NullPointerException e){
+            new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_cbox_ciudadItemStateChanged
+
+    private void cbox_direccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_direccionItemStateChanged
+        if(cbox_direccion.getItemCount() == 0)
+        return;
+        direccion_selected = (Direccion) cbox_direccion.getSelectedItem();
+    }//GEN-LAST:event_cbox_direccionItemStateChanged
+
+    private void btn_agregarNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarNacionalidadActionPerformed
+        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
+        jDialogAñadirElemento.setVisible(true);
+        jDialogAñadirElemento.setModal(true);
+        jDialogAñadirElemento.setLocationRelativeTo(this);
+        jDialogAñadirElemento.setSize(400,221);
+    }//GEN-LAST:event_btn_agregarNacionalidadActionPerformed
+
+    private void btn_agregarProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProvinciaActionPerformed
+
+        jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
+        jDialogAñadirElemento.setVisible(true);
+        jDialogAñadirElemento.setModal(true);
+        jDialogAñadirElemento.setLocationRelativeTo(this);
+        jDialogAñadirElemento.setSize(400,221);
+    }//GEN-LAST:event_btn_agregarProvinciaActionPerformed
+
+    private void btn_agregarCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarCiudadActionPerformed
+
+        jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
+        jDialogAñadirElemento.setVisible(true);
+        jDialogAñadirElemento.setModal(true);
+        jDialogAñadirElemento.setLocationRelativeTo(this);
+        jDialogAñadirElemento.setSize(400,221);
+    }//GEN-LAST:event_btn_agregarCiudadActionPerformed
+
+    private void btn_agregarBarrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarBarrioActionPerformed
+
+        jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
+        jDialogAñadirElemento.setVisible(true);
+        jDialogAñadirElemento.setModal(true);
+        jDialogAñadirElemento.setLocationRelativeTo(this);
+        jDialogAñadirElemento.setSize(400,221);
+    }//GEN-LAST:event_btn_agregarBarrioActionPerformed
+
+    private void btn_agregarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarDireccionActionPerformed
+
+        jDialogAñadirElemento.setTitle("Añadir una nueva direccion");
+        jDialogAñadirElemento.setVisible(true);
+        jDialogAñadirElemento.setModal(true);
+        jDialogAñadirElemento.setLocationRelativeTo(this);
+        jDialogAñadirElemento.setSize(400,221);
+    }//GEN-LAST:event_btn_agregarDireccionActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        String texto = txtf_nuevo_elemento.getText().toLowerCase();
+        switch(jDialogAñadirElemento.getTitle()){
+            case "Añadir una nueva nacionalidad":{
+                Provincia p = direccionesDAO.añadirNacionalidad(texto);
+                Pais pais = new Pais();
+                pais.setId(p.getId_pais());
+                pais.setNombre(texto);
+                //actualizo mapa
+
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                cbox_nacionalidad.addItem(pais);
+                cbox_nacionalidad.setSelectedItem(pais);
+                break;
+            }
+            case "Añadir una nueva provincia":{
+                Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
+                Provincia p = new Provincia();
+                p.setId(l.getId_provincia());
+                p.setNombre(texto);
+                p.setId_pais(pais_selected.getId());
+                //actualizo mapa
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                cbox_provincia.addItem(p);
+                cbox_provincia.setSelectedItem(p);
+                cbox_ciudad.removeAllItems();
+                cbox_ciudad.addItem(l);
+                break;
+            }
+            case "Añadir una nueva ciudad":{
+                Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId());
+                Localidad l = new Localidad();
+                l.setId(b.getId_localidad());
+                l.setNombre(texto);
+                l.setId_provincia(provincia_selected.getId());
+                //actualizo mapa
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                cbox_ciudad.addItem(l);
+                cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                cbox_barrio.removeAllItems();
+                cbox_barrio.addItem(b);
+                break;
+            }
+            case "Añadir un nuevo barrio":{
+                Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
+                Barrio b = new Barrio();
+                b.setId(d.getId_barrio());
+                b.setId_localidad(localidad_selected.getId());
+                b.setNombre(texto);
+                //actualizo mapa
+                direcciones = direccionesDAO.getMapa();
+                //actualizo cbox
+                cbox_barrio.addItem(b);
+                cbox_barrio.setSelectedItem(b);
+                cbox_direccion.removeAllItems();
+                cbox_direccion.addItem(d);
+                break;
+            }
+            case "Añadir una nueva direccion":{
+                int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
+                Direccion d = new Direccion();
+                d.setId(id);
+                d.setId_barrio(barrio_selected.getId());
+                d.setNombre(texto);
+                direcciones.getBarrio_direccion().get(barrio_selected.getId());
+                //actualizo cbox
+                cbox_direccion.addItem(d);
+                cbox_direccion.setSelectedItem(d);
+                break;
+            }
+        }
+        jDialogAñadirElemento.dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        txtf_nuevo_elemento.setText("");
+        jDialogAñadirElemento.dispose();
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void cbox_habilitarDireccionComercioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbox_habilitarDireccionComercioStateChanged
+        btn_añadirDireccionComercio.setEnabled(cbox_habilitarDireccionComercio.isSelected());
+    }//GEN-LAST:event_cbox_habilitarDireccionComercioStateChanged
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        limpiarCampos();
+        habilitarBotones(false);
+        limpiarAtributos();
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_cancelarCargaDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarCargaDireccionActionPerformed
+        jDialogClienteCargarDireccion.dispose();
+    }//GEN-LAST:event_btn_cancelarCargaDireccionActionPerformed
+
+    private void txt_nroSolicitudKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nroSolicitudKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_nroSolicitudKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_agregarBarrio;
+    private javax.swing.JButton btn_agregarCiudad;
+    private javax.swing.JButton btn_agregarDireccion;
+    private javax.swing.JButton btn_agregarNacionalidad;
+    private javax.swing.JButton btn_agregarProvincia;
     private javax.swing.JButton btn_añadirDireccionComercio;
-    private javax.swing.JButton btn_añadirNuevoElemento;
     private javax.swing.JButton btn_añadirZona;
     private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_cancelarCargaDireccion;
     private javax.swing.JButton btn_cargarRelacion;
     private javax.swing.JButton btn_crearSolicitud;
     private javax.swing.JButton btn_nuevoRubro;
     private javax.swing.JButton btn_verSolicitante;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cbox_EsPropietario;
+    private javax.swing.JComboBox<Models.Barrio> cbox_barrio;
+    private javax.swing.JComboBox<Models.Localidad> cbox_ciudad;
     private javax.swing.JComboBox<Models.Empleado> cbox_cobrador;
+    private javax.swing.JComboBox<Models.Direccion> cbox_direccion;
     private javax.swing.JCheckBox cbox_habilitarDireccionComercio;
+    private javax.swing.JComboBox<Models.Pais> cbox_nacionalidad;
+    private javax.swing.JComboBox<Models.Provincia> cbox_provincia;
     private javax.swing.JComboBox<Models.Rubro> cbox_rubro;
     private javax.swing.JComboBox<String> cbox_tipoIva;
     private javax.swing.JComboBox<Models.Empleado> cbox_vendedor;
     private javax.swing.JComboBox<String> cbox_zonas;
     private com.toedter.calendar.JDateChooser date_inicioActividades;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButtonAñadirBarrio2;
-    private javax.swing.JButton jButton_añadirCalle_jDialog;
-    private javax.swing.JButton jButton_añadirCalles_jDialog;
-    private javax.swing.JButton jButton_añadirCiudad_jDialog;
-    private javax.swing.JButton jButton_añadirProvincia_jDialog;
     private javax.swing.JButton jButton_ok;
-    private javax.swing.JComboBox<String> jComboBox_Ciudad_jDialog;
-    private javax.swing.JComboBox<String> jComboBox_barrio_JDialog;
-    private javax.swing.JComboBox<String> jComboBox_direccion_jDialog;
-    private javax.swing.JComboBox<String> jComboBox_provincia_jDialog;
     private javax.swing.JDialog jDialogAñadirElemento;
     private javax.swing.JDialog jDialogClienteCargarDireccion;
     private javax.swing.JDialog jDialogVerSolicitante;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
@@ -1540,34 +1704,38 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel96;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTableClientes;
-    private javax.swing.JTextField jTextF_IngresarNuevoElemento;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField_codPostal_jDialog;
-    private javax.swing.JTextField jTextField_numeroDireccion_jDialog;
-    private javax.swing.JTextField jTextField_referencia_jDialog;
     private javax.swing.JLabel lbl_barrioCliente;
     private javax.swing.JLabel lbl_cantidadCreditos;
     private javax.swing.JLabel lbl_contactoCliente;
@@ -1587,12 +1755,17 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTable tabla_creditosCliente;
     private javax.swing.JTable tabla_cuotasCredCliente;
     protected javax.swing.JTextField txt_buscarCliente;
+    private javax.swing.JTextField txt_codigoPostal;
     private javax.swing.JTextField txt_cuitComercio;
     private javax.swing.JTextField txt_dniCliente;
     private javax.swing.JTextField txt_nombreCliente;
     private javax.swing.JTextField txt_nombreComercio;
     private javax.swing.JTextField txt_nombreConyugue;
-    private javax.swing.JTextField txt_referenciaComercio;
+    private javax.swing.JTextField txt_nroDireccion;
+    private javax.swing.JTextField txt_nroSolicitud;
+    private javax.swing.JTextField txt_observacionSolicitud;
+    private javax.swing.JTextArea txt_referenciaComercio;
+    private javax.swing.JTextField txtf_nuevo_elemento;
     // End of variables declaration//GEN-END:variables
 //panel buscador
     public void cambioBusqueda(String txt,boolean dni,boolean nombre,JTextField buscador, JTable tablaBuscador ){
@@ -1735,19 +1908,91 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             //datos comercios
             listaComercios = comercioDAO.getComerciosByCliente(clienteSelected.getId());
             Comercio com = new Comercio();
-            com.setId(-1);
+            com.setClienteId(clienteSelected.getId());
             listaComercios.add(com);
-            
+            posComercioSelected = listaComercios.size()-1;
         }
             
     }
 
     private void habilitarBotones(boolean b) {
-        btn_añadirDireccionComercio.setEnabled(b);
-            btn_cancelar.setEnabled(b);
-            btn_crearSolicitud.setEnabled(b);
-            btn_verSolicitante.setEnabled(b);
-            btn_cargarRelacion.setEnabled(b);
-            btn_nuevoRubro.setEnabled(b);
+        btn_cancelar.setEnabled(b);
+        btn_crearSolicitud.setEnabled(b);
+        btn_verSolicitante.setEnabled(b);
+        btn_cargarRelacion.setEnabled(b);
+        btn_nuevoRubro.setEnabled(b);
+    }
+
+    private void cargarDatosDireccion() {
+        Comercio c = listaComercios.get(posComercioSelected);
+        cargarNacionalidades();
+        txt_nroDireccion.setText("");
+        txt_codigoPostal.setText("");
+        if(c.getDireccion()!= null){
+            Direccion d = c.getDireccion();
+            Object[] obj = direccionesDAO.getDireccionCompleta(d.getId_barrio());
+            if(obj!= null){
+                Barrio b = (Barrio) obj[0]; 
+                Localidad l = (Localidad) obj[1];
+                Provincia prov = (Provincia) obj[2];
+                Pais p = (Pais) obj[3];
+                cbox_nacionalidad.setSelectedItem(p);
+                cbox_provincia.setSelectedItem(prov);
+                cbox_ciudad.setSelectedItem(l);
+                cbox_barrio.setSelectedItem(b);
+                cbox_direccion.setSelectedItem(c.getDireccion());
+                txt_nroDireccion.setText(c.getNumero()+"");
+                txt_codigoPostal.setText(c.getCodPostal()+"");
+            }else{
+                System.out.println("error en la consulta del metodo getDireccionCompleta");
+            }
+        }
+    }
+    
+    private void cargarNacionalidades() {
+        cbox_nacionalidad.removeAllItems();
+        direcciones.getPaises().values().forEach((t) -> {
+        cbox_nacionalidad.addItem(t);
+        });
+    }
+    
+    private void limpiarCampos(){
+        //capos de la pantalla
+        txt_buscarCliente.setText("");
+        txt_cuitComercio.setText("");
+        txt_dniCliente.setText("");
+        txt_nombreCliente.setText("");
+        txt_nombreComercio.setText("");
+        txt_nombreConyugue.setText("");
+        txt_observacionSolicitud.setText("");
+        lbl_cantidadCreditos.setText("");
+        date_inicioActividades.setDate(new Date());
+    }
+
+    private void limpiarAtributos() {
+        posComercioSelected = -1;
+        listaComercios = null;
+        pais_selected = null;
+        provincia_selected= null;
+        localidad_selected = null;
+        barrio_selected = null;
+        direccion_selected = null;
+    }
+
+
+    private boolean controlCampos() {
+        if(!Statics.Funciones.isNumeric(txt_nroSolicitud.getText())){
+            JOptionPane.showMessageDialog(null,"Debe ingresar un numero de solicitud.","Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if(!Statics.Funciones.controlText(txt_cuitComercio.getText())){
+            JOptionPane.showMessageDialog(null,"Debe ingresar el CUIT.","Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if(date_inicioActividades.getDate()==null){
+            JOptionPane.showMessageDialog(null,"Debe ingresar el inicio de actividades del comercio.","Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 }

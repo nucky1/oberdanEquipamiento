@@ -44,6 +44,7 @@ public class ComercioDAO {
                 Direccion d = new Direccion();
                 d.setNombre(rs.getString("direccion.nombre"));
                 d.setId(rs.getInt("direccion.id"));
+                d.setId_barrio(rs.getInt("direccion.barrio_id"));
                 c.setDireccion(d);
                 Rubro r = new Rubro();
                 r.setId(rs.getInt("art_rubro.id"));
@@ -51,6 +52,7 @@ public class ComercioDAO {
                 c.setRubro(r);
                 c.setReferencia(rs.getString("comercio.referencia"));
                 c.setNumero(rs.getInt("comercio.numero"));
+                c.setCodPostal(rs.getInt("comercio.codPostal"));
                 c.setPropietario(rs.getInt("comercio.propietario"));
                 c.setZona(rs.getString("comercio.zona"));
                 c.setTipo_iva(rs.getString("tipo_iva"));
@@ -75,6 +77,37 @@ public class ComercioDAO {
             new Statics.ExceptionManager().saveDump(ex, "error al obtener zonas clientesDao", Main.isProduccion);
         }
         return zonas;
+    }
+
+    public int insertComercio(Comercio c) {
+        String SQL = "INSERT INTO `comercio`( `cliente_id`, `direccion_id`, `rubro_id`, "
+                + "`nombre`, `referencia`, `numero`, "
+                + "`propietario`, `zona`, `cuit`, "
+                + "`tipo_iva`, `inicio_actividades`, `codPostal`) "
+                + "VALUES ("+c.getClienteId()+","+c.getDireccion().getId()+","+c.getRubro().getId()+",'"
+                +c.getNombre()+"','"+c.getReferencia()+"',"+c.getNumero()+","
+                + c.getPropietario()+",'"+c.getZona()+"','"+c.getCuit()+"','"
+                + c.getTipo_iva()+"',"+c.getIncio_actividades()+","+c.getCodPostal()+")";
+        conexion.EjecutarOperacion(SQL);
+        SQL = "SELECT MAX(id) as idLast FROM comercio WHERE state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.first()){
+                return rs.getInt("idLast");
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "error al obtener el id del ultimo comercio insertado (metodo : insertComercio)", Main.isProduccion);
+        }
+        return -1;
+    }
+
+    public void updateComercio(Comercio c) {
+        String SQL = "UPDATE `comercio` SET `direccion_id`=[value-3],`rubro_id`=[value-4],"
+                + "`nombre`=[value-5],`referencia`=[value-6],`numero`=[value-7],"
+                + "`propietario`=[value-8],`zona`=[value-9],`cuit`=[value-10],"
+                + "`tipo_iva`=[value-11],`inicio_actividades`=[value-12],"
+                + "`codPostal`=[value-16] WHERE id = "+c.getId();
+        conexion.EjecutarOperacion(SQL);
     }
 
 }

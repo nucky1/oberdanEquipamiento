@@ -15,6 +15,7 @@ import Models.RenglonCredito;
 import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -268,11 +269,39 @@ public class CreditosDAO {
     }
 
     public ArrayList<Credito> getCreditosUnificables(Cuota plan, int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
-    public int getCantCredPorPareja(int id, int id0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getCantCredPorPareja(int client, int conyugue) {
+        String SQL = "SELECT COUNT(*) \"total\" FROM credito WHERE (cliente_id = "+client+" OR cliente_id = "+conyugue+") AND tipo != 'SOLICITUD'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.first()){
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Se rompio al obtener el total de creditos de una pareja", Main.isProduccion);
+        }
+        return 0;
+    }
+
+    public void insertarSolicitud(int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, Empleado cobrador) {
+        String SQL = "INSERT INTO `credito`(`cliente_id`, `comercio_id`, "
+                + "`cobrador_id`, `vendedor_id`, `observacion`,"
+                + "`fecha_solicitud`,`nro_solicitud`) "
+                + "VALUES ("+idClient+","+idcomerce+","
+                + cobrador.getId()+","+vendedor.getId()+",'"+observacion+"',"
+                + new Timestamp(System.currentTimeMillis())+","+nroSoli+")";
+        conexion.EjecutarOperacion(SQL);
+    }
+
+    public void updateAprobado(int idCred, int idEmp, String campo, boolean b, Timestamp FechaAprob, Timestamp venc_pri_cuota){
+        String SQL = "UPDATE `credito` SET "+campo+" = "+idEmp;
+        if(b){
+            SQL += ",estado = 'APROBADO', fecha_aprobacion = "+FechaAprob+" venc_pri_cuota = "+venc_pri_cuota;
+        }
+        SQL += " WHERE id ="+idCred;
+        conexion.EjecutarConsultaSQL(SQL);
     }
     
 }

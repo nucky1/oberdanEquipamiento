@@ -15,7 +15,6 @@ import Models.Cliente;
 import Models.Credito;
 import Models.Cuota;
 import Models.Producto;
-import Models.Empleado;
 import Models.RenglonCredito;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -1636,10 +1635,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_imprimirCreditoActionPerformed
 
     private void btn_guardarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCreditoActionPerformed
+        String campo = "";
         switch(Main.logueado.getTipo()){
             case "VENDEDOR":{
                 creditoSelected.setVendedor(Main.logueado);
                 lbl_vendedor.setText(Main.logueado.getNombre());
+                
                 break;
             }
             case "COBRADOR":{
@@ -1661,7 +1662,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
         if(creditoSelected.getCobrador() != null && creditoSelected.getVendedor()!= null && creditoSelected.getGerente()!= null  && creditoSelected.getAdmin()!= null ){
             if(date_vencimientoPrimerCuota.getDate().after(new Date())){
                 creditoSelected.setVenc_pri_cuota(new Timestamp(date_vencimientoPrimerCuota.getDate().getTime()));
+                creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), campo,true,new Timestamp(System.currentTimeMillis()),creditoSelected.getVenc_pri_cuota());
+            }else{
+                JOptionPane.showMessageDialog(null, "Por favor coloque el vencimiento de la primera cuota para dar la aprobacion final al credito.","Error", JOptionPane.ERROR_MESSAGE);
             }
+        }else{
+            creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), campo,false,null,null);
         }
     }//GEN-LAST:event_btn_guardarCreditoActionPerformed
 
@@ -2045,7 +2051,29 @@ public class ABMCreditosView extends javax.swing.JPanel {
         }
         
     }
-
+    private void habilitarCampos(){
+        if("ADMINISTRADOR".equals(Main.logueado.getTipo()) || "GERENTE".equals(Main.logueado.getTipo()) ){
+            btn_agregarArticulo.setEnabled(true);
+            btn_comprobarUnificacion.setEnabled(true);
+            btn_crearPago.setEnabled(true);
+            btn_guardarCredito.setEnabled(true);
+            btn_imprimirCredito.setEnabled(true);
+        }
+        if("ADMINISTRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getAdmin()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        if("GERENTE".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getGerente()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        if("VENDEDOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getVendedor()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        if("COBRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getCobrador()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        btn_cancelar.setEnabled(true);
+        btn_verSolicitante.setEnabled(true);
+    }
     private void limpiarCampos() {
         txt_saldoCredito.setText("0.00");
         txt_nombreComercio.setText("");
