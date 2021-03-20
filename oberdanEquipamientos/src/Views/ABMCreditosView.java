@@ -15,7 +15,6 @@ import Models.Cliente;
 import Models.Credito;
 import Models.Cuota;
 import Models.Producto;
-import Models.Empleado;
 import Models.RenglonCredito;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private ArrayList<Credito> listCredUnificables;
     private Credito creditoSelected = null;
     private ArrayList<Cuota> listPlanes;
-    private ArrayList<Empleado> listCobradores;
     private Cuota cuotaSelected = null;
     private ArrayList<Producto> listProductos;
     private int posProductoSelected = 0;
@@ -60,7 +58,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
         creditoDAO = CreditosDAO.getInstance();
         cuotasDAO = CuotasDAO.getInstance();
         clienteDAO = ClientesDAO.getInstance();
-        empleadosDAO = EmpleadosDAO.getInstance();
         productoDAO = ProductoDAO.getInstance();
         listProductos = (ArrayList<Producto>) productoDAO.buscarProducto("nombre", "");
         limpiarCampos();
@@ -226,9 +223,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jLabel33 = new javax.swing.JLabel();
         btn_imprimirCredito = new javax.swing.JButton();
         btn_guardarCredito = new javax.swing.JButton();
-        jLabel34 = new javax.swing.JLabel();
-        cbox_cobrador = new javax.swing.JComboBox<>();
-        jLabel35 = new javax.swing.JLabel();
         date_vencimientoPrimerCuota = new com.toedter.calendar.JDateChooser();
 
         jButton3.setText("Calcular unificación");
@@ -1408,12 +1402,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
             }
         });
 
-        jLabel34.setText("Cobrador:");
-
-        cbox_cobrador.setEnabled(false);
-
-        jLabel35.setText("Asignar Cobrador");
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -1441,7 +1429,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 23, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_importeUltimaCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(date_vencimientoPrimerCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1458,15 +1446,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addGap(56, 56, 56)
                         .addComponent(btn_imprimirCredito)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_guardarCredito))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel34)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel35))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btn_guardarCredito)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -1496,17 +1476,9 @@ public class ABMCreditosView extends javax.swing.JPanel {
                             .addComponent(jLabel33)
                             .addComponent(txt_porcentajeComision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel32)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel35)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel34)
-                            .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addComponent(jLabel32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardarCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1663,10 +1635,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_imprimirCreditoActionPerformed
 
     private void btn_guardarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarCreditoActionPerformed
+        String campo = "";
         switch(Main.logueado.getTipo()){
             case "VENDEDOR":{
                 creditoSelected.setVendedor(Main.logueado);
                 lbl_vendedor.setText(Main.logueado.getNombre());
+                
                 break;
             }
             case "COBRADOR":{
@@ -1688,7 +1662,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
         if(creditoSelected.getCobrador() != null && creditoSelected.getVendedor()!= null && creditoSelected.getGerente()!= null  && creditoSelected.getAdmin()!= null ){
             if(date_vencimientoPrimerCuota.getDate().after(new Date())){
                 creditoSelected.setVenc_pri_cuota(new Timestamp(date_vencimientoPrimerCuota.getDate().getTime()));
+                creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), campo,true,new Timestamp(System.currentTimeMillis()),creditoSelected.getVenc_pri_cuota());
+            }else{
+                JOptionPane.showMessageDialog(null, "Por favor coloque el vencimiento de la primera cuota para dar la aprobacion final al credito.","Error", JOptionPane.ERROR_MESSAGE);
             }
+        }else{
+            creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), campo,false,null,null);
         }
     }//GEN-LAST:event_btn_guardarCreditoActionPerformed
 
@@ -1876,7 +1855,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JButton btn_verSolicitante;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField cantidad_cuota;
-    private javax.swing.JComboBox<Models.Empleado> cbox_cobrador;
     private javax.swing.JComboBox<Models.Cuota> cbox_plan;
     private com.toedter.calendar.JDateChooser date_vencimientoPrimerCuota;
     private javax.swing.JTextField dia_vencimiento;
@@ -1915,8 +1893,6 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -2070,13 +2046,34 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 o[7] = t.getNroSerie();
                 model.addRow(o);
             });
-            if(creditoSelected.getCobrador() != null)
-                cbox_cobrador.setSelectedItem(creditoSelected.getCobrador());
+            
             cbox_plan.setSelectedItem(creditoSelected.getPlan());
         }
         
     }
-
+    private void habilitarCampos(){
+        if("ADMINISTRADOR".equals(Main.logueado.getTipo()) || "GERENTE".equals(Main.logueado.getTipo()) ){
+            btn_agregarArticulo.setEnabled(true);
+            btn_comprobarUnificacion.setEnabled(true);
+            btn_crearPago.setEnabled(true);
+            btn_guardarCredito.setEnabled(true);
+            btn_imprimirCredito.setEnabled(true);
+        }
+        if("ADMINISTRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getAdmin()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        if("GERENTE".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getGerente()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        if("VENDEDOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getVendedor()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        if("COBRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && creditoSelected.getCobrador()!= null){
+            btn_terminarCredito.setEnabled(true);
+        }
+        btn_cancelar.setEnabled(true);
+        btn_verSolicitante.setEnabled(true);
+    }
     private void limpiarCampos() {
         txt_saldoCredito.setText("0.00");
         txt_nombreComercio.setText("");
@@ -2115,19 +2112,12 @@ public class ABMCreditosView extends javax.swing.JPanel {
         btn_terminarCredito.setEnabled(false);
         btn_verSolicitante.setEnabled(false);
         //CARGO LOS COMBO BOX CON PLANES Y COBRADORES VIGENTES.
-        cbox_cobrador.setEnabled(true);
         cbox_plan.setEnabled(true);
         listPlanes = cuotasDAO.getCuotas();
-        listCobradores = empleadosDAO.getCobradores();
         Collections.sort(listPlanes);
-        Collections.sort(listCobradores);
         listPlanes.forEach((t) -> {
             cbox_plan.addItem(t);
         });
-        listCobradores.forEach((t) -> {
-            cbox_cobrador.addItem(t);
-        });
-        cbox_cobrador.setEnabled(false);
         cbox_plan.setEnabled(false);
     }
 

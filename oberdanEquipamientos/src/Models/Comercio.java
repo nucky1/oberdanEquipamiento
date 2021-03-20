@@ -12,18 +12,27 @@ import java.sql.Timestamp;
  * @author demig
  */
 public class Comercio {
-    private int id;
+    private int id = -1;
     private int clienteId;
-    private int numero;
-    private int propietario;
-    private Direccion direccion;
-    private Rubro rubro;
-    private String nombre;
-    private String referencia;
-    private String zona;
-    private String cuit;
-    private String tipo_iva;
-    private Timestamp incio_actividades;
+    private int numero = 0;
+    private int codPostal = 0;
+    private int propietario = 0;
+    private Direccion direccion = null;
+    private Rubro rubro= null;
+    private String nombre="";
+    private String referencia="";
+    private String zona="";
+    private String cuit="";
+    private String tipo_iva="";
+    private Timestamp incio_actividades = new Timestamp(System.currentTimeMillis());
+
+    public int getCodPostal() {
+        return codPostal;
+    }
+
+    public void setCodPostal(int codPostal) {
+        this.codPostal = codPostal;
+    }
 
     public int getId() {
         return id;

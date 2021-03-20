@@ -7,6 +7,7 @@ import Models.Mapa;
 import Models.Pais;
 import Models.Provincia;
 import Statics.*;
+import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -156,80 +157,11 @@ public class DireccionesDAO {
             m.setLocalidad_Barrio(localidades_barrio);
             m.setBarrio_direccion(barrio_direcciones);
         } catch (SQLException ex) {
-            Logger.getLogger(DireccionesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo getMapa", Main.isProduccion);
         }
         return m;
     }
-    /**
-     * quedo a medias porque era manso viaje y me parece que puede
-     * ser mas eficiente sacar todas las tablas de a una
-     * @return 
-     */
-    public Mapa getDirecciones(){
-        String SQL = "SELECT * FROM pais "
-                + "INNER JOIN provincia ON pais.id = provincia.pais_id "
-                + "INNER JOIN localidad ON provincia.id = localidad.provincia_id "
-                + "INNER JOIN barrio ON localidad.id = barrio.localidad_id ";
-        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        Mapa m = new Mapa();
-        HashMap<Integer,Pais> paises = new HashMap<>();
-        HashMap<Integer,Set<Provincia>> p = new HashMap<>();
-        HashMap<Integer,Set<Localidad>> provincias_localidades = new HashMap<>();
-        HashMap<Integer,Set<Barrio>> localidades_barrio = new HashMap<>();
-        Set<Provincia> provincias = new TreeSet<>(new provinciaCompare());
-        Set<Localidad> localidades = new TreeSet<>(new localidadCompare());
-        Pais pais = new Pais();
-        Provincia provincia = new Provincia();
-        try{
-            while(rs.next()){
-                    if(!paises.containsKey(rs.getInt("pais.id"))){ //si es un nuevo pais, lo creo y lo añado al hashmap
-                        if(pais.getId() != -1){ //si es el segundo pais, añado al hashmap de provincia con el set
-                            p.put(pais.getId(), provincias);
-                            provincias = new TreeSet<>(new provinciaCompare());
-                        }
-                        pais = new Pais();
-                        pais.setId(rs.getInt("pais.id"));
-                        pais.setNombre(rs.getString("pais.nombre"));
-                        paises.put(pais.getId(), pais);
-                    }
-                    if(!provincias_localidades.containsKey(rs.getInt("pais.id"))){
-                        if(provincia.getId() != -1){ //si es el segundo pais, añado al hashmap de provincia con el set
-                            provincias_localidades.put(provincia.getId(), localidades);
-                            localidades = new TreeSet<>(new localidadCompare());
-                        }
-                    }else{
-                        
-                    }
-                    if(!paises.containsKey(pais.getId())){
-                        provincia.setId(rs.getInt("provincia.id"));
-                        provincia.setId_pais(pais.getId());
-                        provincia.setNombre(rs.getString("provincia.nombre"));
-                        provincias.add(provincia);
-                    }else{
-                        
-                    }
-                        
-                    
-                    if(!localidades_barrio.containsKey(pais)){
-                        Set<Provincia> barrios = new TreeSet<>(new provinciaCompare());
-                    }else{
-                        
-                    }
-                    provincia.setId(rs.getInt("provincia.id"));
-                    provincia.setNombre(rs.getString("provincia.nombre"));
-                    provincia.setId_pais(rs.getInt("provincia.id_pais"));
-                    Localidad local = new Localidad();
-                    
-                    
-                    local.setId(rs.getInt("id"));
-                    local.setNombre(rs.getString("contacto"));
-                    local.setId_provincia(rs.getInt("tipo"));
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return m;
-    }
+
     public Provincia añadirNacionalidad(String toLowerCase) {
         String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"')";
         int i = conexion.EjecutarOperacion(SQL);
@@ -246,6 +178,7 @@ public class DireccionesDAO {
                 return p;
             }
         } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo añadirNacionalidad", Main.isProduccion);
         }
         return null;
     }
@@ -266,6 +199,7 @@ public class DireccionesDAO {
                 return l;
             }
         } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo añadirProvincia", Main.isProduccion);
         }
         return null;
     }
@@ -286,6 +220,7 @@ public class DireccionesDAO {
                 return b;
             }
         } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo añadirCiudad", Main.isProduccion);
         }
         return null;
     }
@@ -306,6 +241,7 @@ public class DireccionesDAO {
                 return d;
             }
         } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo añadirBarrio", Main.isProduccion);
         }
         return null;
     }
@@ -322,8 +258,55 @@ public class DireccionesDAO {
                 return rs.getInt("MAX(id)");
             }
         } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo añadirDireccion", Main.isProduccion);
         }
         return 0;
+    }
+    /**
+     * This method search the whole address from the id of neighborhood to country, means down to up.
+     * @param id
+     * @return if query its ok then return:
+     * object[0] = Barrio;
+     * object[1] = Localidad;
+     * object[2] = Provincia;
+     * object[3] = Pais;
+     * else return null;
+     */
+    public Object[] getDireccionCompleta(int id) {
+        try {
+            String SQL = "SELECT * from barrio "
+                    + "INNER JOIN localidad ON localidad.id = barrio.localidad_id "
+                    + "INNER JOIN provincia ON localidad.provincia_id = provincia.id "
+                    + "INNER JOIN pais ON provincia.pais_id = pais.id "
+                    + "WHERE barrio.id = "+id+" AND barrio.state = 'ACTIVO'";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            Object[] o = new Object[4];
+            if(rs.first()){
+                Pais p = new Pais();
+                Provincia prov = new Provincia();
+                Localidad l = new Localidad();
+                Barrio b = new Barrio();
+                b.setId(rs.getInt("barrio.id"));
+                b.setId_localidad(rs.getInt("localidad.id"));
+                l.setId(rs.getInt("localidad.id"));
+                l.setId_provincia(rs.getInt("provincia.id"));
+                prov.setId(rs.getInt("provincia.id"));
+                prov.setId_pais(rs.getInt("pais.id"));
+                p.setId(rs.getInt("pais.id"));
+                b.setNombre(rs.getString("barrio.nombre"));
+                l.setNombre(rs.getString("localidad.nombre"));
+                prov.setNombre(rs.getString("provincia.nombre"));
+                p.setNombre(rs.getString("pais.nombre"));
+                o[0] = b;
+                o[1] = l;
+                o[2] = prov;
+                o[3] = p;
+                return o;
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo getDireccionCompleta", Main.isProduccion);
+        }
+        return null;
     }
     
 }

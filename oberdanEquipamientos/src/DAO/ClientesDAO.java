@@ -8,6 +8,8 @@ package DAO;
 import Views.ABMClientesView;
 import Models.Cliente;
 import Models.Contacto;
+import Models.Rubro;
+import Views.Main;
 import com.mysql.jdbc.Connection;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 import java.io.FileNotFoundException;
@@ -297,7 +299,7 @@ public class ClientesDAO {
         return exito;
     }
     
-    
+
     public List recuperarConyugues(int idCliente){
         String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
                 + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
@@ -313,7 +315,7 @@ public class ClientesDAO {
         System.out.println(""+SQL);
         List<Cliente> list = new ArrayList<>();
         try{
-            if(rs.first()){
+            while(rs.next()){
                 Cliente c = new Cliente();
                 c.setNombre(rs.getString("cliente.nombre"));
                 c.setDni(rs.getInt("cliente.dni"));
@@ -322,7 +324,7 @@ public class ClientesDAO {
                 //una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
                 c.setEstadoCivil(rs.getString("relacion.tipo"));
                 list.add(c);
-        }
+            }
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -330,6 +332,37 @@ public class ClientesDAO {
                 
     }
 
+    public Cliente recuperarConyugue(int idCliente){
+        String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
+                + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
+                + "FROM relacion"
+                + "INNER JOIN cliente ON cliente1_id = cliente.id OR cliente2_id = cliente.id"
+                + " WHERE (cliente1_id="+idCliente
+                +" OR cliente2_id="+idCliente+")"
+                + " AND cliente.id!="+idCliente+
+                " AND relacion.state= 'ACTIVO' "
+                + " ORDER BY relacion.created_at DESC";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        System.out.println("La consulta en recuperar Conyugue fue: ");
+        System.out.println(""+SQL);
+        Cliente c = new Cliente();
+        try{
+            if(rs.first()){
+                c.setNombre(rs.getString("cliente.nombre"));
+                c.setDni(rs.getInt("cliente.dni"));
+                c.setDocumentacion(rs.getString("cliente.tipoDni"));
+                c.setFechaNacimiento(rs.getDate("cliente.fechaDeNacimiento"));
+                //una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
+                c.setEstadoCivil(rs.getString("relacion.tipo"));
+                return c;
+        }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+                
+    }
+    
     public boolean actualizarCliente(Cliente c) {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;

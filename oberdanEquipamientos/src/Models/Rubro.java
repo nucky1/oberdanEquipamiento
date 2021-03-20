@@ -31,5 +31,9 @@ public class Rubro {
     public String toString(){
         return this.nombre;
     }
-    
+    @Override
+    public boolean equals(Object o){
+        Rubro b = (Rubro) o;
+        return this.id == b.getId() && b.getNombre().equalsIgnoreCase(this.nombre);
+    }
 }

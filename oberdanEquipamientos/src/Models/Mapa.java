@@ -119,8 +119,5 @@ public class Mapa {
 
     public void setLocalidad_Barrio(HashMap<Integer, Set<Barrio>> localidad_Barrio) {
         this.localidad_Barrio = localidad_Barrio;
-    }
-
-
-        
+    }        
 }

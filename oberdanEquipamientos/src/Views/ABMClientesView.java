@@ -1865,6 +1865,14 @@ public class ABMClientesView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un estado civil para el cliente","Error", JOptionPane.ERROR_MESSAGE);
                 return;
         }
+        if(!Funciones.isNumeric(jTextField_codigoPostal.getText())){
+            JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros en el codigo postal","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Funciones.isNumeric(jTextField_numeroDomicilioCliente.getText())){
+            JOptionPane.showMessageDialog(null,"El número de la direccion no puede contener letras, ni ser vacio","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         clienteSeleccionado.setEstadoCivil(String.valueOf(jComboBox_estadoCivil.getItemAt(aux)));
         
        //direccion
