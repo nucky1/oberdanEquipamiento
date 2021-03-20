@@ -67,12 +67,12 @@ public class AuxiliarDAO {
                p.setCant_cuotas_pagadas(rs.getInt("cant_cuotas_pagas"));
                p.setTotal_rendicion(rs.getFloat("total_rendicion"));
                p.setCobranza_s_planilla(rs.getFloat("cobranza_s_planilla"));
-               p.setImporte_ingresado(rs.getFloat("importe_ingresado"));
+               
                p.setDiferencia(rs.getFloat("diferencia"));
                p.setRendicion_s_planilla(rs.getFloat("rendicion_s_planilla"));
-               p.setValores_entregados(rs.getFloat("valores_entregados"));
+              
                p.setSaldo(rs.getFloat("saldo"));
-               p.setCuotas_aCobrar(rs.getFloat("cuotas_aCobrar"));
+               p.setCuotas_aCobrar(rs.getInt("cuotas_aCobrar"));
                p.setObservacion(rs.getString("obervacion"));
                p.setVenc_pri_cuota(rs.getDate("venc_prim_cuota"));
                p.setIngresada(rs.getBoolean("ingresada"));

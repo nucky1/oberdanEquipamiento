@@ -382,7 +382,16 @@ public class ClientesDAO {
         }
         return exito;
     }
-
+    public boolean pruebas(Cliente c){
+        boolean exito = true;
+        conexion.transaccionCommit("quitarAutoCommit"); 
+        int res = 1;
+        
+        String SQL = "SELECT * FROM cliente WHERE dni= "+c.getDni();
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        
+        return exito;
+    }
     public boolean guardarCliente(Cliente c) {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
@@ -390,7 +399,15 @@ public class ClientesDAO {
         String SQL = "SELECT * FROM cliente WHERE dni= "+c.getDni();
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
-            if(!rs.first()){
+            if(rs.first()){
+               System.out.println("Lo encontre al cliente y no lo voy a guardar!");
+                exito = false;
+                
+                
+                 
+            }
+            else{
+                System.out.println("NO Lo encontre al cliente y lo voy a guardar!");
                 SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil,fechaNacimiento,esSolicitante,codPostal,referencia,documentacion,numero,direccion_id,observaciones) "
                         + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"+c.getTipoDni()+"','"+c.getEstadoCivil()+"','"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"',"+
                         c.getNumero()+","+c.getDireccion_id()+",'"+
@@ -424,10 +441,6 @@ public class ClientesDAO {
                         }
                     }
                 }
-            }
-            else{
-                System.out.println("Lo encontre al cliente y no lo voy a guardar!");
-                exito = false;
             }
                 
         } catch (SQLException ex) {
@@ -563,21 +576,38 @@ public class ClientesDAO {
             System.out.println("En casar, c2 no existia");
             c2.setEstadoCivil("CASADO");
             if(guardarCliente(c2)){
+                //Lo guardo a c2, pero debo buscarlo para recuperar su id
+                list = buscarCliente("dni", String.valueOf(c2.getDni()));
+                for(int i = 0; i<list.size(); i++){
+                    if(list.get(i).getDni()==c2.getDni()){
+                        c2.setId(list.get(0).getId());
+                        System.out.println("LO ENCONTREEEE GATITOO");
+                        exito=true;
+                        break;
+                    }
+                    exito=false;
+                }
+                  
+                
                 System.out.println("en casar, pude guardar al c2");
-                 conexion.transaccionCommit("quitarAutoCommit");
+                conexion.transaccionCommit("quitarAutoCommit");
                 String SQL= "INSERT INTO relacion (cliente1_id, cliente2_id, estadoCivil, tipo)VALUES ("+
                             +c1.getId()+","+c2.getId()+","+"'CASADO' , '"+tipo+"')";
-                    
+                  
                 res= conexion.EjecutarOperacion(SQL);
+                System.out.println("EN CASAR, SQL tiene: "+SQL);  
+                System.out.println("EN CASAR, RES tiene: "+res);  
                 if(res==0)  {
-                    System.out.println("En casar, no pude hacer la relacion");
+                    
                     exito= false;
                     conexion.transaccionCommit("rollBack");
                     conexion.transaccionCommit("activarCommit");
                 }
                 else{
+                    System.out.println("En casar, PUDE hacer la relacion");
                     conexion.transaccionCommit("commitear");
                     conexion.transaccionCommit("activarCommit");
+                    exito=true;
                 }
             }
             else{

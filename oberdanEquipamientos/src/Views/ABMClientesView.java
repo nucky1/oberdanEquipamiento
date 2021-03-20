@@ -69,7 +69,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     public ABMClientesView() {
         
         initComponents();
-        Statics.style.setPlaceHolder(jTextF_IngresarNuevoElemento, "Ingrese nuevo");
+        //Statics.style.setPlaceHolder(jTextF_IngresarNuevoElemento, "Ingrese nuevo");
         habilitarCampos(false);
         jComboBox_Provincias.setEnabled(false);
         jComboBox_Ciudades.setEnabled(false);
@@ -2002,6 +2002,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 	                    jButton_eliminar.setEnabled(false);
                     }
                     else{
+                        JOptionPane.showMessageDialog(null, "No se pudo guardar al cliente", "Error", JOptionPane.ERROR_MESSAGE);
                     	principal.lbl_estado.setText("Hubo un error al agregar el cliente");
                         principal.lbl_estado.setForeground(new Color(139,0,0));
                     }

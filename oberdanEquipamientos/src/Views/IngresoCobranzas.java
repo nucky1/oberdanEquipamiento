@@ -6,6 +6,7 @@
 package Views;
 import DAO.AuxiliarDAO;
 import DAO.ClientesDAO;
+import DAO.CreditosDAO;
 import DAO.EmpleadosDAO;
 import DAO.TipoPagoDAO;
 import Models.Carton;
@@ -1312,21 +1313,15 @@ public class IngresoCobranzas extends javax.swing.JPanel {
                 obj[0]= listaCartones.get(i).getCredito_id();
                 //trar el cliente. Saco el id del credito, lo traigo, y luego invoco al cliente, le saco el nombre
                 
-                List <Credito> creditos= creditosDao.buscarCredito(listaCartones.get(i).getCredito_id());
-                //necesito un solo credito!
-                for(int m=0; m<creditos.size(); m++){
-                    if(creditos.get(m).getcliente_id()== listaCartones.get(i).getCredito_id() ){
-                        creditoAux=creditos.get(m);
-                    }
-                }
-                int idCliente = creditoAux.getCliente_id();
-                Cliente clienteAux= clientesDao.buscarCliente(idCliente);
+               creditoAux= creditosDao.buscarIdCliente(listaCartones.get(i).getCredito_id());
+              
+                Cliente clienteAux= clientesDao.buscarCliente(creditoAux.getCliente().getId());
                 obj[1]=clienteAux.getNombre();
                 // cargo el importe de la cuota:
                 obj[2]=creditoAux.getImporte_cuota();
                 SumImporte+=creditoAux.getImporte_cuota();
                 //cargo la deuda:
-                obj [3]= creditoAux.getDeuda();
+                obj [3]= creditoAux.getImporte_deuda();
                 
                 // cancelada es un estado por defecto le pone si pero segun lo que cobre el cobrador, debe cambiar de estado
                 

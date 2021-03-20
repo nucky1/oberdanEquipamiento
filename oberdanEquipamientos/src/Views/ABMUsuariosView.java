@@ -6,7 +6,7 @@
 package Views;
 
 import DAO.DireccionesDAO;
-import DAO.UsuariosDAO;
+import DAO.EmpleadosDAO;
 import Models.Barrio;
 import Models.Direccion;
 import Models.Localidad;
@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ABMUsuariosView extends javax.swing.JPanel {
     private DireccionesDAO direccionesDAO;
-    private UsuariosDAO usuariosDAO;
+    private EmpleadosDAO usuariosDAO;
     private Pais pais_selected;
     private Provincia provincia_selected;
     private Localidad localidad_selected;

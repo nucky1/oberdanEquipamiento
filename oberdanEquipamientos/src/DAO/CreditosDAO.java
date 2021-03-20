@@ -35,17 +35,20 @@ public class CreditosDAO {
         }
         return CreditosDao;
     }
-    public List <Credito> buscarCredito (int id) throws SQLException{
+    public Credito buscarIdCliente (int id) throws SQLException{
         String SQL = "SELECT credito.* FROM credito"
                 +" WHERE credito.id ="+id+ "AND credito.state= 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        ArrayList<Credito> list = new ArrayList();
-        while(rs.next()){
+        if(rs.first()){
             Credito c = new Credito();
-            
-            
+            Cliente cliente = new Cliente();
+            cliente.setId(rs.getInt("cliente_id"));
+            c.setCliente(cliente);
+            c.setImporte_cuota(rs.getFloat("importe_cuota"));
+            c.setImporte_deuda(rs.getFloat("importe_deuda"));
+            return c;
         }
-        return list;
+        return null;
     }
 
     public ArrayList<Credito> buscarSolicitud(String text, String atributoBusqueda) {
@@ -62,7 +65,7 @@ public class CreditosDAO {
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarCreditos(rs);
     }
-
+    
     public ArrayList<Credito> buscarCreditoActivo(String text, String atributoBusqueda) {
         ArrayList<Credito> list = new ArrayList();
         String condicion = "1";
