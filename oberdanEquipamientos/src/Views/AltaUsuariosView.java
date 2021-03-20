@@ -1192,7 +1192,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         }
         if(modificarTrue){
             //estoy modificando
-            int res= JOptionPane.showInternalConfirmDialog(null,"Esta seguro que desea modificar el empleado : \n- "+jTextField_nombreApellido.getText(), "MODIFICAR", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int res= JOptionPane.showConfirmDialog(null,"Esta seguro que desea modificar el empleado : \n- "+jTextField_nombreApellido.getText(), "MODIFICAR", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(res== JOptionPane.OK_OPTION){
                 if(empleadosDAO.actualizarEmpleado(empleadoSelected)){
                     principal.lbl_estado.setText("El empleado se actualizo con exito");
@@ -1289,7 +1289,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jComboBox_Provincias.setSelectedIndex(0);
             jComboBox_Provincias.setEnabled(true);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jCombo_Naciones1ItemStateChanged
 
@@ -1307,7 +1307,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jComboBox_Ciudades.setEnabled(true);
            // jComboBox_Ciudades.setSelectedIndex(0);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jComboBox_ProvinciasItemStateChanged
 
@@ -1324,7 +1324,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jComboBox_Barrios.setEnabled(true);
             //jComboBox_Ciudades.setSelectedIndex(0);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jComboBox_CiudadesItemStateChanged
 
@@ -1342,7 +1342,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jComboBox_calles.setEnabled(true);
             jComboBox_calles.setSelectedIndex(0);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
 
