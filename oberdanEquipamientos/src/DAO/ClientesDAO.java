@@ -334,8 +334,8 @@ public class ClientesDAO {
 
     public Cliente recuperarConyugue(int idCliente){
         String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
-                + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
-                + "FROM relacion"
+                + "cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni "
+                + "FROM relacion "
                 + "INNER JOIN cliente ON cliente1_id = cliente.id OR cliente2_id = cliente.id"
                 + " WHERE (cliente1_id="+idCliente
                 +" OR cliente2_id="+idCliente+")"
@@ -350,8 +350,8 @@ public class ClientesDAO {
             if(rs.first()){
                 c.setNombre(rs.getString("cliente.nombre"));
                 c.setDni(rs.getInt("cliente.dni"));
-                c.setDocumentacion(rs.getString("cliente.tipoDni"));
-                c.setFechaNacimiento(rs.getDate("cliente.fechaDeNacimiento"));
+                c.setDocumentacion(rs.getString("cliente.tipo_dni"));
+                c.setFechaNacimiento(rs.getDate("cliente.fechaNacimiento"));
                 //una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
                 c.setEstadoCivil(rs.getString("relacion.tipo"));
                 return c;
