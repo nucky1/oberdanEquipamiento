@@ -199,7 +199,7 @@ public class EmpleadosDAO {
     }
 
     public boolean actualizarEmpleado(Empleado e) {
-        boolean exito = false;
+        boolean exito = true;
         conexion.transaccionCommit("quitarAutoCommint");
         int res =1;
         String SQL = "UPDATE empleado SET nombre = '"+e.getNombre()+"'"
@@ -208,7 +208,7 @@ public class EmpleadosDAO {
                 + ",codPostal = "+e.getCodigoPostal()
                 + ", referencia = '"+e.getReferencia()
                 +"', fechaNacimiento = '"+Statics.Funciones.dateParse(e.getFechaNacimiento())
-                +"', dni = "+e.getDni()
+                +"', numero_doc = "+e.getDni()
                 +", tipo_doc ='"+e.getTipoDni()
                 +"', estado_civil= '"+e.getEstadoCivil()
                 +"', categoria = '"+e.getCategoria()
@@ -220,10 +220,11 @@ public class EmpleadosDAO {
         res = conexion.EjecutarOperacion(SQL);
         if(res == 0){
             exito = false;
+            System.out.println("NO pude actualizar el empleado");
         }
         else{
             if (e.getContacto().size()>0){
-                SQL = " DELETE FROM contactos WHERE persona_id = "+e.getId()+" AND tipo_persona = 'EMPLEADO' AND state = 'ACTIVO'";
+                SQL = " DELETE FROM contactos WHERE id_persona = "+e.getId()+" AND tipo_persona = 'EMPLEADO' AND state = 'ACTIVO'";
                 res = conexion.EjecutarOperacion(SQL);
                 SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
                 for(int i = e.getContacto().size()-1 ; i > 0; i--){
@@ -250,53 +251,66 @@ public class EmpleadosDAO {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-         String SQL = "INSERT INTO empleado (nombre,numero_doc,tipo_doc,cuil,fechaNacimiento,estado_civil,tipo,codPostal,referencia,categoria,numero_domicilio,direccion_id,convenio, aporte_os, user, pass) "
-                + "VALUES('"+e.getNombre()+"',"+e.getDni()+",'"+e.getTipoDni()+"','"+e.getCuil()+"','"+Statics.Funciones.dateParse(e.getFechaNacimiento())+"','"+e.getEstadoCivil()+"','"+e.getTipo()+"','"+e.getCodigoPostal()+"','"+e.getReferencia()+"','"+e.getCategoria()+"',"+
-                e.getNro()+","+e.getDireccionId()+",'"+
-               e.getConvenio()+"' , '"+e.getAporteOSocial()+"', '"+e.getUser()+"' , '"+e.getPass()+"' )";
-        res = conexion.EjecutarOperacion(SQL); //inserto el empleado el cual ahora sera el empleado con id mas alto
-        System.out.println("SQL = " + SQL);
-        System.out.println("res = "+res);
-        if(res == 0){
-            System.out.println("RES salio igual a 0");
-            exito = false;
-        }else{
-            if(e.getContacto().size() > 0){
-                System.out.println("tengo e.getContacto().size() > 0 true");
-                SQL = "SELECT MAX(id) AS id FROM empleado ";
-                ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-                System.out.println("En contacto, rs tiene= "+rs);
-                try {
-                    while(rs.next()){
-                        e.setId(rs.getInt("id"));
-                    }
-                    SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
-                    for(int i = e.getContacto().size()-1 ; i > 0; i--){
-                        SQL += "("+e.getId()+",'"+e.getContacto().get(i).getContacto()+"','"+e.getContacto().get(i).getTipo()+"','EMPLEADO'),";
-                    }
-                    SQL += "("+e.getId()+",'"+e.getContacto().get(0).getContacto()+"','"+e.getContacto().get(0).getTipo()+"','EMPLEADO')";
-                    res = conexion.EjecutarOperacion(SQL);
-                    
-                    System.out.println("la consulta para el contacto fie:");
-                    System.out.println(""+res);
-                } catch (SQLException ex) {
-                    System.out.println("me tiro la exception");
-                    res = 0;
-                }
-                if(res == 0){
-                    exito = false;
-                }
+        String SQL ="SELECT * FROM empleado WHERE numero_doc="+e.getDni()+" AND state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.first()){
+                System.out.println("Esta intentado guardar un empleado ya registrado");
+                return false;
             }
+            else{
+                SQL = "INSERT INTO empleado (nombre,numero_doc,tipo_doc,cuil,fechaNacimiento,estado_civil,tipo,codPostal,referencia,categoria,numero_domicilio,direccion_id,convenio, aporte_os, user, pass) "
+                        + "VALUES('"+e.getNombre()+"',"+e.getDni()+",'"+e.getTipoDni()+"','"+e.getCuil()+"','"+Statics.Funciones.dateParse(e.getFechaNacimiento())+"','"+e.getEstadoCivil()+"','"+e.getTipo()+"','"+e.getCodigoPostal()+"','"+e.getReferencia()+"','"+e.getCategoria()+"',"+
+                        e.getNro()+","+e.getDireccionId()+",'"+
+                        e.getConvenio()+"' , '"+e.getAporteOSocial()+"', '"+e.getUser()+"' , '"+e.getPass()+"' )";
+                res = conexion.EjecutarOperacion(SQL); //inserto el empleado el cual ahora sera el empleado con id mas alto
+                System.out.println("SQL = " + SQL);
+                System.out.println("res = "+res);
+                if(res == 0){
+                    System.out.println("RES salio igual a 0");
+                    exito = false;
+                }else{
+                    if(e.getContacto().size() > 0){
+                        System.out.println("tengo e.getContacto().size() > 0 true");
+                        SQL = "SELECT MAX(id) AS id FROM empleado ";
+                        rs = conexion.EjecutarConsultaSQL(SQL);
+                        System.out.println("En contacto, rs tiene= "+rs);
+                        try {
+                            while(rs.next()){
+                                e.setId(rs.getInt("id"));
+                            }
+                            SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                            for(int i = e.getContacto().size()-1 ; i > 0; i--){
+                                SQL += "("+e.getId()+",'"+e.getContacto().get(i).getContacto()+"','"+e.getContacto().get(i).getTipo()+"','EMPLEADO'),";
+                            }
+                            SQL += "("+e.getId()+",'"+e.getContacto().get(0).getContacto()+"','"+e.getContacto().get(0).getTipo()+"','EMPLEADO')";
+                            res = conexion.EjecutarOperacion(SQL);
+                            
+                            System.out.println("la consulta para el contacto fie:");
+                            System.out.println(""+res);
+                        } catch (SQLException ex) {
+                            System.out.println("me tiro la exception");
+                            res = 0;
+                        }
+                        if(res == 0){
+                            exito = false;
+                        }
+                    }
+                }
+                if(exito){
+                    System.out.println("Tuve exito");
+                    conexion.transaccionCommit("commitear");
+                    conexion.transaccionCommit("activarCommit");
+                }else{
+                    conexion.transaccionCommit("rollBack");
+                    conexion.transaccionCommit("activarCommit");
+                }
+               
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadosDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(exito){
-            System.out.println("Tuve exito");
-            conexion.transaccionCommit("commitear"); 
-            conexion.transaccionCommit("activarCommit"); 
-        }else{
-            conexion.transaccionCommit("rollBack");
-            conexion.transaccionCommit("activarCommit");
-        }
-        return exito;
+         return exito;
     }
 
     public ArrayList<Empleado> getCobradores() {

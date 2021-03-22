@@ -1703,7 +1703,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                     
                 }
             });
-           jComboBox_Ciudades.setEnabled(true);
+           //jComboBox_Ciudades.setEnabled(true);
         }catch(NullPointerException e){
              new Statics.ExceptionManager().saveDump(e, "", false);
         }
@@ -1728,13 +1728,15 @@ public class ABMClientesView extends javax.swing.JPanel {
         Pais_selected=p;
         jComboBox_Provincias.removeAllItems();
         try{
-            direcciones.getPais_Provincia().get(p.getId()).forEach((t)->
+            if(direcciones != null){
+                direcciones.getPais_Provincia().get(p.getId()).forEach((t)->
             {jComboBox_Provincias.addItem(t);});
-            jComboBox_Provincias.setEnabled(true);
+            //jComboBox_Provincias.setEnabled(true);
             if(modificarTrue){
                 Provincia provincia = new Provincia();
                 provincia.setNombre(clienteSeleccionado.getProvincia());
                 jComboBox_Provincias.setSelectedItem(provincia);
+            }
             }
         }catch(NullPointerException e){
             new Statics.ExceptionManager().saveDump(e, "", false);
@@ -1779,7 +1781,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                 }
             });
             jComboBox_calles.setSelectedIndex(0);
-            jComboBox_calles.setEnabled(true);
+            //jComboBox_calles.setEnabled(true);
         }catch(NullPointerException e){
             new Statics.ExceptionManager().saveDump(e, "", false);
             
@@ -2257,9 +2259,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         
         jComboBox_promotores.setSelectedIndex(0);
         // informacion direccion
-        jCombo_Naciones.setSelectedIndex(0);
+        /**
+        if(jCombo_Naciones.getItemCount()>0){
+            jCombo_Naciones.setSelectedIndex(0);
+        }
+        **/
+        /**
         jComboBox_Provincias.setSelectedIndex(0);
         jComboBox_Ciudades.setSelectedIndex(0);
+        **/
+        this.cargarNacionalidades();
         jComboBox_Barrios.removeAllItems();
         jComboBox_Barrios.addItem(new Barrio ("-"));
         
@@ -2279,7 +2288,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         //jComboBox_tipoDocumentoConyuge=  new JComboBox<> (items);
         jComboBox_tipoDocumentoConyuge.setSelectedIndex(0);
         jDateChooser_fechaNacimientoConyuge.setDate(new Date());
-        
+        jTextField_conyugeDni.setText("");
         jComboBox_relacionConyuge.setSelectedIndex(0);
         jTextFieldObservaciones.setText("");
     }
@@ -2321,7 +2330,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         }
        //JTable tabla= new JTable();
        //tabla.setModel(model);
-       
+       /*
        ColorFilasCobranza c = new ColorFilasCobranza();
        c.setBackground(Color.red);
        c.setForeground(Color.black);
@@ -2330,6 +2339,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             jTableClientes.getColumnModel().getColumn(i).setCellRenderer(c);
             
         }
+       */
     }
     
     private void cargarDatosCliente(int pos){
@@ -2353,16 +2363,23 @@ public class ABMClientesView extends javax.swing.JPanel {
             //dudoso
             jComboBox_estadoCivil.setSelectedItem(String.valueOf(clienteSeleccionado.getEstadoCivil()).toUpperCase());
             //direccion
+            Object [] o = direccionesDAO.getDireccionCompleta(clienteSeleccionado.getDireccion_id());
+            /**
+             * if query its ok then return: object[0] = Barrio; object[1] = Localidad; object[2] = Provincia; object[3] = Pais; else return null;
+             */
             jCombo_Naciones.removeAllItems();
-            jCombo_Naciones.addItem(new Pais(clienteSeleccionado.getNacionalidad()));
+            jCombo_Naciones.addItem((Pais) o[3]);
             jComboBox_Provincias.removeAllItems();
-            jComboBox_Provincias.addItem(new Provincia(clienteSeleccionado.getProvincia()));
+            jComboBox_Provincias.addItem((Provincia) o[2]);
             jComboBox_Ciudades.removeAllItems();
-            jComboBox_Ciudades.addItem(new Localidad(clienteSeleccionado.getCiudad()));
+            jComboBox_Ciudades.addItem((Localidad)o[1]);
             jComboBox_Barrios.removeAllItems();
-            jComboBox_Barrios.addItem(new Barrio (clienteSeleccionado.getBarrio()));
+            jComboBox_Barrios.addItem((Barrio) o[0]);
             jComboBox_calles.removeAllItems();
-            jComboBox_calles.addItem(new Direccion(clienteSeleccionado.getDireccion()));
+            Direccion dir = new Direccion();
+            dir.setNombre(clienteSeleccionado.getDireccion());
+            dir.setId(clienteSeleccionado.getDireccion_id());
+            jComboBox_calles.addItem(dir);
             
             jTextField_numeroDomicilioCliente.setText(clienteSeleccionado.getNumero());
             jTextField_codigoPostal.setText(clienteSeleccionado.getCodPostal());

@@ -274,11 +274,12 @@ public class DireccionesDAO {
      */
     public Object[] getDireccionCompleta(int id) {
         try {
-            String SQL = "SELECT * from barrio "
+            String SQL = "SELECT * from direccion "
+                    + "INNER JOIN barrio ON barrio.id = direccion.barrio_id "
                     + "INNER JOIN localidad ON localidad.id = barrio.localidad_id "
                     + "INNER JOIN provincia ON localidad.provincia_id = provincia.id "
                     + "INNER JOIN pais ON provincia.pais_id = pais.id "
-                    + "WHERE barrio.id = "+id+" AND barrio.state = 'ACTIVO'";
+                    + "WHERE direccion.id = "+id+" AND direccion.state = 'ACTIVO'";
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             Object[] o = new Object[4];
             if(rs.first()){

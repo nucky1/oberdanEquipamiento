@@ -555,6 +555,11 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 jComboBox_CiudadesItemStateChanged(evt);
             }
         });
+        jComboBox_Ciudades.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jComboBox_CiudadesFocusGained(evt);
+            }
+        });
 
         jLabel13.setText("Barrio");
 
@@ -1105,7 +1110,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
 
     private void jComboBox_tipoDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoDniActionPerformed
         // TODO add your handling code here:
-        jTextField_dni.setEnabled(true);
+       
 
     }//GEN-LAST:event_jComboBox_tipoDniActionPerformed
 
@@ -1144,6 +1149,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         DefaultTableModel model= (DefaultTableModel) jTable_tipoYcontacto.getModel();
         if(model.getRowCount()==0){
             JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
          empleadoSelected.setNombre(jTextField_nombreApellido.getText().toUpperCase());
       
@@ -1155,6 +1161,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         int estadoSelected= jComboBox_estadoCivil.getSelectedIndex();
         if(String.valueOf(jComboBox_estadoCivil.getItemAt(estadoSelected)).equals("-")){
             JOptionPane.showMessageDialog(null, "Debe colocar el estado civil", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         empleadoSelected.setEstadoCivil(String.valueOf(jComboBox_estadoCivil.getItemAt(estadoSelected)));
         
@@ -1189,21 +1196,27 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         if (!modificarTrue && !altaUsuarioOk){
             //no estoy modificando y no agregue el usuario y contraseña
             JOptionPane.showMessageDialog(null, "Debe agregar un usuario y contraseña para crear un empleado nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         if(modificarTrue){
             //estoy modificando
-            int res= JOptionPane.showInternalConfirmDialog(null,"Esta seguro que desea modificar el empleado : \n- "+jTextField_nombreApellido.getText(), "MODIFICAR", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int res= JOptionPane.showConfirmDialog(null,"Esta seguro que desea modificar el empleado : \n- "+jTextField_nombreApellido.getText(), "MODIFICAR", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(res== JOptionPane.OK_OPTION){
                 if(empleadosDAO.actualizarEmpleado(empleadoSelected)){
+                    JOptionPane.showMessageDialog(null, "Se actualizo el empleado", "OK", JOptionPane.INFORMATION_MESSAGE);
                     principal.lbl_estado.setText("El empleado se actualizo con exito");
                     principal.lbl_estado.setForeground(new Color(0,100,0));
                     limpiarCampos();
                     habilitarCampos(false);
                     empleadoSelected=null;
+                    jTexfieldBuscador.setText("");
+                    cambioBusqueda("", jTexfieldBuscador,tablaBuscador);
                 }
                 else {
+                    JOptionPane.showMessageDialog(null, "No se pudo guardar el empleado. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
                     principal.lbl_estado.setText("Hubo un error al actualizar el empleado");
                     principal.lbl_estado.setForeground(new Color(139,0,0));
+                    return;
                 }
             }
         }
@@ -1219,8 +1232,10 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     habilitarCampos(false);
                     empleadoSelected=null;
                 }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo guardar el empleado. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
                     principal.lbl_estado.setText("Hubo un error al agregar el empleado");
                     principal.lbl_estado.setForeground(new Color(139,0,0));
+                    return;
                 }
             }
             jTexfieldBuscador.setText("");
@@ -1421,29 +1436,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTexfieldBuscadorActionPerformed
 
     private void jButtonCrearNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearNuevoActionPerformed
-        /*    String archivo = System.getProperty("user.dir") + System.getProperty("file.separator") + path + "src\\Reportes\\Listado_Productos.jasper";
-        JasperReport reporte = null;
-
-        try {
-            reporte = (JasperReport) JRLoader.loadObjectFromFile(archivo);
-        } catch (JRException ex) {
-            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        Map param = new HashMap();
-
-        param.put("DIR_REPORT", System.getProperty("user.dir") + System.getProperty("file.separator") + path+ "src\\");
-            JasperPrint jasperPrint = null;
-
-            try {
-                jasperPrint = JasperFillManager.fillReport(reporte, param, Main.conexion.conexion);
-            } catch (JRException ex) {
-                Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            JasperViewer jv = new JasperViewer(jasperPrint, false);
-            jv.setTitle("Listado de Productos");
-            jv.setVisible(true);*/
+      
         
         jComboBox_Provincias.setEnabled(true);
         jComboBox_Ciudades.setEnabled(true);
@@ -1455,6 +1448,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         habilitarCampos(true);
         cargarNacionalidades();
         empleadoSelected = new Empleado();
+        limpiarCampos();
         
         
         
@@ -1827,6 +1821,26 @@ public class AltaUsuariosView extends javax.swing.JPanel {
          //jComboBox_Provincias.setEnabled(true);
     }//GEN-LAST:event_jCombo_Naciones1ActionPerformed
 
+    private void jComboBox_CiudadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesFocusGained
+        if(jComboBox_Ciudades.getItemCount() == 0)
+            return;
+        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
+        Localidad_selected=l;
+        jComboBox_Barrios.removeAllItems();
+        try{
+            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                jComboBox_Barrios.addItem(t);
+                if(modificarTrue){
+                    Barrio b = new Barrio();
+                    b.setNombre(empleadoSelected.getBarrio());
+                    jComboBox_Barrios.setSelectedItem(b);
+                }
+            });
+        }catch(NullPointerException e){
+             new Statics.ExceptionManager().saveDump(e, "", false);
+        }
+    }//GEN-LAST:event_jComboBox_CiudadesFocusGained
+
             
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAñadirBarrio;
@@ -2016,11 +2030,11 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jDateChooserFN.setEnabled(flag);
         
         // informacion de contacto:
-        jTextFieldContacto.setEnabled(true);
+        jTextFieldContacto.setEnabled(flag);
         jComboBox_TipoContacto.setEnabled(flag);
         jButton_eliminarContacto.setEnabled(flag);
         jButtonAñadirContacto.setEnabled(flag);
-        
+        jTable_tipoYcontacto.setEnabled(flag);
         //jComboBoxGenero.setEnabled(flag);
         // informacion social:
         jTextFieldAporteOSocial.setEnabled(flag);
@@ -2048,7 +2062,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jButtonCrearUser.setEnabled(flag);
         // Panel buscador botones
         jButtonEliminarEmpleado.setEnabled(!flag);
-        jButtonGuardarMain.setVisible(flag);
+        jButtonGuardarMain.setEnabled(flag);
         jButtonModificar.setEnabled(!flag);
         jButtonCrearNuevo.setEnabled(!flag);
         tablaBuscador.setEnabled(!flag);
