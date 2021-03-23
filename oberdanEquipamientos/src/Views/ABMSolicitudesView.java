@@ -2006,7 +2006,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txt_codigoPostal.setText("");
         if(c.getDireccion()!= null){
             Direccion d = c.getDireccion();
-            Object[] obj = direccionesDAO.getDireccionCompleta(d.getId_barrio());
+            Object[] obj = direccionesDAO.getDireccionCompleta(d.getId());
             if(obj!= null){
                 Barrio b = (Barrio) obj[0]; 
                 Localidad l = (Localidad) obj[1];
