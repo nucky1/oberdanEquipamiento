@@ -160,7 +160,7 @@ public class ClientesDAO {
            try{
                if(rs.first()){
                      //--CARGAR DATOS AL Cliente
-                    
+                    System.out.println("Encontre el cliente en buscarCliente por ID");
                     p.setId(rs.getInt("id"));
                     p.setNombre(rs.getString("nombre"));
                     p.setFechaNacimiento(rs.getDate("fechaNacimiento"));
@@ -186,18 +186,22 @@ public class ClientesDAO {
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
-                        while(rc.next()){
+                        if(rc.first()){
+                            while(rc.next()){
                             Contacto c = new Contacto();
                             c.setId(rc.getInt("id"));
                             c.setContacto(rc.getString("contacto"));
                             c.setTipo(rc.getString("tipo"));
                             contactos.add(c);
                         }
+                        }
                     }catch(Exception ex){
                         ex.printStackTrace();
                         //no hago nada para que no se trabe
                     }
-                    p.setContacto((ArrayList<Contacto>) contactos);
+                    if(rc.first()){
+                        p.setContacto((ArrayList<Contacto>) contactos);
+                    }
                     //--FIN CARGA
                     return p;
 
@@ -301,28 +305,36 @@ public class ClientesDAO {
     
 
     public List recuperarConyugues(int idCliente){
-        String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
-                + "cliente.fechaDeNacimiento,cliente.dni,cliente.tipoDni, "
-                + "FROM relacion"
-                + "INNER JOIN cliente ON cliente1_id = cliente.id OR cliente2_id = cliente.id"
+       String SQL = "SELECT cliente.nombre,cliente.id,cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni,rel2.tipo"
+               + " FROM cliente INNER JOIN (SELECT relacion.tipo, relacion.created_at, IF(cliente1_id = "+idCliente+", cliente2_id,cliente1_id) "
+               + "as clientId FROM relacion WHERE (cliente1_id="+idCliente+" OR cliente2_id="+idCliente+") && relacion.state= 'ACTIVO' ) "
+               + "AS rel2 ON rel2.clientId = cliente.id ORDER BY rel2.created_at";
+        /*String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
+                + "cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni, "
+                + "FROM relacion "
+                + "INNER JOIN cliente ON (cliente1_id = cliente.id OR cliente2_id = cliente.id)"
                 + " WHERE (cliente1_id="+idCliente
                 +" OR cliente2_id="+idCliente+")"
                 + " AND cliente.id!="+idCliente+
                 " AND relacion.state= 'ACTIVO' "
                 + " ORDER BY relacion.created_at DESC";
+       */
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         System.out.println("La consulta en recuperar Conyugue fue: ");
         System.out.println(""+SQL);
         List<Cliente> list = new ArrayList<>();
         try{
-            while(rs.next()){
+            if(rs.first()){
+                
                 Cliente c = new Cliente();
-                c.setNombre(rs.getString("cliente.nombre"));
-                c.setDni(rs.getInt("cliente.dni"));
-                c.setDocumentacion(rs.getString("cliente.tipoDni"));
-                c.setFechaNacimiento(rs.getDate("cliente.fechaDeNacimiento"));
+                
+                c.setNombre(rs.getString("nombre"));
+                c.setTipoDni(rs.getString("tipo_dni"));
+                c.setDni(rs.getInt("dni"));
+                c.setId(rs.getInt("id"));
+                c.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 //una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
-                c.setEstadoCivil(rs.getString("relacion.tipo"));
+                c.setEstadoCivil(rs.getString("rel2.tipo"));
                 list.add(c);
             }
         }catch(Exception ex){
