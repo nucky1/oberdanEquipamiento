@@ -20,7 +20,7 @@ public class Main {
     //public static boolean isProduccion = true;
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         principal vista1 = new principal();
-        vista1.setVisible(true);
         vista1.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        vista1.setVisible(true);
     }
 }
