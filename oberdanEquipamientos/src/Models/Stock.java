@@ -5,7 +5,7 @@
  */
 package Models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -13,9 +13,13 @@ import java.util.Date;
  */
 public class Stock {
     private int id;
-    private int stockActual;
-    private float precioId;
-    private Date fechaCompra;
+    private int stock_actual;
+    private int stock_ingresado;
+    private int stock_reservado;
+    private int stock_pedido;
+    private float precio_compra;
+    private Timestamp fechaCompra;
+    
 
     public int getId() {
         return id;
@@ -25,29 +29,53 @@ public class Stock {
         this.id = id;
     }
 
-    public int getStockActual() {
-        return stockActual;
+    public int getStock_actual() {
+        return stock_actual;
     }
 
-    public void setStockActual(int stockActual) {
-        this.stockActual = stockActual;
+    public void setStock_actual(int stock_actual) {
+        this.stock_actual = stock_actual;
     }
 
-    public float getPrecioId() {
-        return precioId;
+    public int getStock_ingresado() {
+        return stock_ingresado;
     }
 
-    public void setPrecioId(float precioId) {
-        this.precioId = precioId;
+    public void setStock_ingresado(int stock_ingresado) {
+        this.stock_ingresado = stock_ingresado;
     }
 
-    public Date getFechaCompra() {
+    public int getStock_reservado() {
+        return stock_reservado;
+    }
+
+    public void setStock_reservado(int stock_reservado) {
+        this.stock_reservado = stock_reservado;
+    }
+
+    public int getStock_pedido() {
+        return stock_pedido;
+    }
+
+    public void setStock_pedido(int stock_pedido) {
+        this.stock_pedido = stock_pedido;
+    }
+
+    public float getPrecio_compra() {
+        return precio_compra;
+    }
+
+    public void setPrecio_compra(float precio_compra) {
+        this.precio_compra = precio_compra;
+    }
+
+    public Timestamp getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(Date fechaCompra) {
+    public void setFechaCompra(Timestamp fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
-    
+
     
 }

@@ -183,4 +183,12 @@ public class Proveedor {
         return this.nombre;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if(o!= null && this != null){
+            Proveedor p = (Proveedor) o;
+            return p.getId() == this.id;
+        }
+        return false;
+    }
 }
