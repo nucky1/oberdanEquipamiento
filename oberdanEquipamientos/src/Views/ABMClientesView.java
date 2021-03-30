@@ -54,6 +54,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private DireccionesDAO direccionesDAO;
     private Cliente clienteSeleccionado;
     private Cliente clienteConyugue;
+    private Cliente clienteConyugueAux;
     private Mapa direcciones=null;
     private Pais Pais_selected;
     private Provincia Provincia_selected;
@@ -63,6 +64,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private List <Cliente> listaCliente;
     private boolean modificarTrue=false;
     private String tipoRelacion;
+    private String estadoCivilAnterior;
     /**
      * Creates new form ABMClientesView
      */
@@ -486,6 +488,8 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jMenuItem1.setText("jMenuItem1");
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
         jTextField_referenciaDomicilioCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_referenciaDomicilioClienteActionPerformed(evt);
@@ -500,6 +504,12 @@ public class ABMClientesView extends javax.swing.JPanel {
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList2);
+
+        jTextField_codigoPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_codigoPostalActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Nacionalidad");
 
@@ -644,7 +654,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setText("Estado Civil");
+        jLabel8.setText("Estado Civil:");
 
         jComboBox_calles.setEnabled(false);
         jComboBox_calles.addItemListener(new java.awt.event.ItemListener() {
@@ -823,23 +833,20 @@ public class ABMClientesView extends javax.swing.JPanel {
                                         .addComponent(jButtonNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel27)
-                                    .addGap(36, 36, 36)
-                                    .addComponent(jTextField_numeroDomicilioCliente))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGap(2, 2, 2)
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jTextField_codigoPostal))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel8)
-                                    .addGap(22, 22, 22)
-                                    .addComponent(jComboBox_estadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(377, 377, 377))))
+                                    .addComponent(jLabel7)
+                                    .addComponent(jComboBox_estadoCivil, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField_codigoPostal)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel27)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTextField_numeroDomicilioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(94, 94, 94))))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -872,7 +879,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                     .addComponent(rbtn_clientesDni)
                     .addComponent(rbtn_clientesNombre))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -893,51 +900,49 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCombo_Naciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jButtonAñadirNacion))
+                            .addComponent(jButtonAñadirNacion)
+                            .addComponent(jLabel29))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox_Provincias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
                             .addComponent(jButtonAñadirProvincia)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel29)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jComboBox_Ciudades)
+                    .addComponent(jButtonAñadirCiudad)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
-                            .addComponent(jComboBox_Ciudades)
-                            .addComponent(jButtonAñadirCiudad))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox_Barrios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13)
-                            .addComponent(jButtonAñadirBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonAñadirBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox_estadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jComboBox_calles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonAñadirCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonAñadirCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jComboBox_estadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel27)
-                            .addComponent(jTextField_numeroDomicilioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jTextField_codigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)))
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField_referenciaDomicilioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                    .addComponent(jTextField_referenciaDomicilioCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_numeroDomicilioCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_eliminar)
                     .addComponent(jButton_modificar)
@@ -946,6 +951,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         );
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAñadirBarrio, jButtonAñadirCalle, jButtonAñadirCiudad, jButtonAñadirNacion, jButtonAñadirProvincia});
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel10.setText("DATOS DEL CONYUGE");
 
@@ -1050,6 +1057,8 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jTextFieldObservaciones)))
                 .addGap(40, 40, 40))
         );
+
+        jPanelContactos.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable_tipoYcontacto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1170,7 +1179,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                                     .addComponent(jCheckBox_Otros))
                                 .addComponent(jCheckBoxEsSolicitante)
                                 .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelContactosLayout.setVerticalGroup(
             jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1229,34 +1238,31 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jButtonCancelar)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonGuardarCambios)
-                        .addGap(38, 38, 38))
+                        .addGap(37, 37, 37))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelContactos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(16, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
                         .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCancelar)
-                            .addComponent(jButtonGuardarCambios))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButtonGuardarCambios))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 5, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1660,8 +1666,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_nombreConyugeActionPerformed
 
     private void jComboBox_tipoDocumentoConyugeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoDocumentoConyugeActionPerformed
-        // TODO add your handling code here:
-        jTextField_nombreConyuge.setEnabled(true);
+       
     }//GEN-LAST:event_jComboBox_tipoDocumentoConyugeActionPerformed
 
     private void jTextField_conyugeDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_conyugeDniActionPerformed
@@ -1720,6 +1725,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         if(pos!=-1){
             jButton_modificar.setEnabled(true);
             jButton_eliminar.setEnabled(true);
+            jCheckBoxEsSolicitante.setSelected(false);
+             buttonGroupDocumentacionEntregada.clearSelection();
             cargarDatosCliente(pos);
             
         }
@@ -1824,9 +1831,12 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jButton_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificarActionPerformed
         if(clienteSeleccionado != null){
             modificarTrue = true;
+            //guardo una copia del conyugue recuperado
+            clienteConyugueAux=clienteConyugue;
             habilitarCampos(true);
             cargarNacionalidades();
             jTextField_nombreCliente.requestFocus();
+           
         }  
     }//GEN-LAST:event_jButton_modificarActionPerformed
 
@@ -1917,11 +1927,15 @@ public class ABMClientesView extends javax.swing.JPanel {
         
         
         if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
+           
             //controlo que existan los campos del conyugue:
             if(!Funciones.controlText(jTextField_nombreConyuge.getText())){
                 JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de conyuge","Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            System.out.println("");
+            clienteConyugue= new Cliente();
+            clienteConyugue.setNombre("");
             clienteConyugue.setNombre(jTextField_nombreConyuge.getText());
             
             int aux2= jComboBox_tipoDocumentoConyuge.getSelectedIndex();
@@ -1951,14 +1965,16 @@ public class ABMClientesView extends javax.swing.JPanel {
             
         
         if(modificarTrue){
+            
         int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el cliente: \n"+jTextField_nombreCliente.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             System.out.println("result = " + result);
             if(result == JOptionPane.OK_OPTION){
                 
                 if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
                 	//llamo al medoto actualizarClientes(c1, c2, tipo)
-                	if(actualizarClientes(clienteSeleccionado,clienteConyugue,tipoRelacion)){
+                	if(clientesDao.actualizarClientes(clienteSeleccionado,clienteConyugue,tipoRelacion, clienteConyugueAux.getId())){
                 		//actualize los clientes con exito
+                                
                 		principal.lbl_estado.setText("El cliente se actualizo con exito");
                                 principal.lbl_estado.setForeground(Color.GREEN);
                                 limpiarCampos();
@@ -2035,7 +2051,9 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         clienteSeleccionado= null;
-        
+        clienteConyugue=null;
+        clienteConyugueAux=null;
+        modificarTrue=false;
         limpiarCampos();
         habilitarCampos(false);
         jButton_eliminar.setEnabled(false);
@@ -2129,6 +2147,10 @@ public class ABMClientesView extends javax.swing.JPanel {
              new Statics.ExceptionManager().saveDump(e, "", false);
         }
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
+
+    private void jTextField_codigoPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_codigoPostalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_codigoPostalActionPerformed
 
 
 
@@ -2413,16 +2435,22 @@ public class ABMClientesView extends javax.swing.JPanel {
              
              //DAtos del conyuge:
             //apa la papa, puede traer varios conyugues, nos tenemos que quedar con el ultimo
-            System.out.println("Cargando los datos del cliente cuyo id es: "+clienteSeleccionado.getId());
-           List<Cliente> list =clientesDao.recuperarConyugues(clienteSeleccionado.getId());
+           
+            List<Cliente> list = null;
+           if(!clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
+               list =clientesDao.recuperarConyugues(clienteSeleccionado.getId());
+           }
+             if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
+                 estadoCivilAnterior="CASADO";
+             }  
            if(list!= null){
                System.out.println("En cargar clientes, estoy recuperando conyuge");
-                jTextField_nombreConyuge.setText(list.get(0).getNombre());
-                jTextField_conyugeDni.setText(String.valueOf(list.get(0).getDni()));
-                jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(list.get(0).getTipoDni()).toUpperCase());
-                Date fechaNC= null;
-                fechaNC=list.get(0).getFechaNacimiento();
-                jDateChooser_fechaNacimientoConyuge.setDate(fechaNC);
+            jTextField_nombreConyuge.setText(list.get(0).getNombre());
+            jTextField_conyugeDni.setText(String.valueOf(list.get(0).getDni()));
+            jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(list.get(0).getTipoDni()).toUpperCase());
+            Date fechaNC= null;
+            fechaNC=list.get(0).getFechaNacimiento();
+            jDateChooser_fechaNacimientoConyuge.setDate(fechaNC);
             
             /////una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
             jComboBox_relacionConyuge.setSelectedItem(String.valueOf(list.get(0).getEstadoCivil()).toUpperCase());
@@ -2508,9 +2536,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         }
     }
 
-    private boolean actualizarClientes(Cliente clienteSeleccionado, Cliente clienteConyugue, String tipoRelacion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
     
 
 }

@@ -232,7 +232,7 @@ public class ClientesDAO {
         }
         return exito;
     }
-    public boolean actualizarClientes(Cliente c1, Cliente c2, String tipo) {
+    public boolean actualizarClientes(Cliente c1, Cliente c2, String tipo, int idConyugueAnterior) {
         int idCliente2 = -1;
         int res = 1;
         int res2= 1;
@@ -256,10 +256,13 @@ public class ClientesDAO {
                     if(rs.first()){
                         // a divorciar() lo debo llamar si o si ordenado!
                         if(c1.getId()== rs.getInt("cliente1_id") && idCliente2 == rs.getInt("cliente2_id")){
-                            exito= this.divorciar(c1,buscarCliente(idCliente2));
+                            exito=this.divorciar(c1, buscarCliente(idConyugueAnterior));
+                            //exito= this.divorciar(c1,buscarCliente(idCliente2));
+                            if(exito) System.out.println("en  actualizar clientes, Tuve exito divorciando");
                         }
                         if(c1.getId()== rs.getInt("cliente2_id") && idCliente2 == rs.getInt("cliente1_id")){
                             exito= this.divorciar(buscarCliente(idCliente2),c1);
+                            if(exito) System.out.println("en  actualizar clientes, Tuve exito divorciando");
                         }
                         
                     }
@@ -267,6 +270,7 @@ public class ClientesDAO {
                   
 
             }
+            
             }catch(Exception ex){
                 ex.printStackTrace();
             }
@@ -284,6 +288,7 @@ public class ClientesDAO {
                 if(rs.first()){
                     //El cliente existe
                     exito= this.casar(c1,buscarCliente(rs.getInt("id")),tipo);
+                    if(exito) System.out.println("en  actualizar clientes, Tuve exito casando");
                 }
                 else{
                    //el cliente no existe
@@ -400,7 +405,7 @@ public class ClientesDAO {
         }else{
             if(c.getContacto()!=null){
                 if(c.getContacto().size() > 0){
-                SQL = " DELETE FROM contactos WHERE persona_id = "+c.getId()+" AND tipo_persona = 'CLIENTE' AND state = 'ACTIVO'";
+                SQL = " DELETE FROM contactos WHERE id_persona = "+c.getId()+" AND tipo_persona = 'CLIENTE' AND state = 'ACTIVO'";
                 res = conexion.EjecutarOperacion(SQL);
                 SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
                 for(int i = c.getContacto().size()-1 ; i > 0; i--){
@@ -415,6 +420,7 @@ public class ClientesDAO {
                 //que pasa si  el cliente estaba casado y pasa a divorciarse..
                 if(c.getEstadoCivil().equalsIgnoreCase("DIVORCIADO")){
                     //busco la relacion que ya tenia, 
+                    
                 }
             }
             }
