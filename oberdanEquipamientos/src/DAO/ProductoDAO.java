@@ -252,7 +252,7 @@ public class ProductoDAO {
     }
 
     public void setStockActual(int idStock, float stock) {
-        String SQL = "UPDATE INTO art_Stock SET stock_actual = "+stock+" WHERE id = "+idStock;
+        String SQL = "UPDATE art_Stock SET stock_actual = "+stock+" WHERE id = "+idStock;
         conexion.EjecutarOperacion(SQL);
     }
 
@@ -286,7 +286,7 @@ public class ProductoDAO {
                 + "VALUES "
                 + "("+id+","+s.getStock_actual()+","
                 + s.getStock_ingresado()+","+s.getStock_pedido()+","+s.getStock_reservado()+","
-                + s.getPrecio_compra()+","+s.getFechaCompra()+")";
+                + s.getPrecio_compra()+",'"+s.getFechaCompra()+"')";
         conexion.EjecutarOperacion(SQL);
     }
 

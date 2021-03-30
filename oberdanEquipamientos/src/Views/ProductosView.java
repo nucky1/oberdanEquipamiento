@@ -4000,7 +4000,10 @@ public void limpiarCamposInventario() {
             s.setPrecio_compra(pc);
             productoDAO.insertarStock(s,prodSeleccionado.getId());
             limpiarCamposStockNuevo();
-            if(editarStock.isVisible()){
+            if(editarStock != null && editarStock.isVisible()){
+                sa+=prodSeleccionado.getStock()+si+sp;
+                prodSeleccionado.setStock(sa);
+                editarStock.actualizarTotal(sa);
                 editarStock.cargarTablaProd(productoDAO.getStockProducto(prodSeleccionado.getId()));
             }else{
                 stock.setText(sa+si+sp+"");

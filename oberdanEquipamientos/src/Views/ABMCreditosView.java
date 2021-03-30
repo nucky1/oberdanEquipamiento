@@ -87,6 +87,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         jLabel44 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDialogAñadirPlan = new javax.swing.JDialog();
         jLabel36 = new javax.swing.JLabel();
@@ -227,6 +228,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
         btn_guardarCredito1 = new javax.swing.JButton();
 
         jButton3.setText("Calcular unificación");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         tabla_creditosUnificar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -249,7 +255,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tabla_creditosUnificar);
 
-        jLabel7.setText("Creditos disponibles para unificar:");
+        jLabel7.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel7.setText("Seleccione los creditos con los que quiera unificar.");
 
         jLabel10.setText("Importe crédito final:");
 
@@ -271,51 +278,55 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
         jButton5.setText("Cancelar");
 
+        jLabel34.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel34.setText("Creditos disponibles para unificar:");
+
         javax.swing.GroupLayout jDialogUnificarCreditosLayout = new javax.swing.GroupLayout(jDialogUnificarCreditos.getContentPane());
         jDialogUnificarCreditos.getContentPane().setLayout(jDialogUnificarCreditosLayout);
         jDialogUnificarCreditosLayout.setHorizontalGroup(
             jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
-                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3)
-                            .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
-                                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
-                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel12))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(34, 34, 34)
-                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel44)
-                                            .addComponent(jLabel40))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogUnificarCreditosLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton3))))
-                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
-                        .addGap(190, 190, 190)
+                .addContainerGap()
+                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogUnificarCreditosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogUnificarCreditosLayout.createSequentialGroup()
+                        .addGap(180, 180, 180)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 294, Short.MAX_VALUE)
                         .addComponent(jButton4)
-                        .addGap(257, 257, 257)))
+                        .addGap(257, 257, 257))
+                    .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
+                        .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(jDialogUnificarCreditosLayout.createSequentialGroup()
+                                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel12))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(34, 34, 34)
+                                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel44)
+                                    .addComponent(jLabel40))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel34))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jDialogUnificarCreditosLayout.setVerticalGroup(
             jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogUnificarCreditosLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jLabel34)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -337,7 +348,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addGroup(jDialogUnificarCreditosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel36.setText("Tipo");
@@ -1319,7 +1330,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addComponent(jLabel42)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel24)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1336,11 +1347,9 @@ public class ABMCreditosView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel43)
-                            .addComponent(lbl_fechaAprobacion))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(lbl_vendedor)
-                        .addContainerGap(146, Short.MAX_VALUE))))
+                            .addComponent(lbl_fechaAprobacion)))
+                    .addComponent(lbl_vendedor, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         txt_importeFinalCredito.setEditable(false);
@@ -1861,6 +1870,20 @@ public class ABMCreditosView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_guardarCredito1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int[] rows = tabla_creditosUnificar.getSelectedRows();
+        if(rows.length > 0){
+            for(int i = 0; i < rows.length; i++){
+                Credito c = listCredUnificables.get(rows[i]);
+                
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un credito para calcular la unificacion.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarArticulo;
@@ -1912,6 +1935,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -2234,32 +2258,29 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
     private void comprobarUnificacion() {
         if(creditoSelected.getPlan() == null){
-            JOptionPane.showMessageDialog(null, "Debe agregar productos y seleccionar un plan para poder unificar.",
+            JOptionPane.showMessageDialog(null, "Debe agregar los productos del credito y seleccionar un plan para poder unificar.",
                 "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        ArrayList<Credito> creditos = creditoDAO.getCreditosUnificables(creditoSelected.getPlan(),creditoSelected.getCliente().getId());
-        if(creditos.size() > 0){
+        listCredUnificables = creditoDAO.getCreditosUnificables(creditoSelected.getPlan(),creditoSelected.getCliente().getId());
+        if(listCredUnificables.size() > 0){
             jDialogUnificarCreditos.setTitle("Creditos para unificar");
             jDialogUnificarCreditos.setVisible(true);
             jDialogUnificarCreditos.setModal(true);
             jDialogUnificarCreditos.setSize(895, 274);
             jDialogUnificarCreditos.setLocationRelativeTo(this);
             DefaultTableModel model = (DefaultTableModel) tabla_creditosUnificar.getModel();
-            for (int i = 0; i < creditos.size(); i++) {
+            for (int i = 0; i < listCredUnificables.size(); i++) {
                 Object[] o = new Object[9];
-                if(creditos.get(i).getTipo().equals("SOLICITUD")){
-                    o[0] = creditos.get(i).getSolicitud_id();
-                    o[1] = creditos.get(i).getFecha_solicitud();
-                }else{
-                    o[0] = creditos.get(i).getId();
-                    o[1] = creditos.get(i).getFecha_credito();
-                    o[2] = creditos.get(i).getImporte_credito();
-                    o[3] = creditos.get(i).getTipo();
-                    o[4] = creditos.get(i).getImporte_deuda();
-                    o[5] = creditos.get(i).getAnticipo();
-                    o[6] = creditos.get(i).getImporte_cuota();
-                    o[7] = creditos.get(i).getImporte_total();
+                if(!listCredUnificables.get(i).getTipo().equals("SOLICITUD")){
+                    o[0] = listCredUnificables.get(i).getId();
+                    o[1] = listCredUnificables.get(i).getFecha_credito();
+                    o[2] = listCredUnificables.get(i).getImporte_credito();
+                    o[3] = listCredUnificables.get(i).getTipo();
+                    o[4] = listCredUnificables.get(i).getImporte_deuda();
+                    o[5] = listCredUnificables.get(i).getAnticipo();
+                    o[6] = listCredUnificables.get(i).getImporte_cuota();
+                    o[7] = listCredUnificables.get(i).getImporte_total();
                 }
                 model.addRow(o);
             }

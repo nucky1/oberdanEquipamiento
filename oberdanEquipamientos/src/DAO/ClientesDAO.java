@@ -337,10 +337,11 @@ public class ClientesDAO {
                 c.setEstadoCivil(rs.getString("rel2.tipo"));
                 list.add(c);
             }
+            return list;
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        return list;
+        return null;
                 
     }
 
