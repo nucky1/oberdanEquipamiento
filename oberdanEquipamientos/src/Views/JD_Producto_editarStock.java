@@ -3,13 +3,10 @@ package Views;
 import DAO.ProductoDAO;
 import Models.Producto;
 import Models.Stock;
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +16,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
     private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     private ProductoDAO productoDAO;
     private int idStock;
+    private List<Stock> listStock;
     private Map<Integer, Float> cantidades = new HashMap<Integer, Float>();
     private Float stockExistente; 
     
@@ -58,8 +56,8 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
             for (int i = 0; i < list.size(); i++) {
                 Stock s = list.get(i);
                 obj[0] = s.getId();
-                obj[1] = s.getStockActual();
-                obj[2] = s.getPrecioId();
+                obj[1] = s.getStock_actual();
+                obj[2] = s.getPrecio_compra();
                 obj[3] = s.getFechaCompra();
                 tabla.addRow(obj);
             }
@@ -73,6 +71,8 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         stockTotal.setText(""+prod.getStock());
         stockExistente = (float) prod.getStock();
         codigo.setText("# "+prod.getId());
+        listStock = productoDAO.getStockProducto(prod.getId());
+        cargarTablaProd(listStock);
     }
     
     @SuppressWarnings("unchecked")
@@ -88,7 +88,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jLabel5 = new javax.swing.JLabel();
         stock_actual = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        btn_guardar_lote1 = new javax.swing.JButton();
+        btn_regresar = new javax.swing.JButton();
         jLabelStockTotal = new javax.swing.JLabel();
         stockTotal = new javax.swing.JTextField();
         jLabelUnidades = new javax.swing.JLabel();
@@ -139,7 +139,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jPanel2.add(nuevo_stock, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 108, 35));
 
         btn_guardar_lote.setBackground(new java.awt.Color(255, 255, 255));
-        btn_guardar_lote.setText("Guardar");
+        btn_guardar_lote.setText("Crear nuevo stock");
         btn_guardar_lote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_guardar_loteActionPerformed(evt);
@@ -150,7 +150,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
                 btn_guardar_loteKeyPressed(evt);
             }
         });
-        jPanel2.add(btn_guardar_lote, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 170, 80, 40));
+        jPanel2.add(btn_guardar_lote, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 140, 30));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -171,15 +171,14 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jLabel7.setText("unidades");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, 180, -1));
 
-        btn_guardar_lote1.setBackground(new java.awt.Color(255, 255, 255));
-        btn_guardar_lote1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/return.png"))); // NOI18N
-        btn_guardar_lote1.setText("Regresar");
-        btn_guardar_lote1.addActionListener(new java.awt.event.ActionListener() {
+        btn_regresar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_regresar.setText("Regresar");
+        btn_regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardar_lote1ActionPerformed(evt);
+                btn_regresarActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_guardar_lote1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, 39));
+        jPanel2.add(btn_regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 170, -1, 39));
 
         jLabelStockTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelStockTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -340,23 +339,16 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         }
     }//GEN-LAST:event_aplicarActionPerformed
 
-    private void btn_guardar_lote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar_lote1ActionPerformed
+    private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
+        float st = 0f;
+        if(Statics.Funciones.isFloat(stockTotal.getText()))
+            st = Float.parseFloat(stockTotal.getText());
+        setStock(st);
         dispose();
-    }//GEN-LAST:event_btn_guardar_lote1ActionPerformed
+    }//GEN-LAST:event_btn_regresarActionPerformed
 
     private void btn_guardar_loteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar_loteActionPerformed
-        float stock = 0f;
-        try{
-            stock = Float.parseFloat(nuevo_stock.getText());
-            if (stock<0)
-                stock = Float.parseFloat("error numero negativo");
-            stock += Float.parseFloat(stock_actual.getText());
-            dispose();
-        }catch(Exception ex){
-            nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255,0,0),1));
-            //ex.printStackTrace();
-        }
-
+        nuevoStock();
     }//GEN-LAST:event_btn_guardar_loteActionPerformed
 
     private void nuevo_stockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nuevo_stockKeyTyped
@@ -399,14 +391,14 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
                 btn_guardar_lote.doClick(); 
             }
     }//GEN-LAST:event_btn_guardar_loteKeyPressed
-     public abstract float getCantidadIgresada();
-
+     public abstract void setStock(float st);
+     public abstract void nuevoStock();
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aplicar;
     private javax.swing.JButton btn_guardar_lote;
-    private javax.swing.JButton btn_guardar_lote1;
+    private javax.swing.JButton btn_regresar;
     private javax.swing.JTextField codigo;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;

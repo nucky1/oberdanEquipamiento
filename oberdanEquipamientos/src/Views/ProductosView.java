@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -118,6 +119,7 @@ public void limpiarCamposInventario() {
         DefaultTableModel aux =(DefaultTableModel) tabla_producto_precioVenta.getModel();
         aux.setNumRows(0);
         tabla_producto_precioVenta.setEnabled(false);
+        Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText());
      }
     public void limpiarCamposDevo(){
         Pestaña1_dinamica.devoSelect = null;
@@ -213,6 +215,23 @@ public void limpiarCamposInventario() {
         jLabel40 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
+        jDialogNuevoStock = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txt_stockPedido = new javax.swing.JTextField();
+        txt_StockActual = new javax.swing.JTextField();
+        txt_stockReservado = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        txt_stockIngresado = new javax.swing.JTextField();
+        txt_precioCompra = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        date_fechaCompra = new com.toedter.calendar.JDateChooser();
+        btn_cancelar = new javax.swing.JButton();
+        btn_GuardarNuevoStock = new javax.swing.JButton();
         tabla_productos = new javax.swing.JTabbedPane();
         panel_productos_detalle = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
@@ -392,6 +411,8 @@ public void limpiarCamposInventario() {
         jLabel177 = new javax.swing.JLabel();
         cbox_tipo_factura = new javax.swing.JComboBox();
 
+        jDialogAñadirRubro.setBackground(new java.awt.Color(255, 255, 255));
+
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtf_nuevo_rubro.addActionListener(new java.awt.event.ActionListener() {
@@ -432,6 +453,8 @@ public void limpiarCamposInventario() {
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jDialogCrearNota.setBackground(new java.awt.Color(255, 255, 255));
 
         tabla_nota_prodPedir.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -668,6 +691,8 @@ public void limpiarCamposInventario() {
                 .addContainerGap())
         );
 
+        jDialogAñadirPlan.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel36.setText("Tipo");
 
         jButton1.setText("Guardar");
@@ -782,6 +807,61 @@ public void limpiarCamposInventario() {
                     .addComponent(jButton2))
                 .addContainerGap())
         );
+
+        jDialogNuevoStock.setBackground(new java.awt.Color(255, 255, 255));
+        jDialogNuevoStock.setLocationByPlatform(true);
+        jDialogNuevoStock.setMaximumSize(new java.awt.Dimension(400, 400));
+        jDialogNuevoStock.setMinimumSize(new java.awt.Dimension(400, 400));
+        jDialogNuevoStock.setPreferredSize(new java.awt.Dimension(400, 400));
+        jDialogNuevoStock.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setText("No se encontro stock del producto.");
+        jDialogNuevoStock.getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 211, 22));
+
+        jLabel5.setText("Stock actual");
+        jDialogNuevoStock.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 91, 157, 22));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel6.setText("Complete los siguientes campos para generar el stock en inventario.");
+        jDialogNuevoStock.getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 39, 368, 22));
+
+        jLabel11.setText("Stock pedido");
+        jDialogNuevoStock.getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 166, 157, 22));
+        jDialogNuevoStock.getContentPane().add(txt_stockPedido, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 194, 157, -1));
+        jDialogNuevoStock.getContentPane().add(txt_StockActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 119, 157, -1));
+        jDialogNuevoStock.getContentPane().add(txt_stockReservado, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 119, 157, -1));
+
+        jLabel12.setText("Stock reservado");
+        jDialogNuevoStock.getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 91, 157, 22));
+
+        jLabel13.setText("Stock ingresado");
+        jDialogNuevoStock.getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 166, 157, 22));
+        jDialogNuevoStock.getContentPane().add(txt_stockIngresado, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 194, 157, -1));
+        jDialogNuevoStock.getContentPane().add(txt_precioCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 266, 157, -1));
+
+        jLabel14.setText("Fecha compra");
+        jDialogNuevoStock.getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 238, 157, 22));
+
+        jLabel15.setText("Precio compra");
+        jDialogNuevoStock.getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 238, 157, 22));
+        jDialogNuevoStock.getContentPane().add(date_fechaCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(221, 266, 157, -1));
+
+        btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
+        jDialogNuevoStock.getContentPane().add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 311, -1, -1));
+
+        btn_GuardarNuevoStock.setText("Guardar");
+        btn_GuardarNuevoStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_GuardarNuevoStockActionPerformed(evt);
+            }
+        });
+        jDialogNuevoStock.getContentPane().add(btn_GuardarNuevoStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 310, -1, -1));
 
         setMaximumSize(new java.awt.Dimension(1366, 735));
         setPreferredSize(new java.awt.Dimension(1200, 627));
@@ -1528,7 +1608,7 @@ public void limpiarCamposInventario() {
                             .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                            .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                            .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -1975,7 +2055,7 @@ public void limpiarCamposInventario() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDevoluciones2Layout.createSequentialGroup()
                 .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
-                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, 516, Short.MAX_VALUE)
+                .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
                 .addGap(51, 51, 51))
         );
 
@@ -2106,7 +2186,7 @@ public void limpiarCamposInventario() {
             .addGroup(panel_devosLayout.createSequentialGroup()
                 .addComponent(jPanelDevoluciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panel_devosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelDevoluciones3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2259,7 +2339,7 @@ public void limpiarCamposInventario() {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                 .addGap(249, 249, 249))
         );
 
@@ -2607,7 +2687,7 @@ public void limpiarCamposInventario() {
                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_nota_nueva, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_lote_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabla_productos.addTab("Pedidos", panel_pedidos);
@@ -2620,7 +2700,7 @@ public void limpiarCamposInventario() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -2795,15 +2875,28 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_btn_consultar_historialActionPerformed
 
     private void btn_producto_editarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_producto_editarLoteActionPerformed
-        if (Pestaña1_dinamica.prodSeleccionado != null) {
+        if (Pestaña1_dinamica.prodSeleccionado != null && !productoDAO.getStockProducto(Pestaña1_dinamica.prodSeleccionado.getId()).isEmpty()) {
             editarStock = new JD_Producto_editarStock(new JFrame(), true, Pestaña1_dinamica.prodSeleccionado) {
                 
-                public float getCantidadIgresada() {
-                    return 1f;
+                public void setStock(float st){
+                    stock.setText(st+"");
+                }
+                public void nuevoStock(){
+                    jDialogNuevoStock.setTitle("Añadir stock nuevo");
+                    jDialogNuevoStock.setVisible(true);
+                    jDialogNuevoStock.setModal(true);
+                    jDialogNuevoStock.setLocationRelativeTo(this);
+                    Pestaña1_dinamica.limpiarCamposStockNuevo();
                 }
             };
             editarStock.setLocationRelativeTo(null);
             editarStock.setVisible(true);
+        }else{
+            jDialogNuevoStock.setTitle("Añadir stock nuevo");
+            jDialogNuevoStock.setVisible(true);
+            jDialogNuevoStock.setModal(true);
+            jDialogNuevoStock.setLocationRelativeTo(this);
+            Pestaña1_dinamica.limpiarCamposStockNuevo();
         }
     }//GEN-LAST:event_btn_producto_editarLoteActionPerformed
 
@@ -2856,7 +2949,30 @@ public void limpiarCamposInventario() {
                 producto_Rubro.addItem(t);
             });
         }
-        
+        if(Pestaña1_dinamica.prodSeleccionado != null){
+            Proveedor aux;
+            Rubro aux1;
+            if(Pestaña1_dinamica.prodSeleccionado.getIdProveedorActual() == -1){
+                aux = new Proveedor();
+                aux.setNombre("No se encontraron proveedores");
+                aux.setId(-1);
+                
+            }else{
+                aux = proveedoresDAO.getProveedor(Pestaña1_dinamica.prodSeleccionado.getIdProveedorActual());
+                producto_Proveedor.setSelectedItem(aux);
+            }
+            if(Pestaña1_dinamica.prodSeleccionado.getIdProductoRubro() == -1){
+                aux1 = new Rubro();
+                aux.setNombre("No se encontraron rubros");
+                aux.setId(-1);
+                producto_Rubro.setSelectedItem(aux);
+            }else{
+                aux1 = new Rubro();
+                aux1.setId(Pestaña1_dinamica.prodSeleccionado.getIdProductoRubro());
+                aux1.setNombre(Pestaña1_dinamica.prodSeleccionado.getNombreRubro());
+                producto_Rubro.setSelectedItem(aux1);
+            }
+        }
     }//GEN-LAST:event_btn_ModificarActionPerformed
 
     private void btn_productoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productoNuevoActionPerformed
@@ -3173,11 +3289,23 @@ public void limpiarCamposInventario() {
         }
     }//GEN-LAST:event_mes_vencimientoKeyTyped
 
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        Pestaña1_dinamica.limpiarCamposStockNuevo();
+        jDialogNuevoStock.dispose();
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_GuardarNuevoStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarNuevoStockActionPerformed
+        Pestaña1_dinamica.insertarStockNuevo();
+        jDialogNuevoStock.dispose();
+    }//GEN-LAST:event_btn_GuardarNuevoStockActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancelar;
     private javax.swing.JButton btn_Guardar;
+    private javax.swing.JButton btn_GuardarNuevoStock;
     private javax.swing.JButton btn_Modificar;
+    private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_consultar_historial;
     private javax.swing.JButton btn_crearPago;
     private javax.swing.JButton btn_crearRubro;
@@ -3201,6 +3329,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JComboBox cbox_tipo_factura;
     private javax.swing.JCheckBox chk_venta_iva;
     private javax.swing.JComboBox combo_forma_pago;
+    private com.toedter.calendar.JDateChooser date_fechaCompra;
     private com.toedter.calendar.JDateChooser date_nota_fecha_factura;
     private com.toedter.calendar.JDateChooser date_nota_fecha_pago;
     private javax.swing.JTextField dia_vencimiento;
@@ -3217,11 +3346,17 @@ public void limpiarCamposInventario() {
     private javax.swing.JDialog jDialogAñadirPlan;
     private javax.swing.JDialog jDialogAñadirRubro;
     private javax.swing.JDialog jDialogCrearNota;
+    private javax.swing.JDialog jDialogNuevoStock;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel115;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel137;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel141;
     private javax.swing.JLabel jLabel142;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel165;
     private javax.swing.JLabel jLabel167;
     private javax.swing.JLabel jLabel168;
@@ -3248,6 +3383,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel237;
     private javax.swing.JLabel jLabel238;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
@@ -3259,6 +3395,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
@@ -3267,6 +3404,7 @@ public void limpiarCamposInventario() {
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
@@ -3359,6 +3497,11 @@ public void limpiarCamposInventario() {
     private javax.swing.JTable tabla_productos_busqueda;
     private javax.swing.JTable tabla_productos_pedido;
     private javax.swing.JTextField tipo_cuota;
+    private javax.swing.JTextField txt_StockActual;
+    private javax.swing.JTextField txt_precioCompra;
+    private javax.swing.JTextField txt_stockIngresado;
+    private javax.swing.JTextField txt_stockPedido;
+    private javax.swing.JTextField txt_stockReservado;
     private javax.swing.JTextField txtf_codDevolucion;
     private javax.swing.JTextField txtf_codigoProd;
     protected javax.swing.JTextField txtf_devo_codigo;
@@ -3800,7 +3943,7 @@ public void limpiarCamposInventario() {
                 int dialogButton = JOptionPane.YES_NO_OPTION;
                 int opcion = JOptionPane.showConfirmDialog(null, "¿Confirma que desea eliminar el producto? \n ", "Importante", dialogButton);
                 if (opcion == JOptionPane.YES_OPTION) { //The ISSUE is here
-                    if (productoDAO.eliminarProducto(prodSeleccionado) == 1) {
+                    if (productoDAO.eliminarProducto(prodSeleccionado) >= 1) {
                         principal.lbl_estado.setText("Producto Eliminado");
                     } else {
                         JOptionPane.showMessageDialog(null, "No se pudo eliminar el producto",
@@ -3821,6 +3964,47 @@ public void limpiarCamposInventario() {
         private void actualizarPrecios() {
             cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
             calcularPrecios();
+        }
+
+        private void limpiarCamposStockNuevo() {
+            txt_StockActual.setText("0");
+            txt_stockIngresado.setText("0");
+            txt_stockPedido.setText("0");
+            txt_stockReservado.setText("0");
+            txt_precioCompra.setText("0");
+            date_fechaCompra.setDate(new Date());
+        }
+
+        private void insertarStockNuevo() {
+            Stock s = new Stock();
+            int sa = 0;
+            int si = 0;
+            int sp = 0;
+            int sr = 0;
+            float pc = 0f;
+            if(Statics.Funciones.isNumeric(txt_StockActual.getText()))
+                sa = Integer.parseInt(txt_StockActual.getText());
+            if(Statics.Funciones.isNumeric(txt_stockIngresado.getText()))
+                si = Integer.parseInt(txt_stockIngresado.getText());
+            if(Statics.Funciones.isNumeric(txt_stockPedido.getText()))
+                sp = Integer.parseInt(txt_stockPedido.getText());
+            if(Statics.Funciones.isNumeric(txt_stockReservado.getText()))
+                sr = Integer.parseInt(txt_stockReservado.getText());
+            if(Statics.Funciones.isFloat(txt_precioCompra.getText()))
+                pc = Float.parseFloat(txt_precioCompra.getText());
+            s.setFechaCompra(new Timestamp(date_fechaCompra.getDate().getTime()));
+            s.setStock_actual(sa);
+            s.setStock_ingresado(si);
+            s.setStock_pedido(sp);
+            s.setStock_reservado(sr);
+            s.setPrecio_compra(pc);
+            productoDAO.insertarStock(s,prodSeleccionado.getId());
+            limpiarCamposStockNuevo();
+            if(editarStock.isVisible()){
+                editarStock.cargarTablaProd(productoDAO.getStockProducto(prodSeleccionado.getId()));
+            }else{
+                stock.setText(sa+si+sp+"");
+            }
         }
 
         

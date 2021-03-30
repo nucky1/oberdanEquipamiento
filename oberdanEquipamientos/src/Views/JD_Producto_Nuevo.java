@@ -237,6 +237,7 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
                 int rs = productoDAO.productoEliminado(p.getCod());
                     if(rs==-1 || rs == 0 ){
                         productoDAO.nuevoProducto(p);
+                        view.limpiarCamposInventario();
                         dispose();
                     }else{
                         int i = 0;
@@ -246,6 +247,7 @@ public class JD_Producto_Nuevo extends javax.swing.JDialog{
                         if(JOptionPane.YES_OPTION == resp){
                             productoDAO.eliminarProducto(p);
                             productoDAO.actualizarProducto(p);
+                            view.limpiarCamposInventario();
                             dispose();
                         }
                     }

@@ -10,8 +10,8 @@ package Models;
  * @author demig
  */
 public class Rubro {
-    private String nombre;
-    private int id;
+    private String nombre = "";
+    private int id = -1;
 
     public int getId() {
         return id;
@@ -34,6 +34,8 @@ public class Rubro {
     @Override
     public boolean equals(Object o){
         Rubro b = (Rubro) o;
-        return this.id == b.getId() && b.getNombre().equalsIgnoreCase(this.nombre);
+        if( o!= null && this != null && this.nombre != null && b.getNombre() != null)
+            return this.id == b.getId() && b.getNombre().equalsIgnoreCase(this.nombre);
+        return false;
     }
 }

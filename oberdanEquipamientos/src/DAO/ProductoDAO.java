@@ -6,12 +6,15 @@
 package DAO;
 
 import Models.Producto;
+import Models.Stock;
 import Views.Main;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -154,9 +157,13 @@ public class ProductoDAO {
         return conexion.EjecutarOperacion(SQL);
     }
     public int eliminarProducto(Producto p) {
+        int res = 0;
         String SQL = "UPDATE `articulos` SET `state`='BAJA'"
                 +" WHERE id = "+p.getId();
-        return conexion.EjecutarOperacion(SQL);
+        res += conexion.EjecutarOperacion(SQL);
+        SQL = "UPDATE art_stock SET state = BAJA WHERE producto_id = "+p.getId();
+        res += conexion.EjecutarOperacion(SQL);
+        return res;
     }
     public int nuevoProducto(Producto p) {
         String SQL = "INSERT INTO `articulos` SET `nombre`='"+p.getNombre()+"',`cod`="+p.getCod()+","
@@ -245,7 +252,41 @@ public class ProductoDAO {
     }
 
     public void setStockActual(int idStock, float stock) {
-        String SQL = "INSERT INTO art_Stock SET stock_actual = "+stock;
+        String SQL = "UPDATE INTO art_Stock SET stock_actual = "+stock+" WHERE id = "+idStock;
+        conexion.EjecutarOperacion(SQL);
+    }
+
+    public List<Stock> getStockProducto(int id) {
+        List<Stock> st = new ArrayList<>();
+        try {
+            String SQL = "SELECT  * FROM art_stock WHERE producto_id = "+id+" AND state = 'ACTIVO'";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            while(rs.next()){
+                Stock s = new Stock();
+                s.setId(rs.getInt("id"));
+                s.setFechaCompra(rs.getTimestamp("fecha_ult_compra"));
+                s.setPrecio_compra(rs.getFloat("precio_compra"));
+                s.setStock_actual(rs.getInt("stock_actual"));
+                s.setStock_ingresado(rs.getInt("stock_ingresado"));
+                s.setStock_pedido(rs.getInt("stock_pedido"));
+                s.setStock_reservado(rs.getInt("stock_reservado"));
+                st.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return st;
+    }
+
+    public void insertarStock(Stock s, int id) {
+        String SQL = "INSERT INTO `art_stock`"
+                + "(`producto_id`, `stock_actual`,"
+                + " `stock_ingresado`, `stock_pedido`, `stock_reservado`, "
+                + "`precio_compra`, `fecha_ult_compra`) "
+                + "VALUES "
+                + "("+id+","+s.getStock_actual()+","
+                + s.getStock_ingresado()+","+s.getStock_pedido()+","+s.getStock_reservado()+","
+                + s.getPrecio_compra()+","+s.getFechaCompra()+")";
         conexion.EjecutarOperacion(SQL);
     }
 
