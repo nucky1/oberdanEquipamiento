@@ -1102,6 +1102,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
+        jButton_eliminarContacto.setBackground(new java.awt.Color(204, 0, 0));
         jButton_eliminarContacto.setText("-");
         jButton_eliminarContacto.setEnabled(false);
         jButton_eliminarContacto.addActionListener(new java.awt.event.ActionListener() {
@@ -1110,6 +1111,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
+        jButtonAñadirTipoContacto.setBackground(new java.awt.Color(51, 255, 51));
         jButtonAñadirTipoContacto.setText("+");
         jButtonAñadirTipoContacto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1832,7 +1834,11 @@ public class ABMClientesView extends javax.swing.JPanel {
         if(clienteSeleccionado != null){
             modificarTrue = true;
             //guardo una copia del conyugue recuperado
-            clienteConyugueAux=clienteConyugue;
+            estadoCivilAnterior=clienteSeleccionado.getEstadoCivil();
+            if(!estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){
+                List<Cliente> list = clientesDao.buscarCliente("dni", String.valueOf(clienteConyugue.getDni()));
+                clienteConyugueAux=list.get(0);
+            }
             habilitarCampos(true);
             cargarNacionalidades();
             jTextField_nombreCliente.requestFocus();
@@ -1852,9 +1858,12 @@ public class ABMClientesView extends javax.swing.JPanel {
                     
         }
         DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
-        if(model.getRowCount()==0){
+        if(!modificarTrue){
+            //no estoy modificando, entiendo que estoy guardando un cliente nuevo por ende debe si o si tener un contacto al menos
+            if(model.getRowCount()==0){
             JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
             return;
+        }
         }
                 
         if(Funciones.compareStrings("-", String.valueOf(jComboBox_calles.getSelectedItem()))){
@@ -1970,9 +1979,96 @@ public class ABMClientesView extends javax.swing.JPanel {
             System.out.println("result = " + result);
             if(result == JOptionPane.OK_OPTION){
                 
-                if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
-                	//llamo al medoto actualizarClientes(c1, c2, tipo)
-                	if(clientesDao.actualizarClientes(clienteSeleccionado,clienteConyugue,tipoRelacion, clienteConyugueAux.getId())){
+                if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){
+                    //estaba soltero, y sigue soltero.
+                    //un tipo astuto
+                    if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                            principal.lbl_estado.setText("El cliente se actualizo con exito");
+                            principal.lbl_estado.setForeground(Color.GREEN);
+                            limpiarCampos();
+                            habilitarCampos(false);
+                        }else{
+                            principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                            principal.lbl_estado.setForeground(Color.RED);
+                        }
+                }
+               
+                else{
+                    
+                    if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("DIVORCIADO") && estadoCivilAnterior.equalsIgnoreCase("CASADO")){
+                        // CASO simple que solo se divorcian
+                        if(clientesDao.divorciar(clienteSeleccionado, clienteConyugue)){
+                         	//actualize los clientes con exito
+                                
+                		principal.lbl_estado.setText("El cliente se DIVORCIO con exito");
+                                principal.lbl_estado.setForeground(Color.GREEN);
+                                limpiarCampos();
+                                habilitarCampos(false);
+                	}
+                	else{
+                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                   		 principal.lbl_estado.setForeground(Color.RED);
+                	}
+                    }
+                    //llamo al medoto actualizarClientes(c1, c2, tipo)
+                        
+                    if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){
+                        //estaba soltero y se caso
+                        if(clientesDao.casar(clienteSeleccionado, clienteConyugue, tipoRelacion)){
+                         	//actualize los clientes con exito
+                                
+                		if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                principal.lbl_estado.setForeground(Color.GREEN);
+                                limpiarCampos();
+                                habilitarCampos(false);
+                                }
+                	}
+                	else{
+                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                   		 principal.lbl_estado.setForeground(Color.RED);
+                	}
+                    }
+                    if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")&& estadoCivilAnterior.equalsIgnoreCase("DIVORICADO") ){
+                        //Estaba divorciado y pasa a casarse
+                         if(clientesDao.casar(clienteSeleccionado, clienteConyugue, tipoRelacion)){
+                         	//actualize los clientes con exito
+                                
+                		if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                principal.lbl_estado.setForeground(Color.GREEN);
+                                limpiarCampos();
+                                habilitarCampos(false);
+                                }
+                	}
+                	else{
+                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                   		 principal.lbl_estado.setForeground(Color.RED);
+                	}
+                    }
+                    else{
+                        //Tiene una nueva pareja, sigue casado-
+                        // o tal vez solo quiere cambiar los datos de un matrimonio
+                        
+                        if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase(estadoCivilAnterior) && clienteConyugue.getDni() == clienteConyugueAux.getDni())
+                        {
+                            //asumo que solo esta modificando los datos del matrimonio
+                             int resultado = JOptionPane.showConfirmDialog(null, "UD INTENTA MODIFICAR EL CLIENTE NOMBRE: \n"+jTextField_nombreCliente.getText()+" PERO REPITIO EL DNI DEL CONYUGUE \nSI DESEA MODIFICAR AL CONYUGUE, DEBE BUSCARLO POR SU NOMBRE","MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+                             if(resultado == JOptionPane.OK_OPTION){
+                                 if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                    principal.lbl_estado.setForeground(Color.GREEN);
+                                    limpiarCampos();
+                                    habilitarCampos(false);
+                                 }
+                                 else{
+                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                   		 principal.lbl_estado.setForeground(Color.RED);
+                                } 
+                             }
+                        }
+                        //debo divorciarlo de la pareja anterior, y asignarle una nueva pareja
+                        else if(clientesDao.actualizarClientes(clienteSeleccionado,clienteConyugue,tipoRelacion, clienteConyugueAux.getId())){
                 		//actualize los clientes con exito
                                 
                 		principal.lbl_estado.setText("El cliente se actualizo con exito");
@@ -1983,20 +2079,9 @@ public class ABMClientesView extends javax.swing.JPanel {
                 	else{
                 		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
                    		 principal.lbl_estado.setForeground(Color.RED);
-                	}
+                	} 
+                    }
 
-                }
-                else{
-                	//Soltero 
-                	if(clientesDao.actualizarCliente(clienteSeleccionado)){
-                            principal.lbl_estado.setText("El cliente se actualizo con exito");
-                            principal.lbl_estado.setForeground(Color.GREEN);
-                            limpiarCampos();
-                            habilitarCampos(false);
-                        }else{
-                            principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                            principal.lbl_estado.setForeground(Color.RED);
-                        }
                 }
             }
         }else{
@@ -2326,8 +2411,8 @@ public class ABMClientesView extends javax.swing.JPanel {
             
         }else if(dni){
             try{
-                int cod= Integer.parseInt(txt);
-                cargarTablaBusqueda(clientesDao.buscarCliente("dni",""),tablaBuscador);
+                
+                cargarTablaBusqueda(clientesDao.buscarCliente("dni",txt),tablaBuscador);
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dni",
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -2371,7 +2456,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     
     private void cargarDatosCliente(int pos){
         if(pos !=-1){
-            
+            limpiarCampos();
             clienteSeleccionado=listaCliente.get(pos);
             jTextField_nombreCliente.setText(clienteSeleccionado.getNombre());
             //jComboBox_tipoDocumento.removeAllItems();
@@ -2439,12 +2524,14 @@ public class ABMClientesView extends javax.swing.JPanel {
             List<Cliente> list = null;
            if(!clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
                list =clientesDao.recuperarConyugues(clienteSeleccionado.getId());
+               
            }
              if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
                  estadoCivilAnterior="CASADO";
              }  
            if(list!= null){
-               System.out.println("En cargar clientes, estoy recuperando conyuge");
+               clienteConyugue=clientesDao.buscarCliente(list.get(0).getId());
+               System.out.println("En cargar clientes, estoy recuperando conyuge con nombre: "+clienteConyugue.getNombre());
             jTextField_nombreConyuge.setText(list.get(0).getNombre());
             jTextField_conyugeDni.setText(String.valueOf(list.get(0).getDni()));
             jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(list.get(0).getTipoDni()).toUpperCase());

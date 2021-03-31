@@ -713,6 +713,12 @@ public class AltaUsuariosView extends javax.swing.JPanel {
 
         jLabel25.setText("Tipo:");
 
+        jTextFieldTipo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldTipoKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -723,9 +729,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(448, 448, 448)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel14))
@@ -738,7 +742,8 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButtonModificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(448, 448, 448)
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel16)
                                             .addComponent(jLabel15))))
@@ -910,8 +915,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCrearUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
@@ -927,7 +931,8 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jTextField_cuil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField_cuil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
@@ -1667,10 +1672,12 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jButtonCrearUser.setForeground(Color.green);
             jButtonCrearUser.setEnabled(false);
             jLabelAdvertencia.setText("");
+            //JOptionPane.showMessageDialog(null, "El usuario y la clave se generaron con exito", "EXITO!", JOptionPane.INFORMATION_MESSAGE);
             //jLabelAdvertencia.setText("El usuario "+empleadoSelected.getUser()+" ha sido generado con exito");
-            
+            principal.lbl_estado.setText("El usuario se genero con exito");
+            principal.lbl_estado.setForeground(Color.GREEN);
            
-            
+            jTextFieldCategoria.requestFocus();
              
                
         }
@@ -1681,7 +1688,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
          //jDialogGenerarUser.getOwner();
         //jDialogGenerarUser.toBack();
         //jDialogGenerarUser.transferFocusBackward();
-        System.out.println("llego al final");
+       
        
         //jDialogGenerarUser.getOwner().toFront();
         //jDialogGenerarUser.getOwner().setEnabled(true);
@@ -1697,8 +1704,11 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private void jButtonCancelarJdialogUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarJdialogUserActionPerformed
         // TODO add your handling code here:
         jTextFieldUsuario.setText("");
+        jTextFieldUsuario.setEnabled(true);
         jPasswordFieldCrear1.setText("");
+        jPasswordFieldCrear1.setEditable(true);
         jPasswordFieldCrear2.setText("");
+        jPasswordFieldCrear2.setEditable(true);
         jDialogGenerarUser.dispose();
     }//GEN-LAST:event_jButtonCancelarJdialogUserActionPerformed
 
@@ -1847,6 +1857,13 @@ public class AltaUsuariosView extends javax.swing.JPanel {
              new Statics.ExceptionManager().saveDump(e, "", false);
         }
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
+
+    private void jTextFieldTipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTipoKeyTyped
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            jButtonGuardarMain.requestFocus();
+        }
+    }//GEN-LAST:event_jTextFieldTipoKeyTyped
 
             
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2026,6 +2043,12 @@ public class AltaUsuariosView extends javax.swing.JPanel {
        jCombo_Naciones1.addItem(t);
        
        });
+       if(modificarTrue){
+           System.out.println("Entre con true y el pais es "+String.valueOf(empleadoSelected.getNacionalidad()));
+           Pais p = new Pais();
+           p.setNombre(String.valueOf(empleadoSelected.getNacionalidad()));
+           jCombo_Naciones1.setSelectedItem(p);
+        }
     }
 
     private void habilitarCampos(boolean flag) {
@@ -2093,16 +2116,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jTextFieldConvenio.setText("");
         jTextField_cuil.setText("");
         jTextFieldTipo.setText("");
-        // informacion direccion
         
-        jCombo_Naciones1.setSelectedIndex(0);
-        jComboBox_Provincias.setSelectedIndex(0);
-        jComboBox_Ciudades.setSelectedIndex(0);
-        jComboBox_Barrios.removeAllItems();
-        
-        jComboBox_Barrios.addItem(new Barrio ("-"));
-        jComboBox_calles.removeAllItems();
-        jComboBox_calles.addItem(new Direccion("-"));
         
         jTextField_nroCasa.setText("");
         jTextField_ReferenciaCalles.setText("");
@@ -2113,6 +2127,24 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
         model.setNumRows(0);
         jComboBox_TipoContacto.setSelectedIndex(0);
+        
+        //contraseña y user:
+        jTextFieldUsuario.setText("");
+        jTextFieldUsuario.setEditable(true);
+        
+        jPasswordFieldCrear1.setText("");
+        jPasswordFieldCrear1.setEditable(true);
+        jPasswordFieldCrear2.setText("");
+        jPasswordFieldCrear2.setEditable(true);
+        // informacion direccion
+        this.cargarNacionalidades();
+       
+        jComboBox_Barrios.removeAllItems();
+        jComboBox_Barrios.addItem(new Barrio ("-"));
+        
+        jComboBox_calles.removeAllItems();
+        jComboBox_calles.addItem(new Direccion("-"));
+        
     }
     
 }
