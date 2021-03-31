@@ -34,12 +34,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         super(parent, modal);
         initComponents();
         nuevo_stock.requestFocus();
-        nameProdCombo.setVisible(false);
-        jPanel3.setVisible(false);
-        jLabelStockTotal.setVisible(false);
         jLabelUnidades.setVisible(false);
-        stockTotal.setVisible(false);
-        aplicar.setVisible(false);
         prod = p;
         if(prod == null)
             dispose();
@@ -51,7 +46,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
 
         public void cargarTablaProd(List<Stock> list) {
             DefaultTableModel tabla = (DefaultTableModel) tabla_stock.getModel();
-            Object[] obj = new Object[3];
+            Object[] obj = new Object[4];
             tabla.setNumRows(0);
             for (int i = 0; i < list.size(); i++) {
                 Stock s = list.get(i);
@@ -63,10 +58,7 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
             }
         }
         
-    private void cargarDatos(){
-        this.setSize(595, 250);
-        tabla_stock.setSize(0, 0);
-        tabla_stock.setVisible(false);     
+    private void cargarDatos(){     
         lbl_nombre_producto.setText(prod.getNombre());
         stockTotal.setText(""+prod.getStock());
         stockExistente = (float) prod.getStock();
@@ -80,7 +72,10 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lbl_nombre_producto = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla_stock = new javax.swing.JTable();
+        codigo = new javax.swing.JTextField();
+        lbl_editarStock = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nuevo_stock = new javax.swing.JTextField();
@@ -92,12 +87,8 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jLabelStockTotal = new javax.swing.JLabel();
         stockTotal = new javax.swing.JTextField();
         jLabelUnidades = new javax.swing.JLabel();
-        nameProdCombo = new javax.swing.JLabel();
+        lbl_nombre_producto = new javax.swing.JLabel();
         aplicar = new javax.swing.JButton();
-        codigo = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabla_stock = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar Stock");
@@ -108,8 +99,62 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        lbl_nombre_producto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_nombre_producto.setText("Editar Stock");
+        tabla_stock.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "stock", "Precio de compra", "Fecha de compra"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla_stock.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_stockMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla_stock);
+
+        codigo.setEditable(false);
+        codigo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        codigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        codigo.setText("# 1315");
+
+        lbl_editarStock.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbl_editarStock.setText("Editar Stock");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbl_editarStock, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_editarStock))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addGap(9, 9, 9))
+        );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -124,11 +169,6 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         nuevo_stock.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 nuevo_stockFocusGained(evt);
-            }
-        });
-        nuevo_stock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nuevo_stockActionPerformed(evt);
             }
         });
         nuevo_stock.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -204,9 +244,9 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         jLabelUnidades.setText("unidades");
         jPanel2.add(jLabelUnidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, -1, -1));
 
-        nameProdCombo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        nameProdCombo.setText("Prod Select");
-        jPanel2.add(nameProdCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 15, 136, -1));
+        lbl_nombre_producto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_nombre_producto.setText("Prod Select");
+        jPanel2.add(lbl_nombre_producto, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 15, 136, -1));
 
         aplicar.setBackground(new java.awt.Color(255, 255, 255));
         aplicar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Statics/nuevo_producto.png"))); // NOI18N
@@ -222,102 +262,30 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
         });
         jPanel2.add(aplicar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 100, 40, 40));
 
-        codigo.setEditable(false);
-        codigo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        codigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        codigo.setText("# 1315");
-
-        tabla_stock.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Codigo", "stock", "Precio de compra", "Fecha de compra"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabla_stock.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabla_stockMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabla_stock);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbl_nombre_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_nombre_producto))
-                .addGap(9, 9, 9)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
     private void tabla_stockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_stockMouseClicked
-            nameProdCombo.setVisible(true);
+            lbl_nombre_producto.setVisible(true);
             aplicar.setEnabled(true);
             nuevo_stock.setEnabled(true);
             String stock = String.valueOf(tabla_stock.getValueAt(tabla_stock.getSelectedRow(), 1));
-            idStock = Integer.parseInt((String) tabla_stock.getValueAt(tabla_stock.getSelectedRow(), 0));
+            idStock = Integer.parseInt(String.valueOf(tabla_stock.getValueAt(tabla_stock.getSelectedRow(), 0)));
             stock_actual.setText(stock);
     }//GEN-LAST:event_tabla_stockMouseClicked
 
@@ -327,15 +295,15 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
             stock = Float.parseFloat(nuevo_stock.getText());
             if (stock<0)
                 stock = Float.parseFloat("error numero negativo");
+            stockExistente+= stock;
             stock += Float.parseFloat(stock_actual.getText());
             productoDAO.setStockActual(idStock,stock);
             stock_actual.setText("0");
             nuevo_stock.setText("");
-            stockTotal.setText((stockExistente+stock_actual.getText()));
+            stockTotal.setText((stockExistente+""));
             tabla_stock.setValueAt(stock,tabla_stock.getSelectedRow(), 1);
         }catch(Exception ex){
             nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255,0,0),1));
-            //ex.printStackTrace();
         }
     }//GEN-LAST:event_aplicarActionPerformed
 
@@ -348,32 +316,20 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
     }//GEN-LAST:event_btn_regresarActionPerformed
 
     private void btn_guardar_loteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar_loteActionPerformed
+        this.setModal(false);
         nuevoStock();
     }//GEN-LAST:event_btn_guardar_loteActionPerformed
 
     private void nuevo_stockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nuevo_stockKeyTyped
-        float stock = 0f;
-        try{
-            stock = Float.parseFloat(nuevo_stock.getText());
-            if (stock<0)
-                stock = Float.parseFloat("error numero negativo");
-            stock += Float.parseFloat(stock_actual.getText());
-            stockTotal.setText(""+stock);
-            dispose();
-        }catch(Exception ex){
-            nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255,0,0),1));
-            //ex.printStackTrace();
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
         }
-
     }//GEN-LAST:event_nuevo_stockKeyTyped
 
     private void nuevo_stockFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nuevo_stockFocusGained
         nuevo_stock.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0,0,0),1));
     }//GEN-LAST:event_nuevo_stockFocusGained
-
-    private void nuevo_stockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevo_stockActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nuevo_stockActionPerformed
 
     private void stockTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockTotalActionPerformed
         // TODO add your handling code here:
@@ -407,15 +363,18 @@ public abstract class JD_Producto_editarStock extends javax.swing.JDialog  {
     private javax.swing.JLabel jLabelUnidades;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_editarStock;
     private javax.swing.JLabel lbl_nombre_producto;
-    private javax.swing.JLabel nameProdCombo;
     private javax.swing.JTextField nuevo_stock;
     private javax.swing.JTextField stockTotal;
     private javax.swing.JTextField stock_actual;
     private javax.swing.JTable tabla_stock;
     // End of variables declaration//GEN-END:variables
+
+    void actualizarTotal(int sa) {
+        stockTotal.setText(""+sa);
+    }
 
     
 

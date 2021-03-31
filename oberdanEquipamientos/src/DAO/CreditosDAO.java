@@ -17,9 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author Hernan
@@ -198,14 +195,14 @@ public class CreditosDAO {
                 + "`observacion`, `venc_pri_cuota`, `zona`, "
                 + "`fecha_solicitud`, `fecha_credito`, `nro_solicitud`, "
                 + "`cant_cuotas`) VALUES "
-                + "("+creditoSelected.getCliente().getId()+","+creditoSelected.getComerce().getId()+","+creditoSelected.getFecha_aprobacion()+","
+                + "("+creditoSelected.getCliente().getId()+","+creditoSelected.getComerce().getId()+",'"+creditoSelected.getFecha_aprobacion()+"',"
                 + creditoSelected.getAdmin().getId()+","+creditoSelected.getCobrador().getId()+","+creditoSelected.getVendedor().getId()+","
                 + creditoSelected.getGerente().getId()+",'"+creditoSelected.getEstado()+"',"+creditoSelected.getPlan().getId()+","
                 + creditoSelected.getImporte_total()+","+creditoSelected.getImporte_cuota()+","+creditoSelected.getImporte_pri_cuota()+","
                 + creditoSelected.getImporte_deuda()+","+creditoSelected.getImporte_credito()+","+creditoSelected.getAnticipo()+","
                 + creditoSelected.getImporte_ult_cuota()+","+creditoSelected.getComision()+",'"+creditoSelected.getTipo()+"','"
-                + creditoSelected.getObservacion()+"',"+creditoSelected.getVenc_pri_cuota()+","+creditoSelected.getZona()+","
-                + creditoSelected.getFecha_solicitud()+","+creditoSelected.getFecha_credito()+","+creditoSelected.getSolicitud_id()+","
+                + creditoSelected.getObservacion()+"',"+creditoSelected.getVenc_pri_cuota()+","+creditoSelected.getZona()+",'"
+                + creditoSelected.getFecha_solicitud()+"','"+creditoSelected.getFecha_credito()+"',"+creditoSelected.getSolicitud_id()+","
                 + creditoSelected.getCant_cuotas()+")";
         conexion.EjecutarOperacion(SQL);
         if(creditoSelected.getRenglones().size() > 0){
@@ -233,6 +230,9 @@ public class CreditosDAO {
                 cred.setImporte_cuota(rs.getFloat("credito.importe_cuota"));
                 cred.setImporte_deuda(rs.getFloat("credito.importe_deuda"));
                 cred.setImporte_credito(rs.getFloat("credito.importe_credito"));
+                cred.setFecha_credito(rs.getTimestamp("fecha_credito"));
+                cred.setFecha_aprobacion(rs.getTimestamp("fecha_aprobacion"));
+                cred.setAnticipo(rs.getFloat("anticipo"));
                 if(rs.getInt("credito.cobrador_id") == -1){
                     String SQL2 = "SELECT id,nombre FROM empleado WHERE tipo = 'ADMINISTRADOR'";
                     ResultSet aprobaciones = conexion.EjecutarConsultaSQL(SQL2);
@@ -272,7 +272,28 @@ public class CreditosDAO {
     }
 
     public ArrayList<Credito> getCreditosUnificables(Cuota plan, int id) {
-        return null;
+        ArrayList<Credito> creds = new ArrayList<>();
+        try {
+            String SQL = "SELECT credito.* FROM credito WHERE cliente_id = "+id+" AND cuota_id = "+plan.getId();
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            while(rs.next()){
+                Credito cred = new Credito();
+                cred.setId(rs.getInt("credito.id"));
+                cred.setTipo(rs.getString("credito.tipo"));
+                cred.setEstado(rs.getString("credito.estado"));
+                cred.setImporte_total(rs.getFloat("credito.importe_total"));
+                cred.setImporte_cuota(rs.getFloat("credito.importe_cuota"));
+                cred.setImporte_deuda(rs.getFloat("credito.importe_deuda"));
+                cred.setImporte_credito(rs.getFloat("credito.importe_credito"));
+                cred.setFecha_credito(rs.getTimestamp("fecha_credito"));
+                cred.setFecha_aprobacion(rs.getTimestamp("fecha_aprobacion"));
+                cred.setAnticipo(rs.getFloat("anticipo"));
+            }
+            return null;
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Se rompio al recuperar los creditos unificables de un cliente", Main.isProduccion);
+        }
+        return creds;
     }
 
     public int getCantCredPorPareja(int client, int conyugue) {
@@ -293,15 +314,15 @@ public class CreditosDAO {
                 + "`cobrador_id`, `vendedor_id`, `observacion`,"
                 + "`fecha_solicitud`,`nro_solicitud`) "
                 + "VALUES ("+idClient+","+idcomerce+","
-                + cobrador.getId()+","+vendedor.getId()+",'"+observacion+"',"
-                + new Timestamp(System.currentTimeMillis())+","+nroSoli+")";
+                + cobrador.getId()+","+vendedor.getId()+",'"+observacion+"','"
+                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+")";
         conexion.EjecutarOperacion(SQL);
     }
 
     public void updateAprobado(int idCred, int idEmp, String campo, boolean b, Timestamp FechaAprob, Timestamp venc_pri_cuota){
         String SQL = "UPDATE `credito` SET "+campo+" = "+idEmp;
         if(b){
-            SQL += ",estado = 'APROBADO', fecha_aprobacion = "+FechaAprob+" venc_pri_cuota = "+venc_pri_cuota;
+            SQL += ",estado = 'APROBADO', fecha_aprobacion = '"+FechaAprob+"' venc_pri_cuota = "+venc_pri_cuota;
         }
         SQL += " WHERE id ="+idCred;
         conexion.EjecutarConsultaSQL(SQL);
