@@ -839,6 +839,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         });
 
         buttonGroup1.add(rbtn_solicitud);
+        rbtn_solicitud.setSelected(true);
         rbtn_solicitud.setText("Solicitud");
 
         buttonGroup1.add(rbtn_credito);

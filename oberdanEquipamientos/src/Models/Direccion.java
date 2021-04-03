@@ -16,7 +16,9 @@ public class Direccion {
     String nombre;
 
     public Direccion() {
-        
+        this.id = -1;
+        this.id_barrio = -1;
+        this.nombre = "";
     }
     @Override
     public boolean equals(Object o){
