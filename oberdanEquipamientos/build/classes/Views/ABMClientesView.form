@@ -1475,6 +1475,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton_eliminarContacto">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="cc" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="-"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -1484,6 +1487,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButtonA&#xf1;adirTipoContacto">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="ff" red="33" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
           <Events>

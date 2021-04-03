@@ -75,6 +75,16 @@ public class ClientesDAO {
         }
         return list;
     }
+    /**
+     * NOtas: en los catch pone:
+     *  new Statics.ExceptionManager().saveDump(ex, "aca va un obs", Main.isProduccion);
+     */
+   /**
+    * 
+    * @param tipo_busqueda
+    * @param valor
+    * @return 
+    */
     public List<Cliente> buscarCliente(String tipo_busqueda, String valor) {
         if(tipo_busqueda.equalsIgnoreCase("nombre")){
             tipo_busqueda = "nombre";
@@ -233,76 +243,27 @@ public class ClientesDAO {
         return exito;
     }
     public boolean actualizarClientes(Cliente c1, Cliente c2, String tipo, int idConyugueAnterior) {
-        int idCliente2 = -1;
-        int res = 1;
-        int res2= 1;
+  
         boolean exito = true;
         String SQL;
-        exito=this.actualizarCliente(c1);
-                
-        //que pasa si  el cliente estaba casado y pasa a divorciarse..
-        if(c1.getEstadoCivil().equalsIgnoreCase("DIVORCIADO")){
-            //estoy en modificar, asi que si lo voy a divorciar, el c2 ya existia
-            //lo recupero completo
-            SQL= "SELECT * FROM cliente WHERE dni= "+c2.getDni(); 
-            ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
-
-            try{
-                if(rs.first()){
-                    idCliente2=rs.getInt("id");
-                    SQL= "SELECT * FROM relacion WHERE cliente1_id= "+c1.getId()+
-                            "OR cliente2_id= "+c1.getId()+" AND state = 'ACTIVO'";
-                    rs = conexion.EjecutarConsultaSQL(SQL);
-                    if(rs.first()){
-                        // a divorciar() lo debo llamar si o si ordenado!
-                        if(c1.getId()== rs.getInt("cliente1_id") && idCliente2 == rs.getInt("cliente2_id")){
-                            exito=this.divorciar(c1, buscarCliente(idConyugueAnterior));
-                            //exito= this.divorciar(c1,buscarCliente(idCliente2));
-                            if(exito) System.out.println("en  actualizar clientes, Tuve exito divorciando");
-                        }
-                        if(c1.getId()== rs.getInt("cliente2_id") && idCliente2 == rs.getInt("cliente1_id")){
-                            exito= this.divorciar(buscarCliente(idCliente2),c1);
-                            if(exito) System.out.println("en  actualizar clientes, Tuve exito divorciando");
-                        }
-                        
-                    }
-                    
-                  
-
-            }
-            
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }
-
-        }
+      
         //el cliente se casa
         if(c1.getEstadoCivil().equalsIgnoreCase("CASADO")){
-            // asumo tres casos. Estaba casado con X, se sapara y se casa con Y
-            // el otro caso es que estaba soltero y pasa a estar casado
-            // esa persona con quien se casa, puede o no existir (2 y 3 caso)
-            //Analizo si el conyugue  a agregar existe o no
-            SQL = "SELECT * FROM cliente WHERE dni="+c2.getDni();
-            ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
-            try {
-                if(rs.first()){
-                    //El cliente existe
-                    exito= this.casar(c1,buscarCliente(rs.getInt("id")),tipo);
-                    if(exito) System.out.println("en  actualizar clientes, Tuve exito casando");
-                }
-                else{
-                   //el cliente no existe
-                   c2.setEstadoCivil("CASADO");
-                   c2.setDireccion_id(c1.getDireccion_id());
-                   c2.setCodPostal(c1.getCodPostal());
-                   c2.setNumero(c1.getNumero());
-                   c2.setObservaciones("Es un conyugue");
-                   exito = this.guardarCliente(c2);
-                   exito= this.casar(c1, c2, tipo);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
+            //Estaba casado con X, se sapara y se casa con Y
+            Cliente ex = new Cliente();
+            ex=this.buscarCliente(idConyugueAnterior);
+            if(ex!=null){
+                exito=this.divorciar(c1, ex);
+                if(exito== false) return false;
+               
+                
+                exito=this.casar(c1, c2, tipo);
             }
+            else{
+                return false;
+            }
+            
+            
         }
        
         return exito;
@@ -313,7 +274,7 @@ public class ClientesDAO {
        String SQL = "SELECT cliente.nombre,cliente.id,cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni,rel2.tipo"
                + " FROM cliente INNER JOIN (SELECT relacion.tipo, relacion.created_at, IF(cliente1_id = "+idCliente+", cliente2_id,cliente1_id) "
                + "as clientId FROM relacion WHERE (cliente1_id="+idCliente+" OR cliente2_id="+idCliente+") && relacion.state= 'ACTIVO' ) "
-               + "AS rel2 ON rel2.clientId = cliente.id ORDER BY rel2.created_at";
+               + "AS rel2 ON rel2.clientId = cliente.id ORDER BY rel2.created_at DESC";
         /*String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
                 + "cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni, "
                 + "FROM relacion "
@@ -558,6 +519,7 @@ public class ClientesDAO {
         //ya asumido como que estaba cargado
         List <Cliente> list = buscarCliente("dni", String.valueOf(c2.getDni()));
         if(!list.isEmpty()){
+            System.out.println("En casar, la lista no esta vacia, asi que estoy por casar a c1 con un c2 existente");
             Cliente c = new Cliente();
             c=list.get(0);
             if(c.getEstadoCivil().equalsIgnoreCase("CASADO")){
@@ -568,24 +530,24 @@ public class ClientesDAO {
                 String SQL = "SELECT * FROM `relacion` WHERE "
                         + "(cliente1_id = "+c.getId()+" OR cliente2_id ="+c.getId()+") "
                         + "AND estadoCivil= 'CASADO'";
+                System.out.println("En casar con c2 existente, la consulta es :"+SQL);
                 ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
                 try {
                     if(rs.first()){
-                        //esto es para buscar la relacion justita
-                        int cliente2_id=-1;
-                        int cliente1_id= rs.getInt("cliente1_id");
-                        if(c.getId() == cliente1_id){
-                            cliente2_id = rs.getInt("cliente2_id");
-                            
-                        }
-                        else{
-                            cliente1_id= rs.getInt("cliente2_id");
-                            cliente2_id = c.getId();
-                        }
-                        this.divorciar(this.buscarCliente(cliente1_id),this.buscarCliente(cliente2_id));
+                       if(rs.getInt("cliente1_id")==c.getId()){
+                           exito= this.divorciar(this.buscarCliente(c.getId()),this.buscarCliente(rs.getInt("cliente2_id")));
+                       }
+                       else{
+                           exito= this.divorciar(this.buscarCliente(c.getId()),this.buscarCliente(rs.getInt("cliente1_id")));
+                       }
+                        
+                        if(exito==false) return false;
                         // el metodo divorciar por defecto modifica los estadoC, por eso lo vuelvo a cargar
                         c.setEstadoCivil("CASADO");
+                        
                         exito=this.actualizarCliente(c);
+                        if(exito==false) return false;
+                        exito=this.actualizarCliente(c1);
                     }
                     // ahora ya el c2 divorciado, lo puedo casar haciendo una nueva relacion
                     
@@ -602,6 +564,9 @@ public class ClientesDAO {
                 //le hago un update cambiando su estadocivil
                 c.setEstadoCivil("CASADO");
                 exito=this.actualizarCliente(c);
+                if(exito == false) return false;
+                exito=this.actualizarCliente(c1);
+                if(exito==false) return false;
                 //listo para hacer la nueva relacionn
             }
             conexion.transaccionCommit("quitarAutoCommit");
@@ -621,6 +586,8 @@ public class ClientesDAO {
         else{
             //c2 no existe, por ende lo guardo como un cliente nuevo
             //como no existe, copio el id de la direcccion de c1, es clave foranea
+            
+            System.out.println("EN casar, c2 no existe, asi que lo voy a casar con alguien nuevo!");
             c2.setDireccion_id(c1.getDireccion_id());
             c2.setCodPostal(c1.getCodPostal());
             c2.setNumero(c1.getNumero());
@@ -680,19 +647,48 @@ public class ClientesDAO {
      * @return true if succes. Is really important bring c1 and c2 in the same order as they appeair in the "relacion"
      */
     public boolean divorciar(Cliente c1, Cliente c2){
-        boolean exito = true;
-        //NECESITO QUE SI O SI VENGAN EN EL ORDEN QUE APARECEN EN LA RELACION!
-        //no voy a controlar en que estado viene c1, 
-        //ya asumido como que estaba cargado
-        //divorcio a cada cliente individualmente
-        c1.setEstadoCivil("DIVORCIADO");
-        c2.setEstadoCivil("DIVORCIADO");
-        exito= this.actualizarCliente(c1);
-        exito=this.actualizarCliente(c2);
-        //ahora busco la relacion entre estos dos y los separo
-        String SQL = "UPDATE relacion SET estadoCivil = 'DIVORCIADO' WHERE cliente1_id ="+c1.getId()
-                +", cliente2_id = "+c2.getId()+ "AND state = 'ACTIVO'";
-        return exito;
+       boolean exito = false;
+       int idRelacion;
+        try {
+            //no voy a controlar en que estado viene c1 ni c2,
+            //ya asumido como que estaba cargados
+            //divorcio a cada cliente individualmente
+            //SELECT cliente1_id, id from relacion WHERE cliente1_id = 8 or cliente2_id = 8 AND state = 'ACTIVO' AND estadoCivil = 'CASADO'
+            //recupero el id de la relacion en la que esta casado
+            String SQL = "SELECT cliente1_id, id from relacion WHERE (cliente1_id ="+c1.getId()+" or cliente2_id = "+c1.getId()+") AND state = 'ACTIVO' AND estadoCivil = 'CASADO'";
+            System.out.println("En divorciar, la consulta es: "+SQL);
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            if(rs.first()){
+                idRelacion= rs.getInt("id");
+                
+                c1.setEstadoCivil("DIVORCIADO");
+                c2.setEstadoCivil("DIVORCIADO");
+               
+                //ahora busco la relacion entre estos dos y los separo
+                
+                SQL = "UPDATE relacion SET estadoCivil = 'DIVORCIADO' WHERE  id = "+idRelacion+ " AND state = 'ACTIVO'";
+                System.out.println("En divorciar, el update es: "+SQL);
+                int res = conexion.EjecutarOperacion(SQL);
+                if(res == 1){
+                    exito = true;
+                    System.out.println("en divorciar, los pude separar");
+                }
+                else{
+                    return false;
+                }
+                exito= this.actualizarCliente(c1);
+                if(exito=false) return false;
+                exito=this.actualizarCliente(c2);
+                if(exito=false) return false;
+            }
+            System.out.println("En divorciar, los pude actualizar");
+             exito=true;
+            
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return exito;
     }
 /**
     public int recuperarZona(String barrio) {
