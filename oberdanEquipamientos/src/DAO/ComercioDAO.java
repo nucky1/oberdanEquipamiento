@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ComercioDAO {
     private static ComercioDAO ComercioDAO=null;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
-    public ComercioDAO(){}
+    protected ComercioDAO(){}
     public static ComercioDAO getInstance(){
         if (ComercioDAO==null) {
             ComercioDAO=new ComercioDAO();

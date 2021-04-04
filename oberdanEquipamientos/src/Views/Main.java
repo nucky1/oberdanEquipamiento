@@ -17,8 +17,22 @@ public class Main {
     public static char nivel;
     public static Empleado logueado;
     public static boolean isProduccion = false;
+    private static JFrame fr;
     //public static boolean isProduccion = true;
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        login1 l = new login1();
+        l.setVisible(true);
+        fr = new JFrame();
+        fr.add(l);
+        fr.setSize(300, 360);
+        fr.dispose();
+        fr.setUndecorated(true);
+        fr.setVisible(true);
+        fr.setLocationRelativeTo(null);
+    }
+
+    static void iniciar() {
+        fr.dispose();
         principal vista1 = new principal();
         vista1.setExtendedState(JFrame.MAXIMIZED_BOTH);
         vista1.setVisible(true);

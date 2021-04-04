@@ -7,10 +7,6 @@ package DAO;
 import Models.TipoPago;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**

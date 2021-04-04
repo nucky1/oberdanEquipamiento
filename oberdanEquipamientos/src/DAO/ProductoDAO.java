@@ -31,7 +31,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class ProductoDAO {
     private static ProductoDAO ProductoDAO = null;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
-    public ProductoDAO(){}
+    protected ProductoDAO(){}
     public static ProductoDAO getInstance(){
         if(ProductoDAO == null) ProductoDAO = new ProductoDAO();
         return ProductoDAO;
@@ -105,6 +105,17 @@ public class ProductoDAO {
                + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
                + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
                + " WHERE articulos.cod LIKE '"+id+"%'"
+               + " AND articulos.state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        return cargarProductos(rs);
+    }
+    public List<Producto> buscarProductoById(int id){
+        String SQL = "SELECT articulos.*, art_rubro.id as idRubro,art_rubro.nombre as nombreRubro,  IFNULL(artStock.precio_compra, articulos.precio_compra) as precioCosto,proveedores.proveedor"
+               + " FROM articulos "
+               + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
+               + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
+               + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
+               + " WHERE articulos.id = "+id
                + " AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);

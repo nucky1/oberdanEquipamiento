@@ -8,10 +8,7 @@ package DAO;
 import Views.ABMClientesView;
 import Models.Cliente;
 import Models.Contacto;
-import Models.Rubro;
-import Views.Main;
 import com.mysql.jdbc.Connection;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +32,7 @@ public class ClientesDAO {
     private static ClientesDAO ClientesDao=null;
     private ABMClientesView view;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
-    public ClientesDAO(){}
+    protected ClientesDAO(){}
     public static ClientesDAO getInstance(){
         if (ClientesDao==null) {
             ClientesDao=new ClientesDAO();

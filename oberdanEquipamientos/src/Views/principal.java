@@ -17,6 +17,7 @@ public class principal extends javax.swing.JFrame {
      */
     public principal() {
         initComponents();
+        nombre_usuario.setText(Main.logueado.getUser());
     }
 
     /**
@@ -27,7 +28,6 @@ public class principal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         barra_estado = new javax.swing.JPanel();
@@ -66,8 +66,6 @@ public class principal extends javax.swing.JFrame {
         barra_estado.setMaximumSize(new java.awt.Dimension(1360, 25));
         barra_estado.setMinimumSize(new java.awt.Dimension(1360, 25));
         barra_estado.setPreferredSize(new java.awt.Dimension(1360, 25));
-
-        lbl_estado.setText("asdnasd");
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel21.setText("Usuario:");

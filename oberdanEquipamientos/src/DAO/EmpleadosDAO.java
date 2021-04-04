@@ -32,29 +32,29 @@ public class EmpleadosDAO {
         }
         return controller;
     }
-    public boolean loggearEmpleado(String user, String pass) throws SQLException{
+    public boolean login(String user, String pass){
         boolean res = false;
         String SQL = "SELECT empleado.* FROM empleado WHERE empleado.user = '"+user+"' AND empleado.pass ='"+pass+"' AND empleado.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        if(rs.first()){
-            //no haria falta esto pero.......
-            if(user.equals(rs.getString("user")) && pass.equals(String.valueOf(rs.getString("pass")))) {
-                
+        try {
+            if(rs.first()){
+                res = true;
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Se rompio al intentar loggear un empleado", Main.isProduccion);
+        }
+        return res;
+    }
+    public Empleado obtenerEmpleado(String user, String pass){
+        String SQL = "SELECT empleado.* FROM empleado WHERE empleado.user = '"+user+"' AND empleado.pass ='"+pass+"' AND empleado.state = 'ACTIVO'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.first()){
                 Empleado  empleadoLoggeado= new Empleado();
                 empleadoLoggeado.setId(rs.getInt("id"));
                 empleadoLoggeado.setDni(rs.getInt("numero_doc"));
                 empleadoLoggeado.setNombre(rs.getString("nombre"));
                 empleadoLoggeado.setEstadoCivil(rs.getString("estado_civil"));
-                //direccion
-                empleadoLoggeado.setNacionalidad(rs.getString("pais.nombre"));
-                empleadoLoggeado.setProvincia(rs.getString("provincia.nombre"));
-                empleadoLoggeado.setCiudad(rs.getString("localidad.nombre"));
-                empleadoLoggeado.setBarrio(rs.getString("barrio.nombre"));
-                empleadoLoggeado.setDireccionId(rs.getInt("direccion.id"));
-                empleadoLoggeado.setDireccion(rs.getString("direccion.nombre"));
-                empleadoLoggeado.setNro(rs.getString("numero_domicilio"));
-                empleadoLoggeado.setCodigoPostal(rs.getString("codPostal"));
-                empleadoLoggeado.setReferencia(rs.getString("referencia"));
                 //datos sociales
                 empleadoLoggeado.setCategoria(rs.getString("categoria"));
                 empleadoLoggeado.setConvenio(rs.getString("convenio"));
@@ -80,10 +80,12 @@ public class EmpleadosDAO {
                 // info de login:
                 empleadoLoggeado.setPass(rs.getString("pass"));
                 empleadoLoggeado.setUser(rs.getString("user"));
-                res = true;
+                return empleadoLoggeado;
             }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Se rompio al intentar obtener un empleado en login", Main.isProduccion);
         }
-        return res;
+        return null;
     }
     
      public List<Empleado> buscarEmpleado(String valor,String tipo_busqueda) {

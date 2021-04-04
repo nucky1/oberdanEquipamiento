@@ -63,7 +63,7 @@ public class Auxiliar extends javax.swing.JPanel {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-        DAO.ClientesDAO cliente = new ClientesDAO();
+        DAO.ClientesDAO cliente = ClientesDAO.getInstance();
         JasperViewer view=null;
         try {
             view = cliente.generarReporteV1();
