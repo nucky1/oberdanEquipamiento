@@ -11,13 +11,13 @@ import DAO.EmpleadosDAO;
  *
  * @author Aguss2
  */
-public class login1 extends javax.swing.JPanel {
+public class Login extends javax.swing.JPanel {
     private EmpleadosDAO empleadoDAO;
 
     /**
      * Creates new form login1
      */
-    public login1() {
+    public Login() {
         initComponents();
         lbl_error.setVisible(false);
         empleadoDAO = EmpleadosDAO.getInstance();
@@ -111,6 +111,9 @@ public class login1 extends javax.swing.JPanel {
                     .addComponent(txt_password))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {login, login1});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()

@@ -100,11 +100,16 @@ public class ComercioDAO {
     }
 
     public void updateComercio(Comercio c) {
-        String SQL = "UPDATE `comercio` SET `direccion_id`=[value-3],`rubro_id`=[value-4],"
-                + "`nombre`=[value-5],`referencia`=[value-6],`numero`=[value-7],"
-                + "`propietario`=[value-8],`zona`=[value-9],`cuit`=[value-10],"
-                + "`tipo_iva`=[value-11],`inicio_actividades`=[value-12],"
-                + "`codPostal`=[value-16] WHERE id = "+c.getId();
+        int idDir = -1, idRub = -1;
+        if(c.getDireccion() != null)
+            idDir = c.getDireccion().getId();
+        if(c.getRubro() != null)
+            idRub = c.getRubro().getId();
+        String SQL = "UPDATE `comercio` SET `direccion_id`="+idDir+",`rubro_id`="+idRub+","
+                + "`nombre`='"+c.getNombre()+"',`referencia`='"+c.getReferencia()+"',`numero`="+c.getNumero()+","
+                + "`propietario`="+c.getPropietario()+",`zona`='"+c.getZona()+"',`cuit`="+c.getCuit()+","
+                + "`tipo_iva`='"+c.getTipo_iva()+"',`inicio_actividades`='"+c.getIncio_actividades()+"',"
+                + "`codPostal`="+c.getCodPostal()+" WHERE id = "+c.getId();
         conexion.EjecutarOperacion(SQL);
     }
 
