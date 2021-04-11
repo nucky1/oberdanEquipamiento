@@ -421,7 +421,7 @@ public class GenerarRemito extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Código", "Código de barras", "Descripcion", "Cant.", "subtota", "N° de Serie"
+                "Código", "Código de barras", "Descripcion", "Cant.", "subtotal", "N° de Serie"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -475,7 +475,7 @@ public class GenerarRemito extends javax.swing.JPanel {
 
         btn_imprimirRemito.setText("Imprimir");
 
-        jLabel21.setText("Articulo p/Entrega");
+        jLabel21.setText("Articulo Entregado");
 
         jLabel20.setText("Articulo Pendiente");
 
@@ -711,6 +711,22 @@ public class GenerarRemito extends javax.swing.JPanel {
 
     private void cargarDatos(int select) {
         Credito c = listCreditos.get(select);
-        txt_
+        txt_CantCuotas.setText("");
+        txt_CodPostal.setText("");
+        txt_NroCalle.setText("");
+        txt_Comentarios.setText("");
+        txt_Domicilio.setText("");
+        txt_Barrio.setText("");
+        txt_Localidad.setText("");
+        txt_Provincia.setText("");
+        
+        txt_Importe.setText("");
+        txt_ImporteCred.setText("");
+        txt_ImporteCuota.setText("");
+        txt_Nombre.setText("");
+        txt_NroCred.setText("");
+        txt_NroDni.setText("");
+        txt_NroRemito.setText("");
+        txt_NroSoli.setText("");
     }
 }

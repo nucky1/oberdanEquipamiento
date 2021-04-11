@@ -576,7 +576,7 @@
                     <Column editable="false" title="C&#xf3;digo de barras" type="java.lang.Object"/>
                     <Column editable="false" title="Descripcion" type="java.lang.Object"/>
                     <Column editable="false" title="Cant." type="java.lang.Object"/>
-                    <Column editable="false" title="subtota" type="java.lang.Object"/>
+                    <Column editable="false" title="subtotal" type="java.lang.Object"/>
                     <Column editable="true" title="N&#xb0; de Serie" type="java.lang.Object"/>
                   </Table>
                 </Property>
@@ -716,7 +716,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel21">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Articulo p/Entrega"/>
+            <Property name="text" type="java.lang.String" value="Articulo Entregado"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel20">

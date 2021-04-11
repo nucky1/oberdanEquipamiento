@@ -407,8 +407,6 @@ public class CreditosDAO {
             conexion.EjecutarOperacion(SQL);
         }
     }
-<<<<<<< HEAD
-
     public ArrayList<Credito> getCreditosSinME() {
         ArrayList<Credito> list = new ArrayList();
         String SQL = "SELECT * FROM `credito`" +
@@ -418,7 +416,7 @@ public class CreditosDAO {
                     "WHERE `credito`.`tipo` != \"SOLICITUD\" AND `credito`.`estado` = \"APROBADO\" AND `credito`.`mercaderia_entregada` = TRUE";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarCreditos(rs);
-=======
+    }
     public ArrayList<Credito> getCreditosPendienteCobro(){
          ArrayList<Credito> lista = new ArrayList();
         String SQL ="SELECT * FROM credito LEFT JOIN carton ON credito.id = carton.credito_id WHERE carton.id = null AND credito.estado = 'APROBADO'";
@@ -490,7 +488,6 @@ public class CreditosDAO {
             new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         return view;
->>>>>>> b42310c8e6b806de97f446fed0d026d9fd3a2f06
     }
     
 }
