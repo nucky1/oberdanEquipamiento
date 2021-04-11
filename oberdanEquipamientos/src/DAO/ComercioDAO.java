@@ -12,8 +12,6 @@ import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +20,7 @@ import java.util.logging.Logger;
 public class ComercioDAO {
     private static ComercioDAO ComercioDAO=null;
     private Statics.Conexion conexion = Statics.Conexion.getInstance();
-    public ComercioDAO(){}
+    protected ComercioDAO(){}
     public static ComercioDAO getInstance(){
         if (ComercioDAO==null) {
             ComercioDAO=new ComercioDAO();
@@ -87,7 +85,7 @@ public class ComercioDAO {
                 + "VALUES ("+c.getClienteId()+","+c.getDireccion().getId()+","+c.getRubro().getId()+",'"
                 +c.getNombre()+"','"+c.getReferencia()+"',"+c.getNumero()+","
                 + c.getPropietario()+",'"+c.getZona()+"','"+c.getCuit()+"','"
-                + c.getTipo_iva()+"',"+c.getIncio_actividades()+","+c.getCodPostal()+")";
+                + c.getTipo_iva()+"','"+c.getIncio_actividades()+"',"+c.getCodPostal()+")";
         conexion.EjecutarOperacion(SQL);
         SQL = "SELECT MAX(id) as idLast FROM comercio WHERE state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);

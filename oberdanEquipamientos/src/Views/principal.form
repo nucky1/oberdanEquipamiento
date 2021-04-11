@@ -110,9 +110,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lbl_estado">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="asdnasd"/>
-          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>

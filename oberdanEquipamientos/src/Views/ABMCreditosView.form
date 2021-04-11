@@ -1167,6 +1167,7 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Solicitud"/>
           </Properties>
         </Component>
@@ -1960,9 +1961,9 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btn_cancelar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
-                          <Component id="btn_guardarCredito1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_rechazarCredito" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                          <Component id="btn_guardarCredito" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_aprobarCredito" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -2013,10 +2014,10 @@
                   <Component id="jScrollPane1" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_guardarCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_aprobarCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="btn_imprimirCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="btn_cancelar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="btn_guardarCredito1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="btn_rechazarCredito" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -2130,7 +2131,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_imprimirCreditoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_guardarCredito">
+        <Component class="javax.swing.JButton" name="btn_aprobarCredito">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -2138,12 +2139,12 @@
             <Property name="text" type="java.lang.String" value="Aprobar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarCreditoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_aprobarCreditoActionPerformed"/>
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_vencimientoPrimerCuota">
         </Component>
-        <Component class="javax.swing.JButton" name="btn_guardarCredito1">
+        <Component class="javax.swing.JButton" name="btn_rechazarCredito">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -2151,7 +2152,7 @@
             <Property name="text" type="java.lang.String" value="Rechazar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_guardarCredito1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_rechazarCreditoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

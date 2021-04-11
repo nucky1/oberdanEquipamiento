@@ -7,7 +7,6 @@ package Models;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -18,6 +17,8 @@ public class Credito {
     private int solicitud_id;
     private int cant_cuotas;
     private Cliente cliente;
+    private int conyugue_id;
+    private int direccion_id;
     private Empleado admin = null;
     private Empleado cobrador= null ;
     private Empleado vendedor= null;
@@ -42,6 +43,23 @@ public class Credito {
     private Comercio comerce;
     private ArrayList<RenglonCredito> renglones;
 
+    public int getConyugue_id() {
+        return conyugue_id;
+    }
+
+    public void setConyugue_id(int conyugue_id) {
+        this.conyugue_id = conyugue_id;
+    }
+
+    public int getDireccion_id() {
+        return direccion_id;
+    }
+
+    public void setDireccion_id(int direccion_id) {
+        this.direccion_id = direccion_id;
+    }
+    
+    
     public int getCant_cuotas() {
         return cant_cuotas;
     }

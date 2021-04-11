@@ -36,7 +36,7 @@ import net.sf.jasperreports.view.JasperViewer;
 public class CreditosDAO {
     private static CreditosDAO CreditosDao=null;
     private Statics.Conexion conexion= Statics.Conexion.getInstance();
-    public CreditosDAO(){
+    protected CreditosDAO(){
         
     }
     public static CreditosDAO getInstance(){
@@ -64,14 +64,14 @@ public class CreditosDAO {
     public ArrayList<Credito> buscarSolicitud(String text, String atributoBusqueda) {
         String condicion = "1";
         if(atributoBusqueda.equals("nombre")){
-            condicion = "cliente.nombre = '%"+text+"%'";
+            condicion = "cliente.nombre LIKE '%"+text+"%'";
         }else{
-            condicion = "credito.nro_solicitud = '%"+text+"%'";
+            condicion = "credito.nro_solicitud LIKE '%"+text+"%'";
         }
         String SQL = "SELECT * FROM `credito`" +
                     "INNER JOIN cliente ON cliente_id = cliente.id " +
                     "INNER JOIN comercio ON comercio_id = comercio.id " +
-                    "WHERE `tipo`= \"SOLICITUD\" AND state = 'ACTIVO' AND "+condicion;
+                    "WHERE `tipo`= \"SOLICITUD\" AND "+condicion;
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarCreditos(rs);
     }
@@ -80,15 +80,15 @@ public class CreditosDAO {
         ArrayList<Credito> list = new ArrayList();
         String condicion = "1";
         if(atributoBusqueda.equals("nombre")){
-            condicion = "cliente.nombre = '%"+text+"%'";
+            condicion = "cliente.nombre LIKE '%"+text+"%'";
         }else{
-            condicion = "credito.id = '%"+text+"%'";
+            condicion = "credito.id LIKE '%"+text+"%'";
         }
         String SQL = "SELECT * FROM `credito`" +
                     "INNER JOIN cliente ON cliente_id = cliente.id " +
                     "INNER JOIN comercio ON credito.comercio_id = comercio.id "+ 
-                    "LEFT JOIN cuota ON cuota_id = credito.cuota_id" +
-                    "WHERE `tipo`!= \"SOLICITUD\" AND credito.state = 'ACTIVO' AND "+condicion;
+                    "LEFT JOIN cuota ON cuota_id = credito.cuota_id " +
+                    "WHERE `credito`.`tipo` != \"SOLICITUD\" AND "+condicion;
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarCreditos(rs);
     }
@@ -108,17 +108,10 @@ public class CreditosDAO {
                 com.setId(rs.getInt("comercio.id"));
                 com.setNombre(rs.getString("comercio.nombre"));
                 com.setTipo_iva(rs.getString("comercio.tipo_iva"));
-                //insertar plan de pago
-                Cuota cuo = new Cuota();
-                cuo.setCantidad(rs.getInt("cuota.cantidad"));
-                cuo.setPorcentajeExtra(rs.getFloat("cuota.procentaje_extra"));
-                cuo.setTipo(rs.getString("cuota.tipo"));
-                cuo.setId(rs.getInt("cuota.id"));
                 //insertar datos del credito
                 Credito cred = new Credito();
                 cred.setComerce(com);
                 cred.setCliente(client);
-                cred.setPlan(cuo);
                 cred.setId(rs.getInt("credito.id"));
                 cred.setSolicitud_id(rs.getInt("credito.nro_solicitud"));
                 cred.setZona(rs.getInt("credito.zona"));
@@ -126,6 +119,7 @@ public class CreditosDAO {
                 cred.setTipo(rs.getString("credito.tipo"));
                 cred.setObservacion(rs.getString("credito.observacion"));
                 cred.setFecha_aprobacion(rs.getTimestamp("credito.fecha_aprobacion"));
+                cred.setFecha_solicitud(rs.getTimestamp("fecha_solicitud"));
                 cred.setVenc_pri_cuota(rs.getTimestamp("credito.venc_pri_cuota"));
                 cred.setEstado(rs.getString("credito.estado"));
                 cred.setImporte_total(rs.getFloat("credito.importe_total"));
@@ -137,9 +131,9 @@ public class CreditosDAO {
                 cred.setImporte_ult_cuota(rs.getFloat("credito.importe_ult_cuota"));
                 cred.setComision(rs.getFloat("credito.comision"));
                 //insertar renglones:
-                if(cred.getTipo().equals("SOLICITUD")){
+                if(!cred.getTipo().equals("SOLICITUD")){
                     String SQL = "SELECT * FROM renglon_credito "
-                            + "INNER JOIN articulos ON articulos.cod = producto_id"
+                            + "INNER JOIN articulos ON articulos.id = producto_id "
                             + "WHERE credito_id = "+cred.getId();
                     ResultSet rs2 = conexion.EjecutarConsultaSQL(SQL);
                     while (rs2.next()) {                        
@@ -149,44 +143,49 @@ public class CreditosDAO {
                         ren.setImporte_cuota(rs2.getFloat("importe_cuota"));
                         ren.setCosto(rs2.getFloat("costo_prod"));
                         ren.setCantidad(rs2.getFloat("cantidad"));
-                        Producto p = ProductoDAO.getInstance().buscarProducto(rs2.getInt("producto_id")).get(0);
+                        Producto p = ProductoDAO.getInstance().buscarProductoById(rs2.getInt("producto_id")).get(0);
                         ren.setP(p);
                         cred.addRenglon(ren);
                     }
-                }
-                //insertar aprobaciones:
-                ResultSet aprobaciones;
-                if(rs.getInt("credito.admin_id") == -1){
-                    String SQL = "SELECT id,nombre FROM empleado WHERE tipo = 'ADMINISTRADOR'";
+                    cred.setFecha_credito(rs.getTimestamp("fecha_credito"));
+                    //insertar plan de pago
+                    Cuota cuo = new Cuota();
+                    cuo.setCantidad(rs.getInt("cuota.cantidad"));
+                    cuo.setPorcentajeExtra(rs.getFloat("cuota.porcentaje_extra"));
+                    cuo.setTipo(rs.getString("cuota.tipo"));
+                    cuo.setId(rs.getInt("cuota.id"));
+                    cred.setPlan(cuo);
+                    //insertar aprobaciones:
+                    ResultSet aprobaciones;
+                    SQL = "SELECT aprobaciones.*,empleado.nombre, empleado.tipo FROM aprobaciones "
+                            + "LEFT JOIN empleado ON empleado.id = aprobaciones.empleado_id WHERE aprobaciones.credito_id = "+cred.getId();
                     aprobaciones = conexion.EjecutarConsultaSQL(SQL);
-                    Empleado e = new Empleado();
-                    e.setId(aprobaciones.getInt("id"));
-                    e.setNombre(aprobaciones.getString("nombre"));
-                    cred.setAdmin(e);
-                }
-                if(rs.getInt("credito.gerente_id") == -1){
-                    String SQL = "SELECT id,nombre FROM empleado WHERE tipo = 'ADMINISTRADOR'";
-                    aprobaciones = conexion.EjecutarConsultaSQL(SQL);
-                    Empleado e = new Empleado();
-                    e.setId(aprobaciones.getInt("id"));
-                    e.setNombre(aprobaciones.getString("nombre"));
-                    cred.setGerente(e);
-                }
-                if(rs.getInt("credito.cobrador_id") == -1){
-                    String SQL = "SELECT id,nombre FROM empleado WHERE tipo = 'ADMINISTRADOR'";
-                    aprobaciones = conexion.EjecutarConsultaSQL(SQL);
-                    Empleado e = new Empleado();
-                    e.setId(aprobaciones.getInt("id"));
-                    e.setNombre(aprobaciones.getString("nombre"));
-                    cred.setCobrador(e);
-                }
-                if(rs.getInt("credito.vendedor_id") == -1){
-                    String SQL = "SELECT id,nombre FROM empleado WHERE tipo = 'ADMINISTRADOR'";
-                    aprobaciones = conexion.EjecutarConsultaSQL(SQL);
-                    Empleado e = new Empleado();
-                    e.setId(aprobaciones.getInt("id"));
-                    e.setNombre(aprobaciones.getString("nombre"));
-                    cred.setVendedor(e);
+                    while (aprobaciones.next()) {                        
+                        Empleado e = new Empleado();
+                        e.setId(aprobaciones.getInt("aprobaciones.empleado_id"));
+                        e.setNombre(aprobaciones.getString("empleado.nombre"));
+                        e.setTipo(aprobaciones.getString("empleado.tipo"));
+                        e.setFechaAprobacion(aprobaciones.getTimestamp("aprobaciones.fecha"));
+                        e.setAprobado(aprobaciones.getBoolean("aprobaciones.estado"));
+                        switch(e.getTipo()){
+                            case "VENDEDOR":{
+                                cred.setVendedor(e);
+                                break;
+                            }
+                            case "COBRADOR":{
+                                cred.setCobrador(e);
+                                break;
+                            }
+                            case "ADMINISTRADOR":{
+                                cred.setAdmin(e);
+                                break;
+                            }
+                            case "GERENTE":{
+                                cred.setGerente(e);
+                                break;
+                            }
+                        }
+                    }
                 }
                 list.add(cred);
             }
@@ -199,23 +198,21 @@ public class CreditosDAO {
     public void insertCreditoNuevo(Credito creditoSelected) {
         String SQL ="INSERT INTO `credito`"
                 + "(`cliente_id`, `comercio_id`, `fecha_aprobacion`, "
-                + "`admin_id`, `cobrador_id`, `vendedor_id`, "
-                + "`gerente_id`, `estado`, `cuota_id`, "
+                + "`estado`, `cuota_id`, "
                 + "`importe_total`, `importe_cuota`, `importe_pri_cuota`, "
                 + "`importe_deuda`, `importe_credito`, `anticipo`, "
                 + "`importe_ult_cuota`, `comision`, `tipo`, "
                 + "`observacion`, `venc_pri_cuota`, `zona`, "
                 + "`fecha_solicitud`, `fecha_credito`, `nro_solicitud`, "
-                + "`cant_cuotas`) VALUES "
+                + "`cant_cuotas`,`conyugue_id`,`direccionActual_id`) VALUES "
                 + "("+creditoSelected.getCliente().getId()+","+creditoSelected.getComerce().getId()+",'"+creditoSelected.getFecha_aprobacion()+"',"
-                + creditoSelected.getAdmin().getId()+","+creditoSelected.getCobrador().getId()+","+creditoSelected.getVendedor().getId()+","
-                + creditoSelected.getGerente().getId()+",'"+creditoSelected.getEstado()+"',"+creditoSelected.getPlan().getId()+","
+                +creditoSelected.getEstado()+"',"+creditoSelected.getPlan().getId()+",'"
                 + creditoSelected.getImporte_total()+","+creditoSelected.getImporte_cuota()+","+creditoSelected.getImporte_pri_cuota()+","
                 + creditoSelected.getImporte_deuda()+","+creditoSelected.getImporte_credito()+","+creditoSelected.getAnticipo()+","
                 + creditoSelected.getImporte_ult_cuota()+","+creditoSelected.getComision()+",'"+creditoSelected.getTipo()+"','"
                 + creditoSelected.getObservacion()+"',"+creditoSelected.getVenc_pri_cuota()+","+creditoSelected.getZona()+",'"
                 + creditoSelected.getFecha_solicitud()+"','"+creditoSelected.getFecha_credito()+"',"+creditoSelected.getSolicitud_id()+","
-                + creditoSelected.getCant_cuotas()+")";
+                + creditoSelected.getCant_cuotas()+","+creditoSelected.getConyugue_id()+","+creditoSelected.getDireccion_id()+")";
         conexion.EjecutarOperacion(SQL);
         if(creditoSelected.getRenglones().size() > 0){
             ArrayList<RenglonCredito> rc = creditoSelected.getRenglones();
@@ -321,23 +318,57 @@ public class CreditosDAO {
         return 0;
     }
 
-    public void insertarSolicitud(int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, Empleado cobrador) {
-        String SQL = "INSERT INTO `credito`(`cliente_id`, `comercio_id`, "
+    public void insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, Empleado cobrador) {
+        int idC = -1;
+        int idV = -1;
+        if(cobrador != null){
+            idC = cobrador.getId();
+        }
+        if(vendedor != null){
+            idV = vendedor.getId();
+        }
+        String SQL = "INSERT INTO `credito`(`cliente_id`,`direccionActual_id`,"
+                + "`conyugue_id`, `comercio_id`, "
                 + "`cobrador_id`, `vendedor_id`, `observacion`,"
-                + "`fecha_solicitud`,`nro_solicitud`) "
-                + "VALUES ("+idClient+","+idcomerce+","
-                + cobrador.getId()+","+vendedor.getId()+",'"+observacion+"','"
-                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+")";
+                + "`fecha_solicitud`,`nro_solicitud`,`tipo`) "
+                + "VALUES ("+idClient+","+idDireccion+","
+                + idConyugue+","+idcomerce+","
+                + idC+","+idV+",'"+observacion+"','"
+                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+",\"SOLICITUD\")";
         conexion.EjecutarOperacion(SQL);
     }
 
-    public void updateAprobado(int idCred, int idEmp, String campo, boolean b, Timestamp FechaAprob, Timestamp venc_pri_cuota){
-        String SQL = "UPDATE `credito` SET "+campo+" = "+idEmp;
+    public void updateAprobado(int idCred, int idEmp, boolean estado, boolean b, Timestamp FechaAprob, Timestamp venc_pri_cuota){
+        String SQL = "INSERT INTO `aprobaciones`(`credito_id`, `empleado_id`, `fecha`, `estado`)"
+                + " VALUES ("+idCred+","+idEmp+",'"+FechaAprob+"',"+estado+")";
+        conexion.EjecutarOperacion(SQL);
         if(b){
-            SQL += ",estado = 'APROBADO', fecha_aprobacion = '"+FechaAprob+"' venc_pri_cuota = "+venc_pri_cuota;
+            SQL += "UPDATE `credito` SET estado = 'APROBADO', fecha_aprobacion = '"+FechaAprob+"' venc_pri_cuota = "+venc_pri_cuota+" WHERE id ="+idCred;
+            conexion.EjecutarOperacion(SQL);
         }
-        SQL += " WHERE id ="+idCred;
-        conexion.EjecutarConsultaSQL(SQL);
+    }
+
+    public void updateCredito(Credito creditoSelected) {
+        String SQL = "UPDATE `credito` SET "
+                + "`fecha_aprobacion`=NULL, `estado`=\"PENDIENTE\","
+                + "`cant_cuotas`="+creditoSelected.getCant_cuotas()+",`importe_total`="+creditoSelected.getImporte_total()+",`importe_cuota`="+creditoSelected.getImporte_cuota()+","
+                + "`importe_pri_cuota`="+creditoSelected.getImporte_pri_cuota()+",`importe_deuda`="+creditoSelected.getImporte_deuda()+",`importe_credito`="+creditoSelected.getImporte_credito()+","
+                + "`anticipo`="+creditoSelected.getAnticipo()+",`importe_ult_cuota`="+creditoSelected.getImporte_ult_cuota()+",`comision`="+creditoSelected.getComision()+","
+                + "`tipo`="+creditoSelected.getTipo()+",`observacion`="+creditoSelected.getObservacion()+",`venc_pri_cuota`="+creditoSelected.getVenc_pri_cuota()+","
+                + "`zona`="+creditoSelected.getZona()+","
+                + "`cuota_id`="+creditoSelected.getPlan().getId()+" WHERE `id`="+creditoSelected.getId();
+        conexion.EjecutarOperacion(SQL);
+        if(creditoSelected.getRenglones().size() > 0){
+            ArrayList<RenglonCredito> rc = creditoSelected.getRenglones();
+            SQL = "DELETE FROM `renglon_credito` WHERE credito_id = "+creditoSelected.getId();
+            conexion.EjecutarOperacion(SQL);
+            SQL = "INSERT INTO `renglon_credito`(`sub_total`, `importe_cuota`, `nroSerie`, `credito_id`, `producto_id`, `costo_prod`, `cantidad`) VALUES";
+            for(int i = rc.size()-1; i > 0; i--){
+                SQL += " ("+rc.get(i).getSubTotal()+","+rc.get(i).getImporte_cuota()+",'"+rc.get(i).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(i).getP().getId()+","+rc.get(i).getCosto()+","+rc.get(i).getCantidad()+"),";
+            }
+            SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
+            conexion.EjecutarOperacion(SQL);
+        }
     }
     public ArrayList<Credito> getCreditosPendienteCobro(){
          ArrayList<Credito> lista = new ArrayList();

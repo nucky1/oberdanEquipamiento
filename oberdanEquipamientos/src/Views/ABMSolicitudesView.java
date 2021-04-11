@@ -22,7 +22,6 @@ import Models.Empleado;
 import Models.Localidad;
 import Models.Mapa;
 import Models.Pais;
-import Models.Producto;
 import Models.Provincia;
 import Models.Rubro;
 import java.sql.Timestamp;
@@ -30,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -53,6 +51,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private List <Cliente> listaCliente;
     private ArrayList <Comercio> listaComercios;
     private int posComercioSelected;
+    private int idConyugue;
     private Mapa direcciones = null;
     private Pais pais_selected;
     private Provincia provincia_selected;
@@ -160,7 +159,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         cbox_rubro = new javax.swing.JComboBox<>();
         txt_nombreComercio = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        txt_observacionSolicitud = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         btn_nuevoRubro = new javax.swing.JButton();
         btn_añadirDireccionComercio = new javax.swing.JButton();
@@ -176,6 +174,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jLabel28 = new javax.swing.JLabel();
         cbox_zonas = new javax.swing.JComboBox<>();
         btn_añadirZona = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_observacionSolicitud = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jLabel34 = new javax.swing.JLabel();
         txt_dniCliente = new javax.swing.JTextField();
@@ -206,6 +206,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jTableClientes = new javax.swing.JTable();
 
         jPanel5.setBackground(java.awt.Color.white);
+        jPanel5.setMaximumSize(new java.awt.Dimension(441, 397));
+        jPanel5.setMinimumSize(new java.awt.Dimension(441, 397));
 
         jLabel60.setText("Nacionalidad");
 
@@ -263,7 +265,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         btn_agregarProvincia.setText("+");
-        btn_agregarProvincia.setEnabled(false);
         btn_agregarProvincia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarProvinciaActionPerformed(evt);
@@ -271,7 +272,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         btn_agregarCiudad.setText("+");
-        btn_agregarCiudad.setEnabled(false);
         btn_agregarCiudad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarCiudadActionPerformed(evt);
@@ -279,7 +279,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         btn_agregarBarrio.setText("+");
-        btn_agregarBarrio.setEnabled(false);
         btn_agregarBarrio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarBarrioActionPerformed(evt);
@@ -287,7 +286,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         btn_agregarDireccion.setText("+");
-        btn_agregarDireccion.setEnabled(false);
         btn_agregarDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarDireccionActionPerformed(evt);
@@ -302,7 +300,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         jButton_ok.setText("OK");
-        jButton_ok.setEnabled(false);
         jButton_ok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_okActionPerformed(evt);
@@ -823,12 +820,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel19.setText("El comercio se ubica en el domicilio del cliente:");
 
-        txt_observacionSolicitud.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_observacionSolicitudActionPerformed(evt);
-            }
-        });
-
         jLabel23.setText("Observación de la solicitud:");
 
         btn_nuevoRubro.setText("+");
@@ -883,30 +874,35 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             }
         });
 
+        txt_observacionSolicitud.setColumns(20);
+        txt_observacionSolicitud.setRows(5);
+        jScrollPane2.setViewportView(txt_observacionSolicitud);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel23)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbox_tipoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel2))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(33, 33, 33)
-                                .addComponent(date_inicioActividades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_cuitComercio, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel23)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cbox_tipoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(45, 45, 45)
+                                    .addComponent(jLabel2))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(33, 33, 33)
+                                    .addComponent(date_inicioActividades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(18, 18, 18)
+                            .addComponent(txt_cuitComercio, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel31)
                             .addGap(29, 29, 29)
                             .addComponent(cbox_EsPropietario)
@@ -916,7 +912,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                             .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btn_añadirZona))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel19)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -926,7 +922,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                             .addComponent(cbox_habilitarDireccionComercio)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btn_añadirDireccionComercio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel17)
                                 .addComponent(jLabel18))
@@ -936,8 +932,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                     .addComponent(cbox_rubro, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(btn_nuevoRubro))
-                                .addComponent(txt_nombreComercio))))
-                    .addComponent(txt_observacionSolicitud))
+                                .addComponent(txt_nombreComercio)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -978,8 +973,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addComponent(date_inicioActividades, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(jLabel23)
-                .addGap(18, 18, 18)
-                .addComponent(txt_observacionSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1126,7 +1121,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         });
 
         btn_crearSolicitud.setBackground(new java.awt.Color(255, 255, 255));
-        btn_crearSolicitud.setText("Nueva solicitud");
+        btn_crearSolicitud.setText("Generar solicitud");
         btn_crearSolicitud.setMaximumSize(new java.awt.Dimension(133, 39));
         btn_crearSolicitud.setMinimumSize(new java.awt.Dimension(133, 39));
         btn_crearSolicitud.setPreferredSize(new java.awt.Dimension(133, 39));
@@ -1279,7 +1274,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1290,10 +1285,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -1303,10 +1298,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         // TODO add your handling code here:
         btn_nuevoRubro.setEnabled(true);
     }//GEN-LAST:event_cbox_rubroActionPerformed
-
-    private void txt_observacionSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_observacionSolicitudActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_observacionSolicitudActionPerformed
 
     private void btn_nuevoRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoRubroActionPerformed
         // TODO add your handling code here:
@@ -1321,8 +1312,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         // TODO add your handling code here:
         jDialogClienteCargarDireccion.setVisible(true);
         jDialogClienteCargarDireccion.setModal(true);
-        jDialogClienteCargarDireccion.setLocationRelativeTo(this);
-        //jDialogClienteCargarDireccion.setSize(400,221);
+        jDialogClienteCargarDireccion.setLocationRelativeTo(null);
+        jDialogClienteCargarDireccion.setSize(480, 420);
         jDialogClienteCargarDireccion.setTitle("Añadir la direccion del comercio");
         cargarDatosDireccion();
     }//GEN-LAST:event_btn_añadirDireccionComercioActionPerformed
@@ -1342,10 +1333,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             if(cbox_EsPropietario.isSelected())
                 c.setPropietario(1);
             else
-                c.setPropietario(1);
+                c.setPropietario(0);
             if(cbox_habilitarDireccionComercio.isSelected()){
                 if(c.getDireccion()==null){
-                    JOptionPane.showMessageDialog(null,"Debe ingresar la dirección del comercio o destildar el checkbox, \n lo cual indica que el comercio se encuentra en la misma que el cliente","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Debe ingresar la dirección del comercio o destildar el checkbox, \n lo cual indica que el comercio se encuentra en la misma direccion que el cliente","Error",JOptionPane.ERROR_MESSAGE);
                 }
             }else{
                 Direccion d = new Direccion();
@@ -1362,7 +1353,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             }else{
                 comercioDAO.updateComercio(c);
             }
-            creditoDAO.insertarSolicitud(clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),(Empleado)cbox_cobrador.getSelectedItem());
+            creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),(Empleado)cbox_cobrador.getSelectedItem());
         }else{
             System.out.println("la lista es null, tiene 0 elementos o el posComercioSelected es -1");
         }
@@ -1439,6 +1430,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         if(pos!=-1){
             cargarDatosCliente(pos);
             habilitarBotones(true);
+            habilitarCheckbox(true);
         }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
@@ -1475,42 +1467,43 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         if(listaComercios!=null && listaComercios.size() > 0){
             if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
                 posComercioSelected = (posComercioSelected+1)%listaComercios.size();
-                txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
-                cbox_rubro.setSelectedItem(listaComercios.get(posComercioSelected).getRubro());
-                txt_observacionSolicitud.setText(listaComercios.get(posComercioSelected).getReferencia());
-                txt_cuitComercio.setText(listaComercios.get(posComercioSelected).getCuit());
-                date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
-                cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
-                cbox_zonas.setSelectedItem(listaComercios.get(posComercioSelected).getZona());
-                cbox_EsPropietario.setSelected(listaComercios.get(posComercioSelected).getPropietario() ==1);
-                boolean val = listaComercios.get(posComercioSelected).getDireccion().getId() != clienteSelected.getDireccion_id();
-                cbox_habilitarDireccionComercio.setSelected(val);
-                btn_añadirDireccionComercio.setEnabled(val);
             }else if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP){
                 if(posComercioSelected == 0){
                     posComercioSelected = listaComercios.size()-1;
                 }else{
                     posComercioSelected--;
                 }
-                txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
             }
+            txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
+            cbox_rubro.setSelectedItem(listaComercios.get(posComercioSelected).getRubro());
+            txt_observacionSolicitud.setText(listaComercios.get(posComercioSelected).getReferencia());
+            txt_cuitComercio.setText(listaComercios.get(posComercioSelected).getCuit());
+            date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
+            cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
+            cbox_zonas.setSelectedItem(listaComercios.get(posComercioSelected).getZona());
+            cbox_EsPropietario.setSelected(listaComercios.get(posComercioSelected).getPropietario() ==1);
+            boolean val = listaComercios.get(posComercioSelected).getDireccion().getId() != clienteSelected.getDireccion_id();
+            cbox_habilitarDireccionComercio.setSelected(val);
+            btn_añadirDireccionComercio.setEnabled(val);
         }
     }//GEN-LAST:event_txt_nombreComercioKeyReleased
 
     private void cbox_nacionalidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_nacionalidadItemStateChanged
         if(cbox_nacionalidad.getItemCount() == 0)
-        return;
+            return;
         Pais p = (Pais) cbox_nacionalidad.getSelectedItem();
         pais_selected = p;
         cbox_provincia.removeAllItems();
         try{
-            direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
-                cbox_provincia.addItem(t);
-            });
-            cbox_provincia.setSelectedIndex(0);
-            cbox_provincia.setEnabled(true);
+            if(direcciones.getPais_Provincia().containsKey(p.getId())){
+                direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+                    cbox_provincia.addItem(t);
+                });
+                cbox_provincia.setSelectedIndex(0);
+                cbox_provincia.setEnabled(true);
+            }
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
 
@@ -1522,29 +1515,34 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         p.getId();
         cbox_ciudad.removeAllItems();
         try{
-            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
-                cbox_ciudad.addItem(t);
-            });
-            cbox_ciudad.setEnabled(true);
+            if(direcciones.getProvincia_Localidad().containsKey(p.getId())){
+                direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+                    cbox_ciudad.addItem(t);
+                });
+                cbox_ciudad.setSelectedIndex(0);
+                cbox_ciudad.setEnabled(true);
+            }
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_cbox_provinciaItemStateChanged
 
     private void cbox_barrioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_barrioItemStateChanged
         if(cbox_barrio.getItemCount() == 0)
-        return;
+            return;
         Barrio b = (Barrio) cbox_barrio.getSelectedItem();
         barrio_selected = b;
         cbox_direccion.removeAllItems();
         try{
-            direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
-                cbox_direccion.addItem(t);
-            });
-            cbox_direccion.setSelectedIndex(0);
-            cbox_direccion.setEnabled(true);
+            if(direcciones.getBarrio_direccion().containsKey(b.getId())){
+                direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
+                    cbox_direccion.addItem(t);
+                });
+                cbox_direccion.setSelectedIndex(0);
+                cbox_direccion.setEnabled(true);
+            }
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
 
     }//GEN-LAST:event_cbox_barrioItemStateChanged
@@ -1556,18 +1554,21 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         localidad_selected = l;
         cbox_barrio.removeAllItems();
         try{
-            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-                cbox_barrio.addItem(t);
-            });
-            cbox_barrio.setEnabled(true);
+            if(direcciones.getLocalidad_Barrio().containsKey(l.getId())){
+                direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                    cbox_barrio.addItem(t);
+                });
+                cbox_barrio.setSelectedIndex(0);
+                cbox_barrio.setEnabled(true);
+            }
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_cbox_ciudadItemStateChanged
 
     private void cbox_direccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_direccionItemStateChanged
         if(cbox_direccion.getItemCount() == 0)
-        return;
+            return;
         direccion_selected = (Direccion) cbox_direccion.getSelectedItem();
     }//GEN-LAST:event_cbox_direccionItemStateChanged
 
@@ -1704,6 +1705,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         limpiarCampos();
         habilitarBotones(false);
+        habilitarCheckbox(false);
         limpiarAtributos();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
@@ -1809,6 +1811,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTableClientes;
@@ -1839,7 +1842,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTextField txt_nombreConyugue;
     private javax.swing.JTextField txt_nroDireccion;
     private javax.swing.JTextField txt_nroSolicitud;
-    private javax.swing.JTextField txt_observacionSolicitud;
+    private javax.swing.JTextArea txt_observacionSolicitud;
     private javax.swing.JTextArea txt_referenciaComercio;
     private javax.swing.JTextField txtf_nuevo_elemento;
     // End of variables declaration//GEN-END:variables
@@ -1975,9 +1978,17 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             clienteSelected = listaCliente.get(pos);
             txt_nombreCliente.setText(clienteSelected.getNombre());
             txt_dniCliente.setText(clienteSelected.getDni()+"");
-            //Dato conyugue
-            Cliente c = clienteDAO.recuperarConyugue(clienteSelected.getId());
-            txt_nombreConyugue.setText(c.getNombre()+ " ("+c.getDni()+")");
+             Cliente c = null;
+            if(clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
+                //Dato conyugue
+                c = clienteDAO.recuperarConyugue(clienteSelected.getId());
+                txt_nombreConyugue.setText(c.getNombre()+ " ("+c.getDni()+")");
+            }else{
+                c = new Cliente();
+                c.setId(-1);
+                c.setNombre("");
+            }
+            idConyugue = c.getId();
             //cantidad creditos
             int cant = creditoDAO.getCantCredPorPareja(clienteSelected.getId(),c.getId());
             lbl_cantidadCreditos.setText(cant+"");
@@ -1998,7 +2009,26 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_cargarRelacion.setEnabled(b);
         btn_nuevoRubro.setEnabled(b);
     }
-
+    private void habilitarCheckbox(boolean b){
+        if(b){
+            if(cbox_cobrador.getItemCount()>0)
+                cbox_cobrador.setEnabled(b);
+            if(cbox_vendedor.getItemCount()>0)
+                cbox_vendedor.setEnabled(b);
+            if(cbox_rubro.getItemCount()>0)
+                cbox_rubro.setEnabled(b);
+            if(cbox_tipoIva.getItemCount()>0)
+                cbox_tipoIva.setEnabled(b);
+            if(cbox_zonas.getItemCount()>0)
+                cbox_zonas.setEnabled(b);
+        }else{
+            cbox_cobrador.setEnabled(b);
+            cbox_vendedor.setEnabled(b);
+            cbox_rubro.setEnabled(b);
+            cbox_tipoIva.setEnabled(b);
+            cbox_zonas.setEnabled(b);
+        }
+    }
     private void cargarDatosDireccion() {
         Comercio c = listaComercios.get(posComercioSelected);
         cargarNacionalidades();

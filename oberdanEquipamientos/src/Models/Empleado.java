@@ -5,6 +5,7 @@
  */
 package Models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -36,7 +37,26 @@ public class Empleado implements Comparable<Empleado>{
     private String user;
     private String pass;
     private String tipo;
+    // este atributo solo es para credito
+    private Timestamp fechaAprobacion;
+    private boolean aprobado;
+
+    public boolean isAprobado() {
+        return aprobado;
+    }
+
+    public void setAprobado(boolean aprobado) {
+        this.aprobado = aprobado;
+    }
+
     
+    public Timestamp getFechaAprobacion() {
+        return fechaAprobacion;
+    }
+
+    public void setFechaAprobacion(Timestamp fechaAprobacion) {
+        this.fechaAprobacion = fechaAprobacion;
+    }
     
     public Empleado(){
         

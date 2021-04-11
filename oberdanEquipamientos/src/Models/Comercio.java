@@ -17,7 +17,7 @@ public class Comercio {
     private int numero = 0;
     private int codPostal = 0;
     private int propietario = 0;
-    private Direccion direccion = null;
+    private Direccion direccion = new Direccion();
     private Rubro rubro= null;
     private String nombre="";
     private String referencia="";
