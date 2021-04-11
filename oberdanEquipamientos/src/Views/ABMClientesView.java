@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +73,9 @@ public class ABMClientesView extends javax.swing.JPanel {
         
         initComponents();
         //Statics.style.setPlaceHolder(jTextF_IngresarNuevoElemento, "Ingrese nuevo");
+        Date fecha = new Date();
+        jLabel1.setText(Funciones.dateFormat2(fecha));
+        jDateChooser1.setDate(fecha);
         habilitarCampos(false);
         jComboBox_Provincias.setEnabled(false);
         jComboBox_Ciudades.setEnabled(false);
@@ -1349,6 +1353,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             model.addRow(nuevo);
             jButton_eliminarContacto.setEnabled(true);
         }else{
+             System.out.println("El item seleccionado es: "+jComboBox_TipoContacto.getSelectedIndex());
             JOptionPane.showMessageDialog(null, "Debe llenar el campo de contacto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1976,7 +1981,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         if(modificarTrue){
             
         int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el cliente: \n"+jTextField_nombreCliente.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            System.out.println("result = " + result);
+            
             if(result == JOptionPane.OK_OPTION){
                 
                 if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){

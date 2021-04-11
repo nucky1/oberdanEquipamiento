@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import java.math.BigInteger; 
 import java.util.Comparator;
 import java.sql.Timestamp; 
+import java.util.Calendar;
 import java.util.Enumeration;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
@@ -45,7 +46,19 @@ public class Funciones {
 
         return ret;
     }
-
+    /**
+     * 
+     * @param fecha
+     * @param dias
+     * @return a new date adding or deleting the quantity on dias (if dias is negative)
+     */
+    public static Date sumarRestarDiasFecha(Date fecha, int dias){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.DAY_OF_YEAR, dias);
+        return calendar.getTime();
+    }
+    
     public static boolean onlyNumbers(String string, int digitLimit, boolean allowEmpty)
     {
         boolean ret;
@@ -136,7 +149,7 @@ public class Funciones {
             return true;
         }
     }
-    
+    static SimpleDateFormat plantilla2 = new SimpleDateFormat("dd-MM-yyyy");
     static SimpleDateFormat plantilla = new SimpleDateFormat("yyyy-MM-dd");
     public static String dateFormat(Date date){
         Locale locale = new Locale("us", "US");
@@ -148,6 +161,11 @@ public class Funciones {
          Timestamp ts=new Timestamp(date.getTime());  
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
         return formatter.format(ts);
+    }
+    public static String dateFormat2(Date date){
+         Locale locale = new Locale("us", "US");
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+        return plantilla2.format(date);
     }
     /**
      * 

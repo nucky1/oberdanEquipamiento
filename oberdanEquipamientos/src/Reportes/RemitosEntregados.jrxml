@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38e5e043-3373-4b2c-8d54-0714c5bb26e3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="139" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="190" height="85" uuid="77424b40-ce45-48d5-8280-62c9d29e2cfc"/>
+				<imageExpression><![CDATA["C:\\Users\\Hernan\\Documents\\Proyecto Claudio\\Nuevo Sis\\oberdanEquipamientos\\src\\Statics\\oberdan logo SIN NUMERO.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="190" y="30" width="144" height="20" uuid="e7e5826c-e693-4960-8d7e-8eaecab9b9d9"/>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Remitos entregados]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="10" width="100" height="20" uuid="b3bc5159-ca5e-452d-a3bc-74e0ae0c3540"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="30" width="100" height="20" uuid="88b0e0d5-5146-410e-85c0-771a25d50a6a"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="439" y="53" width="83" height="20" uuid="da6eb2e0-2023-4666-9c68-aafd33ebf30b"/>
+				<text><![CDATA[Comprobante N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="78" width="100" height="20" uuid="f7bc88f9-111f-461b-b1fc-4c77c24be76a"/>
+				<text><![CDATA[Fecha de entrega:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="85" width="100" height="20" uuid="36a5e0ab-e48d-4072-b147-9c41b0570146"/>
+				<text><![CDATA[Fletero Sr:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="105" width="100" height="20" uuid="1b7c5c47-7de0-4dd4-8a0d-f4c160beac07"/>
+				<text><![CDATA[Cantidad de remitos:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="272" y="0" width="167" height="20" uuid="a0ee5c9b-3b2d-4352-8a11-59c0d9bb022b"/>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="33" height="20" uuid="7df5279d-6125-411b-86cd-78ee7789852c"/>
+				<text><![CDATA[Rto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="522" y="0" width="33" height="20" uuid="76a3daca-dda4-4164-952f-81b1e50e11f8"/>
+				<text><![CDATA[Anu.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="0" width="33" height="20" uuid="310565de-9cd6-498c-82e5-369e34851c25"/>
+				<text><![CDATA[C. N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="0" width="167" height="20" uuid="196cbe4d-cb4d-4157-b024-93090ca274e0"/>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="0" width="33" height="20" uuid="65d41822-bba8-49c9-a9c5-9ce66f6c4cb1"/>
+				<text><![CDATA[Ent.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="69" width="100" height="20" uuid="701ef458-3bab-4f6c-af98-b134f7d358ee"/>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="23" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="76" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="40" width="100" height="20" uuid="a04a0062-5b9e-4616-9400-8ef89d3c8b67"/>
+				<text><![CDATA[Recibi conforme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="20" width="135" height="20" uuid="5f569a41-54a9-4471-9708-cc06305f5e49"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[..........................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="26" width="100" height="20" uuid="ab280c26-d86a-4983-81f6-fc8795301fcd"/>
+				<text><![CDATA[Son $:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

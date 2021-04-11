@@ -99,6 +99,7 @@ public class EmpleadosDAO {
           + " AND localidad.id = barrio.localidad_id"
           + " AND localidad.provincia_id = provincia.id"
           + " AND pais.id = provincia.pais_id";
+         System.out.println("EN empleadosdao, en buscarEmpleado la consulta fue: /n"+SQL);
        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
        List<Empleado> list = new ArrayList<>();
        try{

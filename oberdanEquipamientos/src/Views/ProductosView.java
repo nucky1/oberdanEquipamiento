@@ -4501,6 +4501,7 @@ public class Pestaña4_dinamica extends Thread
                     else if(listaStock.get(i).getTipo()==2){
                         obj[3]="PEDIDO";
                     }
+                   
                     modeloStock.addRow(obj);
                   
                 }

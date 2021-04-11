@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3790d77c-1b2b-4652-9bba-9466ac956b55">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="credito_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="carton_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     carton.`id` AS carton_id,
+     carton.`credito_id` AS carton_credito_id,
+     carton.`nro_planilla` AS carton_nro_planilla,
+     carton.`cliente_id` AS carton_cliente_id,
+     carton.`cliente_nombre` AS carton_cliente_nombre,
+     carton.`ultimo_pago` AS carton_ultimo_pago,
+     carton.`cuotas_adeudadas` AS carton_cuotas_adeudadas,
+     carton.`cuotas_aCobrar` AS carton_cuotas_aCobrar,
+     carton.`cant_cuotas_credito` AS carton_cant_cuotas_credito,
+     carton.`importe_cancelado` AS carton_importe_cancelado,
+     carton.`importe_ingresado` AS carton_importe_ingresado,
+     carton.`estado` AS carton_estado,
+     carton.`deuda` AS carton_deuda,
+     carton.`importe_cuota` AS carton_importe_cuota,
+     carton.`nro_cuota` AS carton_nro_cuota,
+     carton.`vencimiento` AS carton_vencimiento,
+     carton.`state` AS carton_state,
+     carton.`created_at` AS carton_created_at,
+     carton.`updated_at` AS carton_updated_at,
+     aprobaciones.`id` AS aprobaciones_id,
+     aprobaciones.`credito_id` AS aprobaciones_credito_id,
+     aprobaciones.`empleado_id` AS aprobaciones_empleado_id,
+     aprobaciones.`fecha` AS aprobaciones_fecha,
+     aprobaciones.`estado` AS aprobaciones_estado,
+     credito.`id` AS credito_id,
+     credito.`cliente_id` AS credito_cliente_id,
+     credito.`fecha_aprobacion` AS credito_fecha_aprobacion,
+     credito.`estado` AS credito_estado,
+     credito.`cant_cuotas` AS credito_cant_cuotas,
+     credito.`importe_total` AS credito_importe_total,
+     credito.`importe_cuota` AS credito_importe_cuota,
+     credito.`importe_pri_cuota` AS credito_importe_pri_cuota,
+     credito.`importe_deuda` AS credito_importe_deuda,
+     credito.`importe_credito` AS credito_importe_credito,
+     credito.`anticipo` AS credito_anticipo,
+     credito.`importe_ult_cuota` AS credito_importe_ult_cuota,
+     credito.`tipo` AS credito_tipo,
+     credito.`venc_pri_cuota` AS credito_venc_pri_cuota,
+     credito.`state` AS credito_state,
+     credito.`created_at` AS credito_created_at,
+     credito.`updated_at` AS credito_updated_at,
+     credito.`zona` AS credito_zona,
+     credito.`comercio_id` AS credito_comercio_id,
+     credito.`conyugue_id` AS credito_conyugue_id,
+     credito.`direccionActual_id` AS credito_direccionActual_id,
+     credito.`nro_solicitud` AS credito_nro_solicitud,
+     credito.`cuota_id` AS credito_cuota_id,
+     comercio.`id` AS comercio_id,
+     comercio.`cliente_id` AS comercio_cliente_id,
+     comercio.`direccion_id` AS comercio_direccion_id,
+     comercio.`rubro_id` AS comercio_rubro_id,
+     comercio.`nombre` AS comercio_nombre,
+     comercio.`referencia` AS comercio_referencia,
+     comercio.`numero` AS comercio_numero,
+     comercio.`propietario` AS comercio_propietario,
+     comercio.`zona` AS comercio_zona,
+     comercio.`cuit` AS comercio_cuit,
+     comercio.`tipo_iva` AS comercio_tipo_iva,
+     comercio.`inicio_actividades` AS comercio_inicio_actividades,
+     comercio.`state` AS comercio_state,
+     comercio.`created_at` AS comercio_created_at,
+     comercio.`updated_at` AS comercio_updated_at,
+     comercio.`codPostal` AS comercio_codPostal,
+     direccion.`id` AS direccion_id,
+     direccion.`nombre` AS direccion_nombre,
+     direccion.`barrio_id` AS direccion_barrio_id,
+     barrio.`id` AS barrio_id,
+     barrio.`nombre` AS barrio_nombre,
+     barrio.`localidad_id` AS barrio_localidad_id,
+     cliente.`id` AS cliente_id,
+     cliente.`nombre` AS cliente_nombre,
+     cliente.`state` AS cliente_state,
+     cliente.`dni` AS cliente_dni,
+     cliente.`fechaNacimiento` AS cliente_fechaNacimiento,
+     cliente.`esSolicitante` AS cliente_esSolicitante,
+     cliente.`codPostal` AS cliente_codPostal,
+     cliente.`documentacion` AS cliente_documentacion,
+     cliente.`limite_credito` AS cliente_limite_credito,
+     cliente.`referencia` AS cliente_referencia,
+     cliente.`numero` AS cliente_numero,
+     cliente.`created_at` AS cliente_created_at,
+     cliente.`updated_at` AS cliente_updated_at,
+     cliente.`tipo_dni` AS cliente_tipo_dni,
+     cliente.`observaciones` AS cliente_observaciones,
+     cliente.`estadoCivil` AS cliente_estadoCivil,
+     cliente.`direccion_id` AS cliente_direccion_id,
+     localidad.`id` AS localidad_id,
+     localidad.`nombre` AS localidad_nombre,
+     contactos.`id` AS contactos_id,
+     contactos.`id_persona` AS contactos_id_persona,
+     contactos.`contacto` AS contactos_contacto,
+     contactos.`tipo` AS contactos_tipo,
+     credito.`saldo_anterior` AS credito_saldo_anterior,
+     art_rubro.`id` AS art_rubro_id,
+     art_rubro.`nombre` AS art_rubro_nombre,
+     renglon_credito.`id` AS renglon_credito_id,
+     renglon_credito.`cantidad` AS renglon_credito_cantidad,
+     renglon_credito.`costo_prod` AS renglon_credito_costo_prod,
+     renglon_credito.`importe_cuota` AS renglon_credito_importe_cuota,
+     renglon_credito.`sub_total` AS renglon_credito_sub_total,
+     renglon_credito.`credito_id` AS renglon_credito_credito_id,
+     renglon_credito.`producto_id` AS renglon_credito_producto_id,
+     renglon_credito.`nroSerie` AS renglon_credito_nroSerie,
+     renglon_credito.`created_at` AS renglon_credito_created_at,
+     renglon_credito.`updated_at` AS renglon_credito_updated_at,
+     renglon_credito.`state` AS renglon_credito_state,
+     articulos.`id` AS articulos_id,
+     articulos.`cod` AS articulos_cod,
+     articulos.`nombre` AS articulos_nombre,
+     articulos.`codigo_ean` AS articulos_codigo_ean,
+     articulos.`codigo_barra` AS articulos_codigo_barra,
+     articulos.`rubro_id` AS articulos_rubro_id,
+     articulos.`stock_existente` AS articulos_stock_existente,
+     articulos.`stock_minimo` AS articulos_stock_minimo,
+     articulos.`proveedor_id` AS articulos_proveedor_id,
+     articulos.`iva` AS articulos_iva,
+     articulos.`observaciones` AS articulos_observaciones,
+     articulos.`costo_flete` AS articulos_costo_flete,
+     articulos.`sobretasa_iva` AS articulos_sobretasa_iva,
+     articulos.`impuesto_interno` AS articulos_impuesto_interno,
+     articulos.`impuesto_int_fijo` AS articulos_impuesto_int_fijo,
+     articulos.`precio_venta` AS articulos_precio_venta,
+     articulos.`tipo` AS articulos_tipo,
+     articulos.`created_at` AS articulos_created_at,
+     articulos.`updated_at` AS articulos_updated_at,
+     articulos.`state` AS articulos_state,
+     articulos.`precio_compra` AS articulos_precio_compra
+FROM
+     `credito` credito INNER JOIN `aprobaciones` aprobaciones ON credito.`id` = aprobaciones.`credito_id`
+     INNER JOIN `carton` carton ON credito.`id` = carton.`credito_id`
+     INNER JOIN `comercio` comercio ON credito.`comercio_id` = comercio.`id`
+     INNER JOIN `cliente` cliente ON credito.`cliente_id` = cliente.`id`
+     INNER JOIN `renglon_credito` renglon_credito ON credito.`id` = renglon_credito.`credito_id`
+     INNER JOIN `articulos` articulos ON renglon_credito.`producto_id` = articulos.`id`
+     AND cliente.`id` = comercio.`cliente_id`
+     INNER JOIN `contactos` contactos ON cliente.`id` = contactos.`id_persona`
+     AND contactos.`id_persona` = cliente.`id`
+     INNER JOIN `direccion` direccion ON comercio.`direccion_id` = direccion.`id`
+     INNER JOIN `art_rubro` art_rubro ON comercio.`rubro_id` = art_rubro.`id`
+     INNER JOIN `barrio` barrio ON direccion.`barrio_id` = barrio.`id`
+     INNER JOIN `localidad` localidad ON barrio.`localidad_id` = localidad.`id`
+WHERE
+     carton.estado = 'PENDIENTE'
+ AND credito.id = $P!{credito_id}
+ AND carton.id = $P{carton_id}
+HAVING
+     contactos.`tipo` = 'CELULAR']]>
+	</queryString>
+	<field name="carton_id" class="java.lang.Integer"/>
+	<field name="carton_credito_id" class="java.lang.Integer"/>
+	<field name="carton_nro_planilla" class="java.lang.Integer"/>
+	<field name="carton_cliente_id" class="java.lang.Integer"/>
+	<field name="carton_cliente_nombre" class="java.lang.String"/>
+	<field name="carton_ultimo_pago" class="java.sql.Timestamp"/>
+	<field name="carton_cuotas_adeudadas" class="java.lang.Integer"/>
+	<field name="carton_cuotas_aCobrar" class="java.lang.Integer"/>
+	<field name="carton_cant_cuotas_credito" class="java.lang.Integer"/>
+	<field name="carton_importe_cancelado" class="java.lang.Float"/>
+	<field name="carton_importe_ingresado" class="java.lang.Float"/>
+	<field name="carton_estado" class="java.lang.String"/>
+	<field name="carton_deuda" class="java.lang.Float"/>
+	<field name="carton_importe_cuota" class="java.lang.Float"/>
+	<field name="carton_nro_cuota" class="java.lang.Integer"/>
+	<field name="carton_vencimiento" class="java.sql.Timestamp"/>
+	<field name="carton_state" class="java.lang.String"/>
+	<field name="carton_created_at" class="java.sql.Timestamp"/>
+	<field name="carton_updated_at" class="java.sql.Timestamp"/>
+	<field name="aprobaciones_id" class="java.lang.Integer"/>
+	<field name="aprobaciones_credito_id" class="java.lang.Integer"/>
+	<field name="aprobaciones_empleado_id" class="java.lang.Integer"/>
+	<field name="aprobaciones_fecha" class="java.sql.Timestamp"/>
+	<field name="aprobaciones_estado" class="java.lang.Boolean"/>
+	<field name="credito_id" class="java.lang.Integer"/>
+	<field name="credito_cliente_id" class="java.lang.Integer"/>
+	<field name="credito_fecha_aprobacion" class="java.sql.Timestamp"/>
+	<field name="credito_estado" class="java.lang.String"/>
+	<field name="credito_cant_cuotas" class="java.lang.Integer"/>
+	<field name="credito_importe_total" class="java.lang.Float"/>
+	<field name="credito_importe_cuota" class="java.lang.Float"/>
+	<field name="credito_importe_pri_cuota" class="java.lang.Float"/>
+	<field name="credito_importe_deuda" class="java.lang.Float"/>
+	<field name="credito_importe_credito" class="java.lang.Float"/>
+	<field name="credito_anticipo" class="java.lang.Float"/>
+	<field name="credito_importe_ult_cuota" class="java.lang.Float"/>
+	<field name="credito_tipo" class="java.lang.String"/>
+	<field name="credito_venc_pri_cuota" class="java.sql.Timestamp"/>
+	<field name="credito_state" class="java.lang.String"/>
+	<field name="credito_created_at" class="java.sql.Timestamp"/>
+	<field name="credito_updated_at" class="java.sql.Timestamp"/>
+	<field name="credito_zona" class="java.lang.Integer"/>
+	<field name="credito_comercio_id" class="java.lang.Integer"/>
+	<field name="credito_conyugue_id" class="java.lang.Integer"/>
+	<field name="credito_direccionActual_id" class="java.lang.Integer"/>
+	<field name="credito_nro_solicitud" class="java.lang.Integer"/>
+	<field name="credito_cuota_id" class="java.lang.Integer"/>
+	<field name="comercio_id" class="java.lang.Integer"/>
+	<field name="comercio_cliente_id" class="java.lang.Integer"/>
+	<field name="comercio_direccion_id" class="java.lang.Integer"/>
+	<field name="comercio_rubro_id" class="java.lang.Integer"/>
+	<field name="comercio_nombre" class="java.lang.String"/>
+	<field name="comercio_referencia" class="java.lang.String"/>
+	<field name="comercio_numero" class="java.lang.Integer"/>
+	<field name="comercio_propietario" class="java.lang.Boolean"/>
+	<field name="comercio_zona" class="java.lang.String"/>
+	<field name="comercio_cuit" class="java.lang.String"/>
+	<field name="comercio_tipo_iva" class="java.lang.String"/>
+	<field name="comercio_inicio_actividades" class="java.sql.Timestamp"/>
+	<field name="comercio_state" class="java.lang.String"/>
+	<field name="comercio_created_at" class="java.sql.Timestamp"/>
+	<field name="comercio_updated_at" class="java.sql.Timestamp"/>
+	<field name="comercio_codPostal" class="java.lang.Integer"/>
+	<field name="direccion_id" class="java.lang.Integer"/>
+	<field name="direccion_nombre" class="java.lang.String"/>
+	<field name="direccion_barrio_id" class="java.lang.Integer"/>
+	<field name="barrio_id" class="java.lang.Integer"/>
+	<field name="barrio_nombre" class="java.lang.String"/>
+	<field name="barrio_localidad_id" class="java.lang.Integer"/>
+	<field name="cliente_id" class="java.lang.Integer"/>
+	<field name="cliente_nombre" class="java.lang.String"/>
+	<field name="cliente_state" class="java.lang.String"/>
+	<field name="cliente_dni" class="java.lang.Integer"/>
+	<field name="cliente_fechaNacimiento" class="java.sql.Date"/>
+	<field name="cliente_esSolicitante" class="java.lang.Boolean"/>
+	<field name="cliente_codPostal" class="java.lang.Integer"/>
+	<field name="cliente_documentacion" class="java.lang.String"/>
+	<field name="cliente_limite_credito" class="java.lang.Float"/>
+	<field name="cliente_referencia" class="java.lang.String"/>
+	<field name="cliente_numero" class="java.lang.Integer"/>
+	<field name="cliente_created_at" class="java.sql.Timestamp"/>
+	<field name="cliente_updated_at" class="java.sql.Timestamp"/>
+	<field name="cliente_tipo_dni" class="java.lang.String"/>
+	<field name="cliente_observaciones" class="java.lang.String"/>
+	<field name="cliente_estadoCivil" class="java.lang.String"/>
+	<field name="cliente_direccion_id" class="java.lang.Integer"/>
+	<field name="localidad_id" class="java.lang.Integer"/>
+	<field name="localidad_nombre" class="java.lang.String"/>
+	<field name="contactos_id" class="java.lang.Integer"/>
+	<field name="contactos_id_persona" class="java.lang.Integer"/>
+	<field name="contactos_contacto" class="java.lang.String"/>
+	<field name="contactos_tipo" class="java.lang.String"/>
+	<field name="credito_saldo_anterior" class="java.lang.Float"/>
+	<field name="art_rubro_id" class="java.lang.Integer"/>
+	<field name="art_rubro_nombre" class="java.lang.String"/>
+	<field name="renglon_credito_id" class="java.lang.Integer"/>
+	<field name="renglon_credito_cantidad" class="java.lang.Float"/>
+	<field name="renglon_credito_costo_prod" class="java.lang.Float"/>
+	<field name="renglon_credito_importe_cuota" class="java.lang.Float"/>
+	<field name="renglon_credito_sub_total" class="java.lang.Float"/>
+	<field name="renglon_credito_credito_id" class="java.lang.Integer"/>
+	<field name="renglon_credito_producto_id" class="java.lang.Integer"/>
+	<field name="renglon_credito_nroSerie" class="java.lang.String"/>
+	<field name="renglon_credito_created_at" class="java.sql.Timestamp"/>
+	<field name="renglon_credito_updated_at" class="java.sql.Timestamp"/>
+	<field name="renglon_credito_state" class="java.lang.String"/>
+	<field name="articulos_id" class="java.lang.Integer"/>
+	<field name="articulos_cod" class="java.lang.Integer"/>
+	<field name="articulos_nombre" class="java.lang.String"/>
+	<field name="articulos_codigo_ean" class="java.lang.String"/>
+	<field name="articulos_codigo_barra" class="java.lang.String"/>
+	<field name="articulos_rubro_id" class="java.lang.Integer"/>
+	<field name="articulos_stock_existente" class="java.lang.Float"/>
+	<field name="articulos_stock_minimo" class="java.lang.Float"/>
+	<field name="articulos_proveedor_id" class="java.lang.Integer"/>
+	<field name="articulos_iva" class="java.lang.Float"/>
+	<field name="articulos_observaciones" class="java.lang.String"/>
+	<field name="articulos_costo_flete" class="java.lang.Float"/>
+	<field name="articulos_sobretasa_iva" class="java.lang.Float"/>
+	<field name="articulos_impuesto_interno" class="java.lang.Float"/>
+	<field name="articulos_impuesto_int_fijo" class="java.lang.Float"/>
+	<field name="articulos_precio_venta" class="java.lang.Float"/>
+	<field name="articulos_tipo" class="java.lang.Boolean"/>
+	<field name="articulos_created_at" class="java.sql.Timestamp"/>
+	<field name="articulos_updated_at" class="java.sql.Timestamp"/>
+	<field name="articulos_state" class="java.lang.String"/>
+	<field name="articulos_precio_compra" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="153" height="20" uuid="6c3c3d3c-f424-48ca-8d07-73f112f89f26"/>
+				<text><![CDATA[Sistema de compra programada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="59" height="20" uuid="8c783eb5-5836-4c7d-b1c0-1920e91b3a13"/>
+				<text><![CDATA[Solicitud N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="445" y="0" width="54" height="20" uuid="6d78a029-97e8-47b2-97fe-2be948e33252"/>
+				<text><![CDATA[Carton N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="47" width="100" height="20" uuid="420118e7-81b1-4ccd-bbee-18d86b8c484d"/>
+				<text><![CDATA[Fecha de inicio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="47" width="160" height="20" uuid="0b0f2c47-80e9-4a26-b30f-e2fb84e226c5"/>
+				<text><![CDATA[Fecha probable de finalizacion:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="499" y="0" width="37" height="20" uuid="82137513-700c-4d18-838f-d5d0d677532b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{carton_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="47" width="100" height="20" uuid="d9cc1b20-e21f-49a2-920d-01916e9624ed"/>
+				<textFieldExpression><![CDATA[$F{credito_venc_pri_cuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="366" y="47" width="100" height="20" uuid="2532a203-6f18-4e49-82e0-25a51bceec65"/>
+				<textFieldExpression><![CDATA[$F{carton_vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="258" y="0" width="100" height="20" uuid="6ae0c4b7-b2b8-4ca3-8346-5a2995f55845"/>
+				<textFieldExpression><![CDATA[$F{credito_nro_solicitud}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="187" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="6" width="45" height="20" uuid="3c34758d-b577-4832-9c48-7bf89320223c"/>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="47" width="100" height="20" uuid="d21eaa24-b1ee-4a6e-8051-d61cf7555109"/>
+				<text><![CDATA[Actividad comercial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="82" width="32" height="20" uuid="e7436beb-5655-41a1-ad18-fbab1f46c6f5"/>
+				<text><![CDATA[Barrio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="82" width="52" height="20" uuid="56854a30-ea94-4b68-92ef-5c4d08788984"/>
+				<text><![CDATA[Localidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="232" y="6" width="26" height="20" uuid="23e88026-27fa-4e8d-9cf4-7f6b5f86a18d"/>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="239" y="46" width="54" height="20" uuid="1329273c-802a-439f-9d1b-443d028244b3"/>
+				<text><![CDATA[Domicilio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="82" width="30" height="20" uuid="f7e26cc4-e9ae-41d2-a39a-66f0200c1c6c"/>
+				<text><![CDATA[Cel:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="118" width="555" height="1" uuid="59a6593f-00cd-45b7-8522-74ee4276e1b0"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="119" width="72" height="20" uuid="6dd2e9f7-3a4e-41a7-8595-d4bcd41254eb"/>
+				<text><![CDATA[Saldo anterior:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="119" width="47" height="20" uuid="7ccc6172-c25b-4382-b5f5-098fed411aac"/>
+				<text><![CDATA[Compra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="118" width="45" height="20" uuid="9100fdf7-6622-481e-b23d-2a934b43570b"/>
+				<text><![CDATA[Anticipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="221" y="120" width="37" height="20" uuid="c26c7d88-b220-4139-b5b1-19d3d7e65e8c"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="293" y="120" width="67" height="20" uuid="39b82e92-3c76-4fb5-8431-5ab794868795"/>
+				<text><![CDATA[Imp. Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="120" width="59" height="20" uuid="06474c99-4aaa-4cc0-b632-af8c6c3abdfe"/>
+				<text><![CDATA[Cant. cuotas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="120" width="100" height="20" uuid="21762cc5-d4e2-4a5c-a318-e802010dc91d"/>
+				<text><![CDATA[Imp. ultima cuota]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="299" y="46" width="146" height="20" uuid="da254861-62d9-48c1-b792-e4763b02489a"/>
+				<textFieldExpression><![CDATA[$F{direccion_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="46" width="42" height="20" uuid="c03be19e-2137-4201-a58f-cdbf3dd2540a"/>
+				<textFieldExpression><![CDATA[$F{comercio_numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="82" width="100" height="20" uuid="d0204a1d-e473-4df9-9909-3e360cc0c293"/>
+				<textFieldExpression><![CDATA[$F{barrio_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="82" width="100" height="20" uuid="86a9a904-e0d8-4e0d-bdf8-01e3888cebdc"/>
+				<textFieldExpression><![CDATA[$F{localidad_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="82" width="100" height="20" uuid="c4cc09e4-3605-4b9f-bb52-5628f87c19bc"/>
+				<textFieldExpression><![CDATA[$F{contactos_contacto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="140" width="72" height="20" uuid="5082ecf6-4380-4b38-8623-735fe3c482ac"/>
+				<textFieldExpression><![CDATA[$F{credito_saldo_anterior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="140" width="47" height="20" uuid="4cd5d032-05eb-425e-84e8-87ff54964a69"/>
+				<textFieldExpression><![CDATA[$F{credito_importe_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="293" y="139" width="65" height="20" uuid="0179ccbf-d65c-45cd-b846-6c12b56e6ea8"/>
+				<textFieldExpression><![CDATA[$F{credito_importe_cuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="140" width="57" height="20" uuid="dab06245-b43d-4741-8d0d-0b8c7aff55c0"/>
+				<textFieldExpression><![CDATA[$F{credito_cant_cuotas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="140" width="81" height="20" uuid="a8785fb4-12d0-4144-9022-28fd2b8b7b97"/>
+				<textFieldExpression><![CDATA[$F{credito_importe_ult_cuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="6" width="100" height="20" uuid="5fb4e308-9aeb-45c9-b808-28cf9745d86d"/>
+				<textFieldExpression><![CDATA[$F{cliente_dni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="6" width="161" height="20" uuid="42ed8ba7-b7c4-436d-85f0-aaa9debd1d6d"/>
+				<textFieldExpression><![CDATA[$F{cliente_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="47" width="100" height="20" uuid="3b4188e7-5719-4dfc-97ed-50f006d3af42"/>
+				<textFieldExpression><![CDATA[$F{art_rubro_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="140" width="60" height="20" uuid="22279a89-721f-401c-b58c-984d32ca480d"/>
+				<textFieldExpression><![CDATA[$F{credito_anticipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="140" width="51" height="20" uuid="fd27b7fb-9006-4ed3-84d3-a6016176b121"/>
+				<textFieldExpression><![CDATA[$F{credito_importe_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="0" width="31" height="20" uuid="7d765f96-de36-445f-acd7-143844121f30"/>
+				<text><![CDATA[Cant.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="0" width="100" height="20" uuid="c1f7d6c3-70be-4610-9542-2d1e00e897fd"/>
+				<text><![CDATA[Articulo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="0" width="100" height="20" uuid="29141d75-809b-46c7-9304-7513db7c3ddc"/>
+				<text><![CDATA[Numero de serie:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="50" height="20" uuid="7d2e2b48-fb94-41ae-a1e2-a966408b5166"/>
+				<textFieldExpression><![CDATA[$F{renglon_credito_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="0" width="274" height="20" uuid="9793311e-121b-401d-84d9-5157efb7a02f"/>
+				<textFieldExpression><![CDATA[$F{articulos_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

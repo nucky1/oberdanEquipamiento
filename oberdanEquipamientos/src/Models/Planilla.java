@@ -5,6 +5,7 @@
  */
 package Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -14,7 +15,6 @@ import java.util.Date;
 public class Planilla {
     private int id;
     private int cobrador_id;
-    private int nro_planilla;
     private float efectivo;
     private float gastos;
     // el total de rendicion esta ligado a otros tipos de pago ingresados!!
@@ -30,7 +30,7 @@ public class Planilla {
     private String observacion;
     private Date venc_pri_cuota;
     private boolean ingresada;
-
+    private ArrayList<PagosPlanilla> pagosPlanilla;
     public Planilla() {
     }
 
@@ -50,13 +50,6 @@ public class Planilla {
         this.cobrador_id = cobrador_id;
     }
 
-    public int getNro_planilla() {
-        return nro_planilla;
-    }
-
-    public void setNro_planilla(int nro_planilla) {
-        this.nro_planilla = nro_planilla;
-    }
 
     public float getEfectivo() {
         return efectivo;
@@ -164,6 +157,17 @@ public class Planilla {
     public void setIngresada(boolean ingresada) {
         this.ingresada = ingresada;
     }
+
+    public ArrayList<PagosPlanilla> getPagosPlanilla() {
+        return pagosPlanilla;
+    }
+
+    public void setPagosPlanilla(ArrayList<PagosPlanilla> pagosPlanilla) {
+        this.pagosPlanilla = pagosPlanilla;
+    }
+
+   
+   
 
   
 }
