@@ -9,6 +9,7 @@ import Models.Cliente;
 import Models.Credito;
 import Models.Comercio;
 import Models.Cuota;
+import Models.Direccion;
 import Models.Empleado;
 import Models.Producto;
 import Models.RenglonCredito;
@@ -89,6 +90,9 @@ public class CreditosDAO {
                 Cliente client = new Cliente();
                 client.setNombre(rs.getString("cliente.nombre"));
                 client.setId(rs.getInt("cliente.id"));
+                client.setNumero(rs.getString("cliente.numero"));
+                client.setCodPostal(rs.getString("cliente.codPostal"));
+                client.setDireccion_id(rs.getInt("cliente.direccion_id"));
                 client.setLimite_credito(rs.getFloat("cliente.limite_credito"));
                 //insertar datos del comercio
                 Comercio com = new Comercio();
@@ -96,6 +100,11 @@ public class CreditosDAO {
                 com.setId(rs.getInt("comercio.id"));
                 com.setNombre(rs.getString("comercio.nombre"));
                 com.setTipo_iva(rs.getString("comercio.tipo_iva"));
+                com.setNumero(rs.getInt("comercio.numero"));
+                com.setCodPostal(rs.getInt("comercio.codPostal"));
+                Direccion dir = new Direccion();
+                dir.setId(rs.getInt("comercio.direccion_id"));
+                com.setDireccion(dir);
                 //insertar datos del credito
                 Credito cred = new Credito();
                 cred.setComerce(com);
@@ -116,6 +125,7 @@ public class CreditosDAO {
                 cred.setImporte_deuda(rs.getFloat("credito.importe_deuda"));
                 cred.setImporte_credito(rs.getFloat("credito.importe_credito"));
                 cred.setAnticipo(rs.getFloat("credito.anticipo"));
+                cred.setMercaderia_entregada(rs.getBoolean("credito.mercaderia_entregada"));
                 cred.setImporte_ult_cuota(rs.getFloat("credito.importe_ult_cuota"));
                 cred.setComision(rs.getFloat("credito.comision"));
                 //insertar renglones:
@@ -219,7 +229,7 @@ public class CreditosDAO {
         SQL ="UPDATE `credito` SET estado = \"EMITIDA\" WHERE id = "+creditoSelected.getId();
         conexion.EjecutarOperacion(SQL);
         //obtenemos el id del credito insertado
-        SQL = "SELECT MAX(id) as LastId FROM `credito`";
+        SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE nro=";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             if(rs.first()){
@@ -384,6 +394,17 @@ public class CreditosDAO {
             SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
             conexion.EjecutarOperacion(SQL);
         }
+    }
+
+    public ArrayList<Credito> getCreditosSinME() {
+        ArrayList<Credito> list = new ArrayList();
+        String SQL = "SELECT * FROM `credito`" +
+                    "INNER JOIN cliente ON cliente_id = cliente.id " +
+                    "INNER JOIN comercio ON credito.comercio_id = comercio.id "+ 
+                    "LEFT JOIN cuota ON cuota_id = credito.cuota_id " +
+                    "WHERE `credito`.`tipo` != \"SOLICITUD\" AND `credito`.`estado` = \"APROBADO\" AND `credito`.`mercaderia_entregada` = TRUE";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        return cargarCreditos(rs);
     }
     
 }

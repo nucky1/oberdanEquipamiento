@@ -31,7 +31,10 @@ public class ComercioDAO {
     public ArrayList<Comercio> getComerciosByCliente(int id) {
         ArrayList<Comercio> comerces = new ArrayList<>();
         try {
-            String SQL = "SELECT * FROM `comercio` LEFT JOIN art_rubro ON rubro_id = art_rubro.id LEFT JOIN direccion ON comercio.direccion_id = direccion.id WHERE comercio.state = 'ACTIVO' AND art_rubro.state = 'ACTIVO' AND cliente_id = "+id;
+            String SQL = "SELECT * FROM `comercio` "
+                    + "LEFT JOIN art_rubro ON rubro_id = art_rubro.id "
+                    + "LEFT JOIN direccion ON comercio.direccion_id = direccion.id "
+                    + "WHERE comercio.state = 'ACTIVO' AND art_rubro.state = 'ACTIVO' AND cliente_id = "+id;
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             while (rs.next()) {
                 Comercio c = new Comercio();

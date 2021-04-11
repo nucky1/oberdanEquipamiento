@@ -5,6 +5,8 @@
  */
 package Views;
 
+import java.util.Date;
+
 /**
  *
  * @author Aguss2
@@ -34,11 +36,11 @@ public class ControlRemitos extends javax.swing.JPanel {
         txt_buscarCred = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txt_Comentarios1 = new javax.swing.JTextArea();
+        txt_Comentarios = new javax.swing.JTextArea();
         jLabel24 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         txt_NroRemito = new javax.swing.JTextField();
-        txt_Nombre = new javax.swing.JTextField();
+        txt_NombreCliente = new javax.swing.JTextField();
         jLabel35 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
         cbox_entregado = new javax.swing.JCheckBox();
@@ -46,9 +48,8 @@ public class ControlRemitos extends javax.swing.JPanel {
         date_fechaEntrega = new com.toedter.calendar.JDateChooser();
         cbox_anulacion = new javax.swing.JCheckBox();
         cbox_sucursal = new javax.swing.JComboBox<>();
-        btn_aceptar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
-        btn_terminar = new javax.swing.JButton();
+        btn_guardarRemito = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         tabla_remitosResueltos = new javax.swing.JScrollPane();
         table_articulos = new javax.swing.JTable();
@@ -60,16 +61,12 @@ public class ControlRemitos extends javax.swing.JPanel {
         txt_NombreSr_es = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         btn_imprimir = new javax.swing.JButton();
-        btn_guardar = new javax.swing.JButton();
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
         table_remitosPendientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Remito N°", "Cred N°", "Fecha", "Cliente", "Domicilio", "Entregado", "Fecha Entrega"
@@ -129,31 +126,42 @@ public class ControlRemitos extends javax.swing.JPanel {
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
-        txt_Comentarios1.setColumns(20);
-        txt_Comentarios1.setRows(5);
-        jScrollPane2.setViewportView(txt_Comentarios1);
+        txt_Comentarios.setColumns(20);
+        txt_Comentarios.setRows(5);
+        jScrollPane2.setViewportView(txt_Comentarios);
 
         jLabel24.setText("Sucursal de caja");
 
         jLabel27.setText("Cliente:");
 
+        txt_NroRemito.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_NroRemitoKeyTyped(evt);
+            }
+        });
+
         jLabel35.setText("Remito N°");
 
         jLabel39.setText("Comentarios de la entrega:");
 
+        cbox_entregado.setBackground(new java.awt.Color(255, 255, 255));
         cbox_entregado.setText("Entregado");
 
         jLabel40.setText("Fecha de Entrega:");
 
+        cbox_anulacion.setBackground(new java.awt.Color(255, 255, 255));
         cbox_anulacion.setText("Anulación del crédito");
 
         cbox_sucursal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btn_aceptar.setText("Aceptar");
-
         btn_cancelar.setText("Cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
-        btn_terminar.setText("Terminar");
+        btn_guardarRemito.setText("Guardar");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -174,7 +182,7 @@ public class ControlRemitos extends javax.swing.JPanel {
                                     .addComponent(jLabel27))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txt_Nombre)
+                                    .addComponent(txt_NombreCliente)
                                     .addComponent(cbox_sucursal, 0, 373, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,18 +199,16 @@ public class ControlRemitos extends javax.swing.JPanel {
                         .addComponent(cbox_entregado)
                         .addGap(45, 45, 45)
                         .addComponent(cbox_anulacion)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(btn_terminar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(397, 397, 397))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83)
+                .addComponent(btn_guardarRemito, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(430, 430, 430))
         );
 
-        jPanel11Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_aceptar, btn_cancelar, btn_terminar});
+        jPanel11Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_cancelar, btn_guardarRemito});
 
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +222,7 @@ public class ControlRemitos extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_NombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,14 +240,13 @@ public class ControlRemitos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_aceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(btn_terminar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_cancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_guardarRemito, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel11Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_aceptar, btn_cancelar, btn_terminar});
+        jPanel11Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancelar, btn_guardarRemito});
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -272,9 +277,7 @@ public class ControlRemitos extends javax.swing.JPanel {
 
         jLabel29.setText("Sr/es:");
 
-        btn_imprimir.setText("Imprimir");
-
-        btn_guardar.setText("Guardar");
+        btn_imprimir.setText("Imprimir remitos resueltos");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -300,12 +303,10 @@ public class ControlRemitos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_Importe, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGap(348, 348, 348)
-                .addComponent(btn_imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(249, 249, 249)
-                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_imprimir)
+                .addGap(467, 467, 467))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,11 +329,9 @@ public class ControlRemitos extends javax.swing.JPanel {
                                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txt_NombreSr_es, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(2, 2, 2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(btn_imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -362,13 +361,23 @@ public class ControlRemitos extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txt_NroRemitoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_NroRemitoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_NroRemitoKeyTyped
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        limpiarCampos();
+        habilitarBotones(false);
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_aceptar;
     private javax.swing.JButton btn_cancelar;
-    private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_guardarRemito;
     private javax.swing.JButton btn_imprimir;
-    private javax.swing.JButton btn_terminar;
     private javax.swing.JCheckBox cbox_anulacion;
     private javax.swing.JCheckBox cbox_entregado;
     private javax.swing.JComboBox<String> cbox_sucursal;
@@ -392,11 +401,25 @@ public class ControlRemitos extends javax.swing.JPanel {
     private javax.swing.JTable table_articulos;
     private javax.swing.JTable table_remitosPendientes;
     private javax.swing.JTextField txt_CantRemitos;
-    private javax.swing.JTextArea txt_Comentarios1;
+    private javax.swing.JTextArea txt_Comentarios;
     private javax.swing.JTextField txt_Importe;
-    private javax.swing.JTextField txt_Nombre;
+    private javax.swing.JTextField txt_NombreCliente;
     private javax.swing.JTextField txt_NombreSr_es;
     private javax.swing.JTextField txt_NroRemito;
     private javax.swing.JTextField txt_buscarCred;
     // End of variables declaration//GEN-END:variables
+
+    private void limpiarCampos() {
+        txt_NombreCliente.setText("");
+        txt_Comentarios.setText("");
+        txt_NroRemito.setText("");
+        date_fechaEntrega.setDate(new Date());
+        cbox_anulacion.setSelected(false);
+        cbox_entregado.setSelected(false);
+    }
+
+    private void habilitarBotones(boolean b) {
+        btn_cancelar.setEnabled(b);
+        btn_guardarRemito.setEnabled(b);
+    }
 }

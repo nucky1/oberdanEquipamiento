@@ -91,7 +91,7 @@
             <Component class="javax.swing.JTable" name="table_remitosPendientes">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="4">
+                  <Table columnCount="7" rowCount="0">
                     <Column editable="false" title="Remito N&#xb0;" type="java.lang.Object"/>
                     <Column editable="false" title="Cred N&#xb0;" type="java.lang.Object"/>
                     <Column editable="false" title="Fecha" type="java.lang.Object"/>
@@ -183,7 +183,7 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="txt_Nombre" max="32767" attributes="0"/>
+                                      <Component id="txt_NombreCliente" max="32767" attributes="0"/>
                                       <Component id="cbox_sucursal" pref="373" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -208,16 +208,14 @@
                           <Component id="cbox_anulacion" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="btn_aceptar" linkSize="1" min="-2" pref="85" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                          <Component id="btn_cancelar" linkSize="1" min="-2" pref="87" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                          <Component id="btn_terminar" linkSize="1" min="-2" pref="94" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="397" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="btn_cancelar" linkSize="1" min="-2" pref="87" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                  <Component id="btn_guardarRemito" linkSize="1" min="-2" pref="94" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="430" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -234,7 +232,7 @@
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="jLabel27" alignment="2" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="txt_Nombre" alignment="2" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_NombreCliente" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -260,10 +258,9 @@
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btn_aceptar" linkSize="2" pref="35" max="32767" attributes="0"/>
-                      <Component id="btn_terminar" linkSize="2" pref="35" max="32767" attributes="0"/>
-                      <Component id="btn_cancelar" linkSize="2" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btn_cancelar" linkSize="2" alignment="3" max="32767" attributes="0"/>
+                      <Component id="btn_guardarRemito" linkSize="2" alignment="3" pref="35" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -278,7 +275,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="txt_Comentarios1">
+            <Component class="javax.swing.JTextArea" name="txt_Comentarios">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
@@ -297,8 +294,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_NroRemito">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_NroRemitoKeyTyped"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_Nombre">
+        <Component class="javax.swing.JTextField" name="txt_NombreCliente">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel35">
           <Properties>
@@ -312,6 +312,9 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="cbox_entregado">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Entregado"/>
           </Properties>
         </Component>
@@ -324,6 +327,9 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="cbox_anulacion">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Anulaci&#xf3;n del cr&#xe9;dito"/>
           </Properties>
         </Component>
@@ -342,19 +348,17 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_aceptar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Aceptar"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="btn_cancelar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cancelarActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_terminar">
+        <Component class="javax.swing.JButton" name="btn_guardarRemito">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Terminar"/>
+            <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -393,12 +397,10 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="348" max="-2" attributes="0"/>
-                  <Component id="btn_imprimir" min="-2" pref="85" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
-                  <Component id="btn_guardar" min="-2" pref="87" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="btn_imprimir" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="467" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -429,12 +431,9 @@
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_imprimir" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="btn_guardar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="11" max="32767" attributes="0"/>
+                  <Component id="btn_imprimir" min="-2" pref="35" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -492,12 +491,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btn_imprimir">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Imprimir"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btn_guardar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar"/>
+            <Property name="text" type="java.lang.String" value="Imprimir remitos resueltos"/>
           </Properties>
         </Component>
       </SubComponents>

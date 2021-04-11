@@ -1609,6 +1609,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 creditoSelected.setId(id);
                 habilitarCampos();
                 tabla_Solicitudes.setValueAt("EMITIDA", tabla_Solicitudes.getSelectedRow(), 2);
+                principal.lbl_estado.setText("El credito se guardo con exito");
             }else{
                 creditoDAO.updateCredito(creditoSelected);
                 lbl_cobrador.setText("Nombre de la persona que aprobo");
