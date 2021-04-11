@@ -13,10 +13,22 @@ import Models.Empleado;
 import Models.Producto;
 import Models.RenglonCredito;
 import Views.Main;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author Hernan
@@ -326,6 +338,78 @@ public class CreditosDAO {
         }
         SQL += " WHERE id ="+idCred;
         conexion.EjecutarConsultaSQL(SQL);
+    }
+    public ArrayList<Credito> getCreditosPendienteCobro(){
+         ArrayList<Credito> lista = new ArrayList();
+        String SQL ="SELECT * FROM credito LEFT JOIN carton ON credito.id = carton.credito_id WHERE carton.id = null AND credito.estado = 'APROBADO'";
+        System.out.println("en creditos dao, en recuperarCreditosPEndiente Cobro la consulta fue /n"+SQL);
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        return this.cargarCreditos(rs);
+    }
+
+    public int generarCarton(Credito creditoSelected) {
+        // controlar: las cuotas adeudadas cuando hace un adelanto
+        int exito = -1;
+        int numeroAux;
+        String SQL="INSERT INTO planilla ( cobrador_id , ingresada ) VALUES ("+creditoSelected.getCobrador().getId()+" , 0)";
+        int res = conexion.EjecutarOperacion(SQL);
+        if(res!=0){
+            try {
+                // recuepero el id de la planilla que acabo de generar
+                SQL ="SELECT id FROM planilla WHERE cobrador_id= "+creditoSelected.getCobrador().getId()
+                        +" ORDER BY id DESC";
+                ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
+                if(rs.first()){
+                    numeroAux=rs.getInt("id");
+                    SQL = "INSERT INTO carton (credito_id, nro_planilla, cliente_id, cliente_nombre,ultimo_pago,"
+                            + "cuotas_adeudadas, cuotas_a_cobrar, importe_cancelado, importe_ingresado, estado, vencimiento,"
+                            + "deuda, importe_cuota, cant_cuota_credito, nro_cuota  "
+                            + "VALUES ("+creditoSelected.getId()+" , "+numeroAux+" , "+creditoSelected.getCliente().getId()+" , '"
+                            + creditoSelected.getCliente().getNombre()+"' , 0000-00-00 ,"+creditoSelected.getCant_cuotas()+" , "+creditoSelected.getCant_cuotas()+
+                            " , 0 , 0 , 'PENDIENTE' , "+creditoSelected.getVenc_pri_cuota()+" , "+creditoSelected.getImporte_deuda()+" ,"
+                            +creditoSelected.getImporte_cuota()+" , "+creditoSelected.getCant_cuotas()+" , 1 )";
+                    System.out.println("EN generar carton, la operacion sql /n"+SQL);
+                    res= conexion.EjecutarOperacion(SQL);
+                    if (res!=0){
+                       
+                        //pude guardar el carton, ahora lo deberia imprimir
+                        SQL = "SELECT id FROM cartones WHERE nro_planilla ="+numeroAux +" AND ORDER BY id DESC";
+                        rs = conexion.EjecutarConsultaSQL(SQL);
+                        if(rs.first()){
+                            return rs.getInt("id");
+                        }
+                        else{
+                            return exito;
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CreditosDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                               
+       }
+       
+         
+        return exito;
+    }
+
+    public JasperViewer generarReporteCarton(int credito_id, int carton_id) {
+        JasperReport reporte = null;
+        JasperViewer view = null;
+        Connection con = (Connection) conexion.getConexion();
+        String path = "src\\Reportes\\Carton.jasper";
+        try {
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jprint;
+            Map parametros = new HashMap();
+            parametros.put("credito_id", credito_id);
+            parametros.put("carton_id", carton_id);
+            jprint = JasperFillManager.fillReport(reporte, parametros, con);
+            view = new JasperViewer (jprint,false);
+        } catch (JRException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+        }
+        return view;
     }
     
 }

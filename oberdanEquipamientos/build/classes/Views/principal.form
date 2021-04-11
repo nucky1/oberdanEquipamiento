@@ -31,6 +31,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,44,0,0,1,-112"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -51,7 +52,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTabbedPane1.add(new Views.ProductosView());&#xa;jTabbedPane1.add(new Views.ABMClientesView());&#xa;jTabbedPane1.add(new Views.ProveedoresView());&#xa;jTabbedPane1.add(new Views.Facturacion());&#xa;jTabbedPane1.add(new Views.Auxiliar());&#xa;jTabbedPane1.add(new Views.AltaUsuariosView());&#xa;jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource(&quot;/Statics/productos.png&quot;)));&#xa;jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource(&quot;/Statics/clientes.png&quot;)));&#xa;jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource(&quot;/Statics/proveedores.png&quot;)));&#xa;jTabbedPane1.setIconAt(3, new ImageIcon(getClass().getResource(&quot;/Statics/facturacion.png&quot;)));&#xa;jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource(&quot;/Statics/auxiliar.png&quot;)));&#xa;jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource(&quot;/Statics/usuarios.png&quot;)));"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTabbedPane1.add(new Views.ProductosView());&#xa;jTabbedPane1.add(new Views.ABMClientesView());&#xa;jTabbedPane1.add(new Views.ProveedoresView());&#xa;jTabbedPane1.add(new Views.Facturacion());&#xa;jTabbedPane1.add(new Views.Auxiliar());&#xa;jTabbedPane1.add(new Views.AltaUsuariosView());&#xa;jTabbedPane1.add(new Views.IngresoCobranzas());&#xa;jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource(&quot;/Statics/productos.png&quot;)));&#xa;jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource(&quot;/Statics/clientes.png&quot;)));&#xa;jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource(&quot;/Statics/proveedores.png&quot;)));&#xa;jTabbedPane1.setIconAt(3, new ImageIcon(getClass().getResource(&quot;/Statics/facturacion.png&quot;)));&#xa;jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource(&quot;/Statics/auxiliar.png&quot;)));&#xa;jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource(&quot;/Statics/usuarios.png&quot;)));&#xa;jTabbedPane1.setIconAt(6, new ImageIcon(getClass().getResource(&quot;/Statics/ingresoCobranza.png&quot;)));"/>
         <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="principal_jTabbedPane1"/>
       </AuxValues>
       <Constraints>

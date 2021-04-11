@@ -15,11 +15,18 @@ public class Carton {
     private int id;
     private int credito_id;
     private int nro_planilla;
+    private int cliente_id;
+    private String cliente_nombre;
+    private Date ultimo_pago;
+    private int cuotas_adeudadas;
+    private int cuotas_aCobrar;
     private float importe_cancelado;
+    private float importe_ingresado;
     private String estado;
     private Date vencimiento;
     private float deuda;
     private float importe_cuota;
+    private int cant_cuota_credito;
     private int nro_cuota;
 
     public Carton() {
@@ -96,6 +103,68 @@ public class Carton {
     public void setImporte_cuota(float importe_cuota) {
         this.importe_cuota = importe_cuota;
     }
+
+    public int getCliente_id() {
+        return cliente_id;
+    }
+
+    public void setCliente_id(int cliente_id) {
+        this.cliente_id = cliente_id;
+    }
+
+    public String getCliente_nombre() {
+        return cliente_nombre;
+    }
+
+    public void setCliente_nombre(String cliente_nombre) {
+        this.cliente_nombre = cliente_nombre;
+    }
+
+    public Date getUltimo_pago() {
+        return ultimo_pago;
+    }
+
+    public void setUltimo_pago(Date ultimo_pago) {
+        this.ultimo_pago = ultimo_pago;
+    }
+
+    public int getCuotas_adeudadas() {
+        return cuotas_adeudadas;
+    }
+
+    public void setCuotas_adeudadas(int cuotas_adeudadas) {
+        this.cuotas_adeudadas = cuotas_adeudadas;
+    }
+
+    public int getCuotas_aCobrar() {
+        return cuotas_aCobrar;
+    }
+
+    public void setCuotas_aCobrar(int cuotas_aCobrar) {
+        this.cuotas_aCobrar = cuotas_aCobrar;
+    }
+
+    public float getImporte_ingresado() {
+        return importe_ingresado;
+    }
+
+    public void setImporte_ingresado(float importe_ingresado) {
+        this.importe_ingresado = importe_ingresado;
+    }
+
+    public int getCant_cuota_credito() {
+        return cant_cuota_credito;
+    }
+
+    public void setCant_cuota_credito(int cant_cuota_credito) {
+        this.cant_cuota_credito = cant_cuota_credito;
+    }
     
-            
+    public int cantCuotasXPagar(){
+        float totalCredito=this.cant_cuota_credito*this.importe_cuota;
+        return this.cant_cuota_credito-(int)((totalCredito-this.importe_cancelado)/this.importe_cuota);
+    }
+    public int cantCuotasAdeudas(){
+        return (int) (((this.cant_cuota_credito*this.importe_cuota)-this.importe_cancelado)/this.importe_cuota);
+    }       
     }

@@ -12,7 +12,14 @@ package Models;
 public class TipoPago {
     private String nombre;
     private int id = -1;
-    private float monto;
+    @Override
+    public boolean equals (Object o){
+        if(o instanceof TipoPago){
+        TipoPago tp = (TipoPago) o;
+        return tp.getNombre().equalsIgnoreCase(nombre);
+    }
+        return false;
+    }
 
     
     public TipoPago(String nombre) {
@@ -38,12 +45,6 @@ public class TipoPago {
         this.id = id;
     }
 
-    public float getMonto() {
-        return monto;
-    }
-
-    public void setMonto(float monto) {
-        this.monto = monto;
-    }
+   
     
 }

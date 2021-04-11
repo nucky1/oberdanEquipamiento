@@ -27,7 +27,6 @@ public class principal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         barra_estado = new javax.swing.JPanel();
@@ -55,12 +54,14 @@ public class principal extends javax.swing.JFrame {
         jTabbedPane1.add(new Views.Facturacion());
         jTabbedPane1.add(new Views.Auxiliar());
         jTabbedPane1.add(new Views.AltaUsuariosView());
+        jTabbedPane1.add(new Views.IngresoCobranzas());
         jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource("/Statics/productos.png")));
         jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource("/Statics/clientes.png")));
         jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource("/Statics/proveedores.png")));
         jTabbedPane1.setIconAt(3, new ImageIcon(getClass().getResource("/Statics/facturacion.png")));
         jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource("/Statics/auxiliar.png")));
         jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource("/Statics/usuarios.png")));
+        jTabbedPane1.setIconAt(6, new ImageIcon(getClass().getResource("/Statics/ingresoCobranza.png")));
 
         barra_estado.setBackground(new java.awt.Color(238, 238, 238));
         barra_estado.setMaximumSize(new java.awt.Dimension(1360, 25));

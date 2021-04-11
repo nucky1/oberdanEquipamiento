@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8157729-5fc9-44d4-a28e-5aa26ba28736">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8157729-5fc9-44d4-a28e-5aa26ba28736">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<queryString language="SQL">
+	<queryString>
 		<![CDATA[SELECT
      cliente.`id` AS cliente_id,
      cliente.`nombre` AS cliente_nombre,
@@ -20,15 +20,30 @@
      cliente.`updated_at` AS cliente_updated_at,
      cliente.`tipo_dni` AS cliente_tipo_dni,
      cliente.`observaciones` AS cliente_observaciones,
-     cliente.`zona` AS cliente_zona
+     cliente.`limite_credito` AS cliente_limite_credito,
+     cliente.`estadoCivil` AS cliente_estadoCivil
 FROM
      `cliente` cliente
 WHERE
-     cliente.state = "ACTIVO"]]>
+     cliente.state = 'ACTIVO']]>
 	</queryString>
+	<field name="cliente_id" class="java.lang.Integer"/>
 	<field name="cliente_nombre" class="java.lang.String"/>
-	<field name="cliente_dni" class="java.lang.Integer"/>
 	<field name="cliente_state" class="java.lang.String"/>
+	<field name="cliente_dni" class="java.lang.Integer"/>
+	<field name="cliente_fechaNacimiento" class="java.sql.Date"/>
+	<field name="cliente_esSolicitante" class="java.lang.Boolean"/>
+	<field name="cliente_codPostal" class="java.lang.Integer"/>
+	<field name="cliente_referencia" class="java.lang.String"/>
+	<field name="cliente_documentacion" class="java.lang.String"/>
+	<field name="cliente_numero" class="java.lang.Integer"/>
+	<field name="cliente_direccion_id" class="java.lang.Integer"/>
+	<field name="cliente_created_at" class="java.sql.Timestamp"/>
+	<field name="cliente_updated_at" class="java.sql.Timestamp"/>
+	<field name="cliente_tipo_dni" class="java.lang.String"/>
+	<field name="cliente_observaciones" class="java.lang.String"/>
+	<field name="cliente_limite_credito" class="java.lang.Float"/>
+	<field name="cliente_estadoCivil" class="java.lang.String"/>
 	<group name="cliente_nombre">
 		<groupExpression><![CDATA[$F{cliente_nombre}]]></groupExpression>
 		<groupHeader>

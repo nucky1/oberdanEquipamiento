@@ -11,7 +11,7 @@ import Models.Contacto;
 import Models.Rubro;
 import Views.Main;
 import com.mysql.jdbc.Connection;
-import com.sun.org.glassfish.gmbal.ParameterNames;
+///import com.sun.org.glassfish.gmbal.ParameterNames;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -283,7 +283,7 @@ public class ClientesDAO {
                 +" OR cliente2_id="+idCliente+")"
                 + " AND cliente.id!="+idCliente+
                 " AND relacion.state= 'ACTIVO' "
-                + " ORDER BY relacion.created_at DESC";
+                + "  BY relacion.created_at DESC";
        */
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         System.out.println("La consulta en recuperar Conyugue fue: ");
