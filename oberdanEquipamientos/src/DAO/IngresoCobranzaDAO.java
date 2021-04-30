@@ -6,9 +6,16 @@
 package DAO;
 
 import Models.Carton;
+import Models.Cliente;
+import Models.Comercio;
 import Models.Credito;
+import Models.Cuota;
+import Models.Empleado;
 import Models.Planilla;
+import Models.Producto;
+import Models.RenglonCredito;
 import Models.TipoPago;
+import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -76,7 +83,8 @@ public class IngresoCobranzaDAO {
 
     public List<Carton> getCartones(int nro_planilla) throws SQLException {
         List <Carton> list = new ArrayList<>();
-        String SQL = "SELECT carton.* FROM cartones WHERE carton.nro_planilla ="+nro_planilla+" AND STATE = 'ACTIVO'";
+        String SQL = "SELECT carton.* FROM cartones WHERE carton.nro_planilla ="
+                +nro_planilla+" AND STATE = 'ACTIVO' ";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try{
             while(rs.next()){
@@ -212,50 +220,260 @@ public class IngresoCobranzaDAO {
         }
         return exito;
     }
-    
-    public Planilla generarPlanilla(String fecha, String idCobrador) {
-         Planilla planilla = null;
-        try {
-           
-            String SQL ="SELECT *" +
+    public boolean controlarCartones(String idCobrador){
+        boolean exito = false;
+        String SQL ="SELECT *" +
                     "FROM `aprobaciones`" +
                     "INNER JOIN credito ON credito.id = aprobaciones.credito_id\n" +
                     "INNER JOIN cuota ON cuota.id = credito.cuota_id\n" +
                     "WHERE empleado_id ="+idCobrador+ "AND credito.estado= 'APROBADO'";
+        ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
+        try {
+            while (rs.next()){
+                SQL ="SELECT * FROM carton WHERE credito_id = "+rs.getInt("credito.id");
+                ResultSet  rs2= conexion.EjecutarConsultaSQL(SQL);
+                if(rs2.first()){
+                    exito=true;
+                    
+                }else{
+                    System.out.println("EN ingreso cobranza dao, controlar cartones, encontro un credito sin carton generado");
+                    return false;
+                }
+                
+            }} catch (SQLException ex) {
+            Logger.getLogger(IngresoCobranzaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exito;
+    }
+    public Planilla generarPlanilla(String fecha, String idCobrador) {
+         Planilla planilla = null;
+          String SQL ="SELECT *" +
+                    "FROM `aprobaciones`" +
+                    "INNER JOIN credito ON credito.id = aprobaciones.credito_id\n" +
+                    "INNER JOIN cuota ON cuota.id = credito.cuota_id\n" +
+                    "WHERE empleado_id ="+idCobrador+ "AND credito.estado= 'APROBADO'";
+           
             
             ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
+        try {
             if(rs.first()){
-                //busco la ultima planilla modficada
-                SQL = "SELECT * FROM `planilla` WHERE cobrador_id= "+idCobrador+
-                        " and state= 'ACTIVO' ORDER BY updated_at DESC";
-                ResultSet rs2= conexion.EjecutarConsultaSQL(SQL);
-                if(rs2.first()){
-                    //debo controlar, que la ultima planilla modificada sea la ultima planilla cargada!
-                    //sino rindio la ultima planilla, debo emitir el aviso que la edite
-                    if(rs2.getBoolean("ingresada")){
-                        planilla = new Planilla();
-                        // tengo un metodo getPlanilla, podria llamarlo para copiar los datos de la nueva
-                        // modificar los datos que quiero
-                        // podria llamar al metodo guardarPlanilla
-                        //ahora debo generar los nuevos cartones
-                         //
-                        
-                        
-                    }
-                    else{
-                        //No esta ingresada la ultima, por ende no genero una nueva
+                //Hay creditos que todavia se deben cobrar
+                //Puedo generar una planilla
+                //creo una planilla con la fecha de hoy y recupero su id para 
+                //asignarselo a los creditos que no tengan el id de planilla
+                SQL = "INSERT INTO planilla VALUES (cobrador_id ) "
+                        + "VALUES ("+idCobrador+")";
+                int res = conexion.EjecutarOperacion(SQL);
+                if (res==0){
+                    return planilla;
+                }
+                else{
+                    SQL= "SELECT id FROM planilla WHERE cobrador_id= "
+                         +idCobrador+" AND ingresada = 0 AND ORDER BY id DES";
+                    ResultSet rs2 = conexion.EjecutarConsultaSQL(SQL);
+                    if(rs2.first()){
+                        planilla.setId(rs.getInt("id"));
                         return planilla;
                     }
                 }
-                //puede ser la primera planilla que vamos a crear de este cobrador
-                //no existe alguna planilla anterior
-                
             }
-            
         } catch (SQLException ex) {
             Logger.getLogger(IngresoCobranzaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return planilla;
+    }
+
+    public boolean cargarRenglonesPlanilla(String idCobrador, Planilla p, String date) {
+            boolean exito = false;
+        //ESTO NECESITA SER MEJOR FILTRADO, XQ NO DIFERENCIA CREDITOS
+           //CON O SIN CARTON GENERADO
+           /*
+           SELECT * FROM `aprobaciones` INNER JOIN credito ON 
+           credito.id = aprobaciones.credito_id INNER JOIN cuota 
+           ON cuota.id = credito.cuota_id INNER JOIN comercio 
+           ON credito.comercio_id = comercio.id INNER JOIN cliente 
+           ON cliente.id = credito.cliente_id  WHERE empleado_id = 2  
+           AND credito.estado= 'APROBADO'
+           */
+            String SQL ="SELECT *" +
+                    "FROM `aprobaciones`" +
+                    "INNER JOIN credito ON credito.id = aprobaciones.credito_id\n" +
+                    "INNER JOIN cuota ON cuota.id = credito.cuota_id\n" +
+                    "INNER JOIN comercio ON credito.comercio_id= comercio.id "
+                    +" INNER JOIN cliente ON cliente.id = credito.cliente_id " +
+                    "WHERE empleado_id ="+idCobrador+ "AND credito.estado= 'APROBADO'";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            ArrayList<Credito> listCreditos = new ArrayList();
+        try {
+            if(rs.first()){
+                listCreditos = cargarCreditos(rs);
+                if(!listCreditos.isEmpty()){
+                    for(int i=0; i<listCreditos.size(); i++){
+                        
+                        exito= generarCarton(listCreditos.get(i));
+                        if (exito == false) return false;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(IngresoCobranzaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return exito;        
+    }
+    
+    
+    private ArrayList<Credito> cargarCreditos(ResultSet rs) {
+        ArrayList<Credito> list = new ArrayList();
+        try{
+            while (rs.next()) {
+                //insertar datos del cliente
+                Cliente client = new Cliente();
+                client.setNombre(rs.getString("cliente.nombre"));
+                client.setId(rs.getInt("cliente.id"));
+                client.setLimite_credito(rs.getFloat("cliente.limite_credito"));
+                //insertar datos del comercio
+                Comercio com = new Comercio();
+                com.setClienteId(rs.getInt("comercio.cliente_id"));
+                com.setId(rs.getInt("comercio.id"));
+                com.setNombre(rs.getString("comercio.nombre"));
+                com.setTipo_iva(rs.getString("comercio.tipo_iva"));
+                //insertar datos del credito
+                Credito cred = new Credito();
+                cred.setComerce(com);
+                cred.setCliente(client);
+                cred.setId(rs.getInt("credito.id"));
+                cred.setSolicitud_id(rs.getInt("credito.nro_solicitud"));
+                cred.setZona(rs.getInt("credito.zona"));
+                cred.setCant_cuotas(rs.getInt("credito.cant_cuotas"));
+                cred.setTipo(rs.getString("credito.tipo"));
+                cred.setObservacion(rs.getString("credito.observacion"));
+                cred.setFecha_aprobacion(rs.getTimestamp("credito.fecha_aprobacion"));
+                cred.setFecha_solicitud(rs.getTimestamp("fecha_solicitud"));
+                cred.setVenc_pri_cuota(rs.getTimestamp("credito.venc_pri_cuota"));
+                cred.setVenc_credito(rs.getTimestamp("venc_credito"));
+                cred.setEstado(rs.getString("credito.estado"));
+                cred.setImporte_total(rs.getFloat("credito.importe_total"));
+                cred.setImporte_cuota(rs.getFloat("credito.importe_cuota"));
+                cred.setImporte_pri_cuota(rs.getFloat("credito.importe_pri_cuota"));
+                cred.setImporte_deuda(rs.getFloat("credito.importe_deuda"));
+                cred.setImporte_credito(rs.getFloat("credito.importe_credito"));
+                cred.setAnticipo(rs.getFloat("credito.anticipo"));
+                cred.setImporte_ult_cuota(rs.getFloat("credito.importe_ult_cuota"));
+                cred.setComision(rs.getFloat("credito.comision"));
+                //insertar renglones:
+                if(!cred.getTipo().equals("SOLICITUD")){
+                    String SQL = "SELECT * FROM renglon_credito "
+                            + "INNER JOIN articulos ON articulos.id = producto_id "
+                            + "WHERE credito_id = "+cred.getId();
+                    ResultSet rs2 = conexion.EjecutarConsultaSQL(SQL);
+                    while (rs2.next()) {                        
+                        RenglonCredito ren = new RenglonCredito();
+                        ren.setId(rs2.getInt("renglon_credito.id"));
+                        ren.setSubTotal(rs2.getFloat("sub_total"));
+                        ren.setImporte_cuota(rs2.getFloat("importe_cuota"));
+                        ren.setCosto(rs2.getFloat("costo_prod"));
+                        ren.setCantidad(rs2.getFloat("cantidad"));
+                        Producto p = ProductoDAO.getInstance().buscarProductoById(rs2.getInt("producto_id")).get(0);
+                        ren.setP(p);
+                        cred.addRenglon(ren);
+                    }
+                    cred.setFecha_credito(rs.getTimestamp("fecha_credito"));
+                    //insertar plan de pago
+                    Cuota cuo = new Cuota();
+                    cuo.setCantidad(rs.getInt("cuota.cantidad"));
+                    cuo.setPorcentajeExtra(rs.getFloat("cuota.porcentaje_extra"));
+                    cuo.setTipo(rs.getString("cuota.tipo"));
+                    cuo.setId(rs.getInt("cuota.id"));
+                    cred.setPlan(cuo);
+                    //insertar aprobaciones:
+                    ResultSet aprobaciones;
+                    SQL = "SELECT aprobaciones.*,empleado.nombre, empleado.tipo FROM aprobaciones "
+                            + "LEFT JOIN empleado ON empleado.id = aprobaciones.empleado_id WHERE aprobaciones.credito_id = "+cred.getId();
+                    aprobaciones = conexion.EjecutarConsultaSQL(SQL);
+                    while (aprobaciones.next()) {                        
+                        Empleado e = new Empleado();
+                        e.setId(aprobaciones.getInt("aprobaciones.empleado_id"));
+                        e.setNombre(aprobaciones.getString("empleado.nombre"));
+                        e.setTipo(aprobaciones.getString("empleado.tipo"));
+                        e.setFechaAprobacion(aprobaciones.getTimestamp("aprobaciones.fecha"));
+                        e.setAprobado(aprobaciones.getBoolean("aprobaciones.estado"));
+                        switch(e.getTipo()){
+                            case "VENDEDOR":{
+                                cred.setVendedor(e);
+                                break;
+                            }
+                            case "COBRADOR":{
+                                cred.setCobrador(e);
+                                break;
+                            }
+                            case "ADMINISTRADOR":{
+                                cred.setAdmin(e);
+                                break;
+                            }
+                            case "GERENTE":{
+                                cred.setGerente(e);
+                                break;
+                            }
+                        }
+                    }
+                }
+                list.add(cred);
+            }
+        }catch(Exception e){
+            new Statics.ExceptionManager().saveDump(e, "Error en metodo cargarCreditos", Main.isProduccion);
+        }
+        return list;
+    }
+     public boolean generarCarton(Credito creditoSelected) {
+        // controlar: las cuotas adeudadas cuando hace un adelanto
+        boolean exito= false;
+        int idPlanilla;
+        // en este caso no lo actualizo al credito, lo hare en ingreso cobranza
+        //this.updateCredito(creditoSelected);
+        Carton c = new Carton();
+
+        //ojo que el metodo que llamo para guardar esto por primera vez, solo carga
+        //algunos campos, los que necesito
+        /**
+         * carton (credito_id, nro_planilla, cliente_id ,"
+    + " cliente_nombre, cuotas_adeudadas, cuotas_aCobrar"
+    + ", cant_cuotas_credito, deuda, importe_cuota, nro_cuota, vencimiento )"
+         */
+        c.setCuotas_adeudadas(0);
+        c.setCliente_id(creditoSelected.getCliente().getId());
+        c.setCliente_nombre(creditoSelected.getCliente().getNombre());
+        c.setCuotas_aCobrar(creditoSelected.getCant_cuotas());
+        c.setCant_cuota_credito(creditoSelected.getCant_cuotas());
+        c.setDeuda(creditoSelected.getImporte_deuda());
+        c.setImporte_cuota(creditoSelected.getImporte_cuota());
+        c.setNro_cuota(1);
+        c.setVencimiento(creditoSelected.getVenc_pri_cuota());
+        exito = guardarCarton(c);
+                               
+       
+         
+        return exito;
+    }
+     public boolean guardarCarton(Carton c){
+        
+        boolean exito = false;
+        String SQL = "INSERT INTO carton VALUES (credito_id, nro_planilla, cliente_id,"
+                + "cliente_nombre, ultimo_pago, cuotas_adeudadas, cuotas_aCobrar,"
+                + " cant_cuotas_credito, importe_cancelado, importe_ingresado,"
+                + " estado, deuda, importe_cuota, nro_cuota, vencimiento) "
+                + "VALUES ("+c.getCredito_id()+" , "+c.getNro_planilla()+" , "
+                +c.getCliente_id()+" , '"+c.getCliente_nombre()+"' ,"+c.getUltimo_pago()
+                +" , "+c.getCuotas_adeudadas()+" , "+c.getCuotas_aCobrar()+" , "
+                +c.getCant_cuota_credito()+" , "+c.getImporte_cancelado()+" , '"
+                +c.getEstado()+"' , "+c.getDeuda()+" , "+c.getImporte_cuota()+" , "
+                +c.getNro_cuota()+" , "+c.getVencimiento()+"  )";
+         System.out.println("EN Ingreso cobranza  dao, guardar carton, el insert fue : \n "+SQL);
+         int res = conexion.EjecutarOperacion(SQL);
+         if (res == 0) return false;
+         else{
+             exito=true;
+         }
+        return exito;
     }
     
 }
