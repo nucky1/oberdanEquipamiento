@@ -8,12 +8,24 @@ package Views;
 import DAO.CreditosDAO;
 import DAO.DireccionesDAO;
 import DAO.RemitosDAO;
+import Models.Barrio;
 import Models.Credito;
+import Models.Direccion;
+import Models.Localidad;
+import Models.Provincia;
+import Models.Remito;
+import Models.RenglonCredito;
+import Models.renglonRemito;
+import java.awt.Color;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JTable;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -21,9 +33,11 @@ import javax.swing.table.TableRowSorter;
  */
 public class GenerarRemito extends javax.swing.JPanel {
     private CreditosDAO creditosDAO;
+    private Credito creditoSelected;
     private RemitosDAO remitosDAO;
     private DireccionesDAO direccionesDAO;
     private ArrayList<Credito> listCreditos;
+    private Remito remitoNuevo;
     
     
     /**
@@ -35,6 +49,7 @@ public class GenerarRemito extends javax.swing.JPanel {
         creditosDAO = CreditosDAO.getInstance();
         remitosDAO = RemitosDAO.getInstance();
         direccionesDAO = DireccionesDAO.getInstance();
+        cargarRemitoId();
         cargarCreditos();
     }
 
@@ -156,6 +171,11 @@ public class GenerarRemito extends javax.swing.JPanel {
         jLabel1.setText("Clientes con créditos aprobados y pendientes de entrega de mercaderia");
 
         refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Statics/refresh.jpg"))); // NOI18N
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -164,7 +184,7 @@ public class GenerarRemito extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1122, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -194,18 +214,24 @@ public class GenerarRemito extends javax.swing.JPanel {
             }
         });
 
+        txt_NroRemito.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 204, 255)));
+        txt_NroRemito.setEnabled(false);
         txt_NroRemito.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_NroRemitoKeyTyped(evt);
             }
         });
 
-        jLabel5.setText("Fecha de Emisión:");
+        jLabel5.setText("Fecha de Emisión (Remito):");
+
+        date_FechaEmision.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 204, 255)));
 
         jLabel12.setText("Barrio");
 
         txt_Comentarios.setColumns(20);
+        txt_Comentarios.setLineWrap(true);
         txt_Comentarios.setRows(5);
+        txt_Comentarios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 204, 255)));
         jScrollPane1.setViewportView(txt_Comentarios);
 
         jLabel8.setText("Domicilio");
@@ -310,7 +336,10 @@ public class GenerarRemito extends javax.swing.JPanel {
                                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(date_FechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel8Layout.createSequentialGroup()
@@ -321,12 +350,10 @@ public class GenerarRemito extends javax.swing.JPanel {
                                     .addComponent(txt_Barrio, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_CantCuotas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_Importe, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(date_FechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel8Layout.createSequentialGroup()
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txt_NroDni, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_NroDni, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -335,20 +362,19 @@ public class GenerarRemito extends javax.swing.JPanel {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_NroCred, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_NroSoli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_NroRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(date_FechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(date_vencimientoPrimerCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_NroCred, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_NroSoli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_NroRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(date_vencimientoPrimerCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -364,10 +390,11 @@ public class GenerarRemito extends javax.swing.JPanel {
                         .addGap(14, 14, 14)
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(22, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(13, 13, 13)
+                        .addComponent(date_FechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_NroDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -410,8 +437,8 @@ public class GenerarRemito extends javax.swing.JPanel {
                                     .addGap(20, 20, 20)
                                     .addComponent(txt_ImporteCred, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(20, 20, 20)
-                                    .addComponent(txt_ImporteCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(txt_ImporteCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
@@ -421,20 +448,36 @@ public class GenerarRemito extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Código", "Código de barras", "Descripcion", "Cant.", "subtotal", "N° de Serie"
+                "Código", "Código de barras", "Descripcion", "Cant. Total", "Cant. Faltnt", "subtotal", "N° de Serie"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        table_articulos.setColumnSelectionAllowed(true);
+        table_articulos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        table_articulos.getTableHeader().setReorderingAllowed(false);
         tabla_Mercaderia.setViewportView(table_articulos);
-        table_articulos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (table_articulos.getColumnModel().getColumnCount() > 0) {
+            table_articulos.getColumnModel().getColumn(0).setResizable(false);
+            table_articulos.getColumnModel().getColumn(0).setPreferredWidth(25);
+            table_articulos.getColumnModel().getColumn(1).setResizable(false);
+            table_articulos.getColumnModel().getColumn(1).setPreferredWidth(100);
+            table_articulos.getColumnModel().getColumn(2).setResizable(false);
+            table_articulos.getColumnModel().getColumn(2).setPreferredWidth(100);
+            table_articulos.getColumnModel().getColumn(3).setResizable(false);
+            table_articulos.getColumnModel().getColumn(3).setPreferredWidth(25);
+            table_articulos.getColumnModel().getColumn(4).setResizable(false);
+            table_articulos.getColumnModel().getColumn(4).setPreferredWidth(25);
+            table_articulos.getColumnModel().getColumn(5).setResizable(false);
+            table_articulos.getColumnModel().getColumn(5).setPreferredWidth(50);
+            table_articulos.getColumnModel().getColumn(6).setResizable(false);
+            table_articulos.getColumnModel().getColumn(6).setPreferredWidth(100);
+        }
 
         jLabel24.setText("Mercaderia a entregar al cliente:");
 
@@ -474,6 +517,11 @@ public class GenerarRemito extends javax.swing.JPanel {
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Statics/greenSquare.png"))); // NOI18N
 
         btn_imprimirRemito.setText("Imprimir");
+        btn_imprimirRemito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_imprimirRemitoActionPerformed(evt);
+            }
+        });
 
         jLabel21.setText("Articulo Entregado");
 
@@ -500,7 +548,7 @@ public class GenerarRemito extends javax.swing.JPanel {
                     .addComponent(jLabel22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(401, 401, 401)
                 .addComponent(btn_imprimirRemito)
@@ -561,7 +609,14 @@ public class GenerarRemito extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_generarRemitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarRemitoActionPerformed
-        // TODO add your handling code here:
+        int[] rows = table_articulos.getSelectedRows();
+        if(rows == null || rows.length == 0){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un articulo para añadir al remito.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+        }
+        crearRemito(rows);
+        btn_imprimirRemito.setEnabled(true);
     }//GEN-LAST:event_btn_generarRemitoActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
@@ -602,6 +657,19 @@ public class GenerarRemito extends javax.swing.JPanel {
         select = table_creditos.convertRowIndexToModel(select);
         cargarDatos(select);
     }//GEN-LAST:event_table_creditosMouseClicked
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        cargarCreditos();
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void btn_imprimirRemitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirRemitoActionPerformed
+        JasperViewer view =null;
+        view = remitosDAO.generarReporteRemito(remitoNuevo.getId());
+        if(view!= null){
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+        }
+    }//GEN-LAST:event_btn_imprimirRemitoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -676,7 +744,6 @@ public class GenerarRemito extends javax.swing.JPanel {
         txt_NroCalle.setText("");
         txt_NroCred.setText("");
         txt_NroDni.setText("");
-        txt_NroRemito.setText("");
         txt_NroSoli.setText("");
         txt_Provincia.setText("");
         date_FechaEmision.setDate(new Date());
@@ -686,7 +753,7 @@ public class GenerarRemito extends javax.swing.JPanel {
 
     private void habilitarBotones(boolean b) {
         btn_cancelar.setEnabled(b);
-        btn_imprimirRemito.setEnabled(b);
+        btn_imprimirRemito.setEnabled(false);
         btn_generarRemito.setEnabled(b);
     }
     private void cargarCreditos(){
@@ -699,7 +766,11 @@ public class GenerarRemito extends javax.swing.JPanel {
                o[1] = listCreditos.get(i).getCliente().getNombre();
                o[2] = listCreditos.get(i).getComerce().getNombre();
                Object[] dir = direccionesDAO.getDireccionCompleta(listCreditos.get(i).getDireccion_id());
-               o[3] = dir[4] +""+ dir[1];
+               if(String.valueOf(dir[4]).equals("No definido"))
+                   dir[4]= "-";
+               if(String.valueOf(dir[1]).equals("No definido"))
+                   dir[1]= "-";
+               o[3] = dir[4] +" "+ dir[1];
                o[4] = listCreditos.get(i).getCobrador().getNombre();
                o[5] = listCreditos.get(i).getFecha_aprobacion();
                model.addRow(o);
@@ -710,23 +781,85 @@ public class GenerarRemito extends javax.swing.JPanel {
     }
 
     private void cargarDatos(int select) {
-        Credito c = listCreditos.get(select);
-        txt_CantCuotas.setText("");
-        txt_CodPostal.setText("");
-        txt_NroCalle.setText("");
+        creditoSelected = listCreditos.get(select);
+        if(creditoSelected.getDireccion_id() == creditoSelected.getCliente().getDireccion_id()){
+            txt_CodPostal.setText(creditoSelected.getCliente().getCodPostal());
+            txt_NroCalle.setText(creditoSelected.getCliente().getNumero());
+        }else{
+            txt_CodPostal.setText(creditoSelected.getComerce().getCodPostal()+"");
+            txt_NroCalle.setText(creditoSelected.getComerce().getNumero()+"");
+        }
         txt_Comentarios.setText("");
-        txt_Domicilio.setText("");
-        txt_Barrio.setText("");
-        txt_Localidad.setText("");
-        txt_Provincia.setText("");
-        
-        txt_Importe.setText("");
-        txt_ImporteCred.setText("");
-        txt_ImporteCuota.setText("");
-        txt_Nombre.setText("");
-        txt_NroCred.setText("");
-        txt_NroDni.setText("");
         txt_NroRemito.setText("");
-        txt_NroSoli.setText("");
+        Object[] o = direccionesDAO.getDireccionCompleta(creditoSelected.getDireccion_id());
+        txt_Domicilio.setText(((Direccion)o[4]).toString());
+        txt_Barrio.setText(((Barrio)o[0]).toString());
+        txt_Localidad.setText(((Localidad)o[1]).toString());
+        txt_Provincia.setText(((Provincia)o[2]).toString());
+        
+        date_vencimientoPrimerCuota.setDate(creditoSelected.getVenc_pri_cuota());
+        txt_Importe.setText(creditoSelected.getImporte_total()+"");
+        txt_CantCuotas.setText(creditoSelected.getCant_cuotas()+"");
+        txt_ImporteCred.setText(creditoSelected.getImporte_credito()+"");
+        txt_ImporteCuota.setText(creditoSelected.getImporte_cuota()+"");
+        txt_Nombre.setText(creditoSelected.getCliente().getNombre());
+        txt_NroCred.setText(creditoSelected.getId()+"");
+        txt_NroDni.setText(creditoSelected.getCliente().getDni()+"");
+        txt_NroSoli.setText(creditoSelected.getSolicitud_id()+"");
+        //cargo el id en el remito nuevo
+        remitoNuevo.setCredito_id(creditoSelected.getId());
+        // cargar la tabla de articulos
+        DefaultTableModel model = (DefaultTableModel) table_articulos.getModel();
+        model.setRowCount(0);
+        HashMap<Integer,Float> rcs = remitosDAO.getCantFaltante(creditoSelected.getId());
+        for(int i = 0; i < creditoSelected.getRenglones().size();i++){
+            Object[] obj = new Object[6];
+            RenglonCredito rc = creditoSelected.getRenglones().get(i);
+            obj[0] = rc.getP().getCod();
+            obj[1] = rc.getP().getCodigoBarra();
+            obj[2] = rc.getP().getObservaciones();
+            obj[3] = rc.getCantidad();
+            obj[4] = rc.getCantidad();
+            obj[5] = rc.getSubTotal();
+            obj[6] = rc.getNroSerie();
+            model.addRow(obj);
+            if(rcs.containsKey(rc.getId())){
+                obj[4] = rcs.get(rc.getId());
+                ColorFilasCobranza colorFilas = new ColorFilasCobranza();
+                if(rcs.get(rc.getId()) == 0){
+                    colorFilas.setBackground(Color.GREEN);
+                }else if(rcs.get(rc.getId()) < rc.getCantidad()){
+                    colorFilas.setBackground(Color.YELLOW);
+                }
+                for(int j = 0; j < 7 ; j++)
+                    table_articulos.getColumnModel().getColumn(j).setCellRenderer(colorFilas);
+            }
+        }
+    }
+    
+    private void crearRemito(int[] rows) {
+        remitoNuevo.setComentarios(txt_Comentarios.getText());
+        remitoNuevo.setFecha_emision(new Timestamp(System.currentTimeMillis()));
+        for(int i = 0; i < rows.length; i++){
+            renglonRemito rm = new renglonRemito();
+            RenglonCredito rc = creditoSelected.getRenglones().get(rows[i]);
+            rm.setCantidad(rc.getCantidad());
+            rm.setRenglon_id(rc.getId());
+            rm.setRemito_id(remitoNuevo.getId());
+            remitoNuevo.addRenglon(rm);
+        }
+        if(remitosDAO.insertRemitoNuevo(remitoNuevo) != -1){
+            principal.lbl_estado.setText("El remito se generó con exito.");
+            principal.lbl_estado.setForeground(Color.green);
+            btn_generarRemito.setEnabled(false);
+        }else{
+            principal.lbl_estado.setText("Ocurrio un error al generar el remito.");
+            principal.lbl_estado.setForeground(Color.red);
+        }
+    }
+
+    private void cargarRemitoId() {
+        remitoNuevo = new Remito(remitosDAO.getNextID());
+        txt_NroRemito.setText(remitoNuevo.getId()+"");
     }
 }

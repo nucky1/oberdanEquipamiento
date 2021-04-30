@@ -3,6 +3,40 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="idRenglones" class="java.lang.String">
+		<defaultValueExpression><![CDATA["(-1)"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     remito.`id` AS remito_id,
+     remito.`fecha_entrega` AS remito_fecha_entrega,
+     remito.`entregado` AS remito_entregado,
+     remito.`anulado` AS remito_anulado,
+     remito.`fletero` AS remito_fletero,
+     credito.`id` AS credito_id,
+     cliente.`id` AS cliente_id,
+     cliente.`nombre` AS cliente_nombre,
+     direccion.`id` AS direccion_id,
+     direccion.`nombre` AS direccion_nombre,
+     cliente.`numero` AS cliente_numero
+FROM
+     `credito` credito INNER JOIN `remito` remito ON credito.`id` = remito.`credito_id`
+     INNER JOIN `cliente` cliente ON credito.`cliente_id` = cliente.`id`
+     INNER JOIN `direccion` direccion ON cliente.`direccion_id` = direccion.`id`
+WHERE 
+remito.`id` IN $P!{idRenglones}]]>
+	</queryString>
+	<field name="remito_id" class="java.lang.Integer"/>
+	<field name="remito_fecha_entrega" class="java.sql.Timestamp"/>
+	<field name="remito_entregado" class="java.lang.Boolean"/>
+	<field name="remito_anulado" class="java.lang.Boolean"/>
+	<field name="remito_fletero" class="java.lang.String"/>
+	<field name="credito_id" class="java.lang.Integer"/>
+	<field name="cliente_id" class="java.lang.Integer"/>
+	<field name="cliente_nombre" class="java.lang.String"/>
+	<field name="direccion_id" class="java.lang.Integer"/>
+	<field name="direccion_nombre" class="java.lang.String"/>
+	<field name="cliente_numero" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

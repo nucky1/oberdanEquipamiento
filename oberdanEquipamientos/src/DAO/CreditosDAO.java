@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,6 +101,7 @@ public class CreditosDAO {
                 Cliente client = new Cliente();
                 client.setNombre(rs.getString("cliente.nombre"));
                 client.setId(rs.getInt("cliente.id"));
+                client.setDni(rs.getInt("cliente.dni"));
                 client.setNumero(rs.getString("cliente.numero"));
                 client.setCodPostal(rs.getString("cliente.codPostal"));
                 client.setDireccion_id(rs.getInt("cliente.direccion_id"));
@@ -121,6 +121,7 @@ public class CreditosDAO {
                 Credito cred = new Credito();
                 cred.setComerce(com);
                 cred.setCliente(client);
+                cred.setDireccion_id(rs.getInt("direccionActual_id"));
                 cred.setId(rs.getInt("credito.id"));
                 cred.setSolicitud_id(rs.getInt("credito.nro_solicitud"));
                 cred.setZona(rs.getInt("credito.zona"));
@@ -376,7 +377,7 @@ public class CreditosDAO {
                 + " VALUES ("+idCred+","+idEmp+",'"+FechaAprob+"',"+estado+")";
         conexion.EjecutarOperacion(SQL);
         if(b){
-            SQL = "UPDATE `credito` SET estado = \"APROBADO\", fecha_aprobacion = '"+FechaAprob+"' venc_pri_cuota = '"+venc_pri_cuota+"' WHERE id ="+idCred;
+            SQL = "UPDATE `credito` SET estado = \"APROBADO\", fecha_aprobacion = '"+FechaAprob+"', venc_pri_cuota = '"+venc_pri_cuota+"' WHERE id ="+idCred;
             conexion.EjecutarOperacion(SQL);
         }
         if(!estado){
@@ -413,7 +414,7 @@ public class CreditosDAO {
                     "INNER JOIN cliente ON cliente_id = cliente.id " +
                     "INNER JOIN comercio ON credito.comercio_id = comercio.id "+ 
                     "LEFT JOIN cuota ON cuota_id = credito.cuota_id " +
-                    "WHERE `credito`.`tipo` != \"SOLICITUD\" AND `credito`.`estado` = \"APROBADO\" AND `credito`.`mercaderia_entregada` = TRUE";
+                    "WHERE `credito`.`tipo` != \"SOLICITUD\" AND `credito`.`estado` = \"APROBADO\" AND `credito`.`mercaderia_entregada` = FALSE";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarCreditos(rs);
     }

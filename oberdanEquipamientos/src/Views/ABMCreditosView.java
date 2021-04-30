@@ -1572,6 +1572,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private void tabla_SolicitudesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_SolicitudesMouseClicked
         int pos = tabla_Solicitudes.getSelectedRow();
         if (pos != -1) {
+            limpiarCampos();
             cargarDatosSoli(pos);
             habilitarCampos();
         }

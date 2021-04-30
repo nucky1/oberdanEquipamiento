@@ -106,7 +106,7 @@ public class Conexion {
     }
     
     public int EjecutarOperacion(String sql){
-        int respuesta = 0;
+        int respuesta = -1;
         try {           
             respuesta = this.s.executeUpdate(sql);
             } catch(SQLException ex){

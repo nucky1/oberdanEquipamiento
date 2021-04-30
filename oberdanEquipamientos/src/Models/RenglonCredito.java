@@ -18,6 +18,15 @@ public class RenglonCredito {
     private float importe_cuota;
     private String nroSerie;
 
+    public RenglonCredito(int id, String nombreP, float cantidad, String nroSerie) {
+        this.id = id;
+        Producto aux = new Producto();
+        aux.setNombre(nombreP);
+        this.p = aux;
+        this.cantidad = cantidad;
+        this.nroSerie = nroSerie;
+    }
+    
     public RenglonCredito(int id, Producto p, int cantidad, float subTotal, float costo, float importe_cuota, float importe_min, String nroSerie) {
         this.id = id;
         this.p = p;

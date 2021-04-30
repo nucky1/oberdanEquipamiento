@@ -17,7 +17,7 @@ public class principal extends javax.swing.JFrame {
      */
     public principal() {
         initComponents();
-        nombre_usuario.setText(Main.logueado.getUser());
+        nombre_usuario.setText("Usuario: "+Main.logueado.getUser());
     }
 
     /**
@@ -32,7 +32,6 @@ public class principal extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         barra_estado = new javax.swing.JPanel();
         lbl_estado = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
         nombre_usuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -71,9 +70,6 @@ public class principal extends javax.swing.JFrame {
         barra_estado.setMinimumSize(new java.awt.Dimension(1360, 25));
         barra_estado.setPreferredSize(new java.awt.Dimension(1360, 25));
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel21.setText("Usuario:");
-
         nombre_usuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         nombre_usuario.setText("Usuario:");
 
@@ -84,9 +80,7 @@ public class principal extends javax.swing.JFrame {
             .addGroup(barra_estadoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_estado, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(299, 299, 299)
                 .addComponent(nombre_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -94,11 +88,10 @@ public class principal extends javax.swing.JFrame {
             barra_estadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(barra_estadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(nombre_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel21)
                 .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        barra_estadoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel21, lbl_estado, nombre_usuario});
+        barra_estadoLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_estado, nombre_usuario});
 
         getContentPane().add(barra_estado);
         barra_estado.setBounds(0, 680, 1360, 25);
@@ -144,7 +137,6 @@ public class principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barra_estado;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JLabel lbl_estado;
     private javax.swing.JLabel nombre_usuario;

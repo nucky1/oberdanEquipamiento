@@ -34,6 +34,10 @@ public class Cliente {
     private int direccion_id;
     private ArrayList<Contacto> contacto;
     private float limite_credito;
+
+    public Cliente(String nombre) {
+        this.nombre = nombre;
+    }
     
     
     public Cliente() {
