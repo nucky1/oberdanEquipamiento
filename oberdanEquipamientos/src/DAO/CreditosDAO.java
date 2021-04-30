@@ -9,6 +9,7 @@ import Models.Cliente;
 import Models.Credito;
 import Models.Comercio;
 import Models.Cuota;
+import Models.Direccion;
 import Models.Empleado;
 import Models.Producto;
 import Models.RenglonCredito;
@@ -101,6 +102,9 @@ public class CreditosDAO {
                 Cliente client = new Cliente();
                 client.setNombre(rs.getString("cliente.nombre"));
                 client.setId(rs.getInt("cliente.id"));
+                client.setNumero(rs.getString("cliente.numero"));
+                client.setCodPostal(rs.getString("cliente.codPostal"));
+                client.setDireccion_id(rs.getInt("cliente.direccion_id"));
                 client.setLimite_credito(rs.getFloat("cliente.limite_credito"));
                 //insertar datos del comercio
                 Comercio com = new Comercio();
@@ -108,6 +112,11 @@ public class CreditosDAO {
                 com.setId(rs.getInt("comercio.id"));
                 com.setNombre(rs.getString("comercio.nombre"));
                 com.setTipo_iva(rs.getString("comercio.tipo_iva"));
+                com.setNumero(rs.getInt("comercio.numero"));
+                com.setCodPostal(rs.getInt("comercio.codPostal"));
+                Direccion dir = new Direccion();
+                dir.setId(rs.getInt("comercio.direccion_id"));
+                com.setDireccion(dir);
                 //insertar datos del credito
                 Credito cred = new Credito();
                 cred.setComerce(com);
@@ -129,6 +138,7 @@ public class CreditosDAO {
                 cred.setImporte_deuda(rs.getFloat("credito.importe_deuda"));
                 cred.setImporte_credito(rs.getFloat("credito.importe_credito"));
                 cred.setAnticipo(rs.getFloat("credito.anticipo"));
+                cred.setMercaderia_entregada(rs.getBoolean("credito.mercaderia_entregada"));
                 cred.setImporte_ult_cuota(rs.getFloat("credito.importe_ult_cuota"));
                 cred.setComision(rs.getFloat("credito.comision"));
                 //insertar renglones:
@@ -196,7 +206,11 @@ public class CreditosDAO {
         return list;
     }
 
-    public void insertCreditoNuevo(Credito creditoSelected) {
+    public int insertCreditoNuevo(Credito creditoSelected) {
+        String fechaAprob = null;
+        if(creditoSelected.getFecha_aprobacion() != null){
+            fechaAprob = "'"+creditoSelected.getFecha_aprobacion()+"'";
+        }
         String SQL ="INSERT INTO `credito`"
                 + "(`cliente_id`, `comercio_id`, `fecha_aprobacion`, "
                 + "`estado`, `cuota_id`, "
@@ -206,8 +220,8 @@ public class CreditosDAO {
                 + "`observacion`, `venc_pri_cuota`, `zona`, "
                 + "`fecha_solicitud`, `fecha_credito`, `nro_solicitud`, "
                 + "`cant_cuotas`,`conyugue_id`,`direccionActual_id`) VALUES "
-                + "("+creditoSelected.getCliente().getId()+","+creditoSelected.getComerce().getId()+",'"+creditoSelected.getFecha_aprobacion()+"',"
-                +creditoSelected.getEstado()+"',"+creditoSelected.getPlan().getId()+",'"
+                + "("+creditoSelected.getCliente().getId()+","+creditoSelected.getComerce().getId()+","+fechaAprob+",'"
+                +creditoSelected.getEstado()+"',"+creditoSelected.getPlan().getId()+","
                 + creditoSelected.getImporte_total()+","+creditoSelected.getImporte_cuota()+","+creditoSelected.getImporte_pri_cuota()+","
                 + creditoSelected.getImporte_deuda()+","+creditoSelected.getImporte_credito()+","+creditoSelected.getAnticipo()+","
                 + creditoSelected.getImporte_ult_cuota()+","+creditoSelected.getComision()+",'"+creditoSelected.getTipo()+"','"
@@ -224,6 +238,20 @@ public class CreditosDAO {
             SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
             conexion.EjecutarOperacion(SQL);
         }
+        //actualizamos el estado de la solicitud
+        SQL ="UPDATE `credito` SET estado = \"EMITIDA\" WHERE id = "+creditoSelected.getId();
+        conexion.EjecutarOperacion(SQL);
+        //obtenemos el id del credito insertado
+        SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE nro=";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.first()){
+                return rs.getInt("LastId");
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error en metodo cargarCreditos", Main.isProduccion);
+        }
+        return -1;
     }
 
     public ArrayList<Credito> getCreditosCliente(int id) {
@@ -349,24 +377,29 @@ public class CreditosDAO {
         return 0;
     }
 
-    public void insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, Empleado cobrador) {
-        int idC = -1;
-        int idV = -1;
-        if(cobrador != null){
-            idC = cobrador.getId();
-        }
-        if(vendedor != null){
-            idV = vendedor.getId();
-        }
+    public void insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor) {
         String SQL = "INSERT INTO `credito`(`cliente_id`,`direccionActual_id`,"
                 + "`conyugue_id`, `comercio_id`, "
-                + "`cobrador_id`, `vendedor_id`, `observacion`,"
+                + "`observacion`,"
                 + "`fecha_solicitud`,`nro_solicitud`,`tipo`) "
                 + "VALUES ("+idClient+","+idDireccion+","
-                + idConyugue+","+idcomerce+","
-                + idC+","+idV+",'"+observacion+"','"
+                + idConyugue+","+idcomerce+",'"
+                + observacion+"','"
                 + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+",\"SOLICITUD\")";
         conexion.EjecutarOperacion(SQL);
+        if(vendedor != null){
+            SQL = "SELECT MAX(id) as LastId FROM `credito`";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            try {
+                if(rs.first()){
+                    SQL = "INSERT INTO `aprobaciones`(`credito_id`, `empleado_id`, `fecha`, `estado`)"
+                    + " VALUES ("+rs.getInt("LastId")+","+vendedor.getId()+",'"+new Timestamp(System.currentTimeMillis())+"',"+true+")";
+                     conexion.EjecutarOperacion(SQL);
+                }
+            } catch (SQLException ex) {
+                new Statics.ExceptionManager().saveDump(ex, "Error al cargar el vendedor en la solicitud", Main.isProduccion);
+            }
+        }
     }
 
     public void updateAprobado(int idCred, int idEmp, boolean estado, boolean b, Timestamp FechaAprob, Timestamp venc_pri_cuota){
@@ -374,7 +407,11 @@ public class CreditosDAO {
                 + " VALUES ("+idCred+","+idEmp+",'"+FechaAprob+"',"+estado+")";
         conexion.EjecutarOperacion(SQL);
         if(b){
-            SQL += "UPDATE `credito` SET estado = 'APROBADO', fecha_aprobacion = '"+FechaAprob+"' venc_pri_cuota = "+venc_pri_cuota+" WHERE id ="+idCred;
+            SQL = "UPDATE `credito` SET estado = \"APROBADO\", fecha_aprobacion = '"+FechaAprob+"' venc_pri_cuota = '"+venc_pri_cuota+"' WHERE id ="+idCred;
+            conexion.EjecutarOperacion(SQL);
+        }
+        if(!estado){
+            SQL = "UPDATE `credito` SET estado = \"RECHAZADO\" WHERE id ="+idCred;
             conexion.EjecutarOperacion(SQL);
         }
     }
@@ -401,6 +438,16 @@ public class CreditosDAO {
             SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
             conexion.EjecutarOperacion(SQL);
         }
+    }
+    public ArrayList<Credito> getCreditosSinME() {
+        ArrayList<Credito> list = new ArrayList();
+        String SQL = "SELECT * FROM `credito`" +
+                    "INNER JOIN cliente ON cliente_id = cliente.id " +
+                    "INNER JOIN comercio ON credito.comercio_id = comercio.id "+ 
+                    "LEFT JOIN cuota ON cuota_id = credito.cuota_id " +
+                    "WHERE `credito`.`tipo` != \"SOLICITUD\" AND `credito`.`estado` = \"APROBADO\" AND `credito`.`mercaderia_entregada` = TRUE";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        return cargarCreditos(rs);
     }
     public ArrayList<Credito> getCreditosPendienteCobro(){
          ArrayList<Credito> lista = new ArrayList();

@@ -36,6 +36,7 @@ public class Credito {
     private String tipo;
     private String observacion;
     private int zona;
+    private boolean mercaderia_entregada;
     private Timestamp venc_pri_cuota;
     private Timestamp fecha_aprobacion;
     private Timestamp fecha_solicitud;
@@ -44,6 +45,15 @@ public class Credito {
     private Comercio comerce;
     private ArrayList<RenglonCredito> renglones;
 
+    public boolean isMercaderia_entregada() {
+        return mercaderia_entregada;
+    }
+
+    public void setMercaderia_entregada(boolean mercaderia_entregada) {
+        this.mercaderia_entregada = mercaderia_entregada;
+    }
+
+    
     public int getConyugue_id() {
         return conyugue_id;
     }

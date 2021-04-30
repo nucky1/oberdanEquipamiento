@@ -1170,6 +1170,9 @@
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Solicitud"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="rbtn_solicitudItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="rbtn_credito">
           <Properties>
@@ -1178,6 +1181,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Cr&#xe9;dito"/>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="rbtn_creditoItemStateChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -20,7 +20,7 @@ public class Main {
     private static JFrame fr;
     //public static boolean isProduccion = true;
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        login1 l = new login1();
+        Login l = new Login();
         l.setVisible(true);
         fr = new JFrame();
         fr.add(l);

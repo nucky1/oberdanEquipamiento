@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Statics;
+import Views.Main;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -40,7 +41,7 @@ public class Conexion {
                 System.out.println("se conecto");
             }
         }catch(ClassNotFoundException | SQLException e){
-            System.out.println(e.getMessage()); 
+                new Statics.ExceptionManager().saveDump(e, e.getMessage(), Main.isProduccion);
             //e.printStackTrace();
         }    
     }
@@ -57,7 +58,7 @@ public class Conexion {
             conexion= null;
         }catch(Exception e)
         {
-            System.out.println("Problema para cerrar la Conexión a la base de datos ");
+                new Statics.ExceptionManager().saveDump(e, e.getMessage(), Main.isProduccion);
         }
     }
     
@@ -90,13 +91,7 @@ public class Conexion {
                 }
             }
         } catch (SQLException ex) {
-            System.out.println( "Error: SQLException" );
-                while (ex != null) {
-                    System.out.println ("SQLState: " + ex.getSQLState ());
-                    System.out.println ("Mensaje:  " + ex.getMessage ());
-                    System.out.println ("ErrorCode:   " + ex.getErrorCode ());
-                    ex = ex.getNextException();
-                }
+                new Statics.ExceptionManager().saveDump(ex, ex.getMessage(), Main.isProduccion);
         }
     }
 
@@ -124,7 +119,7 @@ public class Conexion {
                     ex = ex.getNextException();
                 }
             } catch(Exception e) {
-                System.out.println("Se produjo un error inesperado:    "+e.getMessage());
+                new Statics.ExceptionManager().saveDump(e, e.getMessage(), Main.isProduccion);
             }
         return respuesta;
       }
@@ -140,7 +135,7 @@ public class Conexion {
         {
             System.err.println(e);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+                new Statics.ExceptionManager().saveDump(ex, ex.getMessage(), Main.isProduccion);
         }
       return conexion;  
     }

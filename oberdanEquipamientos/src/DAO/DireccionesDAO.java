@@ -261,13 +261,14 @@ public class DireccionesDAO {
         return 0;
     }
     /**
-     * This method search the whole address from the id of neighborhood to country, means down to up.
+     * This method search the whole address from the id of address to country, means down to up.
      * @param id
      * @return if query its ok then return:
      * object[0] = Barrio;
      * object[1] = Localidad;
      * object[2] = Provincia;
      * object[3] = Pais;
+     * object[4] = direccion;
      * else return null;
      */
     public Object[] getDireccionCompleta(int id) {
@@ -279,12 +280,13 @@ public class DireccionesDAO {
                     + "INNER JOIN pais ON provincia.pais_id = pais.id "
                     + "WHERE direccion.id = "+id+" AND direccion.state = 'ACTIVO'";
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-            Object[] o = new Object[4];
+            Object[] o = new Object[5];
             if(rs.first()){
                 Pais p = new Pais();
                 Provincia prov = new Provincia();
                 Localidad l = new Localidad();
                 Barrio b = new Barrio();
+                Direccion d = new Direccion();
                 b.setId(rs.getInt("barrio.id"));
                 b.setId_localidad(rs.getInt("localidad.id"));
                 l.setId(rs.getInt("localidad.id"));
@@ -296,10 +298,13 @@ public class DireccionesDAO {
                 l.setNombre(rs.getString("localidad.nombre"));
                 prov.setNombre(rs.getString("provincia.nombre"));
                 p.setNombre(rs.getString("pais.nombre"));
+                d.setNombre(rs.getString("direccion.nombre"));
+                d.setId(rs.getInt("direccion.id"));
                 o[0] = b;
                 o[1] = l;
                 o[2] = prov;
                 o[3] = p;
+                o[4] = d;
                 return o;
             }
         } catch (SQLException ex) {
