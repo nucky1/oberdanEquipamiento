@@ -41,6 +41,7 @@ public class Credito {
     private Timestamp fecha_aprobacion;
     private Timestamp fecha_solicitud;
     private Timestamp fecha_credito;
+    private Timestamp venc_credito;
     private Comercio comerce;
     private ArrayList<RenglonCredito> renglones;
 
@@ -78,7 +79,6 @@ public class Credito {
         this.cant_cuotas = cant_cuotas;
     }
 
-    
     public int getSolicitud_id() {
         return solicitud_id;
     }
@@ -298,6 +298,14 @@ public class Credito {
 
     public void setVenc_pri_cuota(Timestamp venc_pri_cuota) {
         this.venc_pri_cuota = venc_pri_cuota;
+    }
+
+    public Timestamp getVenc_credito() {
+        return venc_credito;
+    }
+
+    public void setVenc_credito(Timestamp venc_credito) {
+        this.venc_credito = venc_credito;
     }
     
     

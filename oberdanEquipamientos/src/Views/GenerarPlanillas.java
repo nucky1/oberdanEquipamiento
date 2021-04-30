@@ -123,17 +123,18 @@ public class GenerarPlanillas extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(55, 55, 55)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxCobradores, 0, 288, Short.MAX_VALUE))))
+                                .addComponent(jComboBoxCobradores, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(78, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)
-                        .addComponent(jButtonGenerarPlanilla)
-                        .addGap(52, 52, 52)
-                        .addComponent(jButtonSalir)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(65, 65, 65)
+                                .addComponent(jButtonGenerarPlanilla)
+                                .addGap(52, 52, 52)
+                                .addComponent(jButtonSalir)))
                         .addGap(19, 19, 19))))
         );
 
@@ -152,9 +153,9 @@ public class GenerarPlanillas extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(jLabelNumeroPLanilla)))
                     .addComponent(jDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jComboBoxCobradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -200,14 +201,22 @@ public class GenerarPlanillas extends javax.swing.JPanel {
         if(indice != -1){
             Empleado empleado = listaEmpleados.get(indice);
             Date fecha = jDateChooser.getDate();
-            planilla=ingresoCobranzaDao.generarPlanilla(Statics.Funciones.dateParse(fecha), String.valueOf(empleado.getId()));
-            if(planilla != null){
-                jLabelNumeroPLanilla.setText(""+planilla.getId());
-                jLabelInfo.setText("La planilla ha sido generada con exito");
-                //aca deberias imprimir el reporte
+            if(!ingresoCobranzaDao.controlarCartones(String.valueOf(empleado.getId()))){
+                jLabelInfo.setText("Existen creditos que no se generaron cartones para este empleado");
+                return;
             }
             else{
-                jLabelInfo.setText("No se pudo generar la planilla solicitada");
+                 planilla=ingresoCobranzaDao.generarPlanilla(Statics.Funciones.dateParse(fecha), String.valueOf(empleado.getId()));
+                if(planilla != null){
+                if(ingresoCobranzaDao.cargarRenglonesPlanilla(String.valueOf(empleado.getId()), planilla , Statics.Funciones.dateParse(fecha))){   
+                    jLabelNumeroPLanilla.setText(""+planilla.getId());
+                    jLabelInfo.setText("La planilla ha sido generada con exito");
+                    //aca deberias imprimir el reporte
+                }
+                }
+                else{
+                    jLabelInfo.setText("No se pudo generar la planilla solicitada, no hay creditos disponibles");
+                }
             }
         }
         else {

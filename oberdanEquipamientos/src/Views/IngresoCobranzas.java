@@ -44,6 +44,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
     private DefaultTableModel modeloTipoMonto;
     private List <Planilla> listaPlanillas;
     private List <Carton> listaCartones;
+    private List <Credito> listaCreditos;
     private List<TipoPago> listTp ;
     private EmpleadosDAO empleadoDAO;
     private Planilla planillaSelected;
@@ -728,6 +729,11 @@ public class IngresoCobranzas extends javax.swing.JPanel {
         });
 
         jButton2.setText("Rendidas");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -990,6 +996,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
                     return;
                 }
             }
+            
             if(ingresoCobranzaDAO.actualizarPlanilla(planillaSelected)){
                 JOptionPane.showMessageDialog(null, "La planilla ha sido grabada","OK", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -1200,6 +1207,10 @@ public class IngresoCobranzas extends javax.swing.JPanel {
     private void jTableCartonesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTableCartonesPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_jTableCartonesPropertyChange
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

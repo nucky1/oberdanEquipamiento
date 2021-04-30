@@ -52,10 +52,12 @@ public class Funciones {
      * @param dias
      * @return a new date adding or deleting the quantity on dias (if dias is negative)
      */
-    public static Date sumarRestarDiasFecha(Date fecha, int dias){
+    public static Date sumarRestarDiasFecha(Date fecha, int dias, int mes, int year){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
         calendar.add(Calendar.DAY_OF_YEAR, dias);
+        calendar.add(Calendar.MONTH, mes);
+        calendar.add(Calendar.YEAR, year);
         return calendar.getTime();
     }
     

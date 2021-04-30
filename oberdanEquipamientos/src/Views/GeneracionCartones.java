@@ -33,7 +33,7 @@ public class GeneracionCartones extends javax.swing.JPanel {
     private CreditosDAO creditosDao;
     private Credito creditoSelected;
     private boolean cartonGenerado;
-    private int idCarton;
+
     public GeneracionCartones() {
         initComponents();
         creditosDao=CreditosDAO.getInstance();
@@ -451,11 +451,10 @@ public class GeneracionCartones extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarActionPerformed
-        idCarton=creditosDao.generarCarton(creditoSelected);
-        if(idCarton!=(-1)){
+        cartonGenerado=creditosDao.generarCarton(creditoSelected);
+        if(cartonGenerado){
             jLabelInfo.setText("El carton se genero con exito");
             jButtonGenerar.setEnabled(false);
-            cartonGenerado=true;
             jButtonImprimirCarton.setEnabled(true);
         }
         else{
@@ -470,9 +469,7 @@ public class GeneracionCartones extends javax.swing.JPanel {
         }
         else{
             JasperViewer view =null;
-           
-            
-            view = creditosDao.generarReporteCarton(creditoSelected.getId(),idCarton);
+            view = creditosDao.generarReporteCarton(creditoSelected.getId());
             if(view!= null){
                 view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 view.setVisible(true);
@@ -555,7 +552,24 @@ public class GeneracionCartones extends javax.swing.JPanel {
         jLabelCantCuotas.setText(String.valueOf(creditoSelected.getCant_cuotas()));
         jLabelCobrador.setText(creditoSelected.getCobrador().getNombre());
         Date fecha = new Date();
+        Date fechaVenci= new Date();
         creditoSelected.setVenc_pri_cuota((Timestamp) fecha);
+        
+        int cantDias =0;
+        switch (creditoSelected.getPlan().getDia()){
+            case 1 : 
+                cantDias= creditoSelected.getCant_cuotas()/6;
+                cantDias+=creditoSelected.getCant_cuotas();
+                creditoSelected.setVenc_credito((Timestamp)Funciones.sumarRestarDiasFecha(fechaVenci,cantDias,0,0));
+            case 6 :
+                cantDias= creditoSelected.getCant_cuotas()*7;
+                creditoSelected.setVenc_credito((Timestamp)Funciones.sumarRestarDiasFecha(fechaVenci,cantDias,0,0));
+            case 30 :
+                cantDias =  creditoSelected.getCant_cuotas()*30;
+                creditoSelected.setVenc_credito((Timestamp)Funciones.sumarRestarDiasFecha(fechaVenci,cantDias,0,0));
+        }
+       
+       
         jLabelFechaInicioCobro.setText(Funciones.dateFormat2(fecha));
         
         jLabelImporteCredito.setText(String.valueOf(creditoSelected.getImporte_credito()));
@@ -564,7 +578,7 @@ public class GeneracionCartones extends javax.swing.JPanel {
        
         jLabelImportCuota.setText(String.valueOf(creditoSelected.getImporte_cuota()));
         
-        jLabelUltimaCuota.setText(Funciones.dateFormat(Funciones.sumarRestarDiasFecha(creditoSelected.getVenc_pri_cuota(),creditoSelected.getCant_cuotas())));
+        jLabelUltimaCuota.setText(Funciones.dateFormat2(creditoSelected.getVenc_credito()));
         
     }
 

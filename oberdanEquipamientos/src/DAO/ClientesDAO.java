@@ -418,10 +418,16 @@ public class ClientesDAO {
             }
             else{
                 System.out.println("NO Lo encontre al cliente y lo voy a guardar!");
-                SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil,fechaNacimiento,esSolicitante,codPostal,referencia,documentacion,numero,direccion_id,observaciones) "
-                        + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"+c.getTipoDni()+"','"+c.getEstadoCivil()+"','"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"+c.isEsSolicitante()+",'"+c.getCodPostal()+"','"+c.getReferencia()+"','"+c.getDocumentacion()+"',"+
-                        c.getNumero()+","+c.getDireccion_id()+",'"+
-                        c.getObservaciones()+"')";
+                SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil,"
+                        + "fechaNacimiento,esSolicitante,codPostal,referencia,"
+                        + "documentacion,numero,direccion_id,observaciones) "
+                        + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"
+                        +c.getTipoDni()+"','"+c.getEstadoCivil()+"','"
+                        +Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"
+                        +c.isEsSolicitante()+",'"+c.getCodPostal()+"','"
+                        +c.getReferencia()+"','"+c.getDocumentacion()+"',"
+                        +c.getNumero()+","+c.getDireccion_id()+",'"
+                        +c.getObservaciones()+"')";
                 res = conexion.EjecutarOperacion(SQL); //inserto el cliente el cual ahora sera el cliente con id mas alto
                 System.out.println("SQL = " + SQL);
                 if(res == 0){
