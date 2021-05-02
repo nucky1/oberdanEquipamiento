@@ -43,6 +43,7 @@ public class RemitosDAO {
     
     public int insertRemitoNuevo(Remito r){
         int res = -1;
+        conexion.transaccionCommit("quitarAutoCommit");
         String SQL = "INSERT INTO `remito`( `fecha_emision`,"
                 + " `credito_id`, `observacion`) "
                 + "VALUES ('"+r.getFecha_emision()+"',"
@@ -54,9 +55,16 @@ public class RemitosDAO {
                 renglonRemito rr = r.getRenglon().get(i);
                 SQL += "("+rr.getRenglon_id()+","+rr.getRemito_id()+","+rr.getCantidad()+"),";
             }
-            SQL += "("+r.getRenglon().get(0).getRenglon_id()+","+r.getRenglon().get(0).getRemito_id()+","+r.getRenglon().get(0).getCantidad()+"),";
+            SQL += "("+r.getRenglon().get(0).getRenglon_id()+","+r.getRenglon().get(0).getRemito_id()+","+r.getRenglon().get(0).getCantidad()+")";
+            System.out.println(SQL);
             res = conexion.EjecutarOperacion(SQL);
         }
+        if(res > 0){
+            conexion.transaccionCommit("commitear");
+        }else{
+            conexion.transaccionCommit("rollBack");
+        }
+        conexion.transaccionCommit("activarCommit");
         return res;
     }
 
@@ -177,6 +185,7 @@ public class RemitosDAO {
     }
 //=======================JASPER REPORT METHODS==================================
     public JasperViewer generarReporteRemito(int id) {
+        id=4;
         JasperReport reporte = null;
         JasperViewer view = null;
         Connection con = (Connection) conexion.getConexion();

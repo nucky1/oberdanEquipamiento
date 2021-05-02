@@ -655,6 +655,7 @@ public class GenerarRemito extends javax.swing.JPanel {
     private void table_creditosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_creditosMouseClicked
         int select = table_creditos.getSelectedRow();
         select = table_creditos.convertRowIndexToModel(select);
+        limpiarCampos();
         cargarDatos(select);
     }//GEN-LAST:event_table_creditosMouseClicked
 
@@ -749,6 +750,7 @@ public class GenerarRemito extends javax.swing.JPanel {
         date_FechaEmision.setDate(new Date());
         date_vencimientoPrimerCuota.setDate(new Date());
         ((DefaultTableModel) table_articulos.getModel()).setRowCount(0);
+        cargarRemitoId();
     }
 
     private void habilitarBotones(boolean b) {
@@ -760,6 +762,7 @@ public class GenerarRemito extends javax.swing.JPanel {
         listCreditos = creditosDAO.getCreditosSinME();
         if(listCreditos != null && listCreditos.size()>0){
            DefaultTableModel model = (DefaultTableModel) table_creditos.getModel();
+           model.setRowCount(0);
            for(int i = 0; i < listCreditos.size(); i++){
                Object[] o = new Object[6];
                o[0] = listCreditos.get(i).getId();
@@ -790,7 +793,6 @@ public class GenerarRemito extends javax.swing.JPanel {
             txt_NroCalle.setText(creditoSelected.getComerce().getNumero()+"");
         }
         txt_Comentarios.setText("");
-        txt_NroRemito.setText("");
         Object[] o = direccionesDAO.getDireccionCompleta(creditoSelected.getDireccion_id());
         txt_Domicilio.setText(((Direccion)o[4]).toString());
         txt_Barrio.setText(((Barrio)o[0]).toString());
@@ -813,7 +815,7 @@ public class GenerarRemito extends javax.swing.JPanel {
         model.setRowCount(0);
         HashMap<Integer,Float> rcs = remitosDAO.getCantFaltante(creditoSelected.getId());
         for(int i = 0; i < creditoSelected.getRenglones().size();i++){
-            Object[] obj = new Object[6];
+            Object[] obj = new Object[7];
             RenglonCredito rc = creditoSelected.getRenglones().get(i);
             obj[0] = rc.getP().getCod();
             obj[1] = rc.getP().getCodigoBarra();
@@ -822,7 +824,6 @@ public class GenerarRemito extends javax.swing.JPanel {
             obj[4] = rc.getCantidad();
             obj[5] = rc.getSubTotal();
             obj[6] = rc.getNroSerie();
-            model.addRow(obj);
             if(rcs.containsKey(rc.getId())){
                 obj[4] = rcs.get(rc.getId());
                 ColorFilasCobranza colorFilas = new ColorFilasCobranza();
@@ -834,6 +835,7 @@ public class GenerarRemito extends javax.swing.JPanel {
                 for(int j = 0; j < 7 ; j++)
                     table_articulos.getColumnModel().getColumn(j).setCellRenderer(colorFilas);
             }
+            model.addRow(obj);
         }
     }
     
@@ -843,10 +845,13 @@ public class GenerarRemito extends javax.swing.JPanel {
         for(int i = 0; i < rows.length; i++){
             renglonRemito rm = new renglonRemito();
             RenglonCredito rc = creditoSelected.getRenglones().get(rows[i]);
-            rm.setCantidad(rc.getCantidad());
+            String s = String.valueOf(table_articulos.getValueAt(i, 4));
+            System.out.println(s);
+            rm.setCantidad(Float.parseFloat(s));
             rm.setRenglon_id(rc.getId());
             rm.setRemito_id(remitoNuevo.getId());
             remitoNuevo.addRenglon(rm);
+            
         }
         if(remitosDAO.insertRemitoNuevo(remitoNuevo) != -1){
             principal.lbl_estado.setText("El remito se generó con exito.");
