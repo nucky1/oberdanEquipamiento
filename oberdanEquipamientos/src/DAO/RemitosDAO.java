@@ -163,7 +163,7 @@ public class RemitosDAO {
         int res = 0;
         String SQL = "UPDATE `remito` SET "
                 + "`fecha_entrega`='"+remitoSelected.getFecha_entrega()+"',`entregado`="+remitoSelected.isEntregado()+",`anulado`="+remitoSelected.isAnulado()+","
-                + "`observacion`="+remitoSelected.getComentarios()+",`fletero`="+remitoSelected.getFletero()+" WHERE id = "+remitoSelected.getId();
+                + "`observacion`='"+remitoSelected.getComentarios()+"',`fletero`='"+remitoSelected.getFletero()+"' WHERE id = "+remitoSelected.getId();
         res += conexion.EjecutarOperacion(SQL);
         //Actualizamos el renglon remito y el renglon credito
         for(int i = 0 ; i < remitoSelected.getRenglon().size(); i++){

@@ -22,6 +22,7 @@ public class renglonRemitoComponent extends javax.swing.JPanel {
         idRengm = idRengR;
         lbl_productoName.setText(nombreProd);
         txt_cantidad.setText(cantMax+"");
+        this.cantMax = cantMax;
         txt_nroSerie.setText(nroSerie);
     }
 

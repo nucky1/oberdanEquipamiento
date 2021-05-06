@@ -2,40 +2,42 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38e5e043-3373-4b2c-8d54-0714c5bb26e3">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="232"/>
 	<parameter name="idRenglones" class="java.lang.String">
 		<defaultValueExpression><![CDATA["(-1)"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
+     count(remito.`id`) AS cantidad_remito,
      remito.`id` AS remito_id,
      remito.`fecha_entrega` AS remito_fecha_entrega,
      remito.`entregado` AS remito_entregado,
      remito.`anulado` AS remito_anulado,
      remito.`fletero` AS remito_fletero,
      credito.`id` AS credito_id,
-     cliente.`id` AS cliente_id,
      cliente.`nombre` AS cliente_nombre,
      direccion.`id` AS direccion_id,
      direccion.`nombre` AS direccion_nombre,
+     cliente.`id` AS cliente_id,
      cliente.`numero` AS cliente_numero
 FROM
      `credito` credito INNER JOIN `remito` remito ON credito.`id` = remito.`credito_id`
      INNER JOIN `cliente` cliente ON credito.`cliente_id` = cliente.`id`
      INNER JOIN `direccion` direccion ON cliente.`direccion_id` = direccion.`id`
-WHERE 
-remito.`id` IN $P!{idRenglones}]]>
+WHERE
+     remito.`id` IN $P!{idRenglones}]]>
 	</queryString>
+	<field name="cantidad_remito" class="java.lang.Long"/>
 	<field name="remito_id" class="java.lang.Integer"/>
 	<field name="remito_fecha_entrega" class="java.sql.Timestamp"/>
 	<field name="remito_entregado" class="java.lang.Boolean"/>
 	<field name="remito_anulado" class="java.lang.Boolean"/>
 	<field name="remito_fletero" class="java.lang.String"/>
 	<field name="credito_id" class="java.lang.Integer"/>
-	<field name="cliente_id" class="java.lang.Integer"/>
 	<field name="cliente_nombre" class="java.lang.String"/>
 	<field name="direccion_id" class="java.lang.Integer"/>
 	<field name="direccion_nombre" class="java.lang.String"/>
+	<field name="cliente_id" class="java.lang.Integer"/>
 	<field name="cliente_numero" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -54,19 +56,19 @@ remito.`id` IN $P!{idRenglones}]]>
 				<text><![CDATA[Remitos entregados]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="455" y="10" width="100" height="20" uuid="b3bc5159-ca5e-452d-a3bc-74e0ae0c3540"/>
+				<reportElement x="455" y="85" width="100" height="20" uuid="b3bc5159-ca5e-452d-a3bc-74e0ae0c3540"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="455" y="30" width="100" height="20" uuid="88b0e0d5-5146-410e-85c0-771a25d50a6a"/>
+				<reportElement x="455" y="50" width="100" height="20" uuid="88b0e0d5-5146-410e-85c0-771a25d50a6a"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="439" y="53" width="83" height="20" uuid="da6eb2e0-2023-4666-9c68-aafd33ebf30b"/>
+				<reportElement x="372" y="50" width="83" height="20" uuid="da6eb2e0-2023-4666-9c68-aafd33ebf30b"/>
 				<text><![CDATA[Comprobante N°]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="396" y="78" width="100" height="20" uuid="f7bc88f9-111f-461b-b1fc-4c77c24be76a"/>
+				<reportElement x="355" y="85" width="100" height="20" uuid="f7bc88f9-111f-461b-b1fc-4c77c24be76a"/>
 				<text><![CDATA[Fecha de entrega:]]></text>
 			</staticText>
 			<staticText>
@@ -77,6 +79,14 @@ remito.`id` IN $P!{idRenglones}]]>
 				<reportElement x="0" y="105" width="100" height="20" uuid="1b7c5c47-7de0-4dd4-8a0d-f4c160beac07"/>
 				<text><![CDATA[Cantidad de remitos:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="46" y="85" width="299" height="20" uuid="687d857d-6607-458f-8500-a18331022bd0"/>
+				<textFieldExpression><![CDATA[$F{remito_fletero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="105" width="100" height="20" uuid="9291c832-7ddb-4875-afc4-28e7ccdb248c"/>
+				<textFieldExpression><![CDATA[$F{cantidad_remito}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -85,7 +95,7 @@ remito.`id` IN $P!{idRenglones}]]>
 	<columnHeader>
 		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement x="272" y="0" width="167" height="20" uuid="a0ee5c9b-3b2d-4352-8a11-59c0d9bb022b"/>
+				<reportElement x="272" y="0" width="183" height="20" uuid="a0ee5c9b-3b2d-4352-8a11-59c0d9bb022b"/>
 				<text><![CDATA[Domicilio:]]></text>
 			</staticText>
 			<staticText>
@@ -97,11 +107,11 @@ remito.`id` IN $P!{idRenglones}]]>
 				<text><![CDATA[Anu.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="0" width="33" height="20" uuid="310565de-9cd6-498c-82e5-369e34851c25"/>
+				<reportElement x="46" y="0" width="37" height="20" uuid="310565de-9cd6-498c-82e5-369e34851c25"/>
 				<text><![CDATA[C. N°]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="66" y="0" width="167" height="20" uuid="196cbe4d-cb4d-4157-b024-93090ca274e0"/>
+				<reportElement x="83" y="0" width="189" height="20" uuid="196cbe4d-cb4d-4157-b024-93090ca274e0"/>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<staticText>
@@ -116,6 +126,34 @@ remito.`id` IN $P!{idRenglones}]]>
 				<reportElement x="0" y="69" width="100" height="20" uuid="701ef458-3bab-4f6c-af98-b134f7d358ee"/>
 				<text><![CDATA[Observaciones:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="46" y="8" width="37" height="20" uuid="48a97720-7adf-4c15-b8da-0d7c8e880019"/>
+				<textFieldExpression><![CDATA[$F{credito_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="8" width="33" height="20" uuid="d043e9c7-cf4a-4c30-a30e-76d852e7edfc"/>
+				<textFieldExpression><![CDATA[$F{remito_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="8" width="189" height="20" uuid="6fb39535-000b-4604-a904-951fb87bfb6a"/>
+				<textFieldExpression><![CDATA[$F{cliente_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="8" width="135" height="20" uuid="25bb5e3e-d899-472b-bf6a-f472fbdc4709"/>
+				<textFieldExpression><![CDATA[$F{direccion_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="8" width="48" height="20" uuid="dc6d9fe7-2652-425c-8527-ab964c2da8c9"/>
+				<textFieldExpression><![CDATA[$F{cliente_numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="8" width="33" height="20" uuid="8ea66b5e-b9a1-4984-9feb-c13f1d823ce4"/>
+				<textFieldExpression><![CDATA[$F{remito_entregado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="522" y="8" width="33" height="20" uuid="d7c5bf93-a2ac-4c3a-a6e6-25def6c6adda"/>
+				<textFieldExpression><![CDATA[$F{remito_anulado}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

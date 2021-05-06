@@ -96,7 +96,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         txtf_cuit = new javax.swing.JTextField();
         jLabel66 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        txtf_nombre_empresa = new javax.swing.JTextField();
+        txtf_nombre_proveedor = new javax.swing.JTextField();
         jLabel64 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -465,7 +465,7 @@ public class ProveedoresView extends javax.swing.JPanel {
 
         jPanel6.setBackground(java.awt.Color.white);
 
-        jLabel64.setText("Nombre de la Empresa:");
+        jLabel64.setText("Nombre de la Proveedor:");
 
         jLabel67.setText("Observaciones:");
 
@@ -533,7 +533,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
-                            .addComponent(txtf_nombre_empresa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtf_nombre_proveedor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(cbox_tipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -553,7 +553,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel64)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtf_nombre_empresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtf_nombre_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addComponent(jLabel68)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2040,8 +2040,8 @@ public class ProveedoresView extends javax.swing.JPanel {
 
     private void btn_proveedores_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_guardarActionPerformed
         //---CONTROLES
-        if(!Funciones.controlText(txtf_nombre_empresa.getText())){
-            JOptionPane.showMessageDialog(null, "El nombre de la empresa no puede estar vacio", "Error", JOptionPane.ERROR_MESSAGE);
+        if(!Funciones.controlText(txtf_nombre_proveedor.getText())){
+            JOptionPane.showMessageDialog(null, "El nombre de la proveedor no puede estar vacio", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if(Funciones.compareStrings("-", String.valueOf(cbox_direccion.getSelectedItem()))){
@@ -2063,7 +2063,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         }
         //--FIN CONTROLES
         //--CARGAR DATOS AL PROVEEDOR
-        proveedor_selected.setNombre(txtf_nombre_empresa.getText());
+        proveedor_selected.setNombre(txtf_nombre_proveedor.getText());
         proveedor_selected.setObservaciones(txtf_observaciones.getText());
         //direccion
         proveedor_selected.setNacionalidad(String.valueOf(cbox_nacionalidad.getSelectedIndex()));
@@ -2090,7 +2090,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         proveedor_selected.setContacto((ArrayList<Contacto>) list);
         //--FIN CARGA
         if(modificarTrue){
-            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el proveedor: \n- "+txtf_nombre_empresa.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el proveedor: \n- "+txtf_nombre_proveedor.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             System.out.println("result = " + result);
             if(result == JOptionPane.OK_OPTION){
                 if(proveedoresDAO.actualizarProveedor(proveedor_selected)){
@@ -2104,7 +2104,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 }
             }
         }else{
-            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el proveedor: \n- "+txtf_nombre_empresa.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el proveedor: \n- "+txtf_nombre_proveedor.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
             if(result == JOptionPane.OK_OPTION){
                 if(proveedoresDAO.guardarProveedor(proveedor_selected)){
                     principal.lbl_estado.setText("El proveedor se agrego con exito");
@@ -2587,7 +2587,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     private javax.swing.JTextField txtf_codigoPostal;
     private javax.swing.JTextField txtf_contacto;
     private javax.swing.JTextField txtf_cuit;
-    private javax.swing.JTextField txtf_nombre_empresa;
+    private javax.swing.JTextField txtf_nombre_proveedor;
     private javax.swing.JTextField txtf_nro;
     private javax.swing.JTextField txtf_nuevo_elemento;
     private javax.swing.JTextArea txtf_observaciones;
@@ -2635,7 +2635,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     public void cargarDatosProveedor(int pos){
         if (pos != -1) {
             proveedor_selected = lista_proveedores.get(pos);
-            txtf_nombre_empresa.setText(proveedor_selected.getNombre());
+            txtf_nombre_proveedor.setText(proveedor_selected.getNombre());
             txtf_observaciones.setText(proveedor_selected.getObservaciones());
             txtf_cbu.setText(proveedor_selected.getCbu());
             txtf_cuit.setText(proveedor_selected.getCuit());
@@ -2670,7 +2670,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     //limpiadores pestaña 1
     private void limpiarCampos(){
         txtf_cbu.setText("");
-        txtf_nombre_empresa.setText("");
+        txtf_nombre_proveedor.setText("");
         txtf_codigoPostal.setText("");
         txtf_cuit.setText("");
         txtf_nro.setText("");
@@ -2703,7 +2703,7 @@ public class ProveedoresView extends javax.swing.JPanel {
     }
     private void habilitarCampos(boolean flag){
         txtf_cbu.setEnabled(flag);
-        txtf_nombre_empresa.setEnabled(flag);
+        txtf_nombre_proveedor.setEnabled(flag);
         txtf_codigoPostal.setEnabled(flag);
         txtf_cuit.setEnabled(flag);
         txtf_nro.setEnabled(flag);

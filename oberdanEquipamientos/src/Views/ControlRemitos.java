@@ -15,6 +15,7 @@ import java.awt.GridLayout;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
@@ -66,6 +67,7 @@ public class ControlRemitos extends javax.swing.JPanel {
         table_remitosPendientes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         txt_buscarCred = new javax.swing.JTextField();
+        refresh = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_Comentarios = new javax.swing.JTextArea();
@@ -121,6 +123,11 @@ public class ControlRemitos extends javax.swing.JPanel {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 86, 48));
 
         jButton3.setText("Guardar");
@@ -195,24 +202,37 @@ public class ControlRemitos extends javax.swing.JPanel {
 
         jLabel3.setText("Remitos pendientes de resolución:");
 
+        refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Statics/refresh.jpg"))); // NOI18N
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 1129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_buscarCred, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(940, 940, 940)
+                        .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 1129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_buscarCred, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_buscarCred, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,9 +441,9 @@ public class ControlRemitos extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                         .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_NombreSr_es)
-                        .addGap(238, 238, 238)
-                        .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_NombreSr_es, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                        .addGap(217, 217, 217)
+                        .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_CantRemitos, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(80, 80, 80)
@@ -510,11 +530,16 @@ public class ControlRemitos extends javax.swing.JPanel {
         ActualizarRenglonRemito.setTitle("Actualizar renglon cantidad");
         ActualizarRenglonRemito.getContentPane().setBackground(Color.white);
         jPanel1.setBackground(Color.BLACK);
+        listPanelCargarNroSerie = new ArrayList<>();
         GridLayout gl  = new  GridLayout(5, 1, 5, 5);
         jPanel1.setLayout(gl);
+        jPanel1.removeAll();
         for(int i = 0; i < lista.size(); i++){
         // tamaño de la componente [529, 141]
-        renglonRemitoComponent rrc = new renglonRemitoComponent(lista.get(i).getRc().getP().getNombre(),lista.get(i).getId(), lista.get(i).getRc().getCantidad(), lista.get(i).getRc().getNroSerie());
+            System.out.println(lista.get(i).getRc().getP().getNombre());
+            System.out.println(lista.get(i).getId());
+            System.out.println("------------------------");
+        renglonRemitoComponent rrc = new renglonRemitoComponent(lista.get(i).getRc().getP().getNombre(),lista.get(i).getId(), lista.get(i).getCantidad(), lista.get(i).getRc().getNroSerie());
         listPanelCargarNroSerie.add(rrc);
         jPanel1.add(rrc);
     }
@@ -555,6 +580,14 @@ public class ControlRemitos extends javax.swing.JPanel {
         actualizarFletero(rows);
     }//GEN-LAST:event_btn_imprimirActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ActualizarRenglonRemito.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        cargarRemitos();
+    }//GEN-LAST:event_refreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog ActualizarRenglonRemito;
@@ -589,6 +622,7 @@ public class ControlRemitos extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton refresh;
     private javax.swing.JTable tabla_remitosResueltos;
     private javax.swing.JTable table_remitosPendientes;
     private javax.swing.JTextField txt_CantRemitos;
@@ -618,6 +652,10 @@ public class ControlRemitos extends javax.swing.JPanel {
         ArrayList<Remito> listAll = remitoDAO.getRemitos();
         DefaultTableModel mdResuel = (DefaultTableModel)tabla_remitosResueltos.getModel();
         DefaultTableModel mdPend = (DefaultTableModel)table_remitosPendientes.getModel();
+        mdPend.setRowCount(0);
+        listRemitoPend.clear();
+        listRemitoResult.clear();
+        mdResuel.setRowCount(0);
         for(int i = 0 ; i < listAll.size();i++){
             Object[] o = new Object[7];
             o[0] = listAll.get(i).getId();
@@ -641,10 +679,12 @@ public class ControlRemitos extends javax.swing.JPanel {
 
     private void cargarDatos(int select) {
         remitoSelected = listRemitoPend.get(select);
-        txt_NroRemito.setText("");
-        txt_NombreCliente.setText("");
-        txt_Importe.setText("");
-        txt_Comentarios.setText("");
+        txt_NroRemito.setText(remitoSelected.getId()+"");
+        txt_NombreCliente.setText(remitoSelected.getC().getCliente().getNombre());
+        date_fechaEntrega.setDate(new Date());
+        txt_Comentarios.setText(remitoSelected.getComentarios());
+        cbox_entregado.setSelected(true);
+        cbox_anulacion.setSelected(false);
     }
 
     private void actualizarFletero(int[] rows) {
