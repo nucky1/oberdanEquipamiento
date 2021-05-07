@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Models.Planilla;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -54,7 +55,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
     private int cantCuotasAdela=0;
     private TipoPagoDAO tipoPagoDAO;
     private CreditosDAO creditosDao;
-    
+    private Map <Integer, Credito> creditosMap = new HashMap();
     /**
      * Creates new form NewJPanel
      */
@@ -995,6 +996,9 @@ public class IngresoCobranzas extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Hubo un problema al guardar un carton. La operacion se cancelara", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                //public void updateCredito(Credito creditoSelected)
+                creditosDao.updateCredito(creditosMap.get(listaCartones.get(i).getCredito_id()));
+               
             }
             
             if(ingresoCobranzaDAO.actualizarPlanilla(planillaSelected)){
@@ -1126,7 +1130,7 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             float importeCuota=listaCartones.get(jTableCartones.getSelectedRow()).getImporte_cuota();
             listaCartones.get(jTableCartones.getSelectedRow()).setImporte_cancelado((float)jTableCartones.getValueAt(jTableCartones.getSelectedRow(), 5));
             float deuda= listaCartones.get(jTableCartones.getSelectedRow()).getDeuda();
-            
+            int creditoId=listaCartones.get(jTableCartones.getSelectedRow()).getCredito_id();
             System.out.println("Estoy cargando el valor :"+((float)jTableCartones.getValueAt(jTableCartones.getSelectedRow(), 5)));
             //CONTROLAR QUE CARGUE LO MISMO!
             // Color de cuota al dia:
@@ -1190,7 +1194,11 @@ public class IngresoCobranzas extends javax.swing.JPanel {
                 }
                 listaCartones.get(jTableCartones.getSelectedRow()).setEstado("CREDITO CANCELADO");
             }
-
+            // actualizo los creditos:
+            Credito c = new Credito();
+            c=creditosMap.get(creditoId);
+            c.setImporte_deuda(c.getImporte_deuda() - importeCancelado);
+            creditosMap.put(creditoId, c);
             System.out.println("Apreto el enter gatito!!");
         }
         else{
@@ -1403,9 +1411,20 @@ public class IngresoCobranzas extends javax.swing.JPanel {
             //traeme los cartones bitch
             listaCartones=ingresoCobranzaDAO.getCartones(planillaSelected.getId());
             
+            
+            ArrayList<Credito> listCreditosAux;
+            
             Object[] obj = new Object [6];
             for(int i =0; i< listaCartones.size(); i++){
-                
+                //En este map, la key sera el id del credito,que cada carton ya tiene
+                Credito c = new Credito();
+                listCreditosAux=creditosDao.buscarCreditoActivo(String.valueOf(listaCartones.get(i).getCredito_id()),"id");
+                for(int n = 0; n < listCreditosAux.size(); n++){
+                    if(listCreditosAux.get(n).getId() ==listaCartones.get(i).getCredito_id() ){
+                        c=listCreditosAux.get(n);
+                    }
+                }
+                creditosMap.put(listaCartones.get(i).getCredito_id(),c);
                 obj[0]= listaCartones.get(i).getCredito_id();
                 //trar el cliente. Saco el id del credito, lo traigo, y luego invoco al cliente, le saco el nombre
             
