@@ -58,7 +58,7 @@ public class Conexion {
             conexion= null;
         }catch(Exception e)
         {
-                new Statics.ExceptionManager().saveDump(e, e.getMessage(), Main.isProduccion);
+            new Statics.ExceptionManager().saveDump(e, e.getMessage(), Main.isProduccion);
         }
     }
     
