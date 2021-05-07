@@ -5,6 +5,7 @@
  */
 package Views;
 import Statics.*;
+import java.awt.Color;
 import javax.swing.ImageIcon;
 /**
  *
@@ -48,22 +49,25 @@ public class principal extends javax.swing.JFrame {
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(1360, 680));
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(0, 0, 1360, 680);
-        jTabbedPane1.add(new Views.ProductosView());
-        jTabbedPane1.add(new Views.ABMClientesView());
+        jTabbedPane1.setForeground(new Color(42,195,251));
         jTabbedPane1.add(new Views.ProveedoresView());
+        jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource("/Statics/proveedores.png")));
+        jTabbedPane1.setTitleAt(0, "Proveedores");
+        jTabbedPane1.add(new Views.ProductosView());
+        jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource("/Statics/productos.png")));
+        jTabbedPane1.setTitleAt(1, "Articulos");
         jTabbedPane1.add(new Views.Facturacion());
-        jTabbedPane1.add(new Views.Auxiliar());
+        jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource("/Statics/facturacion.png")));
+        jTabbedPane1.setTitleAt(2, "Facturación");
+        jTabbedPane1.add(new Views.Remitos());
+        jTabbedPane1.setIconAt(3, new ImageIcon(getClass().getResource("/Statics/remitos.png")));
+        jTabbedPane1.setTitleAt(3, "Remitos");
+        jTabbedPane1.add(new Views.ABMClientesView());
+        jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource("/Statics/clientes.png")));
+        jTabbedPane1.setTitleAt(3, "Clientes");
         jTabbedPane1.add(new Views.AltaUsuariosView());
-        jTabbedPane1.add(new Views.GenerarRemito());
-        jTabbedPane1.add(new Views.ControlRemitos());
-        jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource("/Statics/productos.png")));
-        jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource("/Statics/clientes.png")));
-        jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource("/Statics/proveedores.png")));
-        jTabbedPane1.setIconAt(3, new ImageIcon(getClass().getResource("/Statics/facturacion.png")));
-        jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource("/Statics/auxiliar.png")));
-        jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource("/Statics/usuarios.png")));
-        jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource("/Statics/usuarios.png")));
-        jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource("/Statics/usuarios.png")));
+        jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource("/Statics/empleados.png")));
+        jTabbedPane1.setTitleAt(3, "Empleados");
 
         barra_estado.setBackground(new java.awt.Color(238, 238, 238));
         barra_estado.setMaximumSize(new java.awt.Dimension(1360, 25));
