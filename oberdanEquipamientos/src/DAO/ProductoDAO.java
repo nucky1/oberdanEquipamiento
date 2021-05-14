@@ -177,12 +177,26 @@ public class ProductoDAO {
         return res;
     }
     public int nuevoProducto(Producto p) {
-        String SQL = "INSERT INTO `articulos` SET `nombre`='"+p.getNombre()+"',`cod`="+p.getCod()+","
-                + "`proveedor_id`="+p.getIdProveedorActual()+",`observaciones`='"+p.getObservaciones()+"',"
-                + "`stock_minimo`="+p.getStockMin()+",`state`='ACTIVO';";
+        String SQL = "INSERT INTO `articulos` SET `nombre`='"+p.getNombre()+"',`cod`="+p.getCod()+",`proveedor_id`="+p.getIdProveedorActual()+", `state`='ACTIVO';";
         return conexion.EjecutarOperacion(SQL);
     }
-
+    
+    public int getNextID() {
+        int id = -1;
+        try {
+            String SQL = "SELECT AUTO_INCREMENT\n" +
+                    "FROM information_schema.TABLES\n" +
+                    "WHERE TABLE_SCHEMA = \"bd-oberdan\"\n" +
+                    "AND TABLE_NAME = \"articulos\"";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            if(rs.first()){
+                id = rs.getInt("AUTO_INCREMENT");
+            }
+        } catch (SQLException ex) {
+            new Statics.ExceptionManager().saveDump(ex, "Error al obtener el id producto nuevo", Main.isProduccion);
+        }
+        return id;
+    }
     public List<Producto> getStockFiltrado(String seleccion) {
         String SQL=null;
         

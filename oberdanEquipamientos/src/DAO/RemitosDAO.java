@@ -6,10 +6,8 @@
 package DAO;
 
 import Models.Remito;
-import Models.RenglonCredito;
 import Models.renglonRemito;
 import Views.Main;
-import com.sun.javafx.geom.transform.CanTransformVec3d;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

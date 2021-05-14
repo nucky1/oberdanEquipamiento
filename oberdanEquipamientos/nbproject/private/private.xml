@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jerem/OneDrive/Documentos/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProductosView.java</file>
-            <file>file:/C:/Users/jerem/OneDrive/Documentos/oberdanEquipamiento/oberdanEquipamientos/src/Views/principal.java</file>
-            <file>file:/C:/Users/jerem/OneDrive/Documentos/oberdanEquipamiento/oberdanEquipamientos/src/Views/Cobranzas.java</file>
-            <file>file:/C:/Users/jerem/OneDrive/Documentos/oberdanEquipamiento/oberdanEquipamientos/src/Views/Home.java</file>
-            <file>file:/C:/Users/jerem/OneDrive/Documentos/oberdanEquipamiento/oberdanEquipamientos/src/Views/DigitalClock.java</file>
-            <file>file:/C:/Users/jerem/OneDrive/Documentos/oberdanEquipamiento/oberdanEquipamientos/src/Views/Login.java</file>
+            <file>file:/C:/Users/Aguss2/Documents/Proyectos%20Java%20escritorio/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProductosView.java</file>
+            <file>file:/C:/Users/Aguss2/Documents/Proyectos%20Java%20escritorio/oberdanEquipamiento/oberdanEquipamientos/src/Views/Main.java</file>
+            <file>file:/C:/Users/Aguss2/Documents/Proyectos%20Java%20escritorio/oberdanEquipamiento/oberdanEquipamientos/src/DAO/ProductoDAO.java</file>
+            <file>file:/C:/Users/Aguss2/Documents/Proyectos%20Java%20escritorio/oberdanEquipamiento/oberdanEquipamientos/src/Views/ProveedoresView.java</file>
+            <file>file:/C:/Users/Aguss2/Documents/Proyectos%20Java%20escritorio/oberdanEquipamiento/oberdanEquipamientos/src/DAO/CuotasDAO.java</file>
         </group>
     </open-files>
 </project-private>

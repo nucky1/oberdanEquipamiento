@@ -67,7 +67,7 @@ public class ExceptionManager extends Thread{
         if(type){
             this.e = e;
             this.obs = obs;
-            this.start();
+            this.run();
         }else{
             e.printStackTrace();
         }

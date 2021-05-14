@@ -28,7 +28,7 @@ public class MiRenderer extends DefaultTableCellRenderer {
                                                    int column) {
  
         int stock = (Integer) table.getValueAt(row, 2);
-        int stockMin = listProdNota.get(row).getStockMin();
+        int stockMin = (int) listProdNota.get(row).getStockMin();
         if(stockMin >= stock){
             setBackground(Color.RED);
             setForeground(Color.BLACK);

@@ -65,7 +65,7 @@ public class principal extends javax.swing.JFrame {
         jTabbedPane1.add(new Views.AltaUsuariosView());
         jTabbedPane1.setIconAt(6, new ImageIcon(getClass().getResource("/Statics/empleados.png")));
         jTabbedPane1.add(new Views.AltaUsuariosView());
-        jTabbedPane1.setIconAt(7, new ImageIcon(getClass().getResource("/Statics/Cobranza.png")));
+        jTabbedPane1.setIconAt(7, new ImageIcon(getClass().getResource("/Statics/cobranzas.png")));
 
         barra_estado.setBackground(new java.awt.Color(238, 238, 238));
         barra_estado.setMaximumSize(new java.awt.Dimension(1360, 25));

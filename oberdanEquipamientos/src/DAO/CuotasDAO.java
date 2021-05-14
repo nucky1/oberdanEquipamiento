@@ -67,6 +67,8 @@ public class CuotasDAO {
     }
 
     public void setCuotasProd(List<Cuota> cuotasProd, int idProd) {
+        if(cuotasProd == null ||cuotasProd.size()==0) //no hay cuotas aun
+            return;
         String SQL = "DELETE FROM articulo_cuota WHERE articulos_id = "+idProd;
         conexion.EjecutarOperacion(SQL);
         SQL = "INSERT INTO articulo_cuota (cuota_id,articulos_id) VALUES";

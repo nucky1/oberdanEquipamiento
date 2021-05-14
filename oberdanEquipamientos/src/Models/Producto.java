@@ -26,7 +26,7 @@ public class Producto {
     private float impuesto_int_fijo;
     private boolean sinIva;
     private int estado;
-    private int StockMin;
+    private float StockMin;
     private int Stock;
     private float precioVenta;
     private float precioCosto;
@@ -158,11 +158,11 @@ public class Producto {
         this.Id = Id;
     }
 
-    public int getStockMin() {
+    public float getStockMin() {
         return StockMin;
     }
 
-    public void setStockMin(int StockMin) {
+    public void setStockMin(float StockMin) {
         this.StockMin = StockMin;
     }
 
