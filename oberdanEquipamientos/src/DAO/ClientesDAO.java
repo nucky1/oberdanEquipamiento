@@ -5,7 +5,7 @@
  */
 package DAO;
 
-import Views.ABMClientesView;
+import Views.Clientes.ABMClientesView;
 import Models.Cliente;
 import Models.Contacto;
 import com.mysql.jdbc.Connection;
