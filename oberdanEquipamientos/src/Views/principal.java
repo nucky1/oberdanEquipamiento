@@ -62,7 +62,7 @@ public class principal extends javax.swing.JFrame {
         jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource("/Statics/remitos.png")));
         jTabbedPane1.add(new Views.Clientes.ABMClientesView());
         jTabbedPane1.setIconAt(5, new ImageIcon(getClass().getResource("/Statics/clientes.png")));
-        jTabbedPane1.add(new Views.Empleados.AltaUsuariosView());
+        jTabbedPane1.add(new Views.Empleados.ABMEmpleadosView());
         jTabbedPane1.setIconAt(6, new ImageIcon(getClass().getResource("/Statics/empleados.png")));
         jTabbedPane1.add(new Views.Cobranzas.Cobranzas());
         jTabbedPane1.setIconAt(7, new ImageIcon(getClass().getResource("/Statics/cobranzas.png")));

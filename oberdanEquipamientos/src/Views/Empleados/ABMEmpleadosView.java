@@ -43,7 +43,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hernan
  */
-public class AltaUsuariosView extends javax.swing.JPanel {
+public class ABMEmpleadosView extends javax.swing.JPanel {
     private DireccionesDAO direccionesDAO;
     private EmpleadosDAO empleadosDAO;
     private Empleado empleadoSelected;
@@ -60,7 +60,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     /**
      * Creates new form ABMUsuariosView
      */
-    public AltaUsuariosView() {
+    public ABMEmpleadosView() {
         
         initComponents();
         Statics.style.setPlaceHolder(jTextF_IngresarNuevoElemento, "Ingrese nuevo");
@@ -1663,7 +1663,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 return;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AltaUsuariosView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ABMEmpleadosView.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(jPasswordFieldCrear1.getPassword().length<1){
             //JOptionPane.showMessageDialog(this.getRootPane(), "Error, ingrese una clave", "Erorr", JOptionPane.ERROR_MESSAGE);
@@ -1775,7 +1775,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Error, el usuario que desea ingresar ya existe", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AltaUsuariosView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ABMEmpleadosView.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(jPasswordFieldActual.getPassword().length<1){
             JOptionPane.showMessageDialog(null, "Error, ingrese su clave actual", "Erorr", JOptionPane.ERROR_MESSAGE);
@@ -1859,7 +1859,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Error, el usuario que desea ingresar ya existe", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AltaUsuariosView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ABMEmpleadosView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPasswordFieldActualMouseClicked
 
