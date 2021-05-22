@@ -205,7 +205,7 @@ public class EmpleadosDAO {
         boolean exito = true;
         conexion.transaccionCommit("quitarAutoCommint");
         int res =1;
-        String SQL = "UPDATE empleado SET nombre = '"+e.getNombre()+"'"
+        String SQL = "UPDATE empleado SET nombre = '"+e.getNombre().toUpperCase()+"'"
                 + ", direccion_id= "+ e.getDireccionId()
                 + ", numero_domicilio = "+e.getNro()
                 + ",codPostal = "+e.getCodigoPostal()
@@ -263,7 +263,7 @@ public class EmpleadosDAO {
             }
             else{
                 SQL = "INSERT INTO empleado (nombre,numero_doc,tipo_doc,cuil,fechaNacimiento,estado_civil,tipo,codPostal,referencia,categoria,numero_domicilio,direccion_id,convenio, aporte_os, user, pass) "
-                        + "VALUES('"+e.getNombre()+"',"+e.getDni()+",'"+e.getTipoDni()+"','"+e.getCuil()+"','"+Statics.Funciones.dateParse(e.getFechaNacimiento())+"','"+e.getEstadoCivil()+"','"+e.getTipo()+"','"+e.getCodigoPostal()+"','"+e.getReferencia()+"','"+e.getCategoria()+"',"+
+                        + "VALUES('"+e.getNombre().toUpperCase()+"',"+e.getDni()+",'"+e.getTipoDni()+"','"+e.getCuil()+"','"+Statics.Funciones.dateParse(e.getFechaNacimiento())+"','"+e.getEstadoCivil()+"','"+e.getTipo()+"','"+e.getCodigoPostal()+"','"+e.getReferencia()+"','"+e.getCategoria()+"',"+
                         e.getNro()+","+e.getDireccionId()+",'"+
                         e.getConvenio()+"' , '"+e.getAporteOSocial()+"', '"+e.getUser()+"' , '"+e.getPass()+"' )";
                 res = conexion.EjecutarOperacion(SQL); //inserto el empleado el cual ahora sera el empleado con id mas alto
