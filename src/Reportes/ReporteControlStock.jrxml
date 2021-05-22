@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="481f1c8c-7be4-402f-815b-b516b971195a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="42"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="dc8aaddb-f0c8-46c0-b8f8-e93c52688619"/>
+	<subDataset name="DataSetStockV1" uuid="de5c60e0-765d-48b8-8025-0ce999df9665"/>
+	<subDataset name="Table Dataset 1" uuid="4f0b9304-fcff-4048-ab65-f94fb3336d38"/>
+	<subDataset name="New Dataset 1" uuid="3c65673e-2ce5-4ec4-a216-0261ffc8f186"/>
+	<subDataset name="New Dataset 2" uuid="1e719062-b196-48f8-8e33-a319c76e63de">
+		<queryString language="SQL">
+			<![CDATA[SELECT articulos.id, articulos.cod, articulos.nombre ,articulos.stock_existente FROM articulos WHERE articulos.tipo = 1 AND articulos.stock_existente >= 1]]>
+		</queryString>
+		<field name="cod" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="nombre" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="stock_existente" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<group name="cod">
+			<groupExpression><![CDATA[$F{cod}]]></groupExpression>
+		</group>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="stock_existente">
+			<groupExpression><![CDATA[$F{stock_existente}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[SELECT
+     articulos.`id`,
+     articulos.`cod`,
+     articulos.`nombre`,
+     articulos.`stock_existente`
+FROM
+     `articulos` articulos
+WHERE
+     articulos.tipo = 1
+ AND articulos.stock_existente >= 1]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stock_existente" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="stock_existente_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{stock_existente}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="312" y="22" width="170" height="20" uuid="030ef641-ec22-4bbd-bcdc-ee215dcc19ea"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Control de stock existente]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="435" y="47" width="100" height="20" uuid="e8f37b88-824d-44e6-b8c2-eb35fca9aa97"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="312" y="47" width="100" height="20" uuid="b2b836bb-350d-4fdc-8a3a-fb58e3bb83fc"/>
+				<text><![CDATA[Fecha de emision:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="67" width="100" height="20" uuid="530b631f-7d4a-4edd-8898-2d0e91ec1d47"/>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<textField pattern="HH.mm.ss">
+				<reportElement x="435" y="67" width="100" height="20" uuid="ecd2a9c5-4656-403f-a960-05afbf44ff0e"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="219" height="91" uuid="d93f1a16-dd2b-4a29-aea5-5be1f36565f6"/>
+				<imageExpression><![CDATA["C:\\Users\\Hernan\\Documents\\Proyecto Claudio\\Nuevo Sis\\oberdanEquipamientos\\src\\Statics\\oberdan logo SIN NUMERO.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="48" y="0" width="147" height="20" uuid="e654e050-9094-47bd-9a89-8ad0a395b2e3"/>
+				<text><![CDATA[ARTICULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="38" height="20" uuid="235ac239-0adc-41f4-9bfd-f0da8a323972"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="0" width="64" height="20" uuid="b0556d54-0c07-495a-a107-3763e060709a"/>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="0" width="100" height="20" uuid="b160d0fa-320d-425d-b105-37532082f231"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[STOCK EXISTENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="469" y="0" width="100" height="20" uuid="acfc527f-2765-4c57-af31-8ddb02670b9d"/>
+				<text><![CDATA[CONTROLADO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="38" height="20" uuid="f5862eba-fce4-4ebb-85d1-cb1dbc3124d7"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="0" width="213" height="20" uuid="040e83e6-d409-402e-b9e1-1648273bd788"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="0" width="60" height="20" uuid="84bfc926-9ffe-4dbb-bb95-42b50b237264"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="0" width="87" height="20" uuid="40b3147c-03c4-47e9-814b-c1e6de2a3d6e"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{stock_existente}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="482" y="0" width="53" height="20" uuid="af0d8396-383f-48d6-8cb4-64388b87141d"/>
+				<box>
+					<pen lineWidth="1.5"/>
+					<topPen lineWidth="1.5"/>
+					<leftPen lineWidth="1.5"/>
+					<bottomPen lineWidth="1.5"/>
+					<rightPen lineWidth="1.5"/>
+				</box>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="36" splitType="Stretch">
+			<rectangle>
+				<reportElement x="335" y="0" width="100" height="20" uuid="8967c687-c02a-43fb-8120-8744722e02d4"/>
+			</rectangle>
+			<elementGroup/>
+			<textField>
+				<reportElement x="355" y="0" width="100" height="20" uuid="8c12c2f0-8eaf-4310-8c74-c410b6f594ce"/>
+				<textFieldExpression><![CDATA[$V{stock_existente_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="195" y="0" width="140" height="20" uuid="ea601bb5-bc3a-4320-919e-76bff45f0554"/>
+				<text><![CDATA[TOTAL DE ARTICULOS]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="15" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="13" splitType="Stretch"/>
+	</summary>
+</jasperReport>
