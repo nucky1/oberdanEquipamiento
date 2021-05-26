@@ -2535,7 +2535,7 @@ public class ABMClientesView extends javax.swing.JPanel {
              if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
                  estadoCivilAnterior="CASADO";
              }  
-           if(list!= null){
+           if(list!= null && list.si){
                clienteConyugue=clientesDao.buscarCliente(list.get(0).getId());
                System.out.println("En cargar clientes, estoy recuperando conyuge con nombre: "+clienteConyugue.getNombre());
             jTextField_nombreConyuge.setText(list.get(0).getNombre());

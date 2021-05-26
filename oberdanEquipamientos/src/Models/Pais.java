@@ -16,7 +16,14 @@ public class Pais {
     public Pais(String nombre) {
         this.nombre = nombre;
     }
-
+@Override
+    public boolean equals(Object o){
+        if(o instanceof Pais){
+            Pais p = (Pais)o;
+            return p.getNombre().equalsIgnoreCase(nombre);
+        }
+        return false;
+    }
     public Pais() {
     }
     public String getNombre() {

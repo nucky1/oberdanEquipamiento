@@ -1826,6 +1826,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
              modificarTrue=true;
              habilitarCampos(true);
              cargarNacionalidades();
+             cargarDireccionAlModificar();
          }
     }//GEN-LAST:event_jButtonModificarActionPerformed
 
@@ -2044,12 +2045,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
        jCombo_Naciones1.addItem(t);
        
        });
-       if(modificarTrue){
-           System.out.println("Entre con true y el pais es "+String.valueOf(empleadoSelected.getNacionalidad()));
-           Pais p = new Pais();
-           p.setNombre(String.valueOf(empleadoSelected.getNacionalidad()));
-           jCombo_Naciones1.setSelectedItem(p);
-        }
+       
     }
 
     private void habilitarCampos(boolean flag) {
@@ -2146,6 +2142,32 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jComboBox_calles.removeAllItems();
         jComboBox_calles.addItem(new Direccion("-"));
         
+    }
+    public void cargarDireccionAlModificar(){
+        if(modificarTrue){
+           System.out.println("Entre con true y el pais es "+String.valueOf(empleadoSelected.getNacionalidad()));
+           Pais p = new Pais();
+           p.setNombre(String.valueOf(empleadoSelected.getNacionalidad()));
+           jCombo_Naciones1.setSelectedItem(p);
+           
+           Provincia pro = new Provincia();
+           pro.setNombre(String.valueOf(empleadoSelected.getProvincia()));
+           jComboBox_Provincias.setSelectedItem(pro);
+           
+           Localidad loca = new Localidad();
+           loca.setNombre(String.valueOf(empleadoSelected.getCiudad()));
+           jComboBox_Ciudades.setSelectedItem(loca);
+           
+           Barrio barr = new Barrio();
+           barr.setNombre(String.valueOf(empleadoSelected.getBarrio()));
+           jComboBox_Barrios.setSelectedItem(barr);
+           
+           Direccion dir = new Direccion();
+           dir.setNombre(String.valueOf(empleadoSelected.getDireccion()));
+           jComboBox_calles.setSelectedItem(dir);
+           
+           
+        }
     }
     
 }
