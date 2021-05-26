@@ -2331,6 +2331,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                 break;
             }
         }
+        txtf_nuevo_elemento.setText("");
         jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
 
