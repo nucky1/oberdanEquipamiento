@@ -106,9 +106,10 @@ public class ClientesDAO {
                     p.setDni(rs.getInt("dni"));
                     p.setTipoDni(rs.getString("tipo_dni"));
                     p.setEstadoCivil(rs.getString("estadoCivil"));
+                    p.setNacionalidad(rs.getString("nacionalidad"));
                     p.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                     //direccion
-                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setPais(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
                     p.setCiudad(rs.getString("localidad.nombre"));
                     p.setBarrio(rs.getString("barrio.nombre"));
@@ -174,8 +175,9 @@ public class ClientesDAO {
                     p.setDni(rs.getInt("dni"));
                     p.setTipoDni(rs.getString("tipo_dni"));
                     p.setEstadoCivil(rs.getString("estadoCivil"));
+                    p.setNacionalidad(rs.getString("nacionalidad"));
                     //direccion
-                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setPais(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
                     p.setCiudad(rs.getString("localidad.nombre"));
                     p.setBarrio(rs.getString("barrio.nombre"));
@@ -283,7 +285,7 @@ public class ClientesDAO {
                 + " ORDER BY relacion.created_at DESC";
        */
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        System.out.println("La consulta en recuperar Conyugue fue: ");
+        System.out.println("La consulta en recuperar Conyugues fue: ");
         System.out.println(""+SQL);
         List<Cliente> list = new ArrayList<>();
         try{
@@ -308,9 +310,16 @@ public class ClientesDAO {
                 
     }
 
-    public Cliente recuperarConyugue(int idCliente){
-        String SQL ="SELECT relacion.estadoCivil,cliente.nombre,"
-                + "cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni "
+    public Cliente recuperarConyugue(String idCliente){
+        /**
+         * SELECT cliente.nombre,cliente.id,cliente.fechaNacimiento,
+         * cliente.dni,cliente.tipo_dni,rel2.tipo FROM cliente INNER JOIN 
+         * (SELECT relacion.tipo, relacion.created_at, IF(cliente1_id = 1, cliente2_id,cliente1_id) 
+         * as clientId FROM relacion WHERE (cliente1_id=1 OR cliente2_id=1) && relacion.state= 'ACTIVO' )
+         * AS rel2 ON rel2.clientId = cliente.id ORDER BY rel2.created_at DESC
+         */
+        String SQL ="SELECT relacion.tipo,relacion.created_at,cliente.nombre,"
+                + "cliente.fechaNacimiento,cliente.dni,cliente.tipo_dni, cliente.id "
                 + "FROM relacion "
                 + "INNER JOIN cliente ON cliente1_id = cliente.id OR cliente2_id = cliente.id"
                 + " WHERE (cliente1_id="+idCliente
@@ -328,6 +337,7 @@ public class ClientesDAO {
                 c.setDni(rs.getInt("cliente.dni"));
                 c.setDocumentacion(rs.getString("cliente.tipo_dni"));
                 c.setFechaNacimiento(rs.getDate("cliente.fechaNacimiento"));
+                c.setId(rs.getInt("cliente.id"));
                 //una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
                 c.setEstadoCivil(rs.getString("relacion.tipo"));
                 return c;
@@ -353,6 +363,7 @@ public class ClientesDAO {
                 + ",observaciones = '"+c.getObservaciones()+"',"
                 + "documentacion = '"+c.getDocumentacion()+"'"
                 + ",estadoCivil  = '"+ c.getEstadoCivil()+"'"
+                + ",nacionalidad  = '"+ c.getNacionalidad()+"'"
                 +", tipo_dni = '"+c.getTipoDni()+"'"
                 +" WHERE id = "+c.getId();
         res = conexion.EjecutarOperacion(SQL); //inserto el cliente el cual ahora sera el cliente con id mas alto
@@ -418,11 +429,12 @@ public class ClientesDAO {
             }
             else{
                 System.out.println("NO Lo encontre al cliente y lo voy a guardar!");
-                SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil,"
+                SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil, nacionalidad ,"
                         + "fechaNacimiento,esSolicitante,codPostal,referencia,"
                         + "documentacion,numero,direccion_id,observaciones) "
                         + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"
                         +c.getTipoDni()+"','"+c.getEstadoCivil()+"','"
+                        +c.getNacionalidad()+"','"
                         +Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"
                         +c.isEsSolicitante()+",'"+c.getCodPostal()+"','"
                         +c.getReferencia()+"','"+c.getDocumentacion()+"',"

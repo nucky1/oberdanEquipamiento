@@ -76,6 +76,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jButtonEliminarEmpleado.setEnabled(false);
         jButtonCrearNuevo.setEnabled(false);
         jButtonModificar.setEnabled(false);
+        principal.lbl_estado.setText("");
         
     }
 
@@ -179,7 +180,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jButtonCancelarMain = new javax.swing.JButton();
         jComboBox_estadoCivil = new javax.swing.JComboBox<>();
         jLabel25 = new javax.swing.JLabel();
-        jTextFieldTipo = new javax.swing.JTextField();
+        jComboBoxTipoEmpleado = new javax.swing.JComboBox<>();
 
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -714,11 +715,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
 
         jLabel25.setText("Tipo:");
 
-        jTextFieldTipo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldTipoKeyTyped(evt);
-            }
-        });
+        jComboBoxTipoEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "ADMINISTRADOR", "COBRADOR", "GERENTE", "VENDEDOR" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -740,14 +737,18 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                                     .addComponent(jButtonCrearUser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                                     .addComponent(jTextFieldConvenio)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonModificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel16)
-                                            .addComponent(jLabel15))))
+                                            .addComponent(jLabel15)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(158, 158, 158)
+                                        .addComponent(jComboBoxTipoEmpleado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(134, 134, 134)
+                                        .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(36, 36, 36)
@@ -844,9 +845,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     .addComponent(jLabel17)
                     .addComponent(jLabel25))
                 .addGap(53, 53, 53)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldTipo)
-                    .addComponent(jDateChooserFN, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+                .addComponent(jDateChooserFN, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -936,22 +935,22 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(jLabel25)
-                        .addGap(43, 43, 43))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel25)
+                            .addComponent(jComboBoxTipoEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooserFN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonCancelarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonGuardarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonCancelarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonGuardarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(32, Short.MAX_VALUE))))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextFieldAporteOSocial, jTextFieldCategoria, jTextFieldConvenio, jTextField_cuil});
@@ -1131,37 +1130,53 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         // TODO add your handling code here:
         //control de todos los campos
         if(!Funciones.controlText(jTextField_nombreApellido.getText())){
-            JOptionPane.showMessageDialog(null,"El nombre del empleado no puede estar vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"El nombre del empleado no puede estar vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- El nombre del empleado no puede estar vacio");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         if(!Funciones.isNumeric(jTextField_dni.getText())){
-             JOptionPane.showMessageDialog(null,"Debe ingresar un valor documento valido","Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Debe ingresar un valor documento valido","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar un valor documento valido");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         if(Funciones.compareStrings("-",String.valueOf(jComboBox_tipoDni.getSelectedItem()))){
-            JOptionPane.showMessageDialog(null,"Debe ingresar un tipo de dni ","Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Debe ingresar un tipo de dni ","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar un tipo de dni");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         if(jTextField_dni.getText().isEmpty()){
-             JOptionPane.showMessageDialog(null,"Debe ingresar un documento","Error", JOptionPane.ERROR_MESSAGE);
-            return;
+             //JOptionPane.showMessageDialog(null,"Debe ingresar un documento","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar un documento");
+            principal.lbl_estado.setForeground(Color.RED);
+             return;
         }
         if(Funciones.compareStrings("-",String.valueOf(jComboBox_calles.getSelectedItem()))){
-            JOptionPane.showMessageDialog(null,"Debe ingresar una direccion","Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Debe ingresar una direccion","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar una direccion");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         if(Funciones.compareStrings("-",String.valueOf(jComboBox_estadoCivil.getSelectedItem()))){
-            JOptionPane.showMessageDialog(null,"Debe ingresar un tipo de estado civil","Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Debe ingresar un tipo de estado civil","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar un tipo de estado civil");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         if(!Funciones.isNumeric(jTextField_nroCasa.getText())){
-            JOptionPane.showMessageDialog(null,"Debe ingresar un numero de casa","Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Debe ingresar un numero de casa","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar un numero de casa");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         
         DefaultTableModel model= (DefaultTableModel) jTable_tipoYcontacto.getModel();
         if(model.getRowCount()==0){
-            JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe colocar al menos un contacto");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
          empleadoSelected.setNombre(jTextField_nombreApellido.getText().toUpperCase());
@@ -1173,7 +1188,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         empleadoSelected.setFechaNacimiento(jDateChooserFN.getDate());
         int estadoSelected= jComboBox_estadoCivil.getSelectedIndex();
         if(String.valueOf(jComboBox_estadoCivil.getItemAt(estadoSelected)).equals("-")){
-            JOptionPane.showMessageDialog(null, "Debe colocar el estado civil", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Debe colocar el estado civil", "Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe colocar el estado civil");
+            principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         empleadoSelected.setEstadoCivil(String.valueOf(jComboBox_estadoCivil.getItemAt(estadoSelected)));
@@ -1183,7 +1200,13 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         empleadoSelected.setConvenio(jTextFieldConvenio.getText().toUpperCase());
         empleadoSelected.setAporteOSocial(jTextFieldAporteOSocial.getText().toUpperCase());
         empleadoSelected.setCuil(jTextField_cuil.getText());
-        empleadoSelected.setTipo(jTextFieldTipo.getText().toUpperCase());
+        int tipoEmpleadoSelected = jComboBoxTipoEmpleado.getSelectedIndex();
+        if(String.valueOf(jComboBoxTipoEmpleado.getItemAt(tipoEmpleadoSelected)).equalsIgnoreCase("-")){
+            principal.lbl_estado.setText("Error- Debe seleccionar un tipo de empleado");
+            principal.lbl_estado.setForeground(Color.RED);
+            return;
+        }
+        empleadoSelected.setTipo(String.valueOf(jComboBoxTipoEmpleado.getItemAt(tipoEmpleadoSelected)));
        //direccion
        
         empleadoSelected.setNacionalidad(String.valueOf(jCombo_Naciones1.getSelectedItem()));
@@ -1208,7 +1231,8 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         empleadoSelected.setContacto((ArrayList<Contacto>) list);
         if (!modificarTrue && !altaUsuarioOk){
             //no estoy modificando y no agregue el usuario y contraseña
-            JOptionPane.showMessageDialog(null, "Debe agregar un usuario y contraseña para crear un empleado nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Debe agregar un usuario y contraseña para crear un empleado nuevo", "Error", JOptionPane.ERROR_MESSAGE);
+            
             return;
         }
         if(modificarTrue){
@@ -1218,7 +1242,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 if(empleadosDAO.actualizarEmpleado(empleadoSelected)){
                     JOptionPane.showMessageDialog(null, "Se actualizo el empleado", "OK", JOptionPane.INFORMATION_MESSAGE);
                     principal.lbl_estado.setText("El empleado se actualizo con exito");
-                    principal.lbl_estado.setForeground(new Color(0,100,0));
+                    principal.lbl_estado.setForeground(Color.RED);
                     limpiarCampos();
                     habilitarCampos(false);
                     empleadoSelected=null;
@@ -1226,9 +1250,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     cambioBusqueda("", jTexfieldBuscador,tablaBuscador);
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "No se pudo guardar el empleado. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
-                    principal.lbl_estado.setText("Hubo un error al actualizar el empleado");
-                    principal.lbl_estado.setForeground(new Color(139,0,0));
+                    //JOptionPane.showMessageDialog(null, "No se pudo guardar el empleado. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
+                    principal.lbl_estado.setText("Error - No se pudo guardar el empleado. Verifique los campos");
+                    principal.lbl_estado.setForeground(Color.RED);
                     return;
                 }
             }
@@ -1245,7 +1269,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     habilitarCampos(false);
                     empleadoSelected=null;
                 }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo guardar el empleado. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, "No se pudo guardar el empleado. Verifique los campos", "Error", JOptionPane.ERROR_MESSAGE);
                     principal.lbl_estado.setText("Hubo un error al agregar el empleado");
                     principal.lbl_estado.setForeground(new Color(139,0,0));
                     return;
@@ -1277,7 +1301,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             //jDialogModificarUser.setModal(true);
             //jDialogModificarUser.setLocationRelativeTo(this);
             //jDialogModificarUser.setSize(542,559);
-            JOptionPane.showMessageDialog(null, "Ud no puede modificar el usuario y/o clave de otro empleado", "Error", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Ud no puede modificar el usuario y/o clave de otro empleado", "Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Ud no puede modificar el usuario y/o clave de otro empleado");
+            principal.lbl_estado.setForeground(Color.RED);
         }
         else {
             jDialogGenerarUser.setTitle("GENERACION DE USUARIO Y CONTRASEÑA");
@@ -1594,6 +1620,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jButtonCrearUser.setForeground(Color.black);
         limpiarCampos();
         habilitarCampos(false);
+        jButtonModificar.setEnabled(false);
+        jButtonEliminarEmpleado.setEnabled(false);
+        
     }//GEN-LAST:event_jButtonCancelarMainActionPerformed
 
     private void jTextFieldUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioActionPerformed
@@ -1827,6 +1856,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
              habilitarCampos(true);
              cargarNacionalidades();
              cargarDireccionAlModificar();
+             jTextField_nombreApellido.requestFocus();
          }
     }//GEN-LAST:event_jButtonModificarActionPerformed
 
@@ -1860,13 +1890,6 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
 
-    private void jTextFieldTipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTipoKeyTyped
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
-            jButtonGuardarMain.requestFocus();
-        }
-    }//GEN-LAST:event_jTextFieldTipoKeyTyped
-
             
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAñadirBarrio;
@@ -1888,6 +1911,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private javax.swing.JButton jButtonOKjdialogUser;
     private javax.swing.JButton jButtonOKjdialogUser1;
     private javax.swing.JButton jButton_eliminarContacto;
+    private javax.swing.JComboBox<String> jComboBoxTipoEmpleado;
     private javax.swing.JComboBox<Models.Barrio> jComboBox_Barrios;
     private javax.swing.JComboBox<Models.Localidad> jComboBox_Ciudades;
     private javax.swing.JComboBox<Models.Provincia> jComboBox_Provincias;
@@ -1951,7 +1975,6 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldCategoria;
     private javax.swing.JTextField jTextFieldContacto;
     private javax.swing.JTextField jTextFieldConvenio;
-    private javax.swing.JTextField jTextFieldTipo;
     private javax.swing.JTextField jTextFieldUsuario;
     private javax.swing.JTextField jTextFieldUsuario1;
     private javax.swing.JTextField jTextField_CodigoPostal;
@@ -2034,7 +2057,8 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jTextField_nroCasa.setText(empleadoSelected.getNro());
             jTextField_CodigoPostal.setText(empleadoSelected.getCodigoPostal());
             jTextField_ReferenciaCalles.setText(empleadoSelected.getReferencia());
-            jTextFieldTipo.setText(empleadoSelected.getTipo());
+            
+            jComboBoxTipoEmpleado.setSelectedItem(String.valueOf(empleadoSelected.getTipo().toUpperCase()));
             
             
         }
@@ -2068,7 +2092,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jTextFieldCategoria.setEnabled(flag);
         jTextFieldConvenio.setEnabled(flag);
         jTextField_cuil.setEnabled(flag);
-        jTextFieldTipo.setEnabled(flag);
+        jComboBoxTipoEmpleado.setEnabled(flag);
         
         // informacion direccion
         jCombo_Naciones1.setEnabled(flag);
@@ -2112,7 +2136,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jTextFieldCategoria.setText("");
         jTextFieldConvenio.setText("");
         jTextField_cuil.setText("");
-        jTextFieldTipo.setText("");
+        jComboBoxTipoEmpleado.setSelectedIndex(0);
         
         
         jTextField_nroCasa.setText("");

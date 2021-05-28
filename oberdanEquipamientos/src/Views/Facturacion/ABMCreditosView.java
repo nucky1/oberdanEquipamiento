@@ -2346,7 +2346,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
             saldoActual += cred.get(i).getImporte_deuda();
             model.addRow(o);
         }
-        Cliente conyugue = clienteDAO.recuperarConyugue(creditoSelected.getCliente().getId());
+        Cliente conyugue = clienteDAO.recuperarConyugue(String.valueOf(creditoSelected.getCliente().getId()));
         Cliente cliente = clienteDAO.buscarCliente(creditoSelected.getCliente().getId());
         lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
         if(cliente.getContacto().size()>0)

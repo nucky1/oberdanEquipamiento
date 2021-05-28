@@ -1920,7 +1920,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             saldoActual += cred.get(i).getImporte_deuda();
             model.addRow(o);
         }
-        Cliente conyugue = clienteDAO.recuperarConyugue(clienteSelected.getId());
+        Cliente conyugue = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
         Cliente cliente = clienteDAO.buscarCliente(clienteSelected.getId());
         lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
         if(cliente.getContacto().size()>0)
@@ -1963,7 +1963,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
              Cliente c = null;
             if(clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
                 //Dato conyugue
-                c = clienteDAO.recuperarConyugue(clienteSelected.getId());
+                c = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
                 txt_nombreConyugue.setText(c.getNombre()+ " ("+c.getDni()+")");
             }else{
                 c = new Cliente();

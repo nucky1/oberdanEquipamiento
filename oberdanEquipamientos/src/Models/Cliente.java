@@ -20,11 +20,12 @@ public class Cliente {
     private int id;
     private String referencia;
     private String estadoCivil;
+    private String nacionalidad;
     private Date fechaNacimiento;
     private boolean esSolicitante;
     private String documentacion;
     private String observaciones;
-    private String nacionalidad;
+    private String pais;
     private String provincia;
     private String ciudad;
     private String barrio;
@@ -143,12 +144,12 @@ public class Cliente {
         this.observaciones = observaciones;
     }
 
-    public String getNacionalidad() {
-        return nacionalidad;
+    public String getPais() {
+        return pais;
     }
 
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     public String getProvincia() {
@@ -205,6 +206,14 @@ public class Cliente {
 
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
     
     

@@ -4,3 +4,4 @@ acordate de permitir el null
 
 ALTER TABLE `contactos` ADD `nombre` VARCHAR(50) NULL AFTER `contacto`;
 ALTER TABLE `contactos` ADD `cargo` VARCHAR(50) NOT NULL AFTER `nombre`;
+ALTER TABLE `cliente` ADD `nacionalidad` VARCHAR(50) NULL DEFAULT NULL AFTER `estadoCivil`;
