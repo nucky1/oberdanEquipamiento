@@ -107,6 +107,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         btn_añadirNuevoElemento = new javax.swing.JButton();
         jButtonCancelarJdialog = new javax.swing.JButton();
+        txtf_codPostal = new javax.swing.JTextField();
+        lbl_codPostal = new javax.swing.JLabel();
         jDialogClienteCargarDireccion = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -235,22 +237,35 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
+        txtf_codPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtf_codPostalActionPerformed(evt);
+            }
+        });
+
+        lbl_codPostal.setText("Codigo postal:");
+        lbl_codPostal.setOpaque(true);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel38)
-                        .addGap(34, 34, 34)
-                        .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jButtonCancelarJdialog)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
+                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel38)
+                            .addComponent(lbl_codPostal))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtf_codPostal)
+                            .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -260,7 +275,11 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(4, 4, 4)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_codPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtf_codPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_añadirNuevoElemento)
                     .addComponent(jButtonCancelarJdialog))
@@ -1303,7 +1322,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_tipoDocumentoActionPerformed
 
     private void jButtonAñadirNacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirNacionActionPerformed
-        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
+        jDialogAñadirElemento.setTitle("Añadir un nuevo pais");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
@@ -1326,6 +1345,8 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonAñadirProvinciaActionPerformed
 
     private void jButtonAñadirCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCiudadActionPerformed
+        txtf_codPostal.setVisible(true);
+        lbl_codPostal.setVisible(true);
         jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
@@ -1440,12 +1461,13 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void btn_añadirNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoElementoActionPerformed
         
         boolean todook=true;
-        String texto = jTextF_IngresarNuevoElemento.getText().toLowerCase();
+        String texto = jTextF_IngresarNuevoElemento.getText().toUpperCase();
+        String codPostal = txtf_codPostal.getText().toUpperCase();
         switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir una nueva nacionalidad":{
+            case "Añadir un nuevo pais":{
                if(!direcciones.controlPais(texto)){
                  todook=true;
-                Provincia p = direccionesDAO.añadirNacionalidad(texto);
+                Provincia p = direccionesDAO.añadirPais(texto);
                 Pais pais = new Pais();
                 pais.setId(p.getId_pais());
                 pais.setNombre(texto);
@@ -1456,13 +1478,13 @@ public class ABMClientesView extends javax.swing.JPanel {
                 jCombo_Naciones.addItem(pais);
                 jCombo_Naciones.setSelectedItem(pais);
                 jTextF_IngresarNuevoElemento.setText("");
-                break;
                }
                else{
                    //jTextF_IngresarNuevoElemento.setFColor.red);
                    jTextF_IngresarNuevoElemento.setText("El pais que intenta ingresar ya existe!");
                    todook=false;
                }
+                break;
             }
             case "Añadir una nueva provincia":{
                if(!direcciones.controlProvincia(Pais_selected.getId(), texto)){
@@ -1481,21 +1503,23 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_Ciudades.removeAllItems();
                     jComboBox_Ciudades.addItem(l);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                }
                else{
                    todook=false;
                     jTextF_IngresarNuevoElemento.setText("La provincia que intenta ingresar ya existe!");
                }
+                    break;
             }
             case "Añadir una nueva ciudad":{
                 if(!direcciones.controlLocalidad(Provincia_selected.getId(), texto)){
                      todook=true;
-                    Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId());
+                    Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId(),codPostal);
                     Localidad l = new Localidad();
                     l.setId(b.getId_localidad());
                     l.setNombre(texto);
                     l.setId_provincia(Provincia_selected.getId());
+                    l.setCod_postal(codPostal);
+                    jTextField_codigoPostal.setText(codPostal);
                     //actualizo mapa
                     //Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
                     //barrios.add(b);
@@ -1507,12 +1531,12 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_Barrios.removeAllItems();
                     jComboBox_Barrios.addItem(b);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                 }
                 else{
                      todook=false;
                     jTextF_IngresarNuevoElemento.setText("La localidad que intenta ingresar ya existe!");
                 }
+                    break;
             }
             case "Añadir un nuevo barrio":{
                 if(!direcciones.controlBarrio(Localidad_selected.getId(), texto)){
@@ -1533,12 +1557,12 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_calles.removeAllItems();
                     jComboBox_calles.addItem(d);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                 }
                 else{
                      todook=false;
                     jTextF_IngresarNuevoElemento.setText("El barrio que intenta ingresar ya existe!");
                 }
+                    break;
             }
             case "Añadir una nueva calle/manzana":{
                 if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
@@ -1553,18 +1577,21 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_calles.addItem(d);
                     jComboBox_calles.setSelectedItem(d);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                 }
                 else{
                      todook=false;
                     jTextF_IngresarNuevoElemento.setText("La direccion que intenta ingresar ya existe!");
                 }
+                    break;
             }
         }
         //direcciones = direccionesDAO.getMapa();
         
         if(todook) {
             jTextF_IngresarNuevoElemento.setText("");
+            txtf_codPostal.setText("");
+            txtf_codPostal.setVisible(false);
+            lbl_codPostal.setVisible(false);
             jDialogAñadirElemento.dispose();
         }
     }//GEN-LAST:event_btn_añadirNuevoElementoActionPerformed
@@ -1777,6 +1804,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             return;
         Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
         Localidad_selected=l;
+        jTextField_codigoPostal.setText(l.getCod_postal());
         jComboBox_Barrios.removeAllItems();
         try{
             direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
@@ -2267,6 +2295,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
         Localidad_selected=l;
         jComboBox_Barrios.removeAllItems();
+        jTextField_codigoPostal.setText(l.getCod_postal());
         try{
             direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
                 jComboBox_Barrios.addItem(t);
@@ -2288,6 +2317,10 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jTextFieldNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNacionalidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNacionalidadActionPerformed
+
+    private void txtf_codPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_codPostalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtf_codPostalActionPerformed
 
 
 
@@ -2401,8 +2434,10 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField_numeroDomicilioCliente;
     private javax.swing.JTextField jTextField_referenciaDomicilioCliente;
     private javax.swing.JTextField jTextField_referencia_jDialog;
+    private javax.swing.JLabel lbl_codPostal;
     protected javax.swing.JRadioButton rbtn_clientesDni;
     protected javax.swing.JRadioButton rbtn_clientesNombre;
+    private javax.swing.JTextField txtf_codPostal;
     // End of variables declaration//GEN-END:variables
 
 

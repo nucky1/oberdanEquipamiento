@@ -22,19 +22,25 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                              <Component id="jLabel38" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                              <Component id="jTextF_IngresarNuevoElemento" min="-2" pref="361" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                               <Component id="jButtonCancelarJdialog" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="304" max="32767" attributes="0"/>
                               <Component id="btn_añadirNuevoElemento" min="-2" pref="70" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel38" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_codPostal" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtf_codPostal" max="32767" attributes="0"/>
+                                  <Component id="jTextF_IngresarNuevoElemento" pref="361" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace pref="58" max="32767" attributes="0"/>
@@ -49,7 +55,12 @@
                           <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextF_IngresarNuevoElemento" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbl_codPostal" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Component id="txtf_codPostal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btn_añadirNuevoElemento" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonCancelarJdialog" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -85,6 +96,17 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelarJdialogActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtf_codPostal">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtf_codPostalActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_codPostal">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Codigo postal:"/>
+                <Property name="opaque" type="boolean" value="true"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

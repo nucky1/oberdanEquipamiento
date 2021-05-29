@@ -58,7 +58,7 @@ public class ClientesDAO {
                 c.setDni(rs.getInt("dni"));
                 c.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 c.setEsSolicitante(rs.getBoolean("esSolicitante"));
-                c.setCodPostal(rs.getString("codPostal"));
+                c.setCodPostal(rs.getString("localidad.codPostal"));
                 c.setReferencia(rs.getString("referencia"));
                 c.setDocumentacion(rs.getString("referencia"));
                 c.setNumero(rs.getString("numero"));
@@ -86,7 +86,7 @@ public class ClientesDAO {
         if(tipo_busqueda.equalsIgnoreCase("nombre")){
             tipo_busqueda = "nombre";
         }
-           String SQL = "SELECT cliente.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+           String SQL = "SELECT cliente.*,barrio.nombre,localidad.nombre,localidad.codPostal,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
               + " FROM cliente,direccion,barrio,localidad,provincia,pais"
               + " WHERE cliente."+tipo_busqueda+" like '%"+valor+"%' AND cliente.state = 'ACTIVO'"
               + " AND direccion.id = cliente.direccion_id"
@@ -118,7 +118,7 @@ public class ClientesDAO {
                     
                     
                     p.setNumero(rs.getString("numero"));
-                    p.setCodPostal(rs.getString("codPostal"));
+                    p.setCodPostal(rs.getString("localidad.codPostal"));
                     p.setReferencia(rs.getString("referencia"));
                     
                     //datos extras
@@ -154,7 +154,7 @@ public class ClientesDAO {
 
     public Cliente buscarCliente(int id) {
        Cliente p = new Cliente();
-       String SQL = "SELECT cliente.*,barrio.nombre,barrio.id,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+       String SQL = "SELECT cliente.*,barrio.nombre,barrio.id,localidad.nombre,localidad.codPostal,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
               + " FROM cliente,direccion,barrio,localidad,provincia,pais"
               + " WHERE cliente.id = "+id+" AND cliente.state = 'ACTIVO'"
               + " AND direccion.id = cliente.direccion_id"
@@ -184,7 +184,7 @@ public class ClientesDAO {
                     p.setDireccion_id(rs.getInt("direccion.id"));
                     p.setDireccion(rs.getString("direccion.nombre"));
                     p.setNumero(rs.getString("numero"));
-                    p.setCodPostal(rs.getString("codPostal"));
+                    p.setCodPostal(rs.getString("localidad.codPostal"));
                     p.setReferencia(rs.getString("referencia"));
                     //datos extras
                     p.setDocumentacion(rs.getString("documentacion"));
@@ -356,7 +356,6 @@ public class ClientesDAO {
         String SQL = "UPDATE cliente SET nombre = '"+c.getNombre()+"'"
                 + ", direccion_id = "+c.getDireccion_id()
                 + ",numero = "+c.getNumero()+""
-                + ",codPostal = '"+c.getCodPostal()+"'"
                 + ",referencia = '"+c.getReferencia()+"'"
                 + ",esSolicitante = "+c.isEsSolicitante()+""
                 + ",fechaNacimiento = '"+Statics.Funciones.dateParse(c.getFechaNacimiento())+"'"
@@ -430,13 +429,13 @@ public class ClientesDAO {
             else{
                 System.out.println("NO Lo encontre al cliente y lo voy a guardar!");
                 SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil, nacionalidad ,"
-                        + "fechaNacimiento,esSolicitante,codPostal,referencia,"
+                        + "fechaNacimiento,esSolicitante,referencia,"
                         + "documentacion,numero,direccion_id,observaciones) "
                         + "VALUES('"+c.getNombre()+"',"+c.getDni()+",'"
                         +c.getTipoDni()+"','"+c.getEstadoCivil()+"','"
                         +c.getNacionalidad()+"','"
                         +Statics.Funciones.dateParse(c.getFechaNacimiento())+"',"
-                        +c.isEsSolicitante()+",'"+c.getCodPostal()+"','"
+                        +c.isEsSolicitante()+",'"
                         +c.getReferencia()+"','"+c.getDocumentacion()+"',"
                         +c.getNumero()+","+c.getDireccion_id()+",'"
                         +c.getObservaciones()+"')";

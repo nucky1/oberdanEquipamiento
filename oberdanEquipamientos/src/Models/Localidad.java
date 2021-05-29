@@ -13,6 +13,17 @@ public class Localidad {
     private String nombre;
     private int id;
     private int id_provincia;
+    private String cod_postal = "";
+
+    public String getCod_postal() {
+        return cod_postal;
+    }
+
+    public void setCod_postal(String cod_postal) {
+        this.cod_postal = cod_postal;
+    }
+
+    
     
     @Override
     public boolean equals(Object o){

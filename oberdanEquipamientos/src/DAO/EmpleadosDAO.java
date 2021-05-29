@@ -91,7 +91,7 @@ public class EmpleadosDAO {
      public List<Empleado> buscarEmpleado(String valor,String tipo_busqueda) {
        
        //String  tipo_busqueda = "nombre";
-        String SQL = "SELECT empleado.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+        String SQL = "SELECT empleado.*,barrio.nombre,localidad.nombre,localidad.codPostal,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
           + " FROM empleado,direccion,barrio,localidad,provincia,pais"
           + " WHERE empleado."+tipo_busqueda+" like '%"+valor+"%' AND empleado.state = 'ACTIVO'"
           + " AND direccion.id = empleado.direccion_id"
@@ -121,7 +121,7 @@ public class EmpleadosDAO {
                 e.setDireccionId(rs.getInt("direccion.id"));
                 e.setDireccion(rs.getString("direccion.nombre"));
                 e.setNro(rs.getString("numero_domicilio"));
-                e.setCodigoPostal(rs.getString("codPostal"));
+                e.setCodigoPostal(rs.getString("localidad.codPostal"));
                 e.setReferencia(rs.getString("referencia"));
                 //datos sociales
                 e.setCategoria(rs.getString("categoria"));
@@ -208,7 +208,6 @@ public class EmpleadosDAO {
         String SQL = "UPDATE empleado SET nombre = '"+e.getNombre()+"'"
                 + ", direccion_id= "+ e.getDireccionId()
                 + ", numero_domicilio = "+e.getNro()
-                + ",codPostal = "+e.getCodigoPostal()
                 + ", referencia = '"+e.getReferencia()
                 +"', fechaNacimiento = '"+Statics.Funciones.dateParse(e.getFechaNacimiento())
                 +"', numero_doc = "+e.getDni()
@@ -262,8 +261,8 @@ public class EmpleadosDAO {
                 return false;
             }
             else{
-                SQL = "INSERT INTO empleado (nombre,numero_doc,tipo_doc,cuil,fechaNacimiento,estado_civil,tipo,codPostal,referencia,categoria,numero_domicilio,direccion_id,convenio, aporte_os, user, pass) "
-                        + "VALUES('"+e.getNombre()+"',"+e.getDni()+",'"+e.getTipoDni()+"','"+e.getCuil()+"','"+Statics.Funciones.dateParse(e.getFechaNacimiento())+"','"+e.getEstadoCivil()+"','"+e.getTipo()+"','"+e.getCodigoPostal()+"','"+e.getReferencia()+"','"+e.getCategoria()+"',"+
+                SQL = "INSERT INTO empleado (nombre,numero_doc,tipo_doc,cuil,fechaNacimiento,estado_civil,tipo,referencia,categoria,numero_domicilio,direccion_id,convenio, aporte_os, user, pass) "
+                        + "VALUES('"+e.getNombre()+"',"+e.getDni()+",'"+e.getTipoDni()+"','"+e.getCuil()+"','"+Statics.Funciones.dateParse(e.getFechaNacimiento())+"','"+e.getEstadoCivil()+"','"+e.getTipo()+"','"+e.getReferencia()+"','"+e.getCategoria()+"',"+
                         e.getNro()+","+e.getDireccionId()+",'"+
                         e.getConvenio()+"' , '"+e.getAporteOSocial()+"', '"+e.getUser()+"' , '"+e.getPass()+"' )";
                 res = conexion.EjecutarOperacion(SQL); //inserto el empleado el cual ahora sera el empleado con id mas alto

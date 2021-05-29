@@ -160,7 +160,7 @@ public class DireccionesDAO {
         return m;
     }
 
-    public Provincia añadirNacionalidad(String toLowerCase) {
+    public Provincia añadirPais(String toLowerCase) {
         String SQL = "INSERT INTO pais(nombre) VALUES ('"+toLowerCase+"')";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
@@ -194,6 +194,7 @@ public class DireccionesDAO {
                 l.setId(rs.getInt("localidad.id"));
                 l.setNombre(rs.getString("localidad.nombre"));
                 l.setId_provincia(rs.getInt("localidad.provincia_id"));
+                l.setCod_postal(rs.getString("localidad.codPostal"));
                 return l;
             }
         } catch (SQLException ex) {
@@ -202,8 +203,8 @@ public class DireccionesDAO {
         return null;
     }
 
-    public Barrio añadirCiudad(String toLowerCase, int idProvincia) {
-        String SQL = "INSERT INTO localidad(nombre,provincia_id) VALUES ('"+toLowerCase+"',"+idProvincia+")";
+    public Barrio añadirCiudad(String nombre, int idProvincia, String codPostal) {
+        String SQL = "INSERT INTO localidad(nombre,provincia_id,codPostal) VALUES ('"+nombre+"',"+idProvincia+",'"+codPostal+"')";
         int i = conexion.EjecutarOperacion(SQL);
         if(i < 0)
             return null;
@@ -296,6 +297,7 @@ public class DireccionesDAO {
                 p.setId(rs.getInt("pais.id"));
                 b.setNombre(rs.getString("barrio.nombre"));
                 l.setNombre(rs.getString("localidad.nombre"));
+                l.setCod_postal(rs.getString("localidad.codPostal"));
                 prov.setNombre(rs.getString("provincia.nombre"));
                 p.setNombre(rs.getString("pais.nombre"));
                 d.setNombre(rs.getString("direccion.nombre"));

@@ -106,14 +106,12 @@ public class Login extends javax.swing.JPanel {
                             .addComponent(txt_username, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                            .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                             .addComponent(txt_password)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(login)
@@ -177,7 +175,7 @@ public class Login extends javax.swing.JPanel {
     private void txt_passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_passwordKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             String user = txt_username.getText();
-            String pass = txt_password.getText();
+            String pass = String.valueOf(txt_password.getPassword());
             if(Statics.Funciones.controlText(user) && Statics.Funciones.controlText(pass)){
                 if(empleadoDAO.login(user, pass)){
                     Main.logueado = empleadoDAO.obtenerEmpleado(user, pass);

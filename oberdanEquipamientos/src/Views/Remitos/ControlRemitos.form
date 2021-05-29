@@ -165,7 +165,7 @@
               <Component id="jPanel9" min="-2" pref="163" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jPanel15" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -422,7 +422,6 @@
                       <Component id="btn_guardarRemito" linkSize="2" alignment="3" pref="35" max="32767" attributes="0"/>
                       <Component id="btn_guardarRemito1" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -594,7 +593,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txt_CantRemitos" alignment="3" min="-2" max="-2" attributes="0"/>
