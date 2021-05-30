@@ -196,6 +196,9 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_promotores = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
         jCheckBoxEsSolicitante = new javax.swing.JCheckBox();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
         jPanelDatosConyugue = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -239,7 +242,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
@@ -247,10 +250,10 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addGap(34, 34, 34)
                         .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jButtonCancelarJdialog)
+                        .addGap(35, 35, 35)
+                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonCancelarJdialog)))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -260,11 +263,11 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_añadirNuevoElemento)
-                    .addComponent(jButtonCancelarJdialog))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(jButtonCancelarJdialog)
+                    .addComponent(btn_añadirNuevoElemento))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
@@ -1036,7 +1039,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jCheckBox_dni.setText("DNI");
 
         buttonGroupDocumentacionEntregada.add(jCheckBox_Facturas);
-        jCheckBox_Facturas.setText("Facturas");
+        jCheckBox_Facturas.setText("Impuestos");
 
         buttonGroupDocumentacionEntregada.add(jCheckBox_Otros);
         jCheckBox_Otros.setText("Otros");
@@ -1055,6 +1058,12 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton1.setText("jButton1");
+
+        jLabel20.setText("Situacion Fiscal:");
+
         javax.swing.GroupLayout jPanelContactosLayout = new javax.swing.GroupLayout(jPanelContactos);
         jPanelContactos.setLayout(jPanelContactosLayout);
         jPanelContactosLayout.setHorizontalGroup(
@@ -1072,24 +1081,36 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jButtonAñadirTipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton_eliminarContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanelContactosLayout.createSequentialGroup()
                             .addGap(8, 8, 8)
                             .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel34)
-                                .addComponent(jLabel36)
-                                .addComponent(jLabel35))
-                            .addGap(46, 46, 46)
-                            .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                    .addComponent(jCheckBox_dni)
+                                    .addComponent(jLabel34)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jCheckBox_Facturas)
+                                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jCheckBox_Otros))
-                                .addComponent(jCheckBoxEsSolicitante)
-                                .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jLabel36)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCheckBoxEsSolicitante))
+                                .addGroup(jPanelContactosLayout.createSequentialGroup()
+                                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel35)
+                                        .addComponent(jLabel20))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanelContactosLayout.createSequentialGroup()
+                                            .addComponent(jCheckBox_dni)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jCheckBox_Facturas)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jCheckBox_Otros)
+                                            .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(jPanelContactosLayout.createSequentialGroup()
+                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jButton1))))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelContactosLayout.setVerticalGroup(
@@ -1107,19 +1128,21 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
-                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel36)
                     .addComponent(jCheckBoxEsSolicitante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBox_dni)
-                        .addComponent(jCheckBox_Facturas)
-                        .addComponent(jCheckBox_Otros))
-                    .addComponent(jLabel35))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35)
+                    .addComponent(jCheckBox_dni)
+                    .addComponent(jCheckBox_Facturas)
+                    .addComponent(jCheckBox_Otros))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel20))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         jPanelDatosConyugue.setBackground(new java.awt.Color(255, 255, 255));
@@ -1193,7 +1216,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                                     .addComponent(jLabel17)
                                     .addGap(18, 18, 18)
                                     .addComponent(jTextField_conyugeDni, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanelDatosConyugueLayout.setVerticalGroup(
             jPanelDatosConyugueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1252,16 +1275,16 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelar)
-                        .addGap(18, 18, 18)
                         .addComponent(jButtonGuardarCambios)
-                        .addGap(37, 37, 37))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanelDatosConyugue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanelContactos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(70, Short.MAX_VALUE))))
+                        .addGap(36, 36, 36)
+                        .addComponent(jButtonCancelar)
+                        .addGap(14, 14, 14))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanelContactos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelDatosConyugue, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1273,10 +1296,11 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanelDatosConyugue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(40, 40, 40)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCancelar)
-                            .addComponent(jButtonGuardarCambios))))
+                            .addComponent(jButtonGuardarCambios))
+                        .addGap(8, 8, 8)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -2295,6 +2319,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JButton btn_añadirNuevoElemento;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroupDocumentacionEntregada;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButtonAñadirBarrio;
     private javax.swing.JButton jButtonAñadirBarrio2;
@@ -2320,6 +2345,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JCheckBox jCheckBox_Facturas;
     private javax.swing.JCheckBox jCheckBox_Otros;
     private javax.swing.JCheckBox jCheckBox_dni;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<Models.Barrio> jComboBox_Barrios;
     private javax.swing.JComboBox<String> jComboBox_Ciudad_jDialog;
     private javax.swing.JComboBox<Models.Localidad> jComboBox_Ciudades;
@@ -2351,6 +2377,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
