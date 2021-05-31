@@ -3,3 +3,22 @@ oberdanEquipamientos/build/classes/Views/*.class
 *.class
 
 /oberdanEquipamientos/dist/
+oberdanEquipamientos/build/classes/.netbeans_automatic_build
+oberdanEquipamientos/build/classes/.netbeans_update_resources
+oberdanEquipamientos/build/classes/Views/principal.form
+oberdanEquipamientos/build/classes/Views/Articulos/JD_Producto_editarStock.form
+oberdanEquipamientos/build/classes/Views/Articulos/JD_Producto_Nuevo.form
+oberdanEquipamientos/build/classes/Views/Articulos/ProductosView.form
+oberdanEquipamientos/build/classes/Views/Cobranzas/GenerarPlanillas.form
+oberdanEquipamientos/build/classes/Views/Empleados/ListadoAccesoModulos.form
+oberdanEquipamientos/build/classes/Views/Facturacion/ABMCreditosView.form
+oberdanEquipamientos/build/classes/Views/Facturacion/ABMSolicitudesView.form
+oberdanEquipamientos/build/classes/Views/Facturacion/Facturacion.form
+oberdanEquipamientos/build/classes/Views/Inicio/DigitalClock.form
+oberdanEquipamientos/build/classes/Views/Inicio/Home.form
+oberdanEquipamientos/build/classes/Views/Proveedores/JD_Proveedor_Buscador.form
+oberdanEquipamientos/build/classes/Views/Proveedores/ProveedoresView.form
+oberdanEquipamientos/build/classes/Views/Remitos/ControlRemitos.form
+oberdanEquipamientos/build/classes/Views/Remitos/GenerarRemito.form
+oberdanEquipamientos/build/classes/Views/Remitos/Remitos.form
+oberdanEquipamientos/build/classes/Views/Remitos/renglonRemitoComponent.form

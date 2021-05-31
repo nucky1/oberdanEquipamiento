@@ -202,7 +202,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 jButtonOKjdialogActionPerformed(evt);
             }
         });
-        jPanel14.add(jButtonOKjdialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 77, 70, -1));
+        jPanel14.add(jButtonOKjdialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 70, -1));
 
         jButtonCancelarJdialog.setText("Cancelar");
         jButtonCancelarJdialog.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +210,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 jButtonCancelarJdialogActionPerformed(evt);
             }
         });
-        jPanel14.add(jButtonCancelarJdialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 77, -1, -1));
+        jPanel14.add(jButtonCancelarJdialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, -1, -1));
 
         lbl_codPostal.setText("Codigo postal:");
         lbl_codPostal.setOpaque(true);
@@ -769,12 +769,11 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField_cuil, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField_cuil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jButtonCancelarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(41, 41, 41)
                                                 .addComponent(jButtonGuardarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(12, 12, 12)))))))
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jButtonCancelarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -948,7 +947,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel25)
                             .addComponent(jComboBoxTipoEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -963,7 +962,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                             .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonCancelarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonGuardarMain, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(32, Short.MAX_VALUE))))
+                        .addContainerGap(41, Short.MAX_VALUE))))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jTextFieldAporteOSocial, jTextFieldCategoria, jTextFieldConvenio, jTextField_cuil});
