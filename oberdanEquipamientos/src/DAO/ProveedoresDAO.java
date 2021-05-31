@@ -6,6 +6,7 @@
 package DAO;
 
 import Models.Contacto;
+import Models.CuentaBanco;
 import Models.Proveedor;
 import Views.Main;
 import java.sql.ResultSet;
@@ -58,7 +59,7 @@ public class ProveedoresDAO {
     public List<Proveedor> buscarProveedor(String tipo_busqueda, String valor) {
         if(tipo_busqueda.equalsIgnoreCase("nombre"))
             tipo_busqueda = "proveedor";
-        String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+        String SQL = "SELECT proveedores.*,barrio.nombre,localidad.nombre,localidad.codPostal,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
           + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
           + " WHERE proveedores."+tipo_busqueda+" like '%"+valor+"%' AND proveedores.state = 'ACTIVO'"
           + " AND direccion.id = proveedores.direccion_id"
@@ -76,24 +77,40 @@ public class ProveedoresDAO {
                 p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("proveedor"));
                 //direccion
-                p.setNacionalidad(rs.getString("pais.nombre"));
+                p.setPais(rs.getString("pais.nombre"));
                 p.setProvincia(rs.getString("provincia.nombre"));
                 p.setCiudad(rs.getString("localidad.nombre"));
                 p.setBarrio(rs.getString("barrio.nombre"));
                 p.setdireccionId(rs.getInt("direccion.id"));
                 p.setDireccion(rs.getString("direccion.nombre"));
                 p.setNro(rs.getString("numero"));
-                p.setCodigoPostal(rs.getString("codPostal"));
+                p.setCodigoPostal(rs.getString("localidad.codPostal"));
                 p.setReferencia(rs.getString("referencia"));
                 //datos bancarios
-                p.setCbu(rs.getString("cbu"));
                 p.setIva(rs.getString("iva"));
                 p.setCuit(rs.getString("cuit"));
                 p.setSaldo(rs.getFloat("saldo"));
                 p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
-                //contactos
-                SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                SQL = "SELECT * FROM bancoProveedor WHERE proveedor_id = "+p.getId();
                 ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
+                ArrayList<CuentaBanco> cuentas = new ArrayList<>();
+                try{
+                    while(rc.next()){
+                        CuentaBanco c = new CuentaBanco();
+                        c.setAlias(rc.getString("alias"));
+                        c.setTipo_cuenta(rc.getString("tipo_cuenta"));
+                        c.setNro_cuenta(rc.getString("nro_cuenta"));
+                        c.setCbu(rc.getString("cbu"));
+                        c.setBanco(rc.getString("banco"));
+                        cuentas.add(c);
+                    }
+                }catch(Exception ex){
+                    new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+                }
+                p.setCuentas(cuentas);
+                //contactos
+                SQL = "SELECT * FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                rc = conexion.EjecutarConsultaSQL(SQL);
                 List<Contacto> contactos = new ArrayList<>();
                 try{
                     while(rc.next()){
@@ -101,6 +118,8 @@ public class ProveedoresDAO {
                         c.setId(rc.getInt("id"));
                         c.setContacto(rc.getString("contacto"));
                         c.setTipo(rc.getString("tipo"));
+                        c.setNombre(rc.getString("nombre"));
+                        c.setCargo(rc.getString("cargo"));
                         contactos.add(c);
                     }
                 }catch(Exception ex){
@@ -119,7 +138,7 @@ public class ProveedoresDAO {
     }
     
     public List<Proveedor> buscarProveedor(int id) {
-      String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
+      String SQL = "SELECT proveedores.*,barrio.nombre,barrio.id,localidad.nombre,localidad.codPostal,provincia.nombre,pais.nombre,direccion.id,direccion.nombre"
               + " FROM proveedores,direccion,barrio,localidad,provincia,pais"
               + " WHERE proveedores.id = "+id+" AND proveedores.state = 'ACTIVO'"
               + " AND direccion.id = proveedores.direccion_id"
@@ -137,24 +156,40 @@ public class ProveedoresDAO {
                     p.setId(rs.getInt("id"));
                     p.setNombre(rs.getString("proveedor"));
                     //direccion
-                    p.setNacionalidad(rs.getString("pais.nombre"));
+                    p.setPais(rs.getString("pais.nombre"));
                     p.setProvincia(rs.getString("provincia.nombre"));
                     p.setCiudad(rs.getString("localidad.nombre"));
                     p.setBarrio(rs.getString("barrio.nombre"));
                     p.setdireccionId(rs.getInt("direccion.id"));
                     p.setDireccion(rs.getString("direccion.nombre"));
                     p.setNro(rs.getString("numero"));
-                    p.setCodigoPostal(rs.getString("codPostal"));
+                    p.setCodigoPostal(rs.getString("localidad.codPostal"));
                     p.setReferencia(rs.getString("referencia"));
                     //datos bancarios
-                    p.setCbu(rs.getString("cbu"));
                     p.setIva(rs.getString("iva"));
                     p.setCuit(rs.getString("cuit"));
                     p.setSaldo(rs.getFloat("saldo"));
                     p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
-                    //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                    SQL = "SELECT * FROM bancoProveedor WHERE proveedor_id = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
+                    ArrayList<CuentaBanco> cuentas = new ArrayList<>();
+                    try{
+                        while(rc.next()){
+                            CuentaBanco c = new CuentaBanco();
+                            c.setAlias(rc.getString("alias"));
+                            c.setTipo_cuenta(rc.getString("tipo_cuenta"));
+                            c.setNro_cuenta(rc.getString("nro_cuenta"));
+                            c.setCbu(rc.getString("cbu"));
+                            c.setBanco(rc.getString("banco"));
+                            cuentas.add(c);
+                        }
+                    }catch(Exception ex){
+                        new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+                    }
+                    p.setCuentas(cuentas);
+                    //contactos
+                    SQL = "SELECT * FROM contactos WHERE tipo_persona = 'PROVEEDOR' AND id_persona = "+p.getId();
+                    rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
                         while(rc.next()){
@@ -162,6 +197,8 @@ public class ProveedoresDAO {
                             c.setId(rc.getInt("id"));
                             c.setContacto(rc.getString("contacto"));
                             c.setTipo(rc.getString("tipo"));
+                            c.setNombre(rc.getString("nombre"));
+                            c.setCargo(rc.getString("cargo"));
                             contactos.add(c);
                         }
                     }catch(Exception ex){
@@ -187,9 +224,7 @@ public class ProveedoresDAO {
                 + ", barrio_id = "+p.getdireccionId()
                 + ",direccion = '"+p.getDireccion()+"'"
                 + ",numero = "+p.getNro()
-                + ",codPostal = '"+p.getCodigoPostal()+"'"
                 + ",referencia = '"+p.getReferencia()+"'"
-                + ",cbu = '"+p.getCbu()+"'"
                 + ",iva = '"+p.getIva()+"'"
                 + ",cuit = '"+p.getCuit()
                 + ",observaciones = '"+p.getObservaciones()+",'"
@@ -202,11 +237,28 @@ public class ProveedoresDAO {
             if(p.getContacto().size() > 0){
                 SQL = " DELETE FROM contactos WHERE persona_id = "+p.getId()+" AND tipo_persona = 'PROVEEDOR' AND state = 'ACTIVO'";
                 res = conexion.EjecutarOperacion(SQL);
-                SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                SQL = "INSERT INTO contactos (id_persona, contacto,nombre,cargo, tipo,tipo_persona) VALUES";
                 for(int i = p.getContacto().size()-1 ; i > 0; i--){
-                    SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
+                    SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getNombre()+"','"+p.getContacto().get(i).getCargo()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
                 }
-                SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
+                SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getNombre()+"','"+p.getContacto().get(0).getCargo()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
+                res = conexion.EjecutarOperacion(SQL);
+                if(res == 0){
+                    exito = false;
+                }
+            }
+        }
+        if(res == 0){
+            exito = false;
+        }else{
+            if(p.getCuentas().size() > 0){
+                SQL = " DELETE FROM bancoProveedor WHERE proveedor_id = "+p.getId();
+                res = conexion.EjecutarOperacion(SQL);
+                SQL = "INSERT INTO bancoProveedor (proveedor_id, nro_cuenta,banco,alias, cbu,tipo_cuenta) VALUES";
+                for(int i = p.getCuentas().size()-1 ; i > 0; i--){
+                    SQL += "("+p.getId()+",'"+p.getCuentas().get(i).getNro_cuenta()+"','"+p.getCuentas().get(i).getBanco()+"','"+p.getCuentas().get(i).getAlias()+"','"+p.getCuentas().get(i).getCbu()+"','"+p.getCuentas().get(i).getTipo_cuenta()+"'),";
+                }
+                SQL += "("+p.getId()+",'"+p.getCuentas().get(0).getNro_cuenta()+"','"+p.getCuentas().get(0).getBanco()+"','"+p.getCuentas().get(0).getAlias()+"','"+p.getCuentas().get(0).getCbu()+"','"+p.getCuentas().get(0).getTipo_cuenta()+"')";
                 res = conexion.EjecutarOperacion(SQL);
                 if(res == 0){
                     exito = false;
@@ -227,8 +279,8 @@ public class ProveedoresDAO {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,codPostal,referencia,cbu,iva,cuit,saldo,ingreso_bruto,observaciones) "
-                + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+",'"+p.getNro()+"','"+p.getCodigoPostal()+"','"+p.getReferencia()+"','"+p.getCbu()+"','"+
+        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,referencia,cbu,iva,cuit,saldo,ingreso_bruto,observaciones) "
+                + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+",'"+p.getNro()+"','"+p.getReferencia()+"','"+
         p.getIva()+"',"+
         p.getCuit()+","+
         p.getSaldo()+",'"+
@@ -246,11 +298,11 @@ public class ProveedoresDAO {
                     while(rs.next()){
                         p.setId(rs.getInt("id"));
                     }
-                    SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                    SQL = "INSERT INTO contactos (id_persona, contacto,nombre,cargo, tipo,tipo_persona) VALUES";
                     for(int i = p.getContacto().size()-1 ; i > 0; i--){
-                        SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
+                        SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getNombre()+"','"+p.getContacto().get(i).getCargo()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
                     }
-                    SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
+                    SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getNombre()+"','"+p.getContacto().get(0).getCargo()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
                     res = conexion.EjecutarOperacion(SQL);
                 } catch (SQLException ex) {
                     res = 0;

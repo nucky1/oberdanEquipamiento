@@ -64,6 +64,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
      */
     public ABMSolicitudesView() {
         initComponents();
+        Statics.style.setPlaceHolder(txtf_nuevo_elemento, "Ingrese nuevo");
+        Statics.style.setPlaceHolder(txtf_codPostal, "Ingrese el codigo postal de su ciudad");
         clienteDAO = ClientesDAO.getInstance();
         empleadosDAO = EmpleadosDAO.getInstance();
         creditoDAO = CreditosDAO.getInstance();
@@ -93,7 +95,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txt_codigoPostal = new javax.swing.JTextField();
         jLabel63 = new javax.swing.JLabel();
         jLabel75 = new javax.swing.JLabel();
-        cbox_nacionalidad = new javax.swing.JComboBox<>();
+        cbox_pais = new javax.swing.JComboBox<>();
         cbox_provincia = new javax.swing.JComboBox<>();
         cbox_barrio = new javax.swing.JComboBox<>();
         cbox_ciudad = new javax.swing.JComboBox<>();
@@ -114,6 +116,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
+        txtf_codPostal = new javax.swing.JTextField();
+        lbl_codPostal = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDialogVerSolicitante = new javax.swing.JDialog();
         jPanel7 = new javax.swing.JPanel();
@@ -218,13 +222,15 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel73.setText("Codigo Postal");
 
+        txt_codigoPostal.setEditable(false);
+
         jLabel63.setText("Barrio");
 
         jLabel75.setText("Dirección");
 
-        cbox_nacionalidad.addItemListener(new java.awt.event.ItemListener() {
+        cbox_pais.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbox_nacionalidadItemStateChanged(evt);
+                cbox_paisItemStateChanged(evt);
             }
         });
 
@@ -336,7 +342,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbox_pais, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(26, 26, 26)
                                         .addComponent(btn_agregarNacionalidad))
                                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -377,7 +383,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addComponent(cbox_nacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbox_pais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btn_agregarNacionalidad))
                         .addGap(27, 27, 27)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,7 +451,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         );
 
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel14.add(txtf_nuevo_elemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 21, 233, -1));
+        jPanel14.add(txtf_nuevo_elemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 240, -1));
 
         jLabel38.setText("Nuevo:");
         jPanel14.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 24, -1, -1));
@@ -465,6 +471,17 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             }
         });
         jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 77, -1, -1));
+
+        txtf_codPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtf_codPostalActionPerformed(evt);
+            }
+        });
+        jPanel14.add(txtf_codPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 240, -1));
+
+        lbl_codPostal.setText("Codigo postal:");
+        lbl_codPostal.setOpaque(true);
+        jPanel14.add(lbl_codPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 20));
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
@@ -1336,7 +1353,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 d.setId(clienteSelected.getDireccion_id());
                 d.setNombre(clienteSelected.getNombre());
                 c.setDireccion(d);
-                c.setCodPostal(Integer.parseInt(clienteSelected.getCodPostal()));
                 c.setNumero(Integer.parseInt(clienteSelected.getNumero()));
                 c.setReferencia(clienteSelected.getReferencia());
             }
@@ -1377,7 +1393,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
     private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_okActionPerformed
         //At the end of all controls, it enables the flag of the commerce address;
-        if(Funciones.compareStrings("-",String.valueOf(cbox_nacionalidad.getSelectedItem()))){
+        if(Funciones.compareStrings("-",String.valueOf(cbox_pais.getSelectedItem()))){
             JOptionPane.showMessageDialog(null,"Debe ingresar un pais valido","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1397,13 +1413,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null,"Debe ingresar un numero de direccion","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!Funciones.isNumeric(txt_codigoPostal.getText())){
-            JOptionPane.showMessageDialog(null,"Debe ingresar un codigo postal","Error",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         listaComercios.get(posComercioSelected).setDireccion((Direccion) cbox_direccion.getSelectedItem());
         listaComercios.get(posComercioSelected).setNumero(Integer.parseInt(txt_nroDireccion.getText()));
-        listaComercios.get(posComercioSelected).setCodPostal(Integer.parseInt(txt_codigoPostal.getText()));
         listaComercios.get(posComercioSelected).setReferencia(txt_referenciaComercio.getText());
         jDialogClienteCargarDireccion.dispose();
 
@@ -1481,10 +1492,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txt_nombreComercioKeyReleased
 
-    private void cbox_nacionalidadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_nacionalidadItemStateChanged
-        if(cbox_nacionalidad.getItemCount() == 0)
+    private void cbox_paisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_paisItemStateChanged
+        if(cbox_pais.getItemCount() == 0)
             return;
-        Pais p = (Pais) cbox_nacionalidad.getSelectedItem();
+        Pais p = (Pais) cbox_pais.getSelectedItem();
         pais_selected = p;
         cbox_provincia.removeAllItems();
         try{
@@ -1498,7 +1509,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         }catch(NullPointerException e){
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
-    }//GEN-LAST:event_cbox_nacionalidadItemStateChanged
+    }//GEN-LAST:event_cbox_paisItemStateChanged
 
     private void cbox_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_provinciaItemStateChanged
         if(cbox_provincia.getItemCount() == 0)
@@ -1545,6 +1556,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         return;
         Localidad l = (Localidad) cbox_ciudad.getSelectedItem();
         localidad_selected = l;
+        txt_codigoPostal.setText(l.getCod_postal());
         cbox_barrio.removeAllItems();
         try{
             if(direcciones.getLocalidad_Barrio().containsKey(l.getId())){
@@ -1566,7 +1578,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_cbox_direccionItemStateChanged
 
     private void btn_agregarNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarNacionalidadActionPerformed
-        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
+        jDialogAñadirElemento.setTitle("Añadir un nuevo pais");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
@@ -1583,7 +1595,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_agregarProvinciaActionPerformed
 
     private void btn_agregarCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarCiudadActionPerformed
-
+        txtf_codPostal.setVisible(true);
+        lbl_codPostal.setVisible(true);
         jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
@@ -1610,84 +1623,128 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_agregarDireccionActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        String texto = txtf_nuevo_elemento.getText().toLowerCase();
+        boolean todook=true;
+        String texto = txtf_nuevo_elemento.getText().toUpperCase();
+        String codPostal = txtf_codPostal.getText().toUpperCase();
         switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir una nueva nacionalidad":{
-                Provincia p = direccionesDAO.añadirNacionalidad(texto);
-                Pais pais = new Pais();
-                pais.setId(p.getId_pais());
-                pais.setNombre(texto);
-                //actualizo mapa
+            case "Añadir un nuevo pais":{
+                if(!direcciones.controlPais(texto)){
+                    Provincia p = direccionesDAO.añadirPais(texto);
+                    Pais pais = new Pais();
+                    pais.setId(p.getId_pais());
+                    pais.setNombre(texto);
+                    //actualizo mapa
 
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_nacionalidad.addItem(pais);
-                cbox_nacionalidad.setSelectedItem(pais);
-                break;
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_pais.addItem(pais);
+                    cbox_pais.setSelectedItem(pais);
+                
+                }else{
+                    //jTextF_IngresarNuevoElemento.setFColor.red);
+                    JOptionPane.showMessageDialog(null, "El pais que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                    todook=false;
+                }
+                 break;
             }
             case "Añadir una nueva provincia":{
-                Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
-                Provincia p = new Provincia();
-                p.setId(l.getId_provincia());
-                p.setNombre(texto);
-                p.setId_pais(pais_selected.getId());
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_provincia.addItem(p);
-                cbox_provincia.setSelectedItem(p);
-                cbox_ciudad.removeAllItems();
-                cbox_ciudad.addItem(l);
-                break;
+                if(!direcciones.controlProvincia(pais_selected.getId(), texto)){
+                    Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
+                    Provincia p = new Provincia();
+                    p.setId(l.getId_provincia());
+                    p.setNombre(texto);
+                    p.setId_pais(pais_selected.getId());
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_provincia.addItem(p);
+                    cbox_provincia.setSelectedItem(p);
+                    cbox_ciudad.removeAllItems();
+                    cbox_ciudad.addItem(l);
+                }
+                else{
+                    todook=false;
+                    JOptionPane.showMessageDialog(null, "La provincia que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                     break;
             }
             case "Añadir una nueva ciudad":{
-                Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId());
-                Localidad l = new Localidad();
-                l.setId(b.getId_localidad());
-                l.setNombre(texto);
-                l.setId_provincia(provincia_selected.getId());
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_ciudad.addItem(l);
-                cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
-                cbox_barrio.removeAllItems();
-                cbox_barrio.addItem(b);
+                if(!direcciones.controlLocalidad(provincia_selected.getId(), texto)){
+                    Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId(),codPostal);
+                    Localidad l = new Localidad();
+                    l.setId(b.getId_localidad());
+                    l.setNombre(texto);
+                    l.setCod_postal(codPostal);
+                    l.setId_provincia(provincia_selected.getId());
+                    txt_codigoPostal.setText(codPostal);
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_ciudad.addItem(l);
+                    cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                    cbox_barrio.removeAllItems();
+                    cbox_barrio.addItem(b);
+                }
+                else{
+                    todook=false;
+                    JOptionPane.showMessageDialog(null, "La localidad que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             }
             case "Añadir un nuevo barrio":{
-                Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
-                Barrio b = new Barrio();
-                b.setId(d.getId_barrio());
-                b.setId_localidad(localidad_selected.getId());
-                b.setNombre(texto);
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_barrio.addItem(b);
-                cbox_barrio.setSelectedItem(b);
-                cbox_direccion.removeAllItems();
-                cbox_direccion.addItem(d);
+                if(!direcciones.controlBarrio(localidad_selected.getId(), texto)){
+                    Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
+                    Barrio b = new Barrio();
+                    b.setId(d.getId_barrio());
+                    b.setId_localidad(localidad_selected.getId());
+                    b.setNombre(texto);
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_barrio.addItem(b);
+                    cbox_barrio.setSelectedItem(b);
+                    cbox_direccion.removeAllItems();
+                    cbox_direccion.addItem(d);
+                }
+                else{
+                    todook=false;
+                    JOptionPane.showMessageDialog(null, "El barrio que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             }
             case "Añadir una nueva direccion":{
-                int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
-                Direccion d = new Direccion();
-                d.setId(id);
-                d.setId_barrio(barrio_selected.getId());
-                d.setNombre(texto);
-                direcciones.getBarrio_direccion().get(barrio_selected.getId());
-                //actualizo cbox
-                cbox_direccion.addItem(d);
-                cbox_direccion.setSelectedItem(d);
+                if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
+                    int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
+                    Direccion d = new Direccion();
+                    d.setId(id);
+                    d.setId_barrio(barrio_selected.getId());
+                    d.setNombre(texto);
+                    direcciones.getBarrio_direccion().get(barrio_selected.getId());
+                    //actualizo cbox
+                    cbox_direccion.addItem(d);
+                    cbox_direccion.setSelectedItem(d);
+                }
+                else{
+                    todook=false;
+                    JOptionPane.showMessageDialog(null, "La direccion que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
             }
         }
-        jDialogAñadirElemento.dispose();
+        if(todook) {
+            txtf_nuevo_elemento.setText("");
+            txtf_codPostal.setText("");
+            txtf_codPostal.setVisible(false);
+            lbl_codPostal.setVisible(false);
+            jDialogAñadirElemento.dispose();
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         txtf_nuevo_elemento.setText("");
+        txtf_codPostal.setText("");
+        txtf_codPostal.setVisible(false);
+        lbl_codPostal.setVisible(false);
         jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButton13ActionPerformed
 
@@ -1713,6 +1770,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txt_nroSolicitudKeyTyped
 
+    private void txtf_codPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_codPostalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtf_codPostalActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarBarrio;
@@ -1734,7 +1795,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JComboBox<Models.Localidad> cbox_ciudad;
     private javax.swing.JComboBox<Models.Direccion> cbox_direccion;
     private javax.swing.JCheckBox cbox_habilitarDireccionComercio;
-    private javax.swing.JComboBox<Models.Pais> cbox_nacionalidad;
+    private javax.swing.JComboBox<Models.Pais> cbox_pais;
     private javax.swing.JComboBox<Models.Provincia> cbox_provincia;
     private javax.swing.JComboBox<Models.Rubro> cbox_rubro;
     private javax.swing.JComboBox<String> cbox_tipoIva;
@@ -1808,6 +1869,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTable jTableClientes;
     private javax.swing.JLabel lbl_barrioCliente;
     private javax.swing.JLabel lbl_cantidadCreditos;
+    private javax.swing.JLabel lbl_codPostal;
     private javax.swing.JLabel lbl_contactoCliente;
     private javax.swing.JLabel lbl_documentoConyugue;
     private javax.swing.JLabel lbl_domicilioCliente;
@@ -1835,6 +1897,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTextField txt_nroSolicitud;
     private javax.swing.JTextArea txt_observacionSolicitud;
     private javax.swing.JTextArea txt_referenciaComercio;
+    private javax.swing.JTextField txtf_codPostal;
     private javax.swing.JTextField txtf_nuevo_elemento;
     // End of variables declaration//GEN-END:variables
 //panel buscador
@@ -2021,13 +2084,13 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 Localidad l = (Localidad) obj[1];
                 Provincia prov = (Provincia) obj[2];
                 Pais p = (Pais) obj[3];
-                cbox_nacionalidad.setSelectedItem(p);
+                cbox_pais.setSelectedItem(p);
                 cbox_provincia.setSelectedItem(prov);
                 cbox_ciudad.setSelectedItem(l);
                 cbox_barrio.setSelectedItem(b);
                 cbox_direccion.setSelectedItem(c.getDireccion());
                 txt_nroDireccion.setText(c.getNumero()+"");
-                txt_codigoPostal.setText(c.getCodPostal()+"");
+                txt_codigoPostal.setText(((Localidad) obj[1]).getCod_postal());
             }else{
                 System.out.println("error en la consulta del metodo getDireccionCompleta");
             }
@@ -2035,9 +2098,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }
     
     private void cargarNacionalidades() {
-        cbox_nacionalidad.removeAllItems();
+        cbox_pais.removeAllItems();
         direcciones.getPaises().values().forEach((t) -> {
-        cbox_nacionalidad.addItem(t);
+        cbox_pais.addItem(t);
         });
     }
     

@@ -16,8 +16,9 @@ public class Proveedor {
     private int direccionId;
     private String nombre;
     private ArrayList<Contacto> contacto;
+    private ArrayList<CuentaBanco> cuentas;
     private String observaciones;
-    private String nacionalidad;
+    private String pais;
     private String provincia;
     private String ciudad;
     private String barrio;
@@ -26,7 +27,6 @@ public class Proveedor {
     private String codigoPostal;
     private String referencia;
     private String cuit;
-    private String cbu;
     private String iva;
     private float ingresoBruto;
     private float saldo;
@@ -73,6 +73,22 @@ public class Proveedor {
         this.contacto = contacto;
     }
 
+    public int getDireccionId() {
+        return direccionId;
+    }
+
+    public void setDireccionId(int direccionId) {
+        this.direccionId = direccionId;
+    }
+
+    public ArrayList<CuentaBanco> getCuentas() {
+        return cuentas;
+    }
+
+    public void setCuentas(ArrayList<CuentaBanco> cuentas) {
+        this.cuentas = cuentas;
+    }
+    
     public String getObservaciones() {
         return observaciones;
     }
@@ -81,12 +97,12 @@ public class Proveedor {
         this.observaciones = observaciones;
     }
 
-    public String getNacionalidad() {
-        return nacionalidad;
+    public String getPais() {
+        return pais;
     }
 
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
+    public void setPais(String nacionalidad) {
+        this.pais = nacionalidad;
     }
 
     public String getProvincia() {
@@ -143,14 +159,6 @@ public class Proveedor {
 
     public void setCuit(String cuit) {
         this.cuit = cuit;
-    }
-
-    public String getCbu() {
-        return cbu;
-    }
-
-    public void setCbu(String cbu) {
-        this.cbu = cbu;
     }
 
     public String getIva() {

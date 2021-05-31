@@ -53,7 +53,6 @@ public class ComercioDAO {
                 c.setRubro(r);
                 c.setReferencia(rs.getString("comercio.referencia"));
                 c.setNumero(rs.getInt("comercio.numero"));
-                c.setCodPostal(rs.getInt("comercio.codPostal"));
                 c.setPropietario(rs.getInt("comercio.propietario"));
                 c.setZona(rs.getString("comercio.zona"));
                 c.setTipo_iva(rs.getString("tipo_iva"));
@@ -84,11 +83,11 @@ public class ComercioDAO {
         String SQL = "INSERT INTO `comercio`( `cliente_id`, `direccion_id`, `rubro_id`, "
                 + "`nombre`, `referencia`, `numero`, "
                 + "`propietario`, `zona`, `cuit`, "
-                + "`tipo_iva`, `inicio_actividades`, `codPostal`) "
+                + "`tipo_iva`, `inicio_actividades`) "
                 + "VALUES ("+c.getClienteId()+","+c.getDireccion().getId()+","+c.getRubro().getId()+",'"
                 +c.getNombre()+"','"+c.getReferencia()+"',"+c.getNumero()+","
                 + c.getPropietario()+",'"+c.getZona()+"','"+c.getCuit()+"','"
-                + c.getTipo_iva()+"','"+c.getIncio_actividades()+"',"+c.getCodPostal()+")";
+                + c.getTipo_iva()+"','"+c.getIncio_actividades()+"')";
         conexion.EjecutarOperacion(SQL);
         SQL = "SELECT MAX(id) as idLast FROM comercio WHERE state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
@@ -111,8 +110,8 @@ public class ComercioDAO {
         String SQL = "UPDATE `comercio` SET `direccion_id`="+idDir+",`rubro_id`="+idRub+","
                 + "`nombre`='"+c.getNombre()+"',`referencia`='"+c.getReferencia()+"',`numero`="+c.getNumero()+","
                 + "`propietario`="+c.getPropietario()+",`zona`='"+c.getZona()+"',`cuit`="+c.getCuit()+","
-                + "`tipo_iva`='"+c.getTipo_iva()+"',`inicio_actividades`='"+c.getIncio_actividades()+"',"
-                + "`codPostal`="+c.getCodPostal()+" WHERE id = "+c.getId();
+                + "`tipo_iva`='"+c.getTipo_iva()+"',`inicio_actividades`='"+c.getIncio_actividades()+"'"
+                + " WHERE id = "+c.getId();
         conexion.EjecutarOperacion(SQL);
     }
 

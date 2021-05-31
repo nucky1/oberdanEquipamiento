@@ -107,6 +107,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         btn_añadirNuevoElemento = new javax.swing.JButton();
         jButtonCancelarJdialog = new javax.swing.JButton();
+        txtf_codPostal = new javax.swing.JTextField();
+        lbl_codPostal = new javax.swing.JLabel();
         jDialogClienteCargarDireccion = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -196,9 +198,6 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_promotores = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
         jCheckBoxEsSolicitante = new javax.swing.JCheckBox();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jLabel20 = new javax.swing.JLabel();
         jPanelDatosConyugue = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -238,6 +237,15 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
+        txtf_codPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtf_codPostalActionPerformed(evt);
+            }
+        });
+
+        lbl_codPostal.setText("Codigo postal:");
+        lbl_codPostal.setOpaque(true);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -245,15 +253,19 @@ public class ABMClientesView extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel38)
-                        .addGap(34, 34, 34)
-                        .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(jButtonCancelarJdialog)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
+                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelarJdialog)))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel38)
+                            .addComponent(lbl_codPostal))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtf_codPostal)
+                            .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -263,11 +275,15 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(jTextF_IngresarNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCancelarJdialog)
-                    .addComponent(btn_añadirNuevoElemento))
-                .addContainerGap(47, Short.MAX_VALUE))
+                    .addComponent(lbl_codPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtf_codPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_añadirNuevoElemento)
+                    .addComponent(jButtonCancelarJdialog))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
@@ -1039,7 +1055,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jCheckBox_dni.setText("DNI");
 
         buttonGroupDocumentacionEntregada.add(jCheckBox_Facturas);
-        jCheckBox_Facturas.setText("Impuestos");
+        jCheckBox_Facturas.setText("Facturas");
 
         buttonGroupDocumentacionEntregada.add(jCheckBox_Otros);
         jCheckBox_Otros.setText("Otros");
@@ -1058,12 +1074,6 @@ public class ABMClientesView extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton1.setText("jButton1");
-
-        jLabel20.setText("Situacion Fiscal:");
-
         javax.swing.GroupLayout jPanelContactosLayout = new javax.swing.GroupLayout(jPanelContactos);
         jPanelContactos.setLayout(jPanelContactosLayout);
         jPanelContactosLayout.setHorizontalGroup(
@@ -1081,36 +1091,24 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jButtonAñadirTipoContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton_eliminarContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanelContactosLayout.createSequentialGroup()
                             .addGap(8, 8, 8)
                             .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel34)
+                                .addComponent(jLabel36)
+                                .addComponent(jLabel35))
+                            .addGap(46, 46, 46)
+                            .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                    .addComponent(jLabel34)
+                                    .addComponent(jCheckBox_dni)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox_Facturas)
                                     .addGap(18, 18, 18)
-                                    .addComponent(jLabel36)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCheckBoxEsSolicitante))
-                                .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel35)
-                                        .addComponent(jLabel20))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                            .addComponent(jCheckBox_dni)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jCheckBox_Facturas)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jCheckBox_Otros)
-                                            .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(jPanelContactosLayout.createSequentialGroup()
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton1))))))))
+                                    .addComponent(jCheckBox_Otros))
+                                .addComponent(jCheckBoxEsSolicitante)
+                                .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelContactosLayout.setVerticalGroup(
@@ -1128,21 +1126,19 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
-                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
                     .addComponent(jCheckBoxEsSolicitante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel35)
-                    .addComponent(jCheckBox_dni)
-                    .addComponent(jCheckBox_Facturas)
-                    .addComponent(jCheckBox_Otros))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel20))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBox_dni)
+                        .addComponent(jCheckBox_Facturas)
+                        .addComponent(jCheckBox_Otros))
+                    .addComponent(jLabel35))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jPanelDatosConyugue.setBackground(new java.awt.Color(255, 255, 255));
@@ -1216,7 +1212,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                                     .addComponent(jLabel17)
                                     .addGap(18, 18, 18)
                                     .addComponent(jTextField_conyugeDni, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelDatosConyugueLayout.setVerticalGroup(
             jPanelDatosConyugueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1275,16 +1271,16 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonGuardarCambios)
-                        .addGap(36, 36, 36)
                         .addComponent(jButtonCancelar)
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanelContactos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanelDatosConyugue, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonGuardarCambios)
+                        .addGap(37, 37, 37))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanelDatosConyugue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelContactos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(70, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1296,11 +1292,10 @@ public class ABMClientesView extends javax.swing.JPanel {
                         .addComponent(jPanelContactos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanelDatosConyugue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCancelar)
-                            .addComponent(jButtonGuardarCambios))
-                        .addGap(8, 8, 8)))
+                            .addComponent(jButtonGuardarCambios))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -1327,7 +1322,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_tipoDocumentoActionPerformed
 
     private void jButtonAñadirNacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirNacionActionPerformed
-        jDialogAñadirElemento.setTitle("Añadir una nueva nacionalidad");
+        jDialogAñadirElemento.setTitle("Añadir un nuevo pais");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
@@ -1350,6 +1345,8 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonAñadirProvinciaActionPerformed
 
     private void jButtonAñadirCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCiudadActionPerformed
+        txtf_codPostal.setVisible(true);
+        lbl_codPostal.setVisible(true);
         jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
@@ -1464,12 +1461,13 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void btn_añadirNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoElementoActionPerformed
         
         boolean todook=true;
-        String texto = jTextF_IngresarNuevoElemento.getText().toLowerCase();
+        String texto = jTextF_IngresarNuevoElemento.getText().toUpperCase();
+        String codPostal = txtf_codPostal.getText().toUpperCase();
         switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir una nueva nacionalidad":{
+            case "Añadir un nuevo pais":{
                if(!direcciones.controlPais(texto)){
                  todook=true;
-                Provincia p = direccionesDAO.añadirNacionalidad(texto);
+                Provincia p = direccionesDAO.añadirPais(texto);
                 Pais pais = new Pais();
                 pais.setId(p.getId_pais());
                 pais.setNombre(texto);
@@ -1480,13 +1478,13 @@ public class ABMClientesView extends javax.swing.JPanel {
                 jCombo_Naciones.addItem(pais);
                 jCombo_Naciones.setSelectedItem(pais);
                 jTextF_IngresarNuevoElemento.setText("");
-                break;
                }
                else{
                    //jTextF_IngresarNuevoElemento.setFColor.red);
                    jTextF_IngresarNuevoElemento.setText("El pais que intenta ingresar ya existe!");
                    todook=false;
                }
+                break;
             }
             case "Añadir una nueva provincia":{
                if(!direcciones.controlProvincia(Pais_selected.getId(), texto)){
@@ -1505,21 +1503,23 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_Ciudades.removeAllItems();
                     jComboBox_Ciudades.addItem(l);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                }
                else{
                    todook=false;
                     jTextF_IngresarNuevoElemento.setText("La provincia que intenta ingresar ya existe!");
                }
+                    break;
             }
             case "Añadir una nueva ciudad":{
                 if(!direcciones.controlLocalidad(Provincia_selected.getId(), texto)){
                      todook=true;
-                    Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId());
+                    Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId(),codPostal);
                     Localidad l = new Localidad();
                     l.setId(b.getId_localidad());
                     l.setNombre(texto);
                     l.setId_provincia(Provincia_selected.getId());
+                    l.setCod_postal(codPostal);
+                    jTextField_codigoPostal.setText(codPostal);
                     //actualizo mapa
                     //Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
                     //barrios.add(b);
@@ -1531,12 +1531,12 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_Barrios.removeAllItems();
                     jComboBox_Barrios.addItem(b);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                 }
                 else{
                      todook=false;
                     jTextF_IngresarNuevoElemento.setText("La localidad que intenta ingresar ya existe!");
                 }
+                    break;
             }
             case "Añadir un nuevo barrio":{
                 if(!direcciones.controlBarrio(Localidad_selected.getId(), texto)){
@@ -1557,12 +1557,12 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_calles.removeAllItems();
                     jComboBox_calles.addItem(d);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                 }
                 else{
                      todook=false;
                     jTextF_IngresarNuevoElemento.setText("El barrio que intenta ingresar ya existe!");
                 }
+                    break;
             }
             case "Añadir una nueva calle/manzana":{
                 if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
@@ -1577,18 +1577,21 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_calles.addItem(d);
                     jComboBox_calles.setSelectedItem(d);
                     jTextF_IngresarNuevoElemento.setText("");
-                    break;
                 }
                 else{
                      todook=false;
                     jTextF_IngresarNuevoElemento.setText("La direccion que intenta ingresar ya existe!");
                 }
+                    break;
             }
         }
         //direcciones = direccionesDAO.getMapa();
         
         if(todook) {
             jTextF_IngresarNuevoElemento.setText("");
+            txtf_codPostal.setText("");
+            txtf_codPostal.setVisible(false);
+            lbl_codPostal.setVisible(false);
             jDialogAñadirElemento.dispose();
         }
     }//GEN-LAST:event_btn_añadirNuevoElementoActionPerformed
@@ -1801,6 +1804,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             return;
         Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
         Localidad_selected=l;
+        jTextField_codigoPostal.setText(l.getCod_postal());
         jComboBox_Barrios.removeAllItems();
         try{
             direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
@@ -2291,6 +2295,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
         Localidad_selected=l;
         jComboBox_Barrios.removeAllItems();
+        jTextField_codigoPostal.setText(l.getCod_postal());
         try{
             direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
                 jComboBox_Barrios.addItem(t);
@@ -2313,13 +2318,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNacionalidadActionPerformed
 
+    private void txtf_codPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_codPostalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtf_codPostalActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_añadirNuevoElemento;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroupDocumentacionEntregada;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButtonAñadirBarrio;
     private javax.swing.JButton jButtonAñadirBarrio2;
@@ -2345,7 +2353,6 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JCheckBox jCheckBox_Facturas;
     private javax.swing.JCheckBox jCheckBox_Otros;
     private javax.swing.JCheckBox jCheckBox_dni;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<Models.Barrio> jComboBox_Barrios;
     private javax.swing.JComboBox<String> jComboBox_Ciudad_jDialog;
     private javax.swing.JComboBox<Models.Localidad> jComboBox_Ciudades;
@@ -2377,7 +2384,6 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -2428,8 +2434,10 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField_numeroDomicilioCliente;
     private javax.swing.JTextField jTextField_referenciaDomicilioCliente;
     private javax.swing.JTextField jTextField_referencia_jDialog;
+    private javax.swing.JLabel lbl_codPostal;
     protected javax.swing.JRadioButton rbtn_clientesDni;
     protected javax.swing.JRadioButton rbtn_clientesNombre;
+    private javax.swing.JTextField txtf_codPostal;
     // End of variables declaration//GEN-END:variables
 
 
