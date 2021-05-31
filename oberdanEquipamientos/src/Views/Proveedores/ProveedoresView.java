@@ -55,6 +55,8 @@ public class ProveedoresView extends javax.swing.JPanel {
         Statics.style.setPlaceHolder(txtf_nuevo_elemento, "Ingrese nuevo");
         Statics.style.setPlaceHolder(txtf_codPostal, "Ingrese el codigo postal de su ciudad");
         habilitarCampos(false);
+        txtf_codPostal.setVisible(false);
+        lbl_codPostal.setVisible(false);
         cbox_barrio.setEnabled(false);
         cbox_ciudad.setEnabled(false);
         cbox_direccion.setEnabled(false);
@@ -507,7 +509,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel25Layout.createSequentialGroup()
@@ -526,7 +528,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                                     .addGroup(jPanel25Layout.createSequentialGroup()
                                         .addComponent(txtf_alias, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(cbox_tipoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(cbox_tipoCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel25Layout.createSequentialGroup()
                                 .addComponent(txtf_banco, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
@@ -535,7 +537,7 @@ public class ProveedoresView extends javax.swing.JPanel {
                         .addComponent(btn_agregarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addComponent(btn_eliminarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(13, 13, 13))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2230,14 +2232,15 @@ public class ProveedoresView extends javax.swing.JPanel {
         //datos bancarios
         proveedor_selected.setIva(String.valueOf(cbox_iva.getSelectedItem()));
         proveedor_selected.setCuit(txtf_cuit.getText());
+        DefaultTableModel model_banco = (DefaultTableModel) tabla_banco.getModel();
         ArrayList<CuentaBanco> listc = new ArrayList<CuentaBanco>();
-        for(int i = 0 ; i < model.getRowCount() ; i++){
+        for(int i = 0 ; i < model_banco.getRowCount() ; i++){
             CuentaBanco c = new CuentaBanco();
-            c.setAlias(String.valueOf(model.getValueAt(i, 1)));
-            c.setCbu(String.valueOf(model.getValueAt(i, 0)));
-            c.setBanco(String.valueOf(model.getValueAt(i, 2)));
-            c.setTipo_cuenta(String.valueOf(model.getValueAt(i, 3)));
-            c.setNro_cuenta(String.valueOf(model.getValueAt(i, 4)));
+            c.setAlias(String.valueOf(model_banco.getValueAt(i, 1)));
+            c.setCbu(String.valueOf(model_banco.getValueAt(i, 0)));
+            c.setBanco(String.valueOf(model_banco.getValueAt(i, 2)));
+            c.setTipo_cuenta(String.valueOf(model_banco.getValueAt(i, 3)));
+            c.setNro_cuenta(String.valueOf(model_banco.getValueAt(i, 4)));
             listc.add(c);
         }
         proveedor_selected.setCuentas(listc);
@@ -2635,7 +2638,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             Object[] nuevo = new Object[5];
             nuevo[0] = txtf_alias.getText();
             nuevo[1] = txtf_cbu.getText();
-            nuevo[2] = txtf_banco.getText();
+            nuevo[2] = txtf_banco.getText().toUpperCase();
             nuevo[3] = String.valueOf(cbox_tipoCuenta.getSelectedItem());
             nuevo[4] = txtf_NroCuenta.getText();
             model.addRow(nuevo);
@@ -2644,6 +2647,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Debe ingresar un alias y/o cbu para añadir la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        txtf_cbu.requestFocusInWindow();
     }//GEN-LAST:event_btn_agregarCuentaActionPerformed
 
     private void btn_agregarCuentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_agregarCuentaKeyPressed

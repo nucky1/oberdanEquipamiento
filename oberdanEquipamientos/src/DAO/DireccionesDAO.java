@@ -94,6 +94,7 @@ public class DireccionesDAO {
                 localidad.setId(rs.getInt("id"));
                 localidad.setId_provincia(rs.getInt("provincia_id"));
                 localidad.setNombre(rs.getString("nombre"));
+                localidad.setCod_postal(rs.getString("codPostal"));
                 localidades_barrio.put(localidad.getId(), null);
                 if(localidad.getId_provincia()!= idProvincia){
                     if(idProvincia != -1){

@@ -279,7 +279,7 @@ public class ProveedoresDAO {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,referencia,cbu,iva,cuit,saldo,ingreso_bruto,observaciones) "
+        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,referencia,iva,cuit,saldo,ingreso_bruto,observaciones) "
                 + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+",'"+p.getNro()+"','"+p.getReferencia()+"','"+
         p.getIva()+"',"+
         p.getCuit()+","+
