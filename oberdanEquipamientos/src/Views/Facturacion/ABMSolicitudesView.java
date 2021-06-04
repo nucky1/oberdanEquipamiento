@@ -462,7 +462,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 jButton12ActionPerformed(evt);
             }
         });
-        jPanel14.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(278, 77, 70, -1));
+        jPanel14.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 70, -1));
 
         jButton13.setText("Cancelar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -470,7 +470,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 jButton13ActionPerformed(evt);
             }
         });
-        jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 77, -1, -1));
+        jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
 
         txtf_codPostal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
