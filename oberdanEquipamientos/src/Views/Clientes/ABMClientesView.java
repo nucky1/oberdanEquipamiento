@@ -21,6 +21,7 @@ import Statics.barrioCompare;
 import Statics.direccionCompare;
 import Statics.localidadCompare;
 import Statics.provinciaCompare;
+import Views.Main;
 import Views.principal;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
@@ -1751,19 +1752,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         Provincia_selected =p;
         p.getId();
         jComboBox_Ciudades.removeAllItems();
-        try{
-            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t)->{
-                jComboBox_Ciudades.addItem(t);
-                if(modificarTrue){
-                    Localidad  l = new Localidad();
-                    l.setNombre(clienteSeleccionado.getCiudad());
-                    jComboBox_Ciudades.setSelectedItem(l);
-                    
-                }
-            });
-           //jComboBox_Ciudades.setEnabled(true);
+         try{
+            if(direcciones.getProvincia_Localidad() != null && direcciones.getProvincia_Localidad().get(p.getId()) != null){
+                direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+                    jComboBox_Ciudades.addItem(t);
+                });
+                jComboBox_Ciudades.setSelectedIndex(0);
+            }
+            jComboBox_Ciudades.setEnabled(true);
         }catch(NullPointerException e){
-             new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
         
     }//GEN-LAST:event_jComboBox_ProvinciasItemStateChanged
@@ -1787,19 +1785,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         
         Pais_selected=p;
         jComboBox_Provincias.removeAllItems();
-        try{
-            if(direcciones != null){
-                direcciones.getPais_Provincia().get(p.getId()).forEach((t)->
-            {jComboBox_Provincias.addItem(t);});
-            //jComboBox_Provincias.setEnabled(true);
-            if(modificarTrue){
-                Provincia provincia = new Provincia();
-                provincia.setNombre(clienteSeleccionado.getProvincia());
-                jComboBox_Provincias.setSelectedItem(provincia);
+       try{
+            if(direcciones.getPais_Provincia() != null && direcciones.getPais_Provincia().get(p.getId()) != null){
+                direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+                    jComboBox_Provincias.addItem(t);
+                });
+                jComboBox_Provincias.setSelectedIndex(0);
             }
-            }
+            jComboBox_Provincias.setEnabled(true);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
         
     }//GEN-LAST:event_jCombo_NacionesItemStateChanged
@@ -1812,17 +1807,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         jTextField_codigoPostal.setText(l.getCod_postal());
         jComboBox_Barrios.removeAllItems();
         try{
-            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-                jComboBox_Barrios.addItem(t);
-                if(modificarTrue){
-                    Barrio b = new Barrio();
-                    b.setNombre(clienteSeleccionado.getBarrio());
-                    jComboBox_Barrios.setSelectedItem(b);
-                }
-            });
+            if(direcciones.getLocalidad_Barrio() != null && direcciones.getLocalidad_Barrio().get(l.getId()) != null){
+                direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                    jComboBox_Barrios.addItem(t);
+                });
+                jComboBox_Barrios.setSelectedIndex(0);
+            }
+            jComboBox_Barrios.setEnabled(true);
         }catch(NullPointerException e){
-             new Statics.ExceptionManager().saveDump(e, "", false);
-        }
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
+        }  
     }//GEN-LAST:event_jComboBox_CiudadesItemStateChanged
 
     private void jComboBox_BarriosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BarriosItemStateChanged
@@ -1832,20 +1826,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         Barrio_selected=b;
         jComboBox_calles.removeAllItems();
         //System.out.println("El barrio del item state change es: "+b.getId());
-        try{
-                direcciones.getBarrio_direccion().get(b.getId()).forEach((t)->{
-                jComboBox_calles.addItem(t);
-                if(modificarTrue){
-                    Direccion d = new Direccion();
-                    d.setNombre(clienteSeleccionado.getDireccion());
-                    jComboBox_calles.setSelectedItem(d);
-                }
-            });
-            jComboBox_calles.setSelectedIndex(0);
-            //jComboBox_calles.setEnabled(true);
+         try{
+            if(direcciones.getBarrio_direccion() != null && direcciones.getBarrio_direccion().get(b.getId()) != null){
+                direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
+                    jComboBox_calles.addItem(t);
+                });
+                jComboBox_calles.setSelectedIndex(0);
+            }
+            jComboBox_calles.setEnabled(true);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
-            
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
 
@@ -2255,46 +2245,16 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextFieldObservacionesActionPerformed
 
     private void jComboBox_CiudadesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesKeyPressed
-        if(jComboBox_Ciudades.getItemCount() == 0)
-            return;
-        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
-        Localidad_selected=l;
-        jComboBox_Barrios.removeAllItems();
-        try{
-            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-                jComboBox_Barrios.addItem(t);
-                if(modificarTrue){
-                    Barrio b = new Barrio();
-                    b.setNombre(clienteSeleccionado.getBarrio());
-                    jComboBox_Barrios.setSelectedItem(b);
-                }
-            });
-        }catch(NullPointerException e){
-             new Statics.ExceptionManager().saveDump(e, "", false);
-        }
+        
     }//GEN-LAST:event_jComboBox_CiudadesKeyPressed
 
     private void jComboBox_CiudadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesMouseClicked
-        if(jComboBox_Ciudades.getItemCount() == 0)
-            return;
-        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
-        Localidad_selected=l;
-        jComboBox_Barrios.removeAllItems();
-        try{
-            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-                jComboBox_Barrios.addItem(t);
-                if(modificarTrue){
-                    Barrio b = new Barrio();
-                    b.setNombre(clienteSeleccionado.getBarrio());
-                    jComboBox_Barrios.setSelectedItem(b);
-                }
-            });
-        }catch(NullPointerException e){
-             new Statics.ExceptionManager().saveDump(e, "", false);
-        }
+       
     }//GEN-LAST:event_jComboBox_CiudadesMouseClicked
 
     private void jComboBox_CiudadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesFocusGained
+        
+        /**
         if(jComboBox_Ciudades.getItemCount() == 0)
             return;
         Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
@@ -2313,6 +2273,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         }catch(NullPointerException e){
              new Statics.ExceptionManager().saveDump(e, "", false);
         }
+        * **/
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
 
     private void jTextField_codigoPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_codigoPostalActionPerformed
