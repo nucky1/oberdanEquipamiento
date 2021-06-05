@@ -91,7 +91,7 @@ public class ProveedoresDAO {
                 p.setCuit(rs.getString("cuit"));
                 p.setSaldo(rs.getFloat("saldo"));
                 p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
-                SQL = "SELECT * FROM bancoProveedor WHERE proveedor_id = "+p.getId();
+                SQL = "SELECT * FROM banco_proveedor WHERE proveedor_id = "+p.getId();
                 ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                 ArrayList<CuentaBanco> cuentas = new ArrayList<>();
                 try{
@@ -170,7 +170,7 @@ public class ProveedoresDAO {
                     p.setCuit(rs.getString("cuit"));
                     p.setSaldo(rs.getFloat("saldo"));
                     p.setIngresoBruto(rs.getFloat("ingreso_bruto"));
-                    SQL = "SELECT * FROM bancoProveedor WHERE proveedor_id = "+p.getId();
+                    SQL = "SELECT * FROM banco_proveedor WHERE proveedor_id = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     ArrayList<CuentaBanco> cuentas = new ArrayList<>();
                     try{
@@ -221,22 +221,21 @@ public class ProveedoresDAO {
         int res = 1;
         boolean exito = true;
         String SQL = "UPDATE proveedores SET proveedor = '"+p.getNombre()+"'"
-                + ", barrio_id = "+p.getdireccionId()
-                + ",direccion = '"+p.getDireccion()+"'"
+                + ", direccion_id = "+p.getdireccionId()
                 + ",numero = "+p.getNro()
                 + ",referencia = '"+p.getReferencia()+"'"
                 + ",iva = '"+p.getIva()+"'"
-                + ",cuit = '"+p.getCuit()
-                + ",observaciones = '"+p.getObservaciones()+",'"
+                + ",cuit = '"+p.getCuit()+"'"
+                + ",observaciones = '"+p.getObservaciones()+"'"
                 + ",saldo = "+p.getSaldo()
                 + ",ingreso_bruto = '"+p.getIngresoBruto()+"' WHERE id = "+p.getId();
         res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
         if(res == 0){
             exito = false;
         }else{
+            SQL = " DELETE FROM contactos WHERE id_persona = "+p.getId()+" AND tipo_persona = 'PROVEEDOR' AND state = 'ACTIVO'";
+            res = conexion.EjecutarOperacion(SQL);
             if(p.getContacto().size() > 0){
-                SQL = " DELETE FROM contactos WHERE persona_id = "+p.getId()+" AND tipo_persona = 'PROVEEDOR' AND state = 'ACTIVO'";
-                res = conexion.EjecutarOperacion(SQL);
                 SQL = "INSERT INTO contactos (id_persona, contacto,nombre,cargo, tipo,tipo_persona) VALUES";
                 for(int i = p.getContacto().size()-1 ; i > 0; i--){
                     SQL += "("+p.getId()+",'"+p.getContacto().get(i).getContacto()+"','"+p.getContacto().get(i).getNombre()+"','"+p.getContacto().get(i).getCargo()+"','"+p.getContacto().get(i).getTipo()+"','PROVEEDOR'),";
@@ -251,10 +250,10 @@ public class ProveedoresDAO {
         if(res == 0){
             exito = false;
         }else{
+            SQL = " DELETE FROM banco_proveedor WHERE proveedor_id = "+p.getId();
+            res = conexion.EjecutarOperacion(SQL);
             if(p.getCuentas().size() > 0){
-                SQL = " DELETE FROM bancoProveedor WHERE proveedor_id = "+p.getId();
-                res = conexion.EjecutarOperacion(SQL);
-                SQL = "INSERT INTO bancoProveedor (proveedor_id, nro_cuenta,banco,alias, cbu,tipo_cuenta) VALUES";
+                SQL = "INSERT INTO banco_proveedor (proveedor_id, nro_cuenta,banco,alias, cbu,tipo_cuenta) VALUES";
                 for(int i = p.getCuentas().size()-1 ; i > 0; i--){
                     SQL += "("+p.getId()+",'"+p.getCuentas().get(i).getNro_cuenta()+"','"+p.getCuentas().get(i).getBanco()+"','"+p.getCuentas().get(i).getAlias()+"','"+p.getCuentas().get(i).getCbu()+"','"+p.getCuentas().get(i).getTipo_cuenta()+"'),";
                 }
@@ -279,7 +278,7 @@ public class ProveedoresDAO {
         conexion.transaccionCommit("quitarAutoCommit"); 
         int res = 1;
         boolean exito = true;
-        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,referencia,cbu,iva,cuit,saldo,ingreso_bruto,observaciones) "
+        String SQL = "INSERT INTO proveedores (proveedor, direccion_id,numero,referencia,iva,cuit,saldo,ingreso_bruto,observaciones) "
                 + "VALUES('"+p.getNombre()+"',"+p.getdireccionId()+",'"+p.getNro()+"','"+p.getReferencia()+"','"+
         p.getIva()+"',"+
         p.getCuit()+","+
