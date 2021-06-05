@@ -2,9 +2,9 @@ acordate de permitir el null
 
 
 
+ALTER TABLE `cliente` ADD `nacionalidad` VARCHAR(50) NULL DEFAULT NULL AFTER `estadoCivil`;
 ALTER TABLE `contactos` ADD `nombre` VARCHAR(50) NULL AFTER `contacto`;
 ALTER TABLE `contactos` ADD `cargo` VARCHAR(50) NOT NULL AFTER `nombre`;
-ALTER TABLE `cliente` ADD `nacionalidad` VARCHAR(50) NULL DEFAULT NULL AFTER `estadoCivil`;
 ALTER TABLE `proveedores`
   DROP `codPostal`;
 
@@ -18,6 +18,7 @@ CREATE TABLE `banco_proveedor` (
   `proveedor_id` int(11) NOT NULL,
   FOREIGN KEY (`proveedor_id`) REFERENCES proveedores(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 ALTER TABLE `localidad` ADD `codPostal` VARCHAR(20) NULL AFTER `provincia_id`;
 ALTER TABLE `comercio`
   DROP `codPostal`;

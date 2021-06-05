@@ -89,6 +89,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jButtonNuevoCliente.setEnabled(false);
         jButton_eliminar.setEnabled(false);
         principal.lbl_estado.setText("");
+        txtf_codPostal.setVisible(false);
+        lbl_codPostal.setVisible(false);
         
     }
 
@@ -251,14 +253,13 @@ public class ABMClientesView extends javax.swing.JPanel {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jButtonCancelarJdialog)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
-                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_añadirNuevoElemento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(286, 286, 286)
+                        .addComponent(jButtonCancelarJdialog))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel38)
                             .addComponent(lbl_codPostal))
@@ -279,11 +280,11 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_codPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtf_codPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_añadirNuevoElemento)
                     .addComponent(jButtonCancelarJdialog))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
@@ -1411,7 +1412,11 @@ public class ABMClientesView extends javax.swing.JPanel {
         // TODO add your handling code here:
         jTextF_IngresarNuevoElemento.setText("");
         jTextF_IngresarNuevoElemento.setForeground(Color.black);
+        txtf_codPostal.setText("");
+        txtf_codPostal.setVisible(false);
+        lbl_codPostal.setVisible(false);
         jDialogAñadirElemento.dispose();
+        
     }//GEN-LAST:event_jButtonCancelarJdialogActionPerformed
 
     private void jButtonAñadirBarrio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirBarrio2ActionPerformed
