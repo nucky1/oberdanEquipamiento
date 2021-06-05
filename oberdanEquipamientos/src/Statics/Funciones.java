@@ -11,6 +11,7 @@ import Models.Barrio;
 import Models.Direccion;
 import Models.Localidad;
 import Models.Provincia;
+import Views.principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +22,9 @@ import java.util.Comparator;
 import java.sql.Timestamp; 
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
@@ -30,6 +34,13 @@ import javax.swing.JRadioButton;
  */
 public class Funciones {
     private static Pattern pattern;
+    public static void limpiarlbl_estado(){
+        //limpiar lbl_estado
+            long l = 3000;
+            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+            Runnable task1 = () -> principal.lbl_estado.setText("");
+            service.scheduleAtFixedRate(task1, 1, 7, TimeUnit.SECONDS);
+    }
     public static boolean onlyNumbers(String string, boolean allowEmpty) 
     {
         boolean ret;
