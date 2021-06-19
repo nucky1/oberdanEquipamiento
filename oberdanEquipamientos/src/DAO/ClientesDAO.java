@@ -420,14 +420,14 @@ public class ClientesDAO {
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             if(rs.first()){
-               System.out.println("Lo encontre al cliente y no lo voy a guardar!");
+               
                 exito = false;
                 
                 
                  
             }
             else{
-                System.out.println("NO Lo encontre al cliente y lo voy a guardar!");
+                
                 SQL = "INSERT INTO cliente (nombre,dni,tipo_dni,estadoCivil, nacionalidad ,"
                         + "fechaNacimiento,esSolicitante,referencia,"
                         + "documentacion,numero,direccion_id,observaciones) "

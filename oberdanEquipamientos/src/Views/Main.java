@@ -36,5 +36,5 @@ public class Main {
         principal vista1 = new principal();
         vista1.setExtendedState(JFrame.MAXIMIZED_BOTH);
         vista1.setVisible(true);
-    }
+}
 }

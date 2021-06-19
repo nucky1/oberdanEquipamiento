@@ -587,7 +587,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setText("Direccion");
+        jLabel4.setText("Calle/Manzana");
 
         jComboBox_tipoDni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "DNI", "CUIT", "CI POLICIA FEDERAL", "LC", "LE", "PASAPORTE", " " }));
         jComboBox_tipoDni.addActionListener(new java.awt.event.ActionListener() {
