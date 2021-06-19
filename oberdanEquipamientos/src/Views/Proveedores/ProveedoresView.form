@@ -1077,7 +1077,7 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel70">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Direcci&#xf3;n"/>
+                        <Property name="text" type="java.lang.String" value="Calle"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="cbox_pais">

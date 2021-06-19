@@ -64,6 +64,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         proveedoresDAO = ProveedoresDAO.getInstance();
         direccionesDAO = DireccionesDAO.getInstance();
         direcciones = direccionesDAO.getMapa();
+        cambioBusqueda("", false, true,txtf_proveedor_buscar,tabla_proveedores_busqueda);
     }
 
     /**
@@ -718,7 +719,7 @@ public class ProveedoresView extends javax.swing.JPanel {
 
         jLabel63.setText("Barrio");
 
-        jLabel70.setText("Dirección");
+        jLabel70.setText("Calle");
 
         cbox_pais.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -2109,10 +2110,12 @@ public class ProveedoresView extends javax.swing.JPanel {
                 principal.lbl_estado.setText("El proveedor se elimino con exito");
                 principal.lbl_estado.setForeground(Color.GREEN);
                 cambioBusqueda("", false, true,txtf_proveedor_buscar,tabla_proveedores_busqueda);
+                limpiarCampos();
             }else{
                 principal.lbl_estado.setText("Hubo un error al eliminar el proveedor");
                 principal.lbl_estado.setForeground(Color.RED);
             }
+            Statics.Funciones.limpiarlbl_estado();
         }        
     }//GEN-LAST:event_btn_proveedores_eliminarActionPerformed
 
@@ -2282,15 +2285,9 @@ public class ProveedoresView extends javax.swing.JPanel {
                     principal.lbl_estado.setForeground(new Color(139,0,0));
                 }
             }
-            
-            cambioBusqueda("", false, true,txtf_proveedor_buscar,tabla_proveedores_busqueda);
-            //limpiar lbl_estado
-            long l = 3000;
-            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-            Runnable task1 = () -> principal.lbl_estado.setText("");
-            service.scheduleAtFixedRate(task1, 1, 7, TimeUnit.SECONDS);
-            
+            Statics.Funciones.limpiarlbl_estado();
         }
+        cambioBusqueda("", false, true,txtf_proveedor_buscar,tabla_proveedores_busqueda);
     }//GEN-LAST:event_btn_proveedores_guardarActionPerformed
 
     private void btn_proveedores_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_proveedores_modificarMouseClicked
@@ -2994,8 +2991,6 @@ public class ProveedoresView extends javax.swing.JPanel {
         cbox_provincia.removeAllItems();
         cbox_provincia.addItem(new Provincia("-"));
         cbox_provincia.setSelectedIndex(0);
-        
-        
     }
     private void habilitarCampos(boolean flag){
         txtf_cbu.setEnabled(flag);

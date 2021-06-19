@@ -16,6 +16,7 @@ import Statics.MiRenderer;
 import Views.Proveedores.JD_Proveedor_Buscador;
 import Views.Main;
 import Views.principal;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -71,6 +72,7 @@ public class ProductosView extends javax.swing.JPanel {
         rubroDAO = RubroDAO.getInstance();      
         new Statics.TextPrompt("Nombre..", txtf_productos_nombre);
         new Statics.TextPrompt("Buscar..", txtf_productos_buscar);
+        Pestaña1_dinamica.cambioBusqueda("");
     }
 public void limpiarCamposInventario() {
         txtf_productos_nombre.setEnabled(false);
@@ -2816,7 +2818,6 @@ public void limpiarCamposInventario() {
         int pos = tabla_productos_busqueda.getSelectedRow();
         if (pos != -1) {
             Pestaña1_dinamica.cargarProducto(pos);
-
         }
     }//GEN-LAST:event_tabla_productos_busquedaMouseClicked
 
@@ -3012,6 +3013,7 @@ public void limpiarCamposInventario() {
     private void btn_productoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productoNuevoActionPerformed
         modificarTrue = false;
         Pestaña1_dinamica.habilitarCampos(true, "NUEVO");
+        
         Pestaña1_dinamica.prodSeleccionado = new Producto(); 
         Pestaña1_dinamica.prodSeleccionado.setId(productoDAO.getNextID());
     }//GEN-LAST:event_btn_productoNuevoActionPerformed
@@ -3036,7 +3038,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_productos_codigo_eanCaretUpdate
 
     private void txtf_productos_costoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_productos_costoCaretUpdate
-        if(Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() == 0){
+        if(Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() >= 0){
             Pestaña1_dinamica.calcularPrecios();
         }
     }//GEN-LAST:event_txtf_productos_costoCaretUpdate
@@ -3046,7 +3048,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_productos_codigo_barraCaretUpdate
 
     private void txtf_productos_costoFleteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_productos_costoFleteCaretUpdate
-        if(Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() == 0){
+        if(Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() >= 0){
             Pestaña1_dinamica.calcularPrecios();
         }
     }//GEN-LAST:event_txtf_productos_costoFleteCaretUpdate
@@ -3058,10 +3060,18 @@ public void limpiarCamposInventario() {
             }
             //, si se guardo actualiza el resto de los campos 
             principal.lbl_estado.setText("El producto se creo con exito.");
+            principal.lbl_estado.setForeground(Color.GREEN);
             modificarTrue = false;
             //(se hace en dos metodos porque es un fix y aprovecho lo que esta hecho)
         }
-        Pestaña1_dinamica.actualizarProduto();
+        if(Pestaña1_dinamica.actualizarProduto()){
+            if(modificarTrue)
+                principal.lbl_estado.setText("El producto se actualizo con exito.");  
+        }else{
+            principal.lbl_estado.setText("Ocurrio un error al actualizar el producto.");
+        }
+        Statics.Funciones.limpiarlbl_estado();
+        limpiarCamposInventario();
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void btn_consultar_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultar_historialActionPerformed
@@ -3528,51 +3538,47 @@ public void limpiarCamposInventario() {
 
         private void calcularPrecios() {
             
-            if (prodSeleccionado != null) {
-                String auxCosto = txtf_productos_costo.getText();
-                String auxFlete = txtf_productos_costoFlete.getText();
-                DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
-                float costo, flete,precioVenta, precioCuota;
-
+            String auxCosto = txtf_productos_costo.getText();
+            String auxFlete = txtf_productos_costoFlete.getText();
+            DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
+            float costo, flete,precioVenta, precioCuota;
+            try {
+                if (auxCosto.isEmpty() || !Statics.Funciones.isFloat(auxCosto)) {
+                    costo = 0;
+                } else {
+                    costo = Float.parseFloat(auxCosto);
+                }
+                if (auxFlete.isEmpty() || !Statics.Funciones.isFloat(auxFlete)) {
+                    flete = 0;
+                } else {
+                    flete = Float.parseFloat(auxFlete);
+                }
+                float precio_parcial = costo + flete;
                 try {
-                    if (auxCosto.isEmpty() || !Statics.Funciones.isFloat(auxCosto)) {
-                        costo = 0;
-                    } else {
-                        costo = Float.parseFloat(auxCosto);
+                    tablaProdPrecios.setNumRows(0);
+                    Object[] obj = new Object[6];
+                    for (int i = 0; i < cuotas.size(); i++) {
+                        obj[0] = cuotas.get(i).getId();
+                        obj[1] = cuotas.get(i).getCantidad();
+                        obj[2] = cuotas.get(i).getTipo();
+                        float precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra()/100) + 1);
+                        obj[3] = Statics.Funciones.redondeo2Deci(precio_final);
+                        float precio_cuota = precio_final / cuotas.get(i).getCantidad();;
+                        obj[4] = Statics.Funciones.redondeo2Deci(precio_cuota);
+                        obj[5] = cuotas.get(i).getActiva();
+                        tablaProdPrecios.addRow(obj);
                     }
-                    if (auxFlete.isEmpty() || !Statics.Funciones.isFloat(auxFlete)) {
-                        flete = 0;
-                    } else {
-                        flete = Float.parseFloat(auxFlete);
-                    }
-                    
-                    float precio_parcial = costo + flete;
-                    try {
-                        tablaProdPrecios.setNumRows(0);
-                        Object[] obj = new Object[6];
-                        for (int i = 0; i < cuotas.size(); i++) {
-                            obj[0] = cuotas.get(i).getId();
-                            obj[1] = cuotas.get(i).getCantidad();
-                            obj[2] = cuotas.get(i).getTipo();
-                            float precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra()/100) + 1);
-                            obj[3] = Statics.Funciones.redondeo2Deci(precio_final);
-                            float precio_cuota = precio_final / cuotas.get(i).getCantidad();;
-                            obj[4] = Statics.Funciones.redondeo2Deci(precio_cuota);
-                            obj[5] = cuotas.get(i).getActiva();
-                            tablaProdPrecios.addRow(obj);
-                        }
-                    } catch (Exception ex) {
-                        new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
-                    }
-                    
                 } catch (Exception ex) {
                     new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                 }
+
+            } catch (Exception ex) {
+                new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
             }
 
         }
 
-        private void actualizarProduto() {
+        private boolean actualizarProduto() {
             if (prodSeleccionado != null) {
                 prodSeleccionado.setNombre(txtf_productos_nombre.getText());
                 prodSeleccionado.setObservaciones(txtf_productos_observaciones.getText());
@@ -3617,16 +3623,16 @@ public void limpiarCamposInventario() {
                 }else{
                     prodSeleccionado.setSinIva(false);
                 }
-                if(productosDAO.actualizarProducto(prodSeleccionado) > 0)
-                    principal.lbl_estado.setText("El producto se actualizo con exito.");                    
-                else
-                    principal.lbl_estado.setText("Ocurrio un error al actualizar el producto.");
                 for (int i = 0; i < tabla_producto_precioVenta.getRowCount(); i++) {
                     cuotas.get(i).setActiva((boolean)tabla_producto_precioVenta.getValueAt(i, 5));
                 }
                 cuotasDAO.setCuotasProd(cuotas,prodSeleccionado.getId());
+                if(productosDAO.actualizarProducto(prodSeleccionado) > 0)
+                    return true;                  
+                else
+                    return false;
             } else {
-                principal.lbl_estado.setText("Error al actualizar el producto.");
+                return false;
             }
         }
         
@@ -3754,40 +3760,6 @@ public void limpiarCamposInventario() {
             }
         }
         
-        public void cargarProveedores(List<Proveedor> list) {
-        }
-
-        
-        public void productoCargado() {
-            productoNuevo.dispose();
-            principal.lbl_estado.setText("Producto agregado");
-            cambioBusqueda("");
-        }
-        
-        public void devolucionCargada() {
-            habilitarPanelNuevaDevo(false);
-            principal.lbl_estado.setText("Devolucion agregada");
-            devolucionBusqueda("");
-        }
-        
-        public void productoNoCargado() {
-            JOptionPane.showMessageDialog(null, "No se pudo agregar el producto. Es posible que el código de producto ya exista!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        
-        public void productoActualizado() {
-           principal.lbl_estado.setText("Producto Actualizado");
-            Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText().toString());
-        }
-
-        
-        public void productoNoActualizado() {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos del producto",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-
  
         private void getunidadesVendidas() {
             if (prodSeleccionado == null) {
@@ -3890,6 +3862,8 @@ public void limpiarCamposInventario() {
             tabla_producto_precioVenta.setEnabled(b);
             txtf_productos_nombre.setEnabled(b);
             if(boton.equals("NUEVO")){
+                cuotas = CuotasDAO.getInstance().getCuotasProd(-1);
+                calcularPrecios();
                 txtf_productos_codigo.setEnabled(b);
             }
             txtf_productos_costo.setEnabled(b);

@@ -71,11 +71,11 @@ public class ProveedoresDAO {
        List<Proveedor> list = new ArrayList<>();
        try{
            while(rs.next()){
-               System.out.println("Entre al while con 2 parametros");
                //--CARGAR DATOS AL PROVEEDOR
                 Proveedor p = new Proveedor();
                 p.setId(rs.getInt("id"));
                 p.setNombre(rs.getString("proveedor"));
+                p.setObservaciones(rs.getString("proveedores.observaciones"));
                 //direccion
                 p.setPais(rs.getString("pais.nombre"));
                 p.setProvincia(rs.getString("provincia.nombre"));
@@ -285,7 +285,6 @@ public class ProveedoresDAO {
         p.getSaldo()+",'"+
         p.getIngresoBruto()+"','"
                 + p.getObservaciones()+"')";
-        System.out.println(SQL);
         res = conexion.EjecutarOperacion(SQL); //inserto el proveedor el cual ahora sera el proveedor con id mas alto
         if(res == 0){
             exito = false;
@@ -303,11 +302,20 @@ public class ProveedoresDAO {
                     }
                     SQL += "("+p.getId()+",'"+p.getContacto().get(0).getContacto()+"','"+p.getContacto().get(0).getNombre()+"','"+p.getContacto().get(0).getCargo()+"','"+p.getContacto().get(0).getTipo()+"','PROVEEDOR')";
                     res = conexion.EjecutarOperacion(SQL);
+                    SQL = "INSERT INTO banco_proveedor (proveedor_id, nro_cuenta,banco,alias, cbu,tipo_cuenta) VALUES"; 
+                    if(res == 0){
+                        exito = false;
+                    }
+                    for(int i = p.getCuentas().size()-1 ; i > 0; i--){
+                        SQL += "("+p.getId()+",'"+p.getCuentas().get(i).getNro_cuenta()+"','"+p.getCuentas().get(i).getBanco()+"','"+p.getCuentas().get(i).getAlias()+"','"+p.getCuentas().get(i).getCbu()+"','"+p.getCuentas().get(i).getTipo_cuenta()+"'),";
+                    }
+                    SQL += "("+p.getId()+",'"+p.getCuentas().get(0).getNro_cuenta()+"','"+p.getCuentas().get(0).getBanco()+"','"+p.getCuentas().get(0).getAlias()+"','"+p.getCuentas().get(0).getCbu()+"','"+p.getCuentas().get(0).getTipo_cuenta()+"')";
+                    res = conexion.EjecutarOperacion(SQL);
                 } catch (SQLException ex) {
                     res = 0;
                 }
                 if(res == 0){
-                    exito = false;
+                        exito = false;
                 }
             }
         }
@@ -355,14 +363,19 @@ public class ProveedoresDAO {
     }
     
     public int eliminarProveedor(Proveedor p) {
-        String SQL = "DELETE FROM proveedores "
-               + "WHERE id = " + p.getId();
+        String SQL = "DELETE FROM banco_proveedor WHERE proveedor_id = "+p.getId();
         int res = conexion.EjecutarOperacion(SQL);
         if(res <= 0){
             return res;
         }
-        SQL = "DELETE FROM contactos"
-                + "WHERE id_persona = "+p.getId()+" AND tipo = 'PROVEEDOR'";
+        SQL = "DELETE FROM contactos WHERE id_persona = "+p.getId()+" AND tipo = 'PROVEEDOR'";
+        res += conexion.EjecutarOperacion(SQL);
+        if(res <= 0){
+            return res;
+        }
+        SQL = "DELETE FROM proveedores "
+               + "WHERE id = " + p.getId();
+        res += conexion.EjecutarOperacion(SQL);
         return res;
     }
 

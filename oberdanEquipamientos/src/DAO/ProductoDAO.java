@@ -92,7 +92,7 @@ public class ProductoDAO {
                 + " FROM articulos "
                 + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                 + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
-                + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
+                + "LEFT JOIN (SELECT precio_compra,producto_id,MAX(updated_at) as up FROM art_stock GROUP BY producto_id) as artStock ON artStock.producto_id = articulos.id "
                 + "WHERE LOWER(articulos." + atributo+") like '%"+valor+"%' "
                 + "AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
@@ -172,7 +172,7 @@ public class ProductoDAO {
         String SQL = "UPDATE `articulos` SET `state`='BAJA'"
                 +" WHERE id = "+p.getId();
         res += conexion.EjecutarOperacion(SQL);
-        SQL = "UPDATE art_stock SET state = BAJA WHERE producto_id = "+p.getId();
+        SQL = "UPDATE art_stock SET state = 'BAJA' WHERE producto_id = "+p.getId();
         res += conexion.EjecutarOperacion(SQL);
         return res;
     }
