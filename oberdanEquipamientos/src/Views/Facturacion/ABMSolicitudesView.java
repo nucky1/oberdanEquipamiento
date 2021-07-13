@@ -1468,7 +1468,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_tabla_creditosClienteMouseClicked
 
     private void txt_nombreComercioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreComercioKeyReleased
-        if(listaComercios!=null && listaComercios.size() > 0){
+    /*
+    NADA DE ESTO FUNCIONA OK.
+        SI NO ENCUENTRA COINCIDENCIAS, NO TE DEJA ESCRIBIR
+    if(listaComercios!=null && listaComercios.size() > 0){
             if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
                 posComercioSelected = (posComercioSelected+1)%listaComercios.size();
             }else if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP){
@@ -1490,6 +1493,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             cbox_habilitarDireccionComercio.setSelected(val);
             btn_añadirDireccionComercio.setEnabled(val);
         }
+    */
     }//GEN-LAST:event_txt_nombreComercioKeyReleased
 
     private void cbox_paisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_paisItemStateChanged
@@ -2024,7 +2028,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             txt_nombreCliente.setText(clienteSelected.getNombre());
             txt_dniCliente.setText(clienteSelected.getDni()+"");
              Cliente c = null;
-            if(clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
+            if(!clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
                 //Dato conyugue
                 c = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
                 txt_nombreConyugue.setText(c.getNombre()+ " ("+c.getDni()+")");

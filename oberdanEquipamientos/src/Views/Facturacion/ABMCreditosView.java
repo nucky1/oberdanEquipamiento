@@ -1634,7 +1634,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
     private void btn_agregarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarArticuloActionPerformed
         if(cuotaSelected != null && posProductoSelected != -1 && Statics.Funciones.isFloat(txt_importeSubTotal.getText()) && Statics.Funciones.isFloat(txt_importeCuotaProd.getText())){
-           Producto p = filteredList.get(posProductoSelected);
+            System.out.println("Entre a funcionalidad de boton agregar Articulo");
+            Producto p = filteredList.get(posProductoSelected);
            float precioCuota = Float.parseFloat(txt_importeCuotaProd.getText());
            float subtotal = Float.parseFloat(txt_importeSubTotal.getText());
            int cantidad = Integer.parseInt(txt_cantidadProd.getText());
@@ -2332,7 +2333,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         model.setNumRows(0);
         float saldoActual = 0f;
         for(int i = 0 ; i < cred.size(); i++){
-            Object[] o = new Object[6];
+            Object[] o = new Object[7];
             o[0] = cred.get(i).getId();
             o[1] = cred.get(i).getCant_cuotas();
             o[2] = cred.get(i).getImporte_deuda();
@@ -2347,9 +2348,21 @@ public class ABMCreditosView extends javax.swing.JPanel {
             model.addRow(o);
         }
         Cliente conyugue = clienteDAO.recuperarConyugue(String.valueOf(creditoSelected.getCliente().getId()));
+        //ESTE BUSCAR CLIENTE NO DEBE ESTAR CARGANGO BIEN EL PUTO CONTACTO!!
         Cliente cliente = clienteDAO.buscarCliente(creditoSelected.getCliente().getId());
         lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
-        if(cliente.getContacto().size()>0)
+        
+        
+        cliente.getContacto().forEach((t) -> {
+                Object[] obj =new Object [2];
+                obj[0]= t.getTipo();
+                obj[1]= t.getContacto();
+                System.out.println("el tipo es: "+obj[0]);
+                System.out.println("El contacgto es :"+obj[1]);
+            });
+    
+        
+        if( cliente.getContacto().get(0).getContacto()!=null)
             lbl_contactoCliente.setText(cliente.getContacto().get(0).getContacto());
         lbl_nombreCliente.setText(cliente.getNombre());
         lbl_domicilioCliente.setText(cliente.getDireccion()+" "+cliente.getNumero());

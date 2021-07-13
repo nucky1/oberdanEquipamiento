@@ -31,7 +31,6 @@ public class Cliente {
     private String barrio;
     private String direccion;
     private String numero;
-    private String codPostal;
     private int direccion_id;
     private ArrayList<Contacto> contacto;
     private float limite_credito;
@@ -124,16 +123,6 @@ public class Cliente {
 
     public void setDireccion_id(int direccion_id) {
         this.direccion_id = direccion_id;
-    }
-
-   
-
-    public String getCodPostal() {
-        return codPostal;
-    }
-
-    public void setCodPostal(String codPostal) {
-        this.codPostal = codPostal;
     }
 
     public String getObservaciones() {

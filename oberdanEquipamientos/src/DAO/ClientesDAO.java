@@ -58,7 +58,7 @@ public class ClientesDAO {
                 c.setDni(rs.getInt("dni"));
                 c.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 c.setEsSolicitante(rs.getBoolean("esSolicitante"));
-                c.setCodPostal(rs.getString("localidad.codPostal"));
+                //c.setCodPostal(rs.getString("localidad.codPostal"));
                 c.setReferencia(rs.getString("referencia"));
                 c.setDocumentacion(rs.getString("referencia"));
                 c.setNumero(rs.getString("numero"));
@@ -118,7 +118,7 @@ public class ClientesDAO {
                     
                     
                     p.setNumero(rs.getString("numero"));
-                    p.setCodPostal(rs.getString("localidad.codPostal"));
+                    //p.setCodPostal(rs.getString("localidad.codPostal"));
                     p.setReferencia(rs.getString("referencia"));
                     
                     //datos extras
@@ -184,7 +184,7 @@ public class ClientesDAO {
                     p.setDireccion_id(rs.getInt("direccion.id"));
                     p.setDireccion(rs.getString("direccion.nombre"));
                     p.setNumero(rs.getString("numero"));
-                    p.setCodPostal(rs.getString("localidad.codPostal"));
+                    //p.setCodPostal(rs.getString("localidad.codPostal"));
                     p.setReferencia(rs.getString("referencia"));
                     //datos extras
                     p.setDocumentacion(rs.getString("documentacion"));
@@ -603,7 +603,7 @@ public class ClientesDAO {
             
             System.out.println("EN casar, c2 no existe, asi que lo voy a casar con alguien nuevo!");
             c2.setDireccion_id(c1.getDireccion_id());
-            c2.setCodPostal(c1.getCodPostal());
+            //c2.setCodPostal(c1.getCodPostal());
             c2.setNumero(c1.getNumero());
             c2.setObservaciones("Es un conyugue");
             System.out.println("En casar, c2 no existia");

@@ -1975,7 +1975,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         clienteSeleccionado.setDireccion(String.valueOf(jComboBox_calles.getSelectedItem()));
         clienteSeleccionado.setDireccion_id(direccion_selected.getId());
         clienteSeleccionado.setNumero(jTextField_numeroDomicilioCliente.getText());
-        clienteSeleccionado.setCodPostal(jTextField_codigoPostal.getText());
+        //clienteSeleccionado.setCodPostal(jTextField_codigoPostal.getText());
         clienteSeleccionado.setReferencia(jTextField_referenciaDomicilioCliente.getText().toUpperCase());
 
             
@@ -2553,7 +2553,7 @@ public class ABMClientesView extends javax.swing.JPanel {
             jComboBox_calles.addItem(dir);
             
             jTextField_numeroDomicilioCliente.setText(clienteSeleccionado.getNumero());
-            jTextField_codigoPostal.setText(clienteSeleccionado.getCodPostal());
+            //jTextField_codigoPostal.setText(clienteSeleccionado.getCodPostal());
             jTextField_referenciaDomicilioCliente.setText(clienteSeleccionado.getReferencia());
             //Intento cargar la fecha:
              //SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/mm/yyyy");

@@ -293,6 +293,7 @@ public class DireccionesDAO {
                 b.setId_localidad(rs.getInt("localidad.id"));
                 l.setId(rs.getInt("localidad.id"));
                 l.setId_provincia(rs.getInt("provincia.id"));
+                l.setCod_postal(rs.getString("codPostal"));
                 prov.setId(rs.getInt("provincia.id"));
                 prov.setId_pais(rs.getInt("pais.id"));
                 p.setId(rs.getInt("pais.id"));

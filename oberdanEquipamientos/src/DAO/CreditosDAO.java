@@ -103,7 +103,7 @@ public class CreditosDAO {
                 client.setId(rs.getInt("cliente.id"));
                 client.setDni(rs.getInt("cliente.dni"));
                 client.setNumero(rs.getString("cliente.numero"));
-                client.setCodPostal(rs.getString("cliente.codPostal"));
+                //client.setCodPostal(rs.getString("cliente.codPostal"));
                 client.setDireccion_id(rs.getInt("cliente.direccion_id"));
                 client.setLimite_credito(rs.getFloat("cliente.limite_credito"));
                 //insertar datos del comercio
@@ -113,7 +113,7 @@ public class CreditosDAO {
                 com.setNombre(rs.getString("comercio.nombre"));
                 com.setTipo_iva(rs.getString("comercio.tipo_iva"));
                 com.setNumero(rs.getInt("comercio.numero"));
-                com.setCodPostal(rs.getInt("comercio.codPostal"));
+                ///com.setCodPostal(rs.getInt("comercio.codPostal"));
                 Direccion dir = new Direccion();
                 dir.setId(rs.getInt("comercio.direccion_id"));
                 com.setDireccion(dir);
@@ -209,9 +209,11 @@ public class CreditosDAO {
 
     public int insertCreditoNuevo(Credito creditoSelected) {
         String fechaAprob = null;
+        //mete fecha de aprobacion
         if(creditoSelected.getFecha_aprobacion() != null){
             fechaAprob = "'"+creditoSelected.getFecha_aprobacion()+"'";
         }
+        System.out.println("la fecha de aprobacion que trato de meter insertCreditoNuevo es: \n"+fechaAprob);
         String SQL ="INSERT INTO `credito`"
                 + "(`cliente_id`, `comercio_id`, `fecha_aprobacion`, "
                 + "`estado`, `cuota_id`, "
@@ -273,14 +275,25 @@ public class CreditosDAO {
                 cred.setVenc_credito(rs.getTimestamp("venc_credito"));
                 cred.setFecha_aprobacion(rs.getTimestamp("fecha_aprobacion"));
                 cred.setAnticipo(rs.getFloat("anticipo"));
+               
+                
+                //Si no hay cobrador asignado, viene -1
+                // muestra por pantalla un administrador
+                
                 if(rs.getInt("credito.cobrador_id") == -1){
                     String SQL2 = "SELECT id,nombre FROM empleado WHERE tipo = 'ADMINISTRADOR'";
                     ResultSet aprobaciones = conexion.EjecutarConsultaSQL(SQL2);
                     Empleado e = new Empleado();
                     e.setId(aprobaciones.getInt("id"));
-                    e.setNombre(aprobaciones.getString("nombre"));
+                    //habria que buscar el empleado
+                    
+                   // e.setNombre(aprobaciones.getInt("empleado_id"));
+                   e.setNombre("admin- pendiente");
                     cred.setCobrador(e);
                 }
+            
+                //Empleado  = null;
+                //cred.setCobrador(empAuxiliar); hice esto por que saque el cobrador
                 creditos.add(cred);
             }
         } catch (SQLException ex) {
