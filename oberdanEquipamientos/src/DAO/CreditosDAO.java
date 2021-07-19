@@ -14,6 +14,7 @@ import Models.Empleado;
 import Models.Producto;
 import Models.RenglonCredito;
 import Views.Main;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -206,7 +207,12 @@ public class CreditosDAO {
         }
         return list;
     }
-
+    
+   /**
+    * 
+    * @param creditoSelected
+    * @return id of the successful credit inserted- or -1 if failed
+    */
     public int insertCreditoNuevo(Credito creditoSelected) {
         String fechaAprob = null;
         //mete fecha de aprobacion
@@ -214,6 +220,7 @@ public class CreditosDAO {
             fechaAprob = "'"+creditoSelected.getFecha_aprobacion()+"'";
         }
         System.out.println("la fecha de aprobacion que trato de meter insertCreditoNuevo es: \n"+fechaAprob);
+        //te va a dar null por que no lo guarda todavia
         String SQL ="INSERT INTO `credito`"
                 + "(`cliente_id`, `comercio_id`, `fecha_aprobacion`, "
                 + "`estado`, `cuota_id`, "
@@ -233,6 +240,7 @@ public class CreditosDAO {
                 + creditoSelected.getCant_cuotas()+","+creditoSelected.getConyugue_id()+","+creditoSelected.getDireccion_id()+")";
         conexion.EjecutarOperacion(SQL);
         if(creditoSelected.getRenglones().size() > 0){
+            //tiene al menos 1 renglon
             ArrayList<RenglonCredito> rc = creditoSelected.getRenglones();
             SQL = "INSERT INTO `renglon_credito`(`sub_total`, `importe_cuota`, `nroSerie`, `credito_id`, `producto_id`, `costo_prod`, `cantidad`) VALUES";
             for(int i = rc.size()-1; i > 0; i--){
@@ -245,10 +253,11 @@ public class CreditosDAO {
         SQL ="UPDATE `credito` SET estado = \"EMITIDA\" WHERE id = "+creditoSelected.getId();
         conexion.EjecutarOperacion(SQL);
         //obtenemos el id del credito insertado
-        SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE nro=";
+        SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE credito.id="+creditoSelected.getId();
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             if(rs.first()){
+                //devuelve el id del credito si lo pudo cargar
                 return rs.getInt("LastId");
             }
         } catch (SQLException ex) {
@@ -391,7 +400,8 @@ public class CreditosDAO {
         return 0;
     }
 
-    public void insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor) {
+    public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor) {
+        boolean exito= false;
         String SQL = "INSERT INTO `credito`(`cliente_id`,`direccionActual_id`,"
                 + "`conyugue_id`, `comercio_id`, "
                 + "`observacion`,"
@@ -402,18 +412,22 @@ public class CreditosDAO {
                 + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+",\"SOLICITUD\")";
         conexion.EjecutarOperacion(SQL);
         if(vendedor != null){
+            //si se guardo la soli..
             SQL = "SELECT MAX(id) as LastId FROM `credito`";
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             try {
                 if(rs.first()){
+                    
                     SQL = "INSERT INTO `aprobaciones`(`credito_id`, `empleado_id`, `fecha`, `estado`)"
                     + " VALUES ("+rs.getInt("LastId")+","+vendedor.getId()+",'"+new Timestamp(System.currentTimeMillis())+"',"+true+")";
                      conexion.EjecutarOperacion(SQL);
+                     exito=true;
                 }
             } catch (SQLException ex) {
                 new Statics.ExceptionManager().saveDump(ex, "Error al cargar el vendedor en la solicitud", Main.isProduccion);
             }
         }
+        return exito;
     }
 
     public void updateAprobado(int idCred, int idEmp, boolean estado, boolean b, Timestamp FechaAprob, Timestamp venc_pri_cuota){
@@ -421,7 +435,7 @@ public class CreditosDAO {
                 + " VALUES ("+idCred+","+idEmp+",'"+FechaAprob+"',"+estado+")";
         conexion.EjecutarOperacion(SQL);
         if(b){
-            SQL = "UPDATE `credito` SET estado = \"APROBADO\", fecha_aprobacion = '"+FechaAprob+"', venc_pri_cuota = '"+venc_pri_cuota+"' WHERE id ="+idCred;
+            SQL = "UPDATE `credito` SET estado = \"APROBADO\", fecha_aprobacion = '"+FechaAprob+"' , venc_pri_cuota = '"+venc_pri_cuota+"' WHERE id ="+idCred;
             conexion.EjecutarOperacion(SQL);
         }
         if(!estado){
@@ -436,9 +450,9 @@ public class CreditosDAO {
                 + "`cant_cuotas`="+creditoSelected.getCant_cuotas()+",`importe_total`="+creditoSelected.getImporte_total()+",`importe_cuota`="+creditoSelected.getImporte_cuota()+","
                 + "`importe_pri_cuota`="+creditoSelected.getImporte_pri_cuota()+",`importe_deuda`="+creditoSelected.getImporte_deuda()+",`importe_credito`="+creditoSelected.getImporte_credito()+","
                 + "`anticipo`="+creditoSelected.getAnticipo()+",`importe_ult_cuota`="+creditoSelected.getImporte_ult_cuota()+",`comision`="+creditoSelected.getComision()+","
-                + "`tipo`="+creditoSelected.getTipo()+",`observacion`="+creditoSelected.getObservacion()+",`venc_pri_cuota`="+creditoSelected.getVenc_pri_cuota()+","
-                + "`zona`="+creditoSelected.getZona()+", `venc_credito` = "
-                +creditoSelected.getVenc_credito()+", "
+                + "`tipo`="+creditoSelected.getTipo()+",`observacion`='"+creditoSelected.getObservacion()+"',`venc_pri_cuota`='"+creditoSelected.getVenc_pri_cuota()+"',"
+                + "`zona`="+creditoSelected.getZona()+", `venc_credito` = '"
+                +creditoSelected.getVenc_credito()+"', "
                 + "`cuota_id`="+creditoSelected.getPlan().getId()+" WHERE `id`="+creditoSelected.getId();
         conexion.EjecutarOperacion(SQL);
         if(creditoSelected.getRenglones().size() > 0){

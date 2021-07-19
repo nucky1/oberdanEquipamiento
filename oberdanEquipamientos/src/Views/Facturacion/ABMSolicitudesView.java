@@ -25,6 +25,8 @@ import Models.Pais;
 import Models.Provincia;
 import Models.Rubro;
 import Views.Main;
+import Views.principal;
+import java.awt.Color;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1362,7 +1364,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             }else{
                 comercioDAO.updateComercio(c);
             }
-            creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem());
+            if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem()))
+                { principal.lbl_estado.setText("La solicitud se cargo con exito");
+                 principal.lbl_estado.setForeground(Color.GREEN);}
         }else{
             System.out.println("la lista es null, tiene 0 elementos o el posComercioSelected es -1");
         }

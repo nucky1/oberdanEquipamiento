@@ -1613,6 +1613,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 habilitarCampos();
                 tabla_Solicitudes.setValueAt("EMITIDA", tabla_Solicitudes.getSelectedRow(), 2);
                 principal.lbl_estado.setText("El credito se guardo con exito");
+                principal.lbl_estado.setForeground(Color.GREEN);
             }else{
                 creditoDAO.updateCredito(creditoSelected);
                 lbl_cobrador.setText("Nombre de la persona que aprobo");
