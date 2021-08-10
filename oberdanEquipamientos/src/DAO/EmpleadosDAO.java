@@ -62,7 +62,7 @@ public class EmpleadosDAO {
                 empleadoLoggeado.setCuil(rs.getString("cuil"));
                 empleadoLoggeado.setTipo(rs.getString("tipo"));
                 //contactos
-                SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'PROVEEDOR' AND id_persona = "+empleadoLoggeado.getId();
+                SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'EMPLEADO' AND id_persona = "+empleadoLoggeado.getId();
                 ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                 List<Contacto> contactos = new ArrayList<>();
                 try{

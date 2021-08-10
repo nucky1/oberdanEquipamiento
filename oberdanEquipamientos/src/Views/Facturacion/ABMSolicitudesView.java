@@ -906,17 +906,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addComponent(jScrollPane2)
                     .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbox_tipoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel2))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(33, 33, 33)
-                                .addComponent(date_inicioActividades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbox_tipoIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(txt_cuitComercio, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -949,7 +943,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                 .addComponent(cbox_rubro, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_nuevoRubro))
-                            .addComponent(txt_nombreComercio))))
+                            .addComponent(txt_nombreComercio)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(33, 33, 33)
+                        .addComponent(date_inicioActividades, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -1120,6 +1119,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_cargarRelacion.setMaximumSize(new java.awt.Dimension(133, 39));
         btn_cargarRelacion.setMinimumSize(new java.awt.Dimension(133, 39));
         btn_cargarRelacion.setPreferredSize(new java.awt.Dimension(133, 39));
+        btn_cargarRelacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cargarRelacionActionPerformed(evt);
+            }
+        });
 
         btn_cancelar.setBackground(new java.awt.Color(255, 255, 255));
         btn_cancelar.setText("Cancelar");
@@ -1161,9 +1165,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addComponent(btn_verSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_crearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(54, 54, 54))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1332,7 +1336,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
     private void btn_crearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearSolicitudActionPerformed
         if(listaComercios != null && listaComercios.size()>0 && posComercioSelected != -1){
+            // ni anda esto de comercio
+            
             if(!controlCampos()){
+                //este esta genial, pero falta completarlo
                 return;
             }
             Comercio c = listaComercios.get(posComercioSelected);
@@ -1358,15 +1365,24 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 c.setNumero(Integer.parseInt(clienteSelected.getNumero()));
                 c.setReferencia(clienteSelected.getReferencia());
             }
+            //por default id esta en -1
             if(c.getId() == -1){
+                // estaria en -1 xq nunca lo recupero desde la base de datos
+                // estaria creando un nuevo comercio
+                //si falla, retorna -1
                 int id = comercioDAO.insertComercio(c);
                 c.setId(id);
             }else{
+                //aca estaria actualizando el comercio
                 comercioDAO.updateComercio(c);
             }
+             ///int zona = c.getZona()
             if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem()))
-                { principal.lbl_estado.setText("La solicitud se cargo con exito");
+                { 
+                 principal.lbl_estado.setText("La solicitud se cargo con exito");
                  principal.lbl_estado.setForeground(Color.GREEN);}
+                limpiarCampos();
+                limpiarAtributos();
         }else{
             System.out.println("la lista es null, tiene 0 elementos o el posComercioSelected es -1");
         }
@@ -1436,9 +1452,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
         int pos= jTableClientes.getSelectedRow();
         if(pos!=-1){
+            limpiarAtributos();
+            limpiarCampos();
             cargarDatosCliente(pos);
             habilitarBotones(true);
             habilitarCheckbox(true);
+            
         }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
@@ -1472,9 +1491,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_tabla_creditosClienteMouseClicked
 
     private void txt_nombreComercioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreComercioKeyReleased
-    /*
-    NADA DE ESTO FUNCIONA OK.
-        SI NO ENCUENTRA COINCIDENCIAS, NO TE DEJA ESCRIBIR
+  
     if(listaComercios!=null && listaComercios.size() > 0){
             if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
                 posComercioSelected = (posComercioSelected+1)%listaComercios.size();
@@ -1492,12 +1509,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
             cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
             cbox_zonas.setSelectedItem(listaComercios.get(posComercioSelected).getZona());
-            cbox_EsPropietario.setSelected(listaComercios.get(posComercioSelected).getPropietario() ==1);
+            cbox_EsPropietario.setSelected(listaComercios.get(posComercioSelected).getPropietario()==1);
             boolean val = listaComercios.get(posComercioSelected).getDireccion().getId() != clienteSelected.getDireccion_id();
             cbox_habilitarDireccionComercio.setSelected(val);
             btn_añadirDireccionComercio.setEnabled(val);
         }
-    */
+    
     }//GEN-LAST:event_txt_nombreComercioKeyReleased
 
     private void cbox_paisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_paisItemStateChanged
@@ -1782,6 +1799,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtf_codPostalActionPerformed
 
+    private void btn_cargarRelacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargarRelacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_cargarRelacionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregarBarrio;
@@ -1991,7 +2012,14 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             saldoActual += cred.get(i).getImporte_deuda();
             model.addRow(o);
         }
-        Cliente conyugue = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
+        if(!clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
+            Cliente conyugue = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
+              //datos conyugue
+            lbl_nombreConyugue.setText(conyugue.getNombre());
+            lbl_fechaNacimientoConyugue.setText(Statics.Funciones.dateFormat(conyugue.getFechaNacimiento()));
+            lbl_documentoConyugue.setText(conyugue.getDni()+"");
+        }
+        
         Cliente cliente = clienteDAO.buscarCliente(clienteSelected.getId());
         lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
         if(cliente.getContacto().size()>0)
@@ -2005,10 +2033,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         //datos monetarios we
         lbl_limiteCredito.setText(cliente.getLimite_credito()+"");
         lbl_saldoActual.setText(saldoActual+"");
-        //datos conyugue
-        lbl_nombreConyugue.setText(conyugue.getNombre());
-        lbl_fechaNacimientoConyugue.setText(Statics.Funciones.dateFormat(conyugue.getFechaNacimiento()));
-        lbl_documentoConyugue.setText(conyugue.getDni()+"");
+      
         
     }
     private void cargarCuotasCredito(int idCredito) {
@@ -2080,6 +2105,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         }
     }
     private void cargarDatosDireccion() {
+        // pero y si no selecciono nada?
         Comercio c = listaComercios.get(posComercioSelected);
         cargarNacionalidades();
         txt_nroDireccion.setText("");
@@ -2114,6 +2140,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     
     private void limpiarCampos(){
         //capos de la pantalla
+        txt_nroSolicitud.setText("");
         txt_buscarCliente.setText("");
         txt_cuitComercio.setText("");
         txt_dniCliente.setText("");
@@ -2123,6 +2150,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txt_observacionSolicitud.setText("");
         lbl_cantidadCreditos.setText("");
         date_inicioActividades.setDate(new Date());
+        cbox_EsPropietario.setSelected(false);
     }
 
     private void limpiarAtributos() {

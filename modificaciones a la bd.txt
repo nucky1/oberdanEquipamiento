@@ -27,7 +27,9 @@ ALTER TABLE `cliente`
 ALTER TABLE `empleado`
   DROP `codPostal
 
+ALTER TABLE `comercio` ADD `esPropietario` INT NULL DEFAULT NULL AFTER `direIdemProp`;
 
+ALTER TABLE `comercio` ADD `esPropietario` INT NULL DEFAULT NULL AFTER `direIdemProp`;
 -- SE CAMBIO LA FECHA MINIMA DE CREDITO Y DE ART_STOCK 1970-01-01 00:00:01
 
 -- se vuelve a agregar el cobrador_id a credito

@@ -1070,7 +1070,7 @@
                       <Group type="102" attributes="0">
                           <Component id="rbtn_solicitud" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="rbtn_credito" min="-2" max="-2" attributes="0"/>
+                          <Component id="rbtn_credito" min="-2" pref="61" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane12" alignment="0" min="-2" pref="344" max="-2" attributes="0"/>
                       <Component id="txt_buscar" alignment="0" min="-2" pref="349" max="-2" attributes="0"/>
@@ -1183,6 +1183,7 @@
           </Properties>
           <Events>
             <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="rbtn_creditoItemStateChanged"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtn_creditoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

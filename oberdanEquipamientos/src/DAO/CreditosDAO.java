@@ -14,7 +14,7 @@ import Models.Empleado;
 import Models.Producto;
 import Models.RenglonCredito;
 import Views.Main;
-import com.sun.org.glassfish.gmbal.ParameterNames;
+//import com.sun.org.glassfish.gmbal.ParameterNames;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -143,6 +143,7 @@ public class CreditosDAO {
                 cred.setMercaderia_entregada(rs.getBoolean("credito.mercaderia_entregada"));
                 cred.setImporte_ult_cuota(rs.getFloat("credito.importe_ult_cuota"));
                 cred.setComision(rs.getFloat("credito.comision"));
+                cred.setConyugue_id(rs.getInt("conyugue_id"));
                 //insertar renglones:
                 if(!cred.getTipo().equals("SOLICITUD")){
                     String SQL = "SELECT * FROM renglon_credito "
@@ -239,8 +240,12 @@ public class CreditosDAO {
                 + creditoSelected.getFecha_solicitud()+"','"+creditoSelected.getFecha_credito()+"',"+creditoSelected.getSolicitud_id()+","
                 + creditoSelected.getCant_cuotas()+","+creditoSelected.getConyugue_id()+","+creditoSelected.getDireccion_id()+")";
         conexion.EjecutarOperacion(SQL);
+        
+        // si lo dejo asi, le asigna el renglon_credito a la solicitud
+        
         if(creditoSelected.getRenglones().size() > 0){
             //tiene al menos 1 renglon
+            // pero lo esta guardando con el id anterior
             ArrayList<RenglonCredito> rc = creditoSelected.getRenglones();
             SQL = "INSERT INTO `renglon_credito`(`sub_total`, `importe_cuota`, `nroSerie`, `credito_id`, `producto_id`, `costo_prod`, `cantidad`) VALUES";
             for(int i = rc.size()-1; i > 0; i--){
@@ -249,16 +254,34 @@ public class CreditosDAO {
             SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
             conexion.EjecutarOperacion(SQL);
         }
+        
         //actualizamos el estado de la solicitud
         SQL ="UPDATE `credito` SET estado = \"EMITIDA\" WHERE id = "+creditoSelected.getId();
         conexion.EjecutarOperacion(SQL);
         //obtenemos el id del credito insertado
-        SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE credito.id="+creditoSelected.getId();
+        //ASI ESTABA, CONSIDERO QUE RECUPERA EL ID DE LA SOLICITUD
+        //SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE credito.id="+creditoSelected.getId();
+        //DEBERIA TRAER EL ID DEL ULTIMO CREDITO
+        SQL = "SELECT MAX(id) as LastID FROM credito";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             if(rs.first()){
                 //devuelve el id del credito si lo pudo cargar
+                if(creditoSelected.getRenglones().size() > 0){
+            //tiene al menos 1 renglon
+            // ahora lo vamos a guardar con el id del credito nuevo
+            //ESTO PUEDE FALLAR AL TENER MULTIPLES USUARIOS- AGREGAR MAS OPCIONES COMO DNI CLIENTE, ETC ETC
+            int idNuevoCredito= rs.getInt("LastId");
+            ArrayList<RenglonCredito> rc = creditoSelected.getRenglones();
+            SQL = "INSERT INTO `renglon_credito`(`sub_total`, `importe_cuota`, `nroSerie`, `credito_id`, `producto_id`, `costo_prod`, `cantidad`) VALUES";
+            for(int i = rc.size()-1; i > 0; i--){
+                SQL += " ("+rc.get(i).getSubTotal()+","+rc.get(i).getImporte_cuota()+",'"+rc.get(i).getNroSerie()+"',"+creditoSelected.getId()+","+rc.get(i).getP().getId()+","+rc.get(i).getCosto()+","+rc.get(i).getCantidad()+"),";
+            }
+            SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+idNuevoCredito+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
+            conexion.EjecutarOperacion(SQL);
+        }
                 return rs.getInt("LastId");
+                
             }
         } catch (SQLException ex) {
             new Statics.ExceptionManager().saveDump(ex, "Error en metodo cargarCreditos", Main.isProduccion);
@@ -400,16 +423,18 @@ public class CreditosDAO {
         return 0;
     }
 
-    public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor) {
+public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor) {
         boolean exito= false;
+        
+        // si no tiene conyugue, en idConyugue trae un -1
         String SQL = "INSERT INTO `credito`(`cliente_id`,`direccionActual_id`,"
                 + "`conyugue_id`, `comercio_id`, "
                 + "`observacion`,"
-                + "`fecha_solicitud`,`nro_solicitud`,`tipo`) "
+                + "`fecha_solicitud`,`nro_solicitud`,`tipo`, `zona`) "
                 + "VALUES ("+idClient+","+idDireccion+","
                 + idConyugue+","+idcomerce+",'"
                 + observacion+"','"
-                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+",\"SOLICITUD\")";
+                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+", 'SOLICITUD')";
         conexion.EjecutarOperacion(SQL);
         if(vendedor != null){
             //si se guardo la soli..
@@ -417,7 +442,7 @@ public class CreditosDAO {
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             try {
                 if(rs.first()){
-                    
+                    // carga la aprobacion del ultimo credito
                     SQL = "INSERT INTO `aprobaciones`(`credito_id`, `empleado_id`, `fecha`, `estado`)"
                     + " VALUES ("+rs.getInt("LastId")+","+vendedor.getId()+",'"+new Timestamp(System.currentTimeMillis())+"',"+true+")";
                      conexion.EjecutarOperacion(SQL);
@@ -468,6 +493,7 @@ public class CreditosDAO {
         }
     }
     public ArrayList<Credito> getCreditosSinME() {
+        //sera sin mercaderia entregada?
         ArrayList<Credito> list = new ArrayList();
         String SQL = "SELECT * FROM `credito`" +
                     "INNER JOIN cliente ON cliente_id = cliente.id " +

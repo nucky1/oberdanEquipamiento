@@ -16,6 +16,7 @@ public class Comercio {
     private int clienteId;
     private int numero = 0;
     private int codPostal = 0;
+    //si es prop = 1
     private int propietario = 0;
     private Direccion direccion = new Direccion();
     private Rubro rubro= null;

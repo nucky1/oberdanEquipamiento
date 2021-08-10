@@ -364,7 +364,7 @@ CREATE TABLE IF NOT EXISTS comercio (
   nombre varchar(50) DEFAULT NULL,
   referencia varchar(100) DEFAULT NULL,
   numero int(11) DEFAULT NULL,
-  propietario tinyint(1) DEFAULT 0,
+  direIdemProp tinyint(1) DEFAULT 0,
   zona varchar(20) DEFAULT NULL,
   cuit varchar(20) DEFAULT NULL,
   tipo_iva varchar(50) DEFAULT 'CONSUMIDOR FINAL',

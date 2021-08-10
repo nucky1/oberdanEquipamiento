@@ -4429,12 +4429,7 @@ public class Pestaña4_dinamica extends Thread
                     obj[1] = listaStock.get(i).getNombre();
                     obj[2] = listaStock.get(i).getStock();
                     //obj[2] = listaStock.get(i).getPrecioVenta();
-                    if(listaStock.get(i).getTipo()==1){
-                        obj[3]="EXISTENTE";
-                                }
-                    else if(listaStock.get(i).getTipo()==2){
-                        obj[3]="PEDIDO";
-                    }
+                   obj[3]=seleccion;
                    
                     modeloStock.addRow(obj);
                   

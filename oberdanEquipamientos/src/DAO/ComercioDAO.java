@@ -53,10 +53,10 @@ public class ComercioDAO {
                 c.setRubro(r);
                 c.setReferencia(rs.getString("comercio.referencia"));
                 c.setNumero(rs.getInt("comercio.numero"));
-                c.setPropietario(rs.getInt("comercio.propietario"));
+                c.setPropietario(rs.getInt("comercio.esPropietario"));
                 c.setZona(rs.getString("comercio.zona"));
-                c.setTipo_iva(rs.getString("tipo_iva"));
-                c.setIncio_actividades(rs.getTimestamp("inicio_actividades"));
+                c.setTipo_iva(rs.getString("comercio.tipo_iva"));
+                c.setIncio_actividades(rs.getTimestamp("comercio.inicio_actividades"));
                 comerces.add(c);
             }
         } catch (SQLException ex) {
@@ -82,12 +82,12 @@ public class ComercioDAO {
     public int insertComercio(Comercio c) {
         String SQL = "INSERT INTO `comercio`( `cliente_id`, `direccion_id`, `rubro_id`, "
                 + "`nombre`, `referencia`, `numero`, "
-                + "`propietario`, `zona`, `cuit`, "
-                + "`tipo_iva`, `inicio_actividades`) "
+                + "`direIdemProp`, `zona`, `cuit`, "
+                + "`tipo_iva`, `inicio_actividades`, `esPropietario`) "
                 + "VALUES ("+c.getClienteId()+","+c.getDireccion().getId()+","+c.getRubro().getId()+",'"
                 +c.getNombre()+"','"+c.getReferencia()+"',"+c.getNumero()+","
                 + c.getPropietario()+",'"+c.getZona()+"','"+c.getCuit()+"','"
-                + c.getTipo_iva()+"','"+c.getIncio_actividades()+"')";
+                + c.getTipo_iva()+"','"+c.getIncio_actividades()+" , "+c.getPropietario()+"')";
         conexion.EjecutarOperacion(SQL);
         SQL = "SELECT MAX(id) as idLast FROM comercio WHERE state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
@@ -109,7 +109,7 @@ public class ComercioDAO {
             idRub = c.getRubro().getId();
         String SQL = "UPDATE `comercio` SET `direccion_id`="+idDir+",`rubro_id`="+idRub+","
                 + "`nombre`='"+c.getNombre()+"',`referencia`='"+c.getReferencia()+"',`numero`="+c.getNumero()+","
-                + "`propietario`="+c.getPropietario()+",`zona`='"+c.getZona()+"',`cuit`="+c.getCuit()+","
+                + "`esPropietario`="+c.getPropietario()+",`zona`='"+c.getZona()+"',`cuit`="+c.getCuit()+","
                 + "`tipo_iva`='"+c.getTipo_iva()+"',`inicio_actividades`='"+c.getIncio_actividades()+"'"
                 + " WHERE id = "+c.getId();
         conexion.EjecutarOperacion(SQL);

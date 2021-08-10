@@ -858,6 +858,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 rbtn_creditoItemStateChanged(evt);
             }
         });
+        rbtn_credito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtn_creditoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -869,7 +874,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(rbtn_solicitud)
                         .addGap(18, 18, 18)
-                        .addComponent(rbtn_credito))
+                        .addComponent(rbtn_credito, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel41))
@@ -1600,6 +1605,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 creditoSelected.setAnticipo(Float.parseFloat(txt_anticipo.getText()));
             else
                 creditoSelected.setAnticipo(0f);
+            //POR QUE ESTARIA PENDIENTE DE APROBACION
             creditoSelected.setEstado("PENDIENTE");
             if(creditoSelected.getTipo().equals("SOLICITUD")){
                 creditoSelected.setTipo("CREDITO");
@@ -1615,6 +1621,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 principal.lbl_estado.setText("El credito se guardo con exito");
                 principal.lbl_estado.setForeground(Color.GREEN);
             }else{
+                //ES UNA ACTUALIZACION DEL CREDITO
                 creditoDAO.updateCredito(creditoSelected);
                 lbl_cobrador.setText("Nombre de la persona que aprobo");
                 lbl_administrador.setText("Nombre de la persona que aprobo");
@@ -1710,6 +1717,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 break;
             }
             case "ADMINISTRADOR":{
+                System.out.println("entre en el case del administrador");
                 lbl = lbl_administrador;
                 creditoSelected.setAdmin(Main.logueado);
                 break;
@@ -1721,6 +1729,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
             }
         }
         if(lbl != null){
+            System.out.println("lbl esta no null");
             lbl.setText(Main.logueado.getNombre());
             lbl.setForeground(Color.green);
         }
@@ -1974,6 +1983,10 @@ public class ABMCreditosView extends javax.swing.JPanel {
         if(rbtn_credito.isSelected())
             cambioBusqueda(txt_buscar.getText(),rbtn_solicitud.isSelected(),rbtn_credito.isSelected());
     }//GEN-LAST:event_rbtn_creditoItemStateChanged
+
+    private void rbtn_creditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtn_creditoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbtn_creditoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
