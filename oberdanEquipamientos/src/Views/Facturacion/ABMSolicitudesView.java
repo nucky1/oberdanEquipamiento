@@ -166,7 +166,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         cbox_rubro = new javax.swing.JComboBox<>();
         txt_nombreComercio = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
         btn_nuevoRubro = new javax.swing.JButton();
         btn_añadirDireccionComercio = new javax.swing.JButton();
         cbox_habilitarDireccionComercio = new javax.swing.JCheckBox();
@@ -181,8 +180,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jLabel28 = new javax.swing.JLabel();
         cbox_zonas = new javax.swing.JComboBox<>();
         btn_añadirZona = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txt_observacionSolicitud = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         txt_dniCliente = new javax.swing.JTextField();
         txt_nombreConyugue = new javax.swing.JTextField();
@@ -197,6 +194,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txt_nroSolicitud = new javax.swing.JTextField();
         jLabel36 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_observacionSolicitud = new javax.swing.JTextArea();
+        jLabel23 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btn_cargarRelacion = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
@@ -838,8 +838,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel19.setText("El comercio se ubica en el domicilio del cliente:");
 
-        jLabel23.setText("Observación de la solicitud:");
-
         btn_nuevoRubro.setText("+");
         btn_nuevoRubro.setEnabled(false);
         btn_nuevoRubro.addActionListener(new java.awt.event.ActionListener() {
@@ -877,7 +875,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel28.setText("Zona");
 
-        cbox_zonas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "zona 1", "zona 2" }));
+        cbox_zonas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "1", "2" }));
         cbox_zonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbox_zonasActionPerformed(evt);
@@ -892,10 +890,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             }
         });
 
-        txt_observacionSolicitud.setColumns(20);
-        txt_observacionSolicitud.setRows(5);
-        jScrollPane2.setViewportView(txt_observacionSolicitud);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -903,8 +897,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -987,10 +979,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(date_inicioActividades, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(jLabel23)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -998,11 +986,16 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jPanel1.setMinimumSize(new java.awt.Dimension(430, 530));
         jPanel1.setPreferredSize(new java.awt.Dimension(420, 530));
 
+        txt_dniCliente.setEditable(false);
         txt_dniCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_dniClienteActionPerformed(evt);
             }
         });
+
+        txt_nombreConyugue.setEditable(false);
+
+        txt_nombreCliente.setEditable(false);
 
         jLabel5.setText("Nombre:");
 
@@ -1033,6 +1026,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel10.setText("Seleccione al vendedor que realizo la solicitud:");
 
+        txt_observacionSolicitud.setColumns(20);
+        txt_observacionSolicitud.setRows(5);
+        jScrollPane2.setViewportView(txt_observacionSolicitud);
+
+        jLabel23.setText("Observación de la solicitud:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1041,12 +1040,15 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lbl_cantidadCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
@@ -1068,11 +1070,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txt_nroSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(26, 26, 26))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel23)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel7, jLabel8});
@@ -1106,6 +1109,10 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
                     .addComponent(cbox_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(jLabel23)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1376,8 +1383,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 //aca estaria actualizando el comercio
                 comercioDAO.updateComercio(c);
             }
-             ///int zona = c.getZona()
-            if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem()))
+            System.out.println("En zona tengo: "+c.getZona());
+             int zona = Integer.parseInt(c.getZona());
+            if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),zona))
                 { 
                  principal.lbl_estado.setText("La solicitud se cargo con exito");
                  principal.lbl_estado.setForeground(Color.GREEN);}

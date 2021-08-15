@@ -1355,6 +1355,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="txt_nombreSolicitante">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_nombreSolicitanteActionPerformed"/>
           </Events>

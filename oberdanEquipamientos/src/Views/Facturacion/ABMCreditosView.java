@@ -952,6 +952,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        txt_nombreSolicitante.setEditable(false);
         txt_nombreSolicitante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreSolicitanteActionPerformed(evt);
@@ -2334,7 +2335,13 @@ public class ABMCreditosView extends javax.swing.JPanel {
         });
         listCreditos.forEach((t) -> {
            Object[] o = new Object[3];
-           o[0] = t.getId();
+           if(t.getTipo().equalsIgnoreCase("SOLICITUD")){
+               o[0]=t.getSolicitud_id();
+           }
+           else{
+               o[0] = t.getId();
+           }
+           
            o[1] = t.getCliente().getNombre();
            o[2] = t.getEstado();
            model.addRow(o);

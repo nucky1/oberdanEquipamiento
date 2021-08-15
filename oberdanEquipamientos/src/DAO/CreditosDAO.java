@@ -150,6 +150,7 @@ public class CreditosDAO {
                             + "INNER JOIN articulos ON articulos.id = producto_id "
                             + "WHERE credito_id = "+cred.getId();
                     ResultSet rs2 = conexion.EjecutarConsultaSQL(SQL);
+                    System.out.println("en cargar creditos, la consulta al renglon es:\n"+SQL);
                     while (rs2.next()) {                        
                         RenglonCredito ren = new RenglonCredito();
                         ren.setId(rs2.getInt("renglon_credito.id"));
@@ -157,7 +158,8 @@ public class CreditosDAO {
                         ren.setImporte_cuota(rs2.getFloat("importe_cuota"));
                         ren.setCosto(rs2.getFloat("costo_prod"));
                         ren.setCantidad(rs2.getFloat("cantidad"));
-                        Producto p = ProductoDAO.getInstance().buscarProductoById(rs2.getInt("producto_id")).get(0);
+                        System.out.println("Trato de recuperar el producto cuyo id es: "+rs2.getInt("renglon_credito.producto_id"));
+                        Producto p = ProductoDAO.getInstance().buscarProductoById(rs2.getInt("renglon_credito.producto_id")).get(0);
                         ren.setP(p);
                         cred.addRenglon(ren);
                     }
@@ -216,6 +218,7 @@ public class CreditosDAO {
     */
     public int insertCreditoNuevo(Credito creditoSelected) {
         String fechaAprob = null;
+        int idNuevoCredito=-1;
         //mete fecha de aprobacion
         if(creditoSelected.getFecha_aprobacion() != null){
             fechaAprob = "'"+creditoSelected.getFecha_aprobacion()+"'";
@@ -239,7 +242,6 @@ public class CreditosDAO {
                 + creditoSelected.getObservacion()+"',"+creditoSelected.getVenc_pri_cuota()+","+creditoSelected.getZona()+",'"
                 + creditoSelected.getFecha_solicitud()+"','"+creditoSelected.getFecha_credito()+"',"+creditoSelected.getSolicitud_id()+","
                 + creditoSelected.getCant_cuotas()+","+creditoSelected.getConyugue_id()+","+creditoSelected.getDireccion_id()+")";
-        conexion.EjecutarOperacion(SQL);
         
         // si lo dejo asi, le asigna el renglon_credito a la solicitud
         
@@ -271,7 +273,7 @@ public class CreditosDAO {
             //tiene al menos 1 renglon
             // ahora lo vamos a guardar con el id del credito nuevo
             //ESTO PUEDE FALLAR AL TENER MULTIPLES USUARIOS- AGREGAR MAS OPCIONES COMO DNI CLIENTE, ETC ETC
-            int idNuevoCredito= rs.getInt("LastId");
+            idNuevoCredito= rs.getInt("LastId");
             ArrayList<RenglonCredito> rc = creditoSelected.getRenglones();
             SQL = "INSERT INTO `renglon_credito`(`sub_total`, `importe_cuota`, `nroSerie`, `credito_id`, `producto_id`, `costo_prod`, `cantidad`) VALUES";
             for(int i = rc.size()-1; i > 0; i--){
@@ -279,8 +281,14 @@ public class CreditosDAO {
             }
             SQL += " ("+rc.get(0).getSubTotal()+","+rc.get(0).getImporte_cuota()+",'"+rc.get(0).getNroSerie()+"',"+idNuevoCredito+","+rc.get(0).getP().getId()+","+rc.get(0).getCosto()+","+rc.get(0).getCantidad()+")";
             conexion.EjecutarOperacion(SQL);
+             return idNuevoCredito;
         }
-                return rs.getInt("LastId");
+                //return rs.getInt("LastId"); tira error
+               
+              //inserto la aprobacion del vendedor al credito
+                System.out.println("Estoy metiendo el id de empleado: "+creditoSelected.getVendedor().getId());
+              SQL ="INSERT INTO aprobaciones(credito_id, empleado_id) VALUES("+idNuevoCredito+" , "+creditoSelected.getVendedor().getId()+")";
+                
                 
             }
         } catch (SQLException ex) {
@@ -423,7 +431,7 @@ public class CreditosDAO {
         return 0;
     }
 
-public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor) {
+public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, int zona) {
         boolean exito= false;
         
         // si no tiene conyugue, en idConyugue trae un -1
@@ -434,10 +442,16 @@ public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, i
                 + "VALUES ("+idClient+","+idDireccion+","
                 + idConyugue+","+idcomerce+",'"
                 + observacion+"','"
-                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+", 'SOLICITUD')";
-        conexion.EjecutarOperacion(SQL);
+                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+", 'SOLICITUD', "+zona+")";
+        //si no puede ejecutar la operacion, devuelve -1
+        int EjecutarOperacion = conexion.EjecutarOperacion(SQL);
+        if(EjecutarOperacion == -1) {return false;}
+        System.out.println("guardando soli \n "+SQL);
+        System.out.println(" ejecutar que falla tiene "+EjecutarOperacion);
+        
         if(vendedor != null){
-            //si se guardo la soli..
+            //si se tiene el vendedor, le mando la aprobacion
+            System.out.println();
             SQL = "SELECT MAX(id) as LastId FROM `credito`";
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             try {
@@ -446,6 +460,7 @@ public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, i
                     SQL = "INSERT INTO `aprobaciones`(`credito_id`, `empleado_id`, `fecha`, `estado`)"
                     + " VALUES ("+rs.getInt("LastId")+","+vendedor.getId()+",'"+new Timestamp(System.currentTimeMillis())+"',"+true+")";
                      conexion.EjecutarOperacion(SQL);
+                     System.out.println("En guardar solici, la aprobacion tiene: \n"+SQL);
                      exito=true;
                 }
             } catch (SQLException ex) {

@@ -114,10 +114,11 @@ public class ProductoDAO {
                + " FROM articulos "
                + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
-               + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
+               + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id LIMIT 1)) as artStock ON artStock.producto_id = articulos.id "
                + " WHERE articulos.id = "+id
                + " AND articulos.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        System.out.println("en buscar productobyid :\n"+SQL);
         return cargarProductos(rs);
     }
     
