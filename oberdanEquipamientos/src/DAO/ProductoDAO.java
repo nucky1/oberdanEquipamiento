@@ -345,13 +345,12 @@ public class ProductoDAO {
     public List<Float> recuperarIvas() {
         List<Float> ivas = new ArrayList<>();
         try {
-            System.out.println("U ca?");
+          
             String SQL = "SELECT * FROM iva";
             ResultSet rs =conexion.EjecutarConsultaSQL(SQL);
             while(rs.next()){
                 
                 Float iva=rs.getFloat("valor");
-                System.out.println("Entre en recuperar ivas con "+iva);
                 ivas.add(iva);
             } }catch(Exception ex){
             new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);

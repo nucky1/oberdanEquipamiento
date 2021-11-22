@@ -77,20 +77,20 @@ public class ProductosView extends javax.swing.JPanel {
        
     }
 public void limpiarCamposInventario() {
-        txtf_productos_nombre.setEnabled(false);
-        txtf_productos_codigo.setEnabled(false);
-        txtf_productos_costo.setEnabled(false);
-        txtf_productos_codigo_barra.setEnabled(false);
-        txtf_coeficiente_articulo.setEnabled(false);
-        txtf_productos_observaciones.setEnabled(false);
-        txtf_productos_stockMinimo.setEnabled(false);
-        jCombo_iva_Articulo.setEnabled(false);
-        jButtonAddIvaArti.setEnabled(false);
-        txtf_imp_int_fijo.setEnabled(false);
-        txtf_impuesto_int.setEnabled(false);
-        txtf_sobretasa_iva.setEnabled(false);
-        txtf_productos_venta.setEnabled(false);
-        txtf_productos_codigo_ean.setEnabled(false);
+        txtf_productos_nombre.setEnabled(true);
+        txtf_productos_codigo.setEnabled(true);
+        txtf_productos_costo.setEnabled(true);
+        txtf_productos_codigo_barra.setEnabled(true);
+        txtf_coeficiente_articulo.setEnabled(true);
+        txtf_productos_observaciones.setEnabled(true);
+        txtf_productos_stockMinimo.setEnabled(true);
+        jCombo_iva_Articulo.setEnabled(true);
+        jButtonAddIvaArti.setEnabled(true);
+        txtf_imp_int_fijo.setEnabled(true);
+        txtf_impuesto_int.setEnabled(true);
+        txtf_sobretasa_iva.setEnabled(true);
+        txtf_productos_venta.setEnabled(true);
+        txtf_productos_codigo_ean.setEnabled(true);
          txtf_productos_nombre.setText("");
          txtf_productos_costo.setText("");
          txtf_productos_codigo_barra.setText("");
@@ -108,29 +108,30 @@ public void limpiarCamposInventario() {
          txtf_productos_stockMinimo.setText("");
          txtf_productos_codigo.setText("");
          producto_Proveedor.removeAllItems();
-         producto_Proveedor.setEnabled(false);
+         producto_Proveedor.setEnabled(true);
          Proveedor p = new Proveedor();
          p.setNombre("-No posee un proveedor asignado-");
          producto_Proveedor.addItem(p);
          producto_Rubro.removeAllItems();
-         producto_Rubro.setEnabled(false);
+         producto_Rubro.setEnabled(true);
          Rubro r = new Rubro();
          r.setNombre("-No posee un rubro asignado-");
          producto_Rubro.addItem(r);
-         chk_venta_iva.setSelected(false);
-         btn_Guardar.setEnabled(false);
-         btn_Cancelar.setEnabled(false);
+         chk_venta_iva.setSelected(true);
+         btn_Guardar.setEnabled(true);
+         btn_Cancelar.setEnabled(true);
          btn_Modificar.setEnabled(true);
          btn_productoNuevo.setEnabled(true);
          btn_eliminar.setEnabled(true);
-         btn_crearRubro.setEnabled(false);
-         btn_crearPago.setEnabled(false);
-         btn_producto_editarLote.setEnabled(false);
+         btn_crearRubro.setEnabled(true);
+         btn_crearPago.setEnabled(true);
+         btn_producto_editarLote.setEnabled(true);
          btn_consultar_historial.setEnabled(false);
         DefaultTableModel aux =(DefaultTableModel) tabla_producto_precioVenta.getModel();
         aux.setNumRows(0);
         tabla_producto_precioVenta.setEnabled(false);
         Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText());
+        txtf_productos_nombre.requestFocus();
      }
     public void limpiarCamposDevo(){
         Pestaña1_dinamica.devoSelect = null;
@@ -706,9 +707,7 @@ public void limpiarCamposInventario() {
         jDialogAñadirPlan.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialogAñadirPlan.setBackground(new java.awt.Color(255, 255, 255));
         jDialogAñadirPlan.setLocationByPlatform(true);
-        jDialogAñadirPlan.setMaximumSize(new java.awt.Dimension(356, 396));
         jDialogAñadirPlan.setMinimumSize(new java.awt.Dimension(356, 396));
-        jDialogAñadirPlan.setPreferredSize(new java.awt.Dimension(356, 396));
         jDialogAñadirPlan.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel36.setText("Tipo");
@@ -1149,7 +1148,7 @@ public void limpiarCamposInventario() {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1398,8 +1397,8 @@ public void limpiarCamposInventario() {
             }
         });
 
+        txtf_productos_costo.setEditable(false);
         txtf_productos_costo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtf_productos_costo.setEnabled(false);
         txtf_productos_costo.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtf_productos_costoCaretUpdate(evt);
@@ -2967,7 +2966,9 @@ public void limpiarCamposInventario() {
         int pos = tabla_productos_busqueda.getSelectedRow();
         if (pos != -1) {
             Pestaña1_dinamica.cargarIvas();
+            System.out.println("cargue ivas");
             Pestaña1_dinamica.cargarProducto(pos);
+             System.out.println("cuotaas size "+Pestaña1_dinamica.cuotas.size());
         }
     }//GEN-LAST:event_tabla_productos_busquedaMouseClicked
 
@@ -3310,8 +3311,8 @@ public void limpiarCamposInventario() {
     private void tabla_producto_precioVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_producto_precioVentaMouseClicked
         if(evt.getClickCount() == 2){
             int row = tabla_producto_precioVenta.getSelectedRow();
-            boolean activa = (boolean) tabla_producto_precioVenta.getValueAt(row, 5);
-            tabla_producto_precioVenta.setValueAt(!activa,row, 5);
+            boolean activa = (boolean) tabla_producto_precioVenta.getValueAt(row, 4);
+            tabla_producto_precioVenta.setValueAt(!activa,row, 4);
             Pestaña1_dinamica.cuotas.get(row).setActiva(!activa);
         }
     }//GEN-LAST:event_tabla_producto_precioVentaMouseClicked
@@ -3731,7 +3732,8 @@ private void funcionalidadBotonOkAddIva(){
         private void cargarIvas(){
             jCombo_iva_Articulo.removeAllItems();
             for(int i =0 ; i<ivas.size();i++){
-                jCombo_iva_Articulo.addItem(ivas.get(i));
+                System.out.println(" estoy por meter "+ivas.get(i));
+                jCombo_iva_Articulo.addItem((float)ivas.get(i));
             }
         }
         private void cargarProducto(int pos) {
@@ -3741,8 +3743,9 @@ private void funcionalidadBotonOkAddIva(){
                 //btn_consultar_historial.setEnabled(true);
                 prodSeleccionado = listProductos.get(pos);
                 //Consultas extras
-                cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
                 
+                cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
+                System.out.println("cuotaas size "+cuotas.size());
                 //-------
                 if (prodSeleccionado != null) {
                     
@@ -3838,8 +3841,11 @@ private void funcionalidadBotonOkAddIva(){
                 
                 try {
                     tablaProdPrecios.setNumRows(0);
-                    Object[] obj = new Object[6];
-                    for (int i = 0; i < cuotas.size(); i++) {
+                    Object[] obj = new Object[5];
+                    //System.out.println("El tamaño de cuotas es: "+cuotas.size());
+                    if(cuotas !=null){
+                        for (int i = 0; i < cuotas.size(); i++) {
+                        System.out.println("Id de cuota: "+cuotas.get(i).getId());
                         obj[0] = cuotas.get(i).getId();
                         obj[1] = cuotas.get(i).getCantidad();
                         obj[2] = cuotas.get(i).getTipo();
@@ -3849,6 +3855,7 @@ private void funcionalidadBotonOkAddIva(){
                         obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
                         obj[4] = cuotas.get(i).getActiva();
                         tablaProdPrecios.addRow(obj);
+                    }
                     }
                 } catch (Exception ex) {
                     new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
@@ -3906,7 +3913,7 @@ private void funcionalidadBotonOkAddIva(){
                     prodSeleccionado.setSinIva(false);
                 }
                 for (int i = 0; i < tabla_producto_precioVenta.getRowCount(); i++) {
-                    cuotas.get(i).setActiva((boolean)tabla_producto_precioVenta.getValueAt(i, 5));
+                    cuotas.get(i).setActiva((boolean)tabla_producto_precioVenta.getValueAt(i, 4));
                 }
                 cuotasDAO.setCuotasProd(cuotas,prodSeleccionado.getId());
                 if(productosDAO.actualizarProducto(prodSeleccionado) > 0)
@@ -4148,7 +4155,7 @@ private void funcionalidadBotonOkAddIva(){
                 calcularPrecios();
                 txtf_productos_codigo.setEnabled(b);
             }
-            txtf_productos_costo.setEnabled(b);
+            txtf_productos_costo.setEditable(b);
             txtf_productos_codigo_barra.setEnabled(b);
             txtf_coeficiente_articulo.setEnabled(b);
             txtf_productos_observaciones.setEnabled(b);
