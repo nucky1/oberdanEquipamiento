@@ -2631,6 +2631,7 @@ public class ProveedoresView extends javax.swing.JPanel {
         habilitarCampos(true);
         cargarPaises();
         proveedor_selected = new Proveedor();
+        txtf_nombre_empresa.requestFocus();
     }//GEN-LAST:event_btn_proveedores_nuevoActionPerformed
 
     private void btn_agregarContactoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_agregarContactoKeyPressed
@@ -2916,6 +2917,7 @@ public class ProveedoresView extends javax.swing.JPanel {
             txtf_contacto.setText("");
             DefaultTableModel model = (DefaultTableModel) tabla_contactos.getModel();
             model.setNumRows(0);
+            System.out.println("tamaño contactos del proveedor: \n"+proveedor_selected.getContacto().size());
             for(int i = 0; i < proveedor_selected.getContacto().size();i++ ){
                 Object[] obj = new Object[4];
                 obj[0] = proveedor_selected.getContacto().get(i).getTipo();

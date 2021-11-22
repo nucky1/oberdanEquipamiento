@@ -434,7 +434,10 @@ public class CreditosDAO {
 public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, int zona) {
         boolean exito= false;
         
-        // si no tiene conyugue, en idConyugue trae un -1
+        // si no tiene conyugue, en idConyugue trae un -1}
+        
+        
+        
         String SQL = "INSERT INTO `credito`(`cliente_id`,`direccionActual_id`,"
                 + "`conyugue_id`, `comercio_id`, "
                 + "`observacion`,"
@@ -600,5 +603,25 @@ public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, i
         }
         return view;
     }
-    
+   
+    /**
+     *
+     * @param nro
+     * @return true if nro solicitud doesn't exist
+     */
+    public boolean controlNroSolicitud(int nro){
+        try {
+            String SQL = "SELECT * FROM credito WHERE tipo='SOLICITUD' AND nro_solicitud = "+nro;
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            if(rs.first()){
+                return false;
+            }
+            else{
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CreditosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+   } 
 }

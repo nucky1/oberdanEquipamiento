@@ -228,6 +228,7 @@ public class DireccionesDAO {
     public Direccion añadirBarrio(String toLowerCase, int idLocalidad) {
         String SQL = "INSERT INTO barrio(nombre,localidad_id) VALUES ('"+toLowerCase+"',"+idLocalidad+")";
         int i = conexion.EjecutarOperacion(SQL);
+        System.out.println("int i tiene: "+i);
         if(i < 0)
             return null;
         SQL = "SELECT direccion.* FROM direccion,(SELECT MAX(id) AS maximo FROM barrio) AS derived WHERE direccion.barrio_id = derived.maximo";
@@ -293,7 +294,7 @@ public class DireccionesDAO {
                 b.setId_localidad(rs.getInt("localidad.id"));
                 l.setId(rs.getInt("localidad.id"));
                 l.setId_provincia(rs.getInt("provincia.id"));
-                l.setCod_postal(rs.getString("codPostal"));
+                //l.setCod_postal(rs.getString("localidad.codPostal"));
                 prov.setId(rs.getInt("provincia.id"));
                 prov.setId_pais(rs.getInt("pais.id"));
                 p.setId(rs.getInt("pais.id"));

@@ -1662,7 +1662,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
            //creamos el renglon
             RenglonCredito rc = new RenglonCredito();
             rc.setCantidad(cantidad);
-            rc.setCosto(p.getPrecioCosto());
+            rc.setCosto(p.getPrecioNeto());
             rc.setImporte_cuota(precioCuota);
             rc.setSubTotal(subtotal);
             rc.setP(p);

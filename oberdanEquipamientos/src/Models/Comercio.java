@@ -26,6 +26,12 @@ public class Comercio {
     private String cuit="";
     private String tipo_iva="";
     private Timestamp incio_actividades = new Timestamp(System.currentTimeMillis());
+    //es 1 xq por defecto toma la misma direccion del cliente
+    private int direIdemProp=1;
+
+    public Comercio() {
+        this.direccion = null;
+    }
 
     public int getCodPostal() {
         return codPostal;
@@ -129,6 +135,14 @@ public class Comercio {
 
     public void setIncio_actividades(Timestamp incio_actividades) {
         this.incio_actividades = incio_actividades;
+    }
+
+    public int getDireIdemProp() {
+        return direIdemProp;
+    }
+
+    public void setDireIdemProp(int direIdemProp) {
+        this.direIdemProp = direIdemProp;
     }
     
     

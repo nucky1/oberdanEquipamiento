@@ -8,6 +8,7 @@ package DAO;
 import Views.Clientes.ABMClientesView;
 import Models.Cliente;
 import Models.Contacto;
+import Views.Main;
 import com.mysql.jdbc.Connection;
 import java.io.FileNotFoundException;
 import java.sql.ResultSet;
@@ -95,7 +96,7 @@ public class ClientesDAO {
               + " AND localidad.provincia_id = provincia.id"
               + " AND pais.id = provincia.pais_id";
            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-           System.out.println("La consulta  buscarCliente doble fue: "+SQL);
+           //System.out.println("La consulta  buscarCliente doble fue: "+SQL);
            List<Cliente> list = new ArrayList<>();
            try{
                while(rs.next()){
@@ -126,26 +127,35 @@ public class ClientesDAO {
                     p.setEsSolicitante(rs.getBoolean("esSolicitante"));
                     p.setObservaciones(rs.getString("observaciones"));
                     //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
+                    // en clientes habilita la posibilidad de guardar parentesco reusando cargo
+                    
+                    SQL = "SELECT * FROM contactos WHERE contactos.state = 'ACTIVO' AND tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
+                 
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
                     try{
-                        while(rc.next()){
-                            Contacto c = new Contacto();
-                            c.setId(rc.getInt("id"));
-                            c.setContacto(rc.getString("contacto"));
-                            c.setTipo(rc.getString("tipo"));
-                            contactos.add(c);
-                        }
+                      
+                            //rc.first();
+                            while(rc.next()){
+                                Contacto c = new Contacto();
+                                c.setId(rc.getInt("id"));
+                                c.setContacto(rc.getString("contacto"));
+                                c.setTipo(rc.getString("tipo"));
+                                c.setNombre(rc.getString("nombre"));
+                                c.setCargo(rc.getString("cargo"));
+                                contactos.add(c);
+                             }
+                       
                     }catch(Exception ex){
                         //no hago nada para que no se trabe
+                        new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                     }
                     p.setContacto((ArrayList<Contacto>) contactos);
                     //--FIN CARGA
                    list.add(p);
                 }
            }catch(Exception ex){
-               ex.printStackTrace();
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
            }
            
            return list;
@@ -163,12 +173,12 @@ public class ClientesDAO {
               + " AND localidad.provincia_id = provincia.id"
               + " AND pais.id = provincia.pais_id";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        System.out.println("La consulta  buscarCliente simple fue: "+SQL);
+        
         
            try{
                if(rs.first()){
                      //--CARGAR DATOS AL Cliente
-                    System.out.println("Encontre el cliente en buscarCliente por ID");
+                 
                     p.setId(rs.getInt("id"));
                     p.setNombre(rs.getString("nombre"));
                     p.setFechaNacimiento(rs.getDate("fechaNacimiento"));
@@ -191,16 +201,22 @@ public class ClientesDAO {
                     p.setEsSolicitante(rs.getBoolean("esSolicitante"));
                     p.setObservaciones(rs.getString("observaciones"));
                     //contactos
-                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo FROM contactos WHERE tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
+                    // en clientes habilita la posibilidad de guardar parentesco reusando cargo
+                    SQL = "SELECT contactos.contacto,contactos.id,contactos.tipo, "
+                            + " contactos.cargo FROM contactos WHERE tipo_persona = 'CLIENTE' AND id_persona = "+p.getId();
                     ResultSet rc = conexion.EjecutarConsultaSQL(SQL);
                     List<Contacto> contactos = new ArrayList<>();
+                    
                     try{
                         if(rc.first()){
                             while(rc.next()){
+                            
                             Contacto c = new Contacto();
                             c.setId(rc.getInt("id"));
                             c.setContacto(rc.getString("contacto"));
+                            
                             c.setTipo(rc.getString("tipo"));
+                            c.setCargo(rs.getString("cargo"));
                             contactos.add(c);
                         }
                         }
@@ -233,11 +249,11 @@ public class ClientesDAO {
             //si el solicitante se pudo dar de alta  (supuestamente es uno nuevo, si o si debe ser nuevo!)
            
             exito=this.casar(c1, c2, tipo);
-            System.out.println("En casar, exito tiene "+exito);
+            
         } 
         else{
             exito=false;
-            System.out.println("En insertar clientes, no pude guardar c1");
+           
         }
         return exito;
     }
@@ -285,8 +301,7 @@ public class ClientesDAO {
                 + " ORDER BY relacion.created_at DESC";
        */
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        System.out.println("La consulta en recuperar Conyugues fue: ");
-        System.out.println(""+SQL);
+       
         List<Cliente> list = new ArrayList<>();
         try{
             if(rs.first()){
@@ -328,8 +343,7 @@ public class ClientesDAO {
                 " AND relacion.state= 'ACTIVO' "
                 + " ORDER BY relacion.created_at DESC";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-        System.out.println("La consulta en recuperar Conyugue fue: ");
-        System.out.println(""+SQL);
+      
         Cliente c = new Cliente();
         try{
             if(rs.first()){
@@ -366,8 +380,7 @@ public class ClientesDAO {
                 +", tipo_dni = '"+c.getTipoDni()+"'"
                 +" WHERE id = "+c.getId();
         res = conexion.EjecutarOperacion(SQL); //inserto el cliente el cual ahora sera el cliente con id mas alto
-        System.out.println("En Actualizar cliente, SQL tiene: ");
-        System.out.println(""+SQL);
+       
         if(res == 0){
             exito = false;
         }else{
@@ -375,12 +388,16 @@ public class ClientesDAO {
                 if(c.getContacto().size() > 0){
                 SQL = " DELETE FROM contactos WHERE id_persona = "+c.getId()+" AND tipo_persona = 'CLIENTE' AND state = 'ACTIVO'";
                 res = conexion.EjecutarOperacion(SQL);
-                SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                //uso cargo para guardar el parentesco / relacion con cliente
+                SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona, cargo) VALUES";
                 for(int i = c.getContacto().size()-1 ; i > 0; i--){
-                    SQL += "("+c.getId()+",'"+c.getContacto().get(i).getContacto()+"','"+c.getContacto().get(i).getTipo()+"','CLIENTE'),";
+                    SQL += "("+c.getId()+",'"+c.getContacto().get(i).getContacto()+
+                            "','"+c.getContacto().get(i).getTipo()+
+                            "','CLIENTE' , '"+c.getContacto().get(i).getCargo()+"'),";
                 }
-                SQL += "("+c.getId()+",'"+c.getContacto().get(0).getContacto()+"','"+c.getContacto().get(0).getTipo()+"','CLIENTE')";
+                SQL += "("+c.getId()+",'"+c.getContacto().get(0).getContacto()+"','"+c.getContacto().get(0).getTipo()+"','CLIENTE', '"+c.getContacto().get(0).getCargo()+"' )";
                 res = conexion.EjecutarOperacion(SQL);
+                   
                 if(res == 0){
                     exito = false;
                 }
@@ -440,24 +457,28 @@ public class ClientesDAO {
                         +c.getNumero()+","+c.getDireccion_id()+",'"
                         +c.getObservaciones()+"')";
                 res = conexion.EjecutarOperacion(SQL); //inserto el cliente el cual ahora sera el cliente con id mas alto
-                System.out.println("SQL = " + SQL);
+                System.out.println("EN insertar cliente sql es: \n"+SQL);
                 if(res == 0){
                     exito = false;
                 }else{
                     if(c.getContacto()!=null){
                         if(c.getContacto().size() > 0){
-                            System.out.println("Estoy entrando a guardar los contactos");
+                           
                         SQL = "SELECT MAX(id) AS id FROM cliente ";
                         rs = conexion.EjecutarConsultaSQL(SQL);
                         try {
                             while(rs.next()){
                                 c.setId(rs.getInt("id"));
                             }
-                            SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
+                            SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona, cargo) VALUES";
                             for(int i = c.getContacto().size()-1 ; i > 0; i--){
-                                SQL += "("+c.getId()+",'"+c.getContacto().get(i).getContacto()+"','"+c.getContacto().get(i).getTipo()+"','CLIENTE'),";
+                                SQL += "("+c.getId()+",'"+c.getContacto().get(i).getContacto()+
+                                        "','"+c.getContacto().get(i).getTipo()+
+                                        "','CLIENTE', '"+c.getContacto().get(i).getCargo()+"'),";
                             }
-                            SQL += "("+c.getId()+",'"+c.getContacto().get(0).getContacto()+"','"+c.getContacto().get(0).getTipo()+"','CLIENTE')";
+                            SQL += "("+c.getId()+",'"+c.getContacto().get(0).getContacto()+
+                                    "','"+c.getContacto().get(0).getTipo()+
+                                    "','CLIENTE', '"+c.getContacto().get(0).getCargo()+"' )";
                             res = conexion.EjecutarOperacion(SQL);
                         } catch (SQLException ex) {
                             res = 0;
@@ -533,7 +554,7 @@ public class ClientesDAO {
         //ya asumido como que estaba cargado
         List <Cliente> list = buscarCliente("dni", String.valueOf(c2.getDni()));
         if(!list.isEmpty()){
-            System.out.println("En casar, la lista no esta vacia, asi que estoy por casar a c1 con un c2 existente");
+           
             Cliente c = new Cliente();
             c=list.get(0);
             if(c.getEstadoCivil().equalsIgnoreCase("CASADO")){
@@ -544,7 +565,7 @@ public class ClientesDAO {
                 String SQL = "SELECT * FROM `relacion` WHERE "
                         + "(cliente1_id = "+c.getId()+" OR cliente2_id ="+c.getId()+") "
                         + "AND estadoCivil= 'CASADO'";
-                System.out.println("En casar con c2 existente, la consulta es :"+SQL);
+               
                 ResultSet rs= conexion.EjecutarConsultaSQL(SQL);
                 try {
                     if(rs.first()){
@@ -601,12 +622,12 @@ public class ClientesDAO {
             //c2 no existe, por ende lo guardo como un cliente nuevo
             //como no existe, copio el id de la direcccion de c1, es clave foranea
             
-            System.out.println("EN casar, c2 no existe, asi que lo voy a casar con alguien nuevo!");
+           
             c2.setDireccion_id(c1.getDireccion_id());
             //c2.setCodPostal(c1.getCodPostal());
             c2.setNumero(c1.getNumero());
             c2.setObservaciones("Es un conyugue");
-            System.out.println("En casar, c2 no existia");
+          
             c2.setEstadoCivil("CASADO");
             if(guardarCliente(c2)){
                 //Lo guardo a c2, pero debo buscarlo para recuperar su id
@@ -614,7 +635,7 @@ public class ClientesDAO {
                 for(int i = 0; i<list.size(); i++){
                     if(list.get(i).getDni()==c2.getDni()){
                         c2.setId(list.get(0).getId());
-                        System.out.println("LO ENCONTREEEE GATITOO");
+                      
                         exito=true;
                         break;
                     }
@@ -622,14 +643,13 @@ public class ClientesDAO {
                 }
                   
                 
-                System.out.println("en casar, pude guardar al c2");
+               
                 conexion.transaccionCommit("quitarAutoCommit");
-                String SQL= "INSERT INTO relacion (cliente1_id, cliente2_id, estadoCivil, tipo)VALUES ("+
-                            +c1.getId()+","+c2.getId()+","+"'CASADO' , '"+tipo+"')";
+                String SQL= "INSERT INTO relacion (cliente1_id, cliente2_id, estadoCivil, tipo ,state)VALUES ("+
+                            +c1.getId()+","+c2.getId()+","+"'CASADO' , '"+tipo+"' , 'ACTIVO')";
                   
                 res= conexion.EjecutarOperacion(SQL);
-                System.out.println("EN CASAR, SQL tiene: "+SQL);  
-                System.out.println("EN CASAR, RES tiene: "+res);  
+              
                 if(res==0)  {
                     
                     exito= false;
@@ -637,7 +657,7 @@ public class ClientesDAO {
                     conexion.transaccionCommit("activarCommit");
                 }
                 else{
-                    System.out.println("En casar, PUDE hacer la relacion");
+                   
                     conexion.transaccionCommit("commitear");
                     conexion.transaccionCommit("activarCommit");
                     exito=true;
@@ -645,7 +665,7 @@ public class ClientesDAO {
             }
             else{
                 exito= false;
-                System.out.println("En casar, no pude guardar C2");
+               
             }
             
             
@@ -670,7 +690,7 @@ public class ClientesDAO {
             //SELECT cliente1_id, id from relacion WHERE cliente1_id = 8 or cliente2_id = 8 AND state = 'ACTIVO' AND estadoCivil = 'CASADO'
             //recupero el id de la relacion en la que esta casado
             String SQL = "SELECT cliente1_id, id from relacion WHERE (cliente1_id ="+c1.getId()+" or cliente2_id = "+c1.getId()+") AND state = 'ACTIVO' AND estadoCivil = 'CASADO'";
-            System.out.println("En divorciar, la consulta es: "+SQL);
+           
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             if(rs.first()){
                 idRelacion= rs.getInt("id");
@@ -681,11 +701,11 @@ public class ClientesDAO {
                 //ahora busco la relacion entre estos dos y los separo
                 
                 SQL = "UPDATE relacion SET estadoCivil = 'DIVORCIADO' WHERE  id = "+idRelacion+ " AND state = 'ACTIVO'";
-                System.out.println("En divorciar, el update es: "+SQL);
+              
                 int res = conexion.EjecutarOperacion(SQL);
                 if(res == 1){
                     exito = true;
-                    System.out.println("en divorciar, los pude separar");
+                   
                 }
                 else{
                     return false;
@@ -695,7 +715,7 @@ public class ClientesDAO {
                 exito=this.actualizarCliente(c2);
                 if(exito=false) return false;
             }
-            System.out.println("En divorciar, los pude actualizar");
+         
              exito=true;
             
            

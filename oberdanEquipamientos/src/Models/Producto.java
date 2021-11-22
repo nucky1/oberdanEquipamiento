@@ -29,10 +29,20 @@ public class Producto {
     private float StockMin;
     private int Stock;
     private float precioVenta;
-    private float precioCosto;
+    private float precioNeto;
     private float costoFlete;
     private int tipo;
+    float coeficiente=1;
 
+    public float getCoeficiente() {
+        return coeficiente;
+    }
+
+    public void setCoeficiente(float coeficiente) {
+        this.coeficiente = coeficiente;
+    }
+    
+    
     public String getCodigoEAN() {
         return codigoEAN;
     }
@@ -166,12 +176,12 @@ public class Producto {
         this.StockMin = StockMin;
     }
 
-    public float getPrecioCosto() {
-        return precioCosto;
+    public float getPrecioNeto() {
+        return precioNeto;
     }
 
-    public void setPrecioCosto(float precioCosto) {
-        this.precioCosto = precioCosto;
+    public void setPrecioNeto(float precioNeto) {
+        this.precioNeto = precioNeto;
     }
 
     public float getCostoFlete() {

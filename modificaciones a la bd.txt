@@ -25,12 +25,29 @@ ALTER TABLE `comercio`
 ALTER TABLE `cliente`
   DROP `codPostal`
 ALTER TABLE `empleado`
-  DROP `codPostal
+  DROP `codPostal 
 
-ALTER TABLE `comercio` ADD `esPropietario` INT NULL DEFAULT NULL AFTER `direIdemProp`;
+ALTER TABLE `comercio` CHANGE `propietario` `esPropietario` TINYINT(1) NULL DEFAULT '0';
 
 ALTER TABLE `comercio` ADD `esPropietario` INT NULL DEFAULT NULL AFTER `direIdemProp`;
 -- SE CAMBIO LA FECHA MINIMA DE CREDITO Y DE ART_STOCK 1970-01-01 00:00:01
 
 -- se vuelve a agregar el cobrador_id a credito
 ALTER TABLE `credito` ADD `cobrador_id` INT NOT NULL DEFAULT '-1' AFTER `cuota_id`;
+--
+ALTER TABLE `comercio` ADD `dirIdemProp` INT NOT NULL AFTER `updated_at`;
+ALTER TABLE `contactos` CHANGE `cargo` `cargo` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `comercio` CHANGE `dirIdemProp` `direIdemProp` INT(11) NOT NULL;
+
+-- estas Son las nuevas modificaciones:
+
+CREATE TABLE `bd-oberdan`.`iva` ( `valor` FLOAT NOT NULL DEFAULT '1' UNIQUE ) ENGINE = InnoDB;
+INSERT INTO iva (nombre, valor) VALUES ('TIPO IVA', 1.0)
+INSERT INTO iva (nombre, valor) VALUES ('TIPO IVA', 21.0)
+INSERT INTO iva (nombre, valor) VALUES ('TIPO IVA', 15.0)
+-- modificaciones a renglon factura para poder soportar ivas mejor
+ALTER TABLE `renglon_factura` ADD `ivaPorcentaje` INT NOT NULL DEFAULT '1' AFTER `cantidad`;
+-- podria guardar ivaCosto, pero lo tomare como un atributo calculado.
+--cambiar el iva de todos los articulos
+-- añadiendo el coeficiente de ganancia a cada articulo:
+ALTER TABLE `articulos` ADD `coeficiente` FLOAT NOT NULL DEFAULT '0' AFTER `precio_compra`;

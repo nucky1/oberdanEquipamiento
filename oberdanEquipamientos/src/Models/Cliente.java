@@ -37,6 +37,7 @@ public class Cliente {
 
     public Cliente(String nombre) {
         this.nombre = nombre;
+        this.contacto.get(0).setCargo("-");
     }
     
     

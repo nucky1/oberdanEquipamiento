@@ -17,6 +17,7 @@ import Models.Mapa;
 import Models.Pais;
 import Models.Provincia;
 import Statics.Funciones;
+import Views.Main;
 import Views.principal;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
@@ -93,10 +94,10 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jPanel14 = new javax.swing.JPanel();
         jTextF_IngresarNuevoElemento = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
-        jButtonOKjdialog = new javax.swing.JButton();
-        jButtonCancelarJdialog = new javax.swing.JButton();
         lbl_codPostal = new javax.swing.JLabel();
         txtf_codPostal = new javax.swing.JTextField();
+        jButtonOKjdialog = new javax.swing.JButton();
+        jButtonCancelarJdialog = new javax.swing.JButton();
         jDialogGenerarUser = new javax.swing.JDialog();
         jPanelGenerarUser = new javax.swing.JPanel();
         jTextFieldUsuario = new javax.swing.JTextField();
@@ -138,7 +139,6 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
-        jTextField_CodigoPostal = new javax.swing.JTextField();
         jTextField_nombreApellido = new javax.swing.JTextField();
         jTextField_dni = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -146,8 +146,8 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jCombo_Naciones1 = new javax.swing.JComboBox<>();
+        jComboBox_estadoCivil = new javax.swing.JComboBox<>();
         jButtonModificar = new javax.swing.JButton();
-        jButtonGuardarMain = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jComboBox_Provincias = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
@@ -179,10 +179,11 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jTextFieldAporteOSocial = new javax.swing.JTextField();
         jDateChooserFN = new com.toedter.calendar.JDateChooser();
         jLabel17 = new javax.swing.JLabel();
-        jButtonCancelarMain = new javax.swing.JButton();
-        jComboBox_estadoCivil = new javax.swing.JComboBox<>();
-        jLabel25 = new javax.swing.JLabel();
         jComboBoxTipoEmpleado = new javax.swing.JComboBox<>();
+        jButtonGuardarMain = new javax.swing.JButton();
+        jButtonCancelarMain = new javax.swing.JButton();
+        jLabel25 = new javax.swing.JLabel();
+        jLabelCodPostal = new javax.swing.JLabel();
 
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -196,22 +197,6 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jLabel38.setText("Nuevo:");
         jPanel14.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 24, -1, -1));
 
-        jButtonOKjdialog.setText("OK");
-        jButtonOKjdialog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOKjdialogActionPerformed(evt);
-            }
-        });
-        jPanel14.add(jButtonOKjdialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 70, -1));
-
-        jButtonCancelarJdialog.setText("Cancelar");
-        jButtonCancelarJdialog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCancelarJdialogActionPerformed(evt);
-            }
-        });
-        jPanel14.add(jButtonCancelarJdialog, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, -1, -1));
-
         lbl_codPostal.setText("Codigo postal:");
         lbl_codPostal.setOpaque(true);
         jPanel14.add(lbl_codPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 20));
@@ -223,15 +208,41 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         });
         jPanel14.add(txtf_codPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 240, -1));
 
+        jButtonOKjdialog.setText("OK");
+        jButtonOKjdialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOKjdialogActionPerformed(evt);
+            }
+        });
+
+        jButtonCancelarJdialog.setText("Cancelar");
+        jButtonCancelarJdialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarJdialogActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
         jDialogAñadirElementoLayout.setHorizontalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+            .addGroup(jDialogAñadirElementoLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jButtonOKjdialog, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonCancelarJdialog)
+                .addGap(58, 58, 58))
         );
         jDialogAñadirElementoLayout.setVerticalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jDialogAñadirElementoLayout.createSequentialGroup()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addGroup(jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonOKjdialog)
+                    .addComponent(jButtonCancelarJdialog))
+                .addGap(39, 39, 39))
         );
 
         jDialogGenerarUser.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -541,17 +552,17 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             }
         });
 
+        jComboBox_estadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "CASADO", "DIVORCIADO", "SOLTERO" }));
+        jComboBox_estadoCivil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_estadoCivilActionPerformed(evt);
+            }
+        });
+
         jButtonModificar.setText("Modificar");
         jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonModificarActionPerformed(evt);
-            }
-        });
-
-        jButtonGuardarMain.setText("Guardar");
-        jButtonGuardarMain.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarMainActionPerformed(evt);
             }
         });
 
@@ -712,6 +723,15 @@ public class AltaUsuariosView extends javax.swing.JPanel {
 
         jLabel17.setText("Fecha de Nacimiento:");
 
+        jComboBoxTipoEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "ADMINISTRADOR", "COBRADOR", "GERENTE", "VENDEDOR" }));
+
+        jButtonGuardarMain.setText("Guardar");
+        jButtonGuardarMain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarMainActionPerformed(evt);
+            }
+        });
+
         jButtonCancelarMain.setText("Cancelar");
         jButtonCancelarMain.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -719,16 +739,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             }
         });
 
-        jComboBox_estadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "CASADO", "DIVORCIADO", "SOLTERO" }));
-        jComboBox_estadoCivil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_estadoCivilActionPerformed(evt);
-            }
-        });
-
         jLabel25.setText("Tipo:");
 
-        jComboBoxTipoEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "ADMINISTRADOR", "COBRADOR", "GERENTE", "VENDEDOR" }));
+        jLabelCodPostal.setText(":");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -842,13 +855,12 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                                                 .addComponent(jLabel3)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jTextField_dni, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(71, 71, 71)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboBox_estadoCivil, 0, 126, Short.MAX_VALUE)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(71, 71, 71)
-                                                .addComponent(jComboBox_estadoCivil, 0, 126, Short.MAX_VALUE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jTextField_CodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(jLabelCodPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))))
                                 .addGap(132, 132, 132)))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -890,10 +902,10 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                                 .addComponent(jLabel8)
                                 .addComponent(jComboBox_estadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField_CodigoPostal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabelCodPostal, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
@@ -1042,12 +1054,15 @@ public class AltaUsuariosView extends javax.swing.JPanel {
 
     private void jButtonAñadirCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCalleActionPerformed
         // TODO add your handling code here:
+         jDialogAñadirElemento.dispose();
+            habilitarCampoCodPostal(false);
+        
         jDialogAñadirElemento.setTitle("Añadir una nueva calle/manzana");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
-        
+        jDialogAñadirElemento.setSize(420,221);
+     
     }//GEN-LAST:event_jButtonAñadirCalleActionPerformed
 
     private void jButtonAñadirContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirContactoActionPerformed
@@ -1089,44 +1104,64 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButtonAñadirContactoActionPerformed
 
     private void jButtonAñadirBarrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirBarrioActionPerformed
+         jDialogAñadirElemento.dispose();
+        habilitarCampoCodPostal(false);
         jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400, 221);
+        jDialogAñadirElemento.setSize(420, 221);
+       
         
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirBarrioActionPerformed
 
     private void jButtonAñadirCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCiudadActionPerformed
+         jDialogAñadirElemento.dispose();
         jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400, 221);
+        jDialogAñadirElemento.setSize(420, 221);
+        habilitarCampoCodPostal(true);
         
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirCiudadActionPerformed
 
     private void jButtonAñadirProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirProvinciaActionPerformed
+         jDialogAñadirElemento.dispose(); 
+        habilitarCampoCodPostal(false);
         jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400, 221);
+        jDialogAñadirElemento.setSize(420, 221);
+     
+        
         
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirProvinciaActionPerformed
-
+    private void habilitarCampoCodPostal(boolean b){
+        txtf_codPostal.setVisible(b);
+        lbl_codPostal.setVisible(b);
+               
+    }
+    private void limpiarCamposCodPostal(){
+        txtf_codPostal.setText("");
+        
+    }
     private void jButtonAñadirNacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirNacionActionPerformed
+         jDialogAñadirElemento.dispose();
+        habilitarCampoCodPostal(false);
         jDialogAñadirElemento.setTitle("Añadir un nuevo pais");
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400, 221);
+       
+        jDialogAñadirElemento.setSize(420, 221);
        
 
         //llama al controller de esto
@@ -1228,7 +1263,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         empleadoSelected.setDireccion(String.valueOf(jComboBox_calles.getSelectedItem()));
         empleadoSelected.setDireccionId(direccion_selected.getId());
         empleadoSelected.setNro(jTextField_nroCasa.getText());
-        empleadoSelected.setCodigoPostal(jTextField_CodigoPostal.getText());
+        //empleadoSelected.setCodigoPostal(jTextField_CodigoPostal.getText());
         empleadoSelected.setReferencia(jTextField_ReferenciaCalles.getText());
 
             
@@ -1349,10 +1384,16 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         Pais_selected = p;
         jComboBox_Provincias.removeAllItems();
         try{
+            if(direcciones.getPais_Provincia() != null && direcciones.getPais_Provincia().get(p.getId()) != null){
                 direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
-                jComboBox_Provincias.addItem(t);
-            });
-            jComboBox_Provincias.setSelectedIndex(0);
+                    jComboBox_Provincias.addItem(t);
+                });
+                jComboBox_Provincias.setSelectedIndex(0);
+            
+               // direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
+                //jComboBox_Provincias.addItem(t);
+            }
+           // jComboBox_Provincias.setSelectedIndex(0);
             jComboBox_Provincias.setEnabled(true);
         }catch(NullPointerException e){
             new Statics.ExceptionManager().saveDump(e, "", false);
@@ -1367,9 +1408,17 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         p.getId();
         jComboBox_Ciudades.removeAllItems();
         try{
-            direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
-                jComboBox_Ciudades.addItem(t);
-            });
+             if(direcciones.getProvincia_Localidad() != null && direcciones.getProvincia_Localidad().get(p.getId()) != null){
+                direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+                    jComboBox_Ciudades.addItem(t);
+                });
+                jComboBox_Ciudades.setSelectedIndex(0);
+                Localidad l =  (Localidad)jComboBox_Ciudades.getSelectedItem();
+                jLabelCodPostal.setText(l.getCod_postal());
+             }
+            //direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
+              //  jComboBox_Ciudades.addItem(t);
+            
             jComboBox_Ciudades.setEnabled(true);
            // jComboBox_Ciudades.setSelectedIndex(0);
         }catch(NullPointerException e){
@@ -1383,11 +1432,14 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         Localidad l = (Localidad) jComboBox_Ciudades.getSelectedItem();
         Localidad_selected = l;
         jComboBox_Barrios.removeAllItems();
-        jTextField_CodigoPostal.setText(l.getCod_postal());
+        jLabelCodPostal.setText(l.getCod_postal());
         try{
-            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-                jComboBox_Barrios.addItem(t);
-            });
+           if(direcciones.getLocalidad_Barrio() != null && direcciones.getLocalidad_Barrio().get(l.getId()) != null){
+                direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+                    jComboBox_Barrios.addItem(t);
+                });
+                jComboBox_Barrios.setSelectedIndex(0);
+            }
             jComboBox_Barrios.setEnabled(true);
             //jComboBox_Ciudades.setSelectedIndex(0);
         }catch(NullPointerException e){
@@ -1402,14 +1454,19 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         Barrio_selected = b;
         jComboBox_calles.removeAllItems();
         try{
+            if(direcciones.getBarrio_direccion() != null && direcciones.getBarrio_direccion().get(b.getId()) != null){
                 direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
                 jComboBox_calles.addItem(t);
             });
+                jComboBox_calles.setSelectedIndex(0);
+            }    
+            
+            
             //
             jComboBox_calles.setEnabled(true);
-            jComboBox_calles.setSelectedIndex(0);
+            //jComboBox_calles.setSelectedIndex(0);
         }catch(NullPointerException e){
-            new Statics.ExceptionManager().saveDump(e, "", false);
+            new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
 
@@ -1536,7 +1593,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
 
                     jCombo_Naciones1.addItem(pais);
                     jCombo_Naciones1.setSelectedItem(pais);
-               
+                    
                 }else{
                     //jTextF_IngresarNuevoElemento.setFColor.red);
                     jTextF_IngresarNuevoElemento.setText("El pais que intenta ingresar ya existe!");
@@ -1560,6 +1617,9 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     jComboBox_Provincias.setSelectedItem(p);
                     jComboBox_Ciudades.removeAllItems();
                     jComboBox_Ciudades.addItem(l);
+                    limpiarCamposCodPostal();
+                    habilitarCampoCodPostal(false);
+                    
                 }
                 else{
                     todook=false;
@@ -1575,7 +1635,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                     l.setNombre(texto);
                     l.setId_provincia(Provincia_selected.getId());
                     l.setCod_postal(codPostal);
-                    jTextField_CodigoPostal.setText(codPostal);
+                    jLabelCodPostal.setText(codPostal);
                     //actualizo mapa
                     //Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
                     //barrios.add(b);
@@ -1652,6 +1712,8 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         txtf_codPostal.setVisible(false);
         lbl_codPostal.setVisible(false);
         jDialogAñadirElemento.dispose();
+        limpiarCamposCodPostal();
+        habilitarCampoCodPostal(false);
     }//GEN-LAST:event_jButtonCancelarJdialogActionPerformed
 
     private void jComboBox_estadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoCivilActionPerformed
@@ -1915,11 +1977,12 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     }//GEN-LAST:event_jCombo_Naciones1ActionPerformed
 
     private void jComboBox_CiudadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesFocusGained
+        /**
         if(jComboBox_Ciudades.getItemCount() == 0)
             return;
         Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
         Localidad_selected=l;
-        jTextField_CodigoPostal.setText(l.getCod_postal());
+        jLabelCodPostal.setText(l.getCod_postal());
         jComboBox_Barrios.removeAllItems();
         try{
             direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
@@ -1933,6 +1996,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         }catch(NullPointerException e){
              new Statics.ExceptionManager().saveDump(e, "", false);
         }
+        */
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
 
     private void txtf_codPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_codPostalActionPerformed
@@ -2003,6 +2067,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAdvertencia;
+    private javax.swing.JLabel jLabelCodPostal;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel14;
@@ -2026,7 +2091,6 @@ public class AltaUsuariosView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldConvenio;
     private javax.swing.JTextField jTextFieldUsuario;
     private javax.swing.JTextField jTextFieldUsuario1;
-    private javax.swing.JTextField jTextField_CodigoPostal;
     private javax.swing.JTextField jTextField_ReferenciaCalles;
     private javax.swing.JTextField jTextField_cuil;
     private javax.swing.JTextField jTextField_dni;
@@ -2090,6 +2154,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
                 Object[] obj =new Object [2];
                 obj[0]= t.getTipo();
                 obj[1]= t.getContacto();
+                
                 model.addRow(obj);
             });
             
@@ -2106,7 +2171,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
             jComboBox_calles.addItem(new Direccion(empleadoSelected.getDireccion()));
             
             jTextField_nroCasa.setText(empleadoSelected.getNro());
-            jTextField_CodigoPostal.setText(empleadoSelected.getCodigoPostal());
+            jLabelCodPostal.setText(empleadoSelected.getCodigoPostal());
             jTextField_ReferenciaCalles.setText(empleadoSelected.getReferencia());
             
             jComboBoxTipoEmpleado.setSelectedItem(String.valueOf(empleadoSelected.getTipo().toUpperCase()));
@@ -2158,7 +2223,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         jButtonAñadirCalle.setEnabled(flag);
         jTextField_nroCasa.setEnabled(flag);
         jTextField_ReferenciaCalles.setEnabled(flag);
-        jTextField_CodigoPostal.setEnabled(flag);
+ //       jTextField_CodigoPostal.setEnabled(flag);
         
         //Mucho cuidado con este, debo hacer algo que solo permita crear usuarios si se registro el actual
         jButtonCrearUser.setEnabled(flag);
@@ -2192,7 +2257,7 @@ public class AltaUsuariosView extends javax.swing.JPanel {
         
         jTextField_nroCasa.setText("");
         jTextField_ReferenciaCalles.setText("");
-        jTextField_CodigoPostal.setText("");
+        jLabelCodPostal.setText("");
         
         //informacion contaco
         jTextFieldContacto.setText("");

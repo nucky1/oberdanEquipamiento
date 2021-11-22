@@ -98,6 +98,7 @@ public class Conexion {
     public java.sql.ResultSet EjecutarConsultaSQL(String sql){        
         try {
             this.s = this.conexion.createStatement();
+            System.out.println("en conexion la query es: "+sql);
             this.resultado=this.s.executeQuery(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);

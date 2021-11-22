@@ -487,8 +487,14 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
         <Property name="locationByPlatform" type="boolean" value="true"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[356, 396]"/>
+        </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[262, 305]"/>
+          <Dimension value="[356, 396]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[356, 396]"/>
         </Property>
       </Properties>
 
@@ -515,7 +521,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="176" y="251" width="-1" height="-1"/>
+              <AbsoluteConstraints x="170" y="330" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -535,7 +541,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="251" width="-1" height="-1"/>
+              <AbsoluteConstraints x="10" y="330" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -568,7 +574,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel39">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Porcentaje extra"/>
+            <Property name="text" type="java.lang.String" value="coeficiente extra"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -632,6 +638,16 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="10" y="145" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel17">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="INFO:"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="20" y="230" width="260" height="80"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -810,6 +826,137 @@
     </Container>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
     </Component>
+    <Container class="javax.swing.JDialog" name="jDialogA&#xf1;adirIva">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel6">
+          <Properties>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[441, 271]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[441, 271]"/>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jButtonCancelarJdialog" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btn_añadirNuevoIvaOk" min="-2" pref="70" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="jTextF_IngresarNuevoIva" min="-2" pref="130" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabelInfoNuevoIva" alignment="0" min="-2" pref="289" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="106" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextF_IngresarNuevoIva" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabelInfoNuevoIva" pref="87" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButtonCancelarJdialog" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_añadirNuevoIvaOk" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JTextField" name="jTextF_IngresarNuevoIva">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextF_IngresarNuevoIvaActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextF_IngresarNuevoIvaKeyPressed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel43">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Nuevo:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_a&#xf1;adirNuevoIvaOk">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="OK"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_a&#xf1;adirNuevoIvaOkActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButtonCancelarJdialog">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cancelar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelarJdialogActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelInfoNuevoIva">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="INFO:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="%"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ejemplo: 21"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -839,7 +986,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="tabla_productos" alignment="0" pref="627" max="32767" attributes="0"/>
+          <Component id="tabla_productos" alignment="0" pref="653" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -1264,7 +1411,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1353,8 +1500,8 @@
                                       <Component id="btn_crearPago" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane14" min="-2" pref="159" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane14" min="-2" pref="126" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                                   <Component id="chk_venta_iva" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                               </Group>
@@ -1372,11 +1519,10 @@
                             <Component class="javax.swing.JTable" name="tabla_producto_precioVenta">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="6" rowCount="0">
+                                  <Table columnCount="5" rowCount="0">
                                     <Column editable="false" title="id" type="java.lang.Object"/>
                                     <Column editable="false" title="#Cuotas" type="java.lang.Object"/>
                                     <Column editable="false" title="Tipo" type="java.lang.Object"/>
-                                    <Column editable="false" title="Precio Final" type="java.lang.Object"/>
                                     <Column editable="false" title="Precio Cuota" type="java.lang.Object"/>
                                     <Column editable="false" title="Activo" type="java.lang.Boolean"/>
                                   </Table>
@@ -1394,17 +1540,12 @@
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title value="Tipo"/>
+                                      <Title/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title value="Precio Final"/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                                      <Title value="Precio Cuota"/>
+                                      <Title/>
                                       <Editor/>
                                       <Renderer/>
                                     </Column>
@@ -1745,41 +1886,66 @@
                                           <Component id="jSeparator30" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="jLabel55" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel59" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jLabel64" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel52" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel237" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jLabel56" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jLabel238" alignment="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txtf_productos_codigo_ean" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
-                                              <Component id="txtf_productos_codigo_barra" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="txtf_productos_costo" linkSize="3" alignment="0" min="-2" pref="77" max="-2" attributes="0"/>
-                                                      <Component id="txtf_iva" linkSize="3" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
-                                                      <Component id="txtf_sobretasa_iva" linkSize="3" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
-                                                      <Component id="txtf_productos_venta" linkSize="3" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
-                                                  </Group>
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="jLabel55" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel64" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel52" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel237" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="jLabel56" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="jLabel238" alignment="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="jCombo_iva_Articulo" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="txtf_productos_venta" max="32767" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="jLabel65" min="-2" pref="73" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="txtf_productos_stockMinimo" min="-2" pref="55" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <Component id="txtf_sobretasa_iva" min="-2" pref="55" max="-2" attributes="0"/>
+                                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="1" attributes="0">
+                                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                          <Component id="jButtonAddIvaArti" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" attributes="0">
                                                       <Component id="jLabel60" alignment="0" min="-2" max="-2" attributes="0"/>
                                                       <Component id="jLabel61" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel65" alignment="0" max="32767" attributes="0"/>
-                                                      <Component id="jLabel54" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="txtf_productos_costoFlete" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
                                                       <Component id="txtf_impuesto_int" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
-                                                      <Component id="txtf_productos_stockMinimo" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
                                                       <Component id="txtf_imp_int_fijo" alignment="1" min="-2" pref="55" max="-2" attributes="0"/>
                                                   </Group>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="txtf_productos_codigo_ean" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
+                                                      <Component id="txtf_productos_codigo_barra" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="txtf_productos_costo" min="-2" pref="121" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="txtf_coeficiente_articulo" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -1804,15 +1970,16 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="txtf_productos_costo" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel55" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                      <Component id="jLabel54" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtf_productos_costoFlete" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                      <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtf_coeficiente_articulo" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel60" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                      <Component id="jLabel59" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                      <Component id="txtf_iva" linkSize="2" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                                       <Component id="txtf_impuesto_int" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                      <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jCombo_iva_Articulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jButtonAddIvaArti" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1847,23 +2014,6 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jLabel54">
-                          <Properties>
-                            <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="Flete $"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="txtf_productos_costoFlete">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Tahoma" size="14" style="0"/>
-                            </Property>
-                            <Property name="enabled" type="boolean" value="false"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtf_productos_costoFleteCaretUpdate"/>
-                          </Events>
-                        </Component>
                         <Component class="javax.swing.JTextField" name="txtf_productos_codigo_barra">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1939,30 +2089,16 @@
                             <Property name="text" type="java.lang.String" value="Sobretasa I.V.A"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel59">
-                          <Properties>
-                            <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="Tasa I.V.A"/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="jLabel60">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="Impuesto interno %"/>
+                            <Property name="text" type="java.lang.String" value="Imp interno %"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel61">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="2"/>
                             <Property name="text" type="java.lang.String" value="Imp interno fijo %"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="txtf_iva">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Tahoma" size="14" style="0"/>
-                            </Property>
-                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtf_sobretasa_iva">
@@ -1972,6 +2108,9 @@
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtf_sobretasa_ivaCaretUpdate"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtf_impuesto_int">
                           <Properties>
@@ -1980,6 +2119,9 @@
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtf_impuesto_intCaretUpdate"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtf_imp_int_fijo">
                           <Properties>
@@ -1988,6 +2130,9 @@
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtf_imp_int_fijoCaretUpdate"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel238">
                           <Properties>
@@ -2036,6 +2181,43 @@
                             </Property>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel10">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Iva%"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JComboBox" name="jCombo_iva_Articulo">
+                          <Properties>
+                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                              <StringArray count="0"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCombo_iva_ArticuloItemStateChanged"/>
+                          </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Float&gt;"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="jButtonAddIvaArti">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="+"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddIvaArtiActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel16">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="CoeF %"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="txtf_coeficiente_articulo">
+                          <Events>
+                            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtf_coeficiente_articuloCaretUpdate"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtf_coeficiente_articuloActionPerformed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -3134,7 +3316,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="449" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="475" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>

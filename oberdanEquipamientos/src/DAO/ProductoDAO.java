@@ -5,6 +5,7 @@
  */
 package DAO;
 
+
 import Models.Producto;
 import Models.Stock;
 import Views.Main;
@@ -52,7 +53,7 @@ public class ProductoDAO {
                 p.setNombreRubro(rs.getString("nombreRubro"));
                 p.setIdProductoRubro(rs.getInt("idRubro"));
                 p.setCostoFlete(rs.getFloat("costo_flete"));
-                p.setPrecioCosto(rs.getFloat("precioCosto"));
+                p.setPrecioNeto(rs.getFloat("precioCosto"));
                 p.setPrecioVenta(rs.getFloat("precio_venta"));
                 p.setStock(rs.getInt("stock_existente"));
                 p.setStockMin(rs.getInt("stock_minimo"));
@@ -61,6 +62,7 @@ public class ProductoDAO {
                 p.setSobretasaIva(rs.getFloat("sobretasa_iva"));
                 p.setImpuesto_interno(rs.getFloat("impuesto_interno"));
                 p.setImpuesto_int_fijo(rs.getFloat("impuesto_int_fijo"));
+                p.setCoeficiente(rs.getFloat("coeficiente"));
                 list.add(p);
             }
         }catch(Exception ex){
@@ -72,19 +74,20 @@ public class ProductoDAO {
         String SQL = "INSERT INTO `articulos`(`nombre`, `codigo_barra`, `rubro_id`,"
                 + " `stock_existente`, `stock_minimo`, `proveedor_id`,"
                 + " `impuesto_interno`, `impuesto_int_fijo`, `sobretasa_iva`,"
-                + " `iva`, `observaciones`, `costo_flete`)"
+                + " `iva`, `observaciones`, `costo_flete` , `coeficiente`)"
                 + " VALUES ('"+p.getNombre()+"','"+p.getCodigoBarra()+"',"+p.getIdProductoRubro()+","
                 +p.getStock()+","+p.getStockMin()+","+p.getIdProveedorActual()+","
                 +p.getImpuesto_interno()+","+p.getImpuesto_int_fijo()+","+p.getSobretasaIva()+","
-                +p.getIva()+",'"+p.getObservaciones()+"',"+p.getCostoFlete()+")";        
+                +p.getIva()+",'"+p.getObservaciones()+"',"+p.getCostoFlete()+" , "+p.getCoeficiente()+" )";        
         return conexion.EjecutarOperacion(SQL);
     }
     public int actualizarProducto(Producto p){
         String SQL = "UPDATE `articulos` SET `nombre`='"+p.getNombre()+"',`cod`='"+p.getCod()+"',`codigo_barra`='"+p.getCodigoBarra()+"',`rubro_id`="+p.getIdProductoRubro()+","
-                + "`stock_existente`="+p.getStock()+",`codigo_ean`='"+p.getCodigoEAN()+"',`precio_venta`="+p.getPrecioVenta()+",`precio_compra`="+p.getPrecioCosto()+","
+                + "`stock_existente`="+p.getStock()+",`codigo_ean`='"+p.getCodigoEAN()+"',`precio_venta`="+p.getPrecioVenta()+",`precio_compra`="+p.getPrecioNeto()+","
                 + "`stock_minimo`="+p.getStockMin()+",`proveedor_id`="+p.getIdProveedorActual()+",`iva`="+p.getIva()+",`observaciones`='"+p.getObservaciones()+"',"
-                + "`costo_flete`="+p.getCostoFlete()+",`sobretasa_iva`="+p.getSobretasaIva()+",`impuesto_interno`="+p.getImpuesto_interno()+",`impuesto_int_fijo`="+p.getImpuesto_int_fijo()
+                + "`costo_flete`="+p.getCostoFlete()+",`sobretasa_iva`="+p.getSobretasaIva()+",`impuesto_interno`="+p.getImpuesto_interno()+",`coeficiente`="+p.getCoeficiente()+",`impuesto_int_fijo`="+p.getImpuesto_int_fijo()
                 + " WHERE id = "+p.getId();
+        System.out.println("sql al actualizar producto es: \n"+SQL);
         return conexion.EjecutarOperacion(SQL);
     }
     public List<Producto> buscarProducto(String atributo, String valor) {
@@ -95,6 +98,7 @@ public class ProductoDAO {
                 + "LEFT JOIN (SELECT precio_compra,producto_id,MAX(updated_at) as up FROM art_stock GROUP BY producto_id) as artStock ON artStock.producto_id = articulos.id "
                 + "WHERE LOWER(articulos." + atributo+") like '%"+valor+"%' "
                 + "AND articulos.state = 'ACTIVO'";
+        System.out.println("sql que queres: "+SQL);
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
@@ -103,9 +107,10 @@ public class ProductoDAO {
                + " FROM articulos "
                + "LEFT JOIN art_rubro ON articulos.rubro_id = art_rubro.id "
                + "LEFT JOIN proveedores ON articulos.proveedor_id = proveedores.id "
-               + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)) as artStock ON artStock.producto_id = articulos.id "
+               + "LEFT JOIN (SELECT precio_compra,producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock )) as artStock ON artStock.producto_id = articulos.id "
                + " WHERE articulos.cod LIKE '"+id+"%'"
                + " AND articulos.state = 'ACTIVO'";
+        System.out.println("El sql en buscarProducto fue:_ \n"+SQL);
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         return cargarProductos(rs);
     }
@@ -211,14 +216,17 @@ public class ProductoDAO {
         }
         case "Completo" :
         {   
-            SQL = "SELECT articulos.id,articulos.cod, articulos.nombre,articulos.precio_venta, articulos.tipo, stock.stock_completo AS stock FROM articulos LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado)AS stock_completo, producto_id FROM art_stock) AS stock ON producto_id = articulos.id";
+            SQL = "SELECT articulos.id, articulos.cod, articulos.nombre, articulos.precio_venta, "
+                    + "articulos.tipo, stock.stock_completo AS stock FROM articulos "
+                    + "LEFT JOIN (SELECT SUM(stock_actual + stock_pedido - stock_reservado) "
+                    + "AS stock_completo, producto_id FROM art_stock) AS stock ON producto_id = articulos.id";
             break;
         }
         case "Pedido":{
             
-            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,stock_pedido AS stock"
+            SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,stock_pedido AS stock, "
                 + "articulos.precio_venta, articulos.tipo FROM articulos "
-                + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id"
+                + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
                 + "WHERE articulos.state= 'ACTIVO'";
             break;
         }
@@ -228,7 +236,7 @@ public class ProductoDAO {
        
         ResultSet rs = null;
         rs = conexion.EjecutarConsultaSQL(SQL);
-        
+        System.out.println(" en listado de stock, sql es: \n"+SQL);
         try{
             
             if(rs.next()){
@@ -314,6 +322,41 @@ public class ProductoDAO {
                 + s.getStock_ingresado()+","+s.getStock_pedido()+","+s.getStock_reservado()+","
                 + s.getPrecio_compra()+",'"+s.getFechaCompra()+"')";
         conexion.EjecutarOperacion(SQL);
+    }
+    
+    //productoDAO.guardarNuevoIva(nombre, valor);
+    public String guardarNuevoIva( float valor){
+       
+            String resultado ="No se pudo guardar el iva";        
+            String SQL = "INSERT INTO iva (valor) VALUES ("+valor+")";
+                int res = conexion.EjecutarOperacion(SQL);
+                System.out.println("res "+res);
+                System.out.println("SQL :"+SQL);
+                if(res<0){
+                    resultado="El iva ingresado ya existe";
+                    return resultado;
+                } 
+                else{
+                    resultado= "EXITO";
+                }
+                return resultado;
+    }
+
+    public List<Float> recuperarIvas() {
+        List<Float> ivas = new ArrayList<>();
+        try {
+            System.out.println("U ca?");
+            String SQL = "SELECT * FROM iva";
+            ResultSet rs =conexion.EjecutarConsultaSQL(SQL);
+            while(rs.next()){
+                
+                Float iva=rs.getFloat("valor");
+                System.out.println("Entre en recuperar ivas con "+iva);
+                ivas.add(iva);
+            } }catch(Exception ex){
+            new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+        }
+        return ivas;
     }
 
 }

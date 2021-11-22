@@ -67,12 +67,14 @@ INSERT INTO aprobaciones (id, credito_id, empleado_id, fecha, estado) VALUES
 --
 -- Table structure for table articulos
 --
-
+-- tipo 1 existente, 2 pedido 3 usado
+-- Freezer Inelro Mod. FIH-350  325lts. Full -Dual-Interior Pintado 
+-- SELECT precio_compra, producto_id FROM art_stock WHERE updated_at = (SELECT MAX(updated_at) FROM art_stock GROUP BY producto_id)
 DROP TABLE IF EXISTS articulos;
 CREATE TABLE IF NOT EXISTS articulos (
   id int(11) NOT NULL AUTO_INCREMENT,
   cod int(11) NOT NULL,
-  nombre varchar(50) NOT NULL,
+  nombre varchar(70) NOT NULL,
   codigo_ean varchar(50) DEFAULT NULL,
   codigo_barra varchar(50) DEFAULT NULL,
   rubro_id int(11) DEFAULT NULL,
@@ -80,7 +82,7 @@ CREATE TABLE IF NOT EXISTS articulos (
   stock_minimo float DEFAULT NULL,
   proveedor_id int(11) NOT NULL,
   iva float DEFAULT 0,
-  observaciones varchar(50) DEFAULT NULL,
+  observaciones varchar(60) DEFAULT NULL,
   costo_flete float DEFAULT 0,
   sobretasa_iva float DEFAULT 0,
   impuesto_interno float DEFAULT 0,
@@ -97,6 +99,22 @@ CREATE TABLE IF NOT EXISTS articulos (
   KEY proveedor_id (proveedor_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `articulos`
+--
+
+
+--
+-- Disparadores `articulos`
+--
+DELIMITER $$
+CREATE TRIGGER `articulos_create` BEFORE INSERT ON `articulos` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `articulos_update` BEFORE UPDATE ON `articulos` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 --
 -- Dumping data for table articulos
 --
@@ -129,6 +147,17 @@ CREATE TABLE IF NOT EXISTS articulo_cuota (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Disparadores `articulo_cuota`
+--
+DELIMITER $$
+CREATE TRIGGER `articulo_cuota_create` BEFORE INSERT ON `articulo_cuota` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `articulo_cuota_update` BEFORE UPDATE ON `articulo_cuota` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+--
 -- Dumping data for table articulo_cuota
 --
 
@@ -151,7 +180,17 @@ CREATE TABLE IF NOT EXISTS art_rubro (
   state varchar(20) DEFAULT 'ACTIVO',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+--
+-- Disparadores `art_rubro`
+--
+DELIMITER $$
+CREATE TRIGGER `art_rubro_create` BEFORE INSERT ON `art_rubro` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `art_rubro_update` BEFORE UPDATE ON `art_rubro` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 --
 -- Dumping data for table art_rubro
 --
@@ -173,10 +212,10 @@ DROP TABLE IF EXISTS art_stock;
 CREATE TABLE IF NOT EXISTS art_stock (
   id int(11) NOT NULL AUTO_INCREMENT,
   producto_id int(11) NOT NULL,
-  stock_actual float DEFAULT NULL,
-  stock_ingresado float DEFAULT NULL,
-  stock_pedido float DEFAULT NULL,
-  stock_reservado float DEFAULT NULL,
+  stock_actual float DEFAULT 0,
+  stock_ingresado float DEFAULT 0,
+  stock_pedido float DEFAULT 0,
+  stock_reservado float DEFAULT 0,
   precio_compra float NOT NULL DEFAULT 0,
   created_at timestamp NULL DEFAULT current_timestamp(),
   updated_at timestamp NULL DEFAULT NULL,
@@ -185,6 +224,32 @@ CREATE TABLE IF NOT EXISTS art_stock (
   PRIMARY KEY (id),
   KEY producto_id (producto_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+--
+-- Disparadores `art_stock`
+--
+DELIMITER $$
+CREATE TRIGGER `actualizar_stock_delete` AFTER DELETE ON `art_stock` FOR EACH ROW UPDATE articulos SET articulos.stock_existente = (SELECT SUM(stock_actual) FROM art_stock WHERE art_stock.producto_id = OLD.producto_id) WHERE articulos.id = OLD.producto_id
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `actualizar_stock_insert` AFTER INSERT ON `art_stock` FOR EACH ROW UPDATE articulos SET articulos.stock_existente = (SELECT SUM(stock_actual) FROM art_stock WHERE art_stock.producto_id = NEW.producto_id) WHERE articulos.id = NEW.producto_id
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `actualizar_stock_update` AFTER UPDATE ON `art_stock` FOR EACH ROW UPDATE articulos SET articulos.stock_existente = (SELECT SUM(stock_actual) FROM art_stock WHERE art_stock.producto_id = NEW.producto_id) WHERE articulos.id = NEW.producto_id
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `art_stock_create` BEFORE INSERT ON `art_stock` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `art_stock_update` BEFORE UPDATE ON `art_stock` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 --
 -- Dumping data for table art_stock
@@ -216,6 +281,19 @@ CREATE TABLE IF NOT EXISTS art_venta_part (
   KEY articulos_id (articulos_id),
   KEY venta_particular_id (venta_particular_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Disparadores `art_venta_part`
+--
+DELIMITER $$
+CREATE TRIGGER `art_venta_part_create` BEFORE INSERT ON `art_venta_part` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `art_venta_part_update` BEFORE UPDATE ON `art_venta_part` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -261,24 +339,8 @@ CREATE TABLE IF NOT EXISTS barrio (
   KEY localidad_id (localidad_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table barrio
---
 
-INSERT INTO barrio (id, nombre, created_at, updated_at, state, localidad_id) VALUES
-(1, 'No definido', '2021-02-02 17:36:01', '2021-02-02 17:36:01', 'ACTIVO', 1),
-(2, 'No definido', '2021-03-30 19:11:17', '2021-03-30 19:11:17', 'ACTIVO', 2),
-(3, 'No definido', '2021-03-30 19:11:26', '2021-03-30 19:11:26', 'ACTIVO', 3),
-(4, 'capital', '2021-03-30 19:11:33', '2021-03-30 19:11:33', 'ACTIVO', 3),
-(5, 'No definido', '2021-05-19 12:53:24', '2021-05-19 12:53:24', 'ACTIVO', 4),
-(6, 'No definido', '2021-05-19 12:53:35', '2021-05-19 12:53:35', 'ACTIVO', 5),
-(7, 'No definido', '2021-05-19 12:53:52', '2021-05-19 12:53:52', 'ACTIVO', 6),
-(8, 'la merced', '2021-05-19 12:53:59', '2021-05-19 12:53:59', 'ACTIVO', 6),
-(9, 'No definido', '2021-06-12 02:16:53', '2021-06-12 02:16:53', 'ACTIVO', 7),
-(10, 'No definido', '2021-06-12 02:17:15', '2021-06-12 02:17:15', 'ACTIVO', 8),
-(11, 'RAWSON', '2021-06-12 02:17:28', '2021-06-12 02:17:28', 'ACTIVO', 8),
-(12, 'No definido', '2021-06-19 14:01:27', '2021-06-19 14:01:27', 'ACTIVO', 9),
-(13, 'No definido', '2021-06-19 14:01:58', '2021-06-19 14:01:58', 'ACTIVO', 10);
+
 
 -- --------------------------------------------------------
 
@@ -310,6 +372,19 @@ CREATE TABLE IF NOT EXISTS carton (
   PRIMARY KEY (id),
   KEY credito_id (credito_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Disparadores `carton`
+--
+DELIMITER $$
+CREATE TRIGGER `carton_create` BEFORE INSERT ON `carton` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `carton_update` BEFORE UPDATE ON `carton` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -364,6 +439,7 @@ CREATE TABLE IF NOT EXISTS comercio (
   nombre varchar(50) DEFAULT NULL,
   referencia varchar(100) DEFAULT NULL,
   numero int(11) DEFAULT NULL,
+  esPropietario tinyint(1) DEFAULT '0',
   direIdemProp tinyint(1) DEFAULT 0,
   zona varchar(20) DEFAULT NULL,
   cuit varchar(20) DEFAULT NULL,
@@ -378,11 +454,23 @@ CREATE TABLE IF NOT EXISTS comercio (
   KEY direccion_id (direccion_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+--
+-- Disparadores `comercio`
+--
+DELIMITER $$
+CREATE TRIGGER `comercio_create` BEFORE INSERT ON `comercio` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `comercio_update` BEFORE UPDATE ON `comercio` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 --
 -- Dumping data for table comercio
 --
 
-INSERT INTO comercio (id, cliente_id, direccion_id, rubro_id, nombre, referencia, numero, propietario, zona, cuit, tipo_iva, inicio_actividades, state, created_at, updated_at) VALUES
+INSERT INTO comercio (id, cliente_id, direccion_id, rubro_id, nombre, referencia, numero, esPropietario, zona, cuit, tipo_iva, inicio_actividades, state, created_at, updated_at) VALUES
 (1, 1, 1, 1, 'c1c1', 'asd', 123, 1, 'zona 2', '123213123', 'Consumidor Final', '2021-04-01 03:00:00', 'ACTIVO', '2021-04-02 20:11:04', '2021-04-02 20:11:04'),
 (2, 1, 1, 1, 'c1c1', 'asd', 123, 1, 'zona 2', '123213123', 'Consumidor Final', '2021-04-01 03:00:00', 'ACTIVO', '2021-04-02 20:12:14', '2021-04-02 20:12:14'),
 (4, 1, 13, 1, '', 'ASD', 123, 1, 'zona 1', '13313123', 'Consumidor Final', '2021-06-30 01:34:27', 'ACTIVO', '2021-06-30 01:34:54', '2021-06-30 01:35:11');
@@ -399,7 +487,7 @@ CREATE TABLE IF NOT EXISTS contactos (
   id_persona int(11) NOT NULL,
   contacto varchar(50) NOT NULL,
   nombre varchar(50) DEFAULT NULL,
-  cargo varchar(50) NOT NULL,
+  cargo varchar(50) NULL DEFAULT NULL,
   tipo varchar(20) DEFAULT NULL,
   created_at timestamp NULL DEFAULT current_timestamp(),
   updated_at timestamp NULL DEFAULT NULL,
@@ -407,6 +495,19 @@ CREATE TABLE IF NOT EXISTS contactos (
   tipo_persona varchar(50) NOT NULL DEFAULT 'CLIENTE',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Disparadores `contactos`
+--
+DELIMITER $$
+CREATE TRIGGER `contactos_create` BEFORE INSERT ON `contactos` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `contactos_update` BEFORE UPDATE ON `contactos` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 --
 -- Dumping data for table contactos
@@ -461,10 +562,24 @@ CREATE TABLE IF NOT EXISTS credito (
   fecha_credito timestamp NOT NULL DEFAULT '1970-01-01 00:00:01',
   nro_solicitud int(11) NOT NULL,
   cuota_id int(11) DEFAULT -1,
+  cobrador_id INT NOT NULL DEFAULT -1,
   PRIMARY KEY (id),
   KEY credito_ibfk_1 (cliente_id),
-  KEY credito_ibfk_2 (comercio_id)
+  KEY credito_ibfk_2 (comercio_id),
+  KEY credito_ibfk_3 (cobrador_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `credito`
+--
+DELIMITER $$
+CREATE TRIGGER `credito_create` BEFORE INSERT ON `credito` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `credito_update` BEFORE UPDATE ON `credito` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
 
 --
 -- Dumping data for table credito
@@ -496,6 +611,17 @@ CREATE TABLE IF NOT EXISTS cuota (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Disparadores `cuota`
+--
+DELIMITER $$
+CREATE TRIGGER `cuota_create` BEFORE INSERT ON `cuota` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `cuota_update` BEFORE UPDATE ON `cuota` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+--
 -- Dumping data for table cuota
 --
 
@@ -519,6 +645,17 @@ CREATE TABLE IF NOT EXISTS devolucion (
   PRIMARY KEY (id),
   KEY art_venta_part_id (art_venta_part_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `devolucion`
+--
+DELIMITER $$
+CREATE TRIGGER `devolucion_create` BEFORE INSERT ON `devolucion` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `devolucion_update` BEFORE UPDATE ON `devolucion` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -537,6 +674,18 @@ CREATE TABLE IF NOT EXISTS devolucion_cred (
   PRIMARY KEY (id),
   KEY art_cred_id (art_cred_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `devolucion_cred`
+--
+DELIMITER $$
+CREATE TRIGGER `devolucion_cred_create` BEFORE INSERT ON `devolucion_cred` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `devolucion_cred_update` BEFORE UPDATE ON `devolucion_cred` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
 
 -- --------------------------------------------------------
 
@@ -555,6 +704,18 @@ CREATE TABLE IF NOT EXISTS direccion (
   PRIMARY KEY (id),
   KEY barrio_id (barrio_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Disparadores `direccion`
+--
+DELIMITER $$
+CREATE TRIGGER `direccion_create` BEFORE INSERT ON `direccion` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `direccion_update` BEFORE UPDATE ON `direccion` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 --
 -- Dumping data for table direccion
@@ -612,6 +773,18 @@ CREATE TABLE IF NOT EXISTS empleado (
   PRIMARY KEY (id),
   KEY direccion_id (direccion_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `empleado`
+--
+DELIMITER $$
+CREATE TRIGGER `empleado_create` BEFORE INSERT ON `empleado` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `empleado_update` BEFORE UPDATE ON `empleado` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
 
 --
 -- Dumping data for table empleado
@@ -637,12 +810,12 @@ DROP TABLE IF EXISTS factura_proveedor;
 CREATE TABLE IF NOT EXISTS factura_proveedor (
   id int(11) NOT NULL AUTO_INCREMENT,
   nro_pedido int(50) DEFAULT NULL,
-  nro_factura int(50) NOT NULL,
+  nro_factura int(50) NOT NULL UNIQUE,
   total int(50) NOT NULL,
   costo_flete float NOT NULL DEFAULT 0,
   forma_pago varchar(20) DEFAULT 'EFECTIVO',
-  fecha_pago timestamp NULL DEFAULT NULL,
-  fecha_factura timestamp NULL DEFAULT NULL,
+  fecha_pago date NULL DEFAULT NULL,
+  fecha_factura date NULL DEFAULT NULL,
   created_at timestamp NULL DEFAULT current_timestamp(),
   updated_at timestamp NULL DEFAULT NULL,
   state varchar(20) DEFAULT 'ACTIVO',
@@ -651,6 +824,18 @@ CREATE TABLE IF NOT EXISTS factura_proveedor (
   tipo_factura varchar(50) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `factura_proveedor`
+--
+DELIMITER $$
+CREATE TRIGGER `factura_proveedor_create` BEFORE INSERT ON `factura_proveedor` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `factura_proveedor_update` BEFORE UPDATE ON `factura_proveedor` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
 
 -- --------------------------------------------------------
 
@@ -673,6 +858,17 @@ CREATE TABLE IF NOT EXISTS historial_precio_venta (
   KEY stock_id (stock_id),
   KEY cuota_id (cuota_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `historial_precio_venta`
+--
+DELIMITER $$
+CREATE TRIGGER `historial_precio_venta_create` BEFORE INSERT ON `historial_precio_venta` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `historial_precio_venta_update` BEFORE UPDATE ON `historial_precio_venta` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -688,10 +884,28 @@ CREATE TABLE IF NOT EXISTS localidad (
   updated_at timestamp NULL DEFAULT NULL,
   state varchar(20) DEFAULT 'ACTIVO',
   provincia_id int(11) NOT NULL,
-  codPostal varchar(20) DEFAULT NULL,
+  codPostal varchar(20) DEFAULT NULL UNIQUE,
   PRIMARY KEY (id),
   KEY provincia_id (provincia_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Disparadores `localidad`
+--
+DELIMITER $$
+CREATE TRIGGER `barrio_vacio` AFTER INSERT ON `localidad` FOR EACH ROW BEGIN 
+INSERT INTO barrio(nombre,localidad_id) VALUES ("No definido",NEW.id);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `localidad_create` BEFORE INSERT ON `localidad` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `localidad_update` BEFORE UPDATE ON `localidad` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 --
 -- Dumping data for table localidad
@@ -700,14 +914,13 @@ CREATE TABLE IF NOT EXISTS localidad (
 INSERT INTO localidad (id, nombre, created_at, updated_at, state, provincia_id, codPostal) VALUES
 (1, 'No definido', '2021-02-02 17:36:01', '2021-02-02 17:36:01', 'ACTIVO', 1, NULL),
 (2, 'No definido', '2021-03-30 19:11:17', '2021-03-30 19:11:17', 'ACTIVO', 2, NULL),
-(3, 'capital', '2021-03-30 19:11:26', '2021-03-30 19:11:26', 'ACTIVO', 2, NULL),
+(3, 'ROSARIO', '2021-03-30 19:11:26', '2021-03-30 19:11:26', 'ACTIVO', 4, '2000'),
 (4, 'No definido', '2021-05-19 12:53:24', '2021-05-19 12:53:24', 'ACTIVO', 3, NULL),
 (5, 'No definido', '2021-05-19 12:53:35', '2021-05-19 12:53:35', 'ACTIVO', 4, NULL),
-(6, 'san luis', '2021-05-19 12:53:52', '2021-05-31 00:31:25', 'ACTIVO', 4, '5700'),
-(7, 'JUSTO DARACT ', '2021-06-12 02:16:53', '2021-06-12 02:16:53', 'ACTIVO', 4, '3333'),
-(8, 'JUSTO DARACT 2', '2021-06-12 02:17:15', '2021-06-12 02:17:15', 'ACTIVO', 4, '44444'),
-(9, 'No definido', '2021-06-19 14:01:27', '2021-06-19 14:01:27', 'ACTIVO', 5, NULL),
-(10, 'PEREZ', '2021-06-19 14:01:58', '2021-06-19 14:01:58', 'ACTIVO', 5, '2121');
+(6, 'SAN LUIS', '2021-05-19 12:53:52', '2021-05-31 00:31:25', 'ACTIVO', 2, '5700'),
+(7, 'JUSTO DARACT ', '2021-06-12 02:16:53', '2021-06-12 02:16:53', 'ACTIVO', 2, '5738'),
+(8, 'LA PUNTA', '2021-06-12 02:17:15', '2021-06-12 02:17:15', 'ACTIVO', 2, 'D5710');
+
 
 -- --------------------------------------------------------
 
@@ -727,6 +940,18 @@ CREATE TABLE IF NOT EXISTS nota_pedido (
   proveedor_id int(11) DEFAULT NULL,
   PRIMARY KEY (nro_pedido)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `nota_pedido`
+--
+DELIMITER $$
+CREATE TRIGGER `nota_pedido_create` BEFORE INSERT ON `nota_pedido` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `nota_pedido_update` BEFORE UPDATE ON `nota_pedido` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
 
 --
 -- Dumping data for table nota_pedido
@@ -777,13 +1002,6 @@ CREATE TABLE IF NOT EXISTS pais (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table pais
---
-
-INSERT INTO pais (id, nombre, created_at, updated_at, state) VALUES
-(1, 'mi pais', '2021-02-02 17:36:01', '2021-02-02 17:36:01', 'ACTIVO'),
-(2, 'argentina', '2021-05-19 12:53:24', '2021-05-19 12:53:24', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -816,6 +1034,17 @@ CREATE TABLE IF NOT EXISTS planilla (
   PRIMARY KEY (id),
   KEY cobrador_id (cobrador_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `planilla`
+--
+DELIMITER $$
+CREATE TRIGGER `planilla_create` BEFORE INSERT ON `planilla` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `planilla_update` BEFORE UPDATE ON `planilla` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -846,6 +1075,18 @@ CREATE TABLE IF NOT EXISTS proveedores (
   KEY direccion_id (direccion_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+--
+-- Disparadores `proveedores`
+--
+DELIMITER $$
+CREATE TRIGGER `proveedores_create` BEFORE INSERT ON `proveedores` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `proveedores_update` BEFORE UPDATE ON `proveedores` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 --
 -- Dumping data for table proveedores
 --
@@ -875,15 +1116,33 @@ CREATE TABLE IF NOT EXISTS provincia (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Disparadores `provincia`
+--
+DELIMITER $$
+CREATE TRIGGER `localidad_vacio` AFTER INSERT ON `provincia` FOR EACH ROW BEGIN 
+INSERT INTO localidad(nombre,provincia_id) VALUES ("No definido",NEW.id);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `provincia_create` BEFORE INSERT ON `provincia` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `provincia_update` BEFORE UPDATE ON `provincia` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
+
+--
 -- Dumping data for table provincia
 --
 
 INSERT INTO provincia (id, nombre, created_at, updated_at, state, pais_id) VALUES
 (1, 'No definido', '2021-02-02 17:36:01', '2021-02-02 17:36:01', 'ACTIVO', 1),
-(2, 'san luis', '2021-03-30 19:11:17', '2021-03-30 19:11:17', 'ACTIVO', 1),
-(3, 'No definido', '2021-05-19 12:53:24', '2021-05-19 12:53:24', 'ACTIVO', 2),
-(4, 'san luis', '2021-05-19 12:53:35', '2021-05-19 12:53:35', 'ACTIVO', 2),
-(5, 'SANTA FE', '2021-06-19 14:01:27', '2021-06-19 14:01:27', 'ACTIVO', 2);
+(2, 'SAN LUIS', '2021-03-30 19:11:17', '2021-03-30 19:11:17', 'ACTIVO', 1),
+(3, 'MENDOZA', '2021-05-19 12:53:24', '2021-05-19 12:53:24', 'ACTIVO', 1),
+(4, 'SANTA FE', '2021-06-19 14:01:27', '2021-06-19 14:01:27', 'ACTIVO', 1);
 
 -- --------------------------------------------------------
 
@@ -929,6 +1188,7 @@ CREATE TABLE IF NOT EXISTS remito (
   anulado tinyint(1) NOT NULL DEFAULT 0,
   observacion int(11) DEFAULT NULL,
   nro_remito int(11) NOT NULL,
+  fletero varchar(50) DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -955,7 +1215,17 @@ CREATE TABLE IF NOT EXISTS renglon_credito (
   KEY producto_id (producto_id),
   KEY credito_id (credito_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+--
+-- Disparadores `renglon_credito`
+--
+DELIMITER $$
+CREATE TRIGGER `renglon_credito_create` BEFORE INSERT ON `renglon_credito` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `renglon_credito_update` BEFORE UPDATE ON `renglon_credito` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 --
 -- Dumping data for table renglon_credito
 --
@@ -987,6 +1257,18 @@ CREATE TABLE IF NOT EXISTS renglon_factura (
   KEY producto_id (producto_id),
   KEY nro_factura (nro_factura)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `renglon_factura`
+--
+DELIMITER $$
+CREATE TRIGGER `renglon_factura_create` BEFORE INSERT ON `renglon_factura` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `renglon_factura_update` BEFORE UPDATE ON `renglon_factura` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
 
 -- --------------------------------------------------------
 
@@ -1012,6 +1294,18 @@ CREATE TABLE IF NOT EXISTS renglon_nota (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Disparadores `renglon_nota`
+--
+DELIMITER $$
+CREATE TRIGGER `renglon_nota_create` BEFORE INSERT ON `renglon_nota` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `renglon_nota_update` BEFORE UPDATE ON `renglon_nota` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+
+--
 -- Dumping data for table renglon_nota
 --
 
@@ -1027,7 +1321,7 @@ INSERT INTO renglon_nota (id, sub_total, nota_pedido_id, producto_id, costo_prod
 --
 
 DROP TABLE IF EXISTS renglon_remito;
-CREATE TABLE IF NOT EXISTS renglon_remito (
+CREATE TABLE IF NOT EXISTS renglon_remito  (
   id int(11) NOT NULL AUTO_INCREMENT,
   renglon_id int(11) NOT NULL,
   remito_id int(11) NOT NULL,
@@ -1050,7 +1344,17 @@ CREATE TABLE IF NOT EXISTS tipo_pago (
   updated_at timestamp NULL DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+--
+-- Disparadores `tipo_pago`
+--
+DELIMITER $$
+CREATE TRIGGER `tipo_pago_create` BEFORE INSERT ON `tipo_pago` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `tipo_pago_update` BEFORE UPDATE ON `tipo_pago` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 -- --------------------------------------------------------
 
 --
@@ -1069,6 +1373,13 @@ CREATE TABLE IF NOT EXISTS unificacion (
   KEY credito_id (credito_id),
   KEY unificado_id (unificado_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `unificacion`
+--
+DELIMITER $$
+CREATE TRIGGER `unificacion_create` BEFORE INSERT ON `unificacion` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -1091,6 +1402,17 @@ CREATE TABLE IF NOT EXISTS venta_particular (
   updated_at timestamp NULL DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Disparadores `venta_particular`
+--
+DELIMITER $$
+CREATE TRIGGER `venta_particular_create` BEFORE INSERT ON `venta_particular` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `venta_particular_update` BEFORE UPDATE ON `venta_particular` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
 
 --
 -- Constraints for dumped tables
@@ -1158,7 +1480,7 @@ ALTER TABLE cliente
 -- Constraints for table comercio
 --
 ALTER TABLE comercio
-  ADD CONSTRAINT comercio_ibfk_1 FOREIGN KEY (cliente_id) REFERENCES `cliente` (id),
+  ADD CONSTRAINT comercio_ibfk_1 FOREIGN KEY (cliente_id) REFERENCES cliente (id),
   ADD CONSTRAINT comercio_ibfk_2 FOREIGN KEY (rubro_id) REFERENCES art_rubro (id),
   ADD CONSTRAINT comercio_ibfk_3 FOREIGN KEY (direccion_id) REFERENCES direccion (id);
 
@@ -1166,8 +1488,9 @@ ALTER TABLE comercio
 -- Constraints for table credito
 --
 ALTER TABLE credito
-  ADD CONSTRAINT credito_ibfk_1 FOREIGN KEY (cliente_id) REFERENCES `cliente` (id),
-  ADD CONSTRAINT credito_ibfk_2 FOREIGN KEY (comercio_id) REFERENCES comercio (id);
+  ADD CONSTRAINT credito_ibfk_1 FOREIGN KEY (cliente_id) REFERENCES cliente (id),
+  ADD CONSTRAINT credito_ibfk_2 FOREIGN KEY (comercio_id) REFERENCES comercio (id),
+  ADD CONSTRAINT credito_ibfk_3 FOREIGN KEY (cobrador_id) REFERENCES empleado (id);
 
 --
 -- Constraints for table devolucion
@@ -1230,13 +1553,25 @@ ALTER TABLE provincia
 ALTER TABLE relacion
   ADD CONSTRAINT relacion_ibfk_1 FOREIGN KEY (cliente1_id) REFERENCES `cliente` (id),
   ADD CONSTRAINT relacion_ibfk_2 FOREIGN KEY (cliente2_id) REFERENCES `cliente` (id);
+--
+-- Filtros para la tabla `remito`
+--
+ALTER TABLE remito
+  ADD CONSTRAINT remito_ibfk_1 FOREIGN KEY (credito_id) REFERENCES credito (id);
+
+--
+-- Filtros para la tabla `renglon_credito`
+--
+ALTER TABLE renglon_credito
+  ADD CONSTRAINT renglon_credito_ibfk_1 FOREIGN KEY (producto_id) REFERENCES articulos (id),
+  ADD CONSTRAINT renglon_credito_ibfk_2 FOREIGN KEY (credito_id) REFERENCES credito (id);
 
 --
 -- Constraints for table renglon_factura
 --
 ALTER TABLE renglon_factura
   ADD CONSTRAINT renglon_factura_ibfk_1 FOREIGN KEY (producto_id) REFERENCES articulos (id),
-  ADD CONSTRAINT renglon_factura_ibfk_2 FOREIGN KEY (nro_factura) REFERENCES factura_proveedor (id);
+  ADD CONSTRAINT renglon_factura_ibfk_2 FOREIGN KEY (nro_factura) REFERENCES factura_proveedor (nro_factura);
 
 --
 -- Constraints for table renglon_nota
@@ -1245,6 +1580,65 @@ ALTER TABLE renglon_nota
   ADD CONSTRAINT renglon_nota_ibfk_1 FOREIGN KEY (producto_id) REFERENCES articulos (id),
   ADD CONSTRAINT renglon_nota_ibfk_2 FOREIGN KEY (nota_pedido_id) REFERENCES nota_pedido (nro_pedido);
 COMMIT;
+--
+-- Filtros para la tabla `renglon_remito`
+--
+ALTER TABLE renglon_remito
+  ADD CONSTRAINT renglon_remito_ibfk_1 FOREIGN KEY (renglon_id) REFERENCES renglon_credito (id),
+  ADD CONSTRAINT renglon_remito_ibfk_2 FOREIGN KEY (remito_id) REFERENCES remito (id);
+
+
+
+--
+-- Disparadores `barrio`
+--
+DELIMITER $$
+CREATE TRIGGER `barrio_create` BEFORE INSERT ON `barrio` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `barrio_update` BEFORE UPDATE ON `barrio` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `direccion_vacio` AFTER INSERT ON `barrio` FOR EACH ROW BEGIN 
+INSERT INTO direccion(nombre,barrio_id) VALUES ("No definido",NEW.id);
+END
+$$
+DELIMITER ;
+
+--
+-- Dumping data for table barrio
+--
+
+
+
+--
+-- Disparadores `pais`
+--
+DELIMITER $$
+CREATE TRIGGER `pais_create` BEFORE INSERT ON `pais` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW()
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `pais_update` BEFORE UPDATE ON `pais` FOR EACH ROW SET NEW.updated_at = NOW(), NEW.created_at = OLD.created_at
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `provincia_vacio` AFTER INSERT ON `pais` FOR EACH ROW BEGIN 
+INSERT INTO provincia(nombre,pais_id) VALUES ("No definido",NEW.id);
+END
+$$
+DELIMITER ;
+
+--
+-- Dumping data for table pais
+--
+
+INSERT INTO pais (id, nombre, created_at, updated_at, state) VALUES
+(1, 'ARGENTINA', '2021-02-02 17:36:01', '2021-02-02 17:36:01', 'ACTIVO');
+
+ALTER TABLE `factura_proveedor` CHANGE `total` `total` FLOAT NOT NULL;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

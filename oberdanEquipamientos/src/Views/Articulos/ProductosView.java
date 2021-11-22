@@ -74,6 +74,7 @@ public class ProductosView extends javax.swing.JPanel {
         new Statics.TextPrompt("Buscar..", txtf_productos_buscar);
         Pestaña1_dinamica.cambioBusqueda("");
         Pestaña1_dinamica.ivas=productoDAO.recuperarIvas();
+       
     }
 public void limpiarCamposInventario() {
         txtf_productos_nombre.setEnabled(false);
@@ -1427,7 +1428,7 @@ public void limpiarCamposInventario() {
         jLabel56.setText("Sobretasa I.V.A");
 
         jLabel60.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel60.setText("Impuesto interno %");
+        jLabel60.setText("Imp interno %");
 
         jLabel61.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel61.setText("Imp interno fijo %");
@@ -1525,20 +1526,18 @@ public void limpiarCamposInventario() {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel55)
-                                    .addComponent(jLabel64)
-                                    .addComponent(jLabel52)
-                                    .addComponent(jLabel237, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel238, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(11, 11, 11))
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel55)
+                                .addComponent(jLabel64)
+                                .addComponent(jLabel52)
+                                .addComponent(jLabel237, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel238, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCombo_iva_Articulo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addComponent(jCombo_iva_Articulo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(txtf_productos_venta)
@@ -1552,13 +1551,13 @@ public void limpiarCamposInventario() {
                                         .addComponent(txtf_sobretasa_iva, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(jButtonAddIvaArti)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel60, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel61, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtf_impuesto_int, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtf_imp_int_fijo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -2403,7 +2402,7 @@ public void limpiarCamposInventario() {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2764,7 +2763,7 @@ public void limpiarCamposInventario() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -2967,6 +2966,7 @@ public void limpiarCamposInventario() {
     private void tabla_productos_busquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_productos_busquedaMouseClicked
         int pos = tabla_productos_busqueda.getSelectedRow();
         if (pos != -1) {
+            Pestaña1_dinamica.cargarIvas();
             Pestaña1_dinamica.cargarProducto(pos);
         }
     }//GEN-LAST:event_tabla_productos_busquedaMouseClicked
@@ -3164,10 +3164,14 @@ public void limpiarCamposInventario() {
 
     private void btn_productoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productoNuevoActionPerformed
         modificarTrue = false;
+        txtf_productos_nombre.requestFocus();
         Pestaña1_dinamica.habilitarCampos(true, "NUEVO");
-        
+        //Pestaña1_dinamica.limpiarCampos(); no funciona como quiero
+        //Pestaña1_dinamica.limpiarCamposStockNuevo();
+        Pestaña1_dinamica.cargarIvas();
         Pestaña1_dinamica.prodSeleccionado = new Producto(); 
         Pestaña1_dinamica.prodSeleccionado.setId(productoDAO.getNextID());
+        
     }//GEN-LAST:event_btn_productoNuevoActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
@@ -3202,21 +3206,26 @@ public void limpiarCamposInventario() {
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
         if(!modificarTrue){ // esta guardando un producto nuevo
             if(!Pestaña1_dinamica.guardarNuevoProd()){ //si no se guardo el producto corta el metodo
+                principal.lbl_estado.setText("Error- Ocurrio un error al guardar el producto.");
                 return;
             }
             //, si se guardo actualiza el resto de los campos 
-            principal.lbl_estado.setText("El producto se creo con exito.");
-            principal.lbl_estado.setForeground(Color.GREEN);
+            
+                principal.lbl_estado.setText("El producto se creo con exito.");
+                principal.lbl_estado.setForeground(Color.GREEN);
+            
+            
             modificarTrue = false;
             //(se hace en dos metodos porque es un fix y aprovecho lo que esta hecho)
+            
         }
-        if(Pestaña1_dinamica.actualizarProduto()){
+        if(Pestaña1_dinamica.actualizarProduto()){ //esta actualizando un producto
             if(modificarTrue)
                 principal.lbl_estado.setText("El producto se actualizo con exito.");  
         }else{
             principal.lbl_estado.setText("Ocurrio un error al actualizar el producto.");
         }
-        Statics.Funciones.limpiarlbl_estado();
+        //Statics.Funciones.limpiarlbl_estado();
         limpiarCamposInventario();
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
@@ -3332,16 +3341,18 @@ private void funcionalidadBotonOkAddIva(){
              jLabelInfoNuevoIva.setText("INFO: ERROR, DEBE INGRESAR UN NUMERO");
              return;
          }
-       float iva=Float.parseFloat(valor);
+       float iva=(float)Float.parseFloat(valor);
        String resultado= productoDAO.guardarNuevoIva(iva);
        if(resultado.equalsIgnoreCase("EXITO")){
            jTextF_IngresarNuevoIva.setText("");
            jLabelInfoNuevoIva.setText("INFO");
            jDialogAñadirIva.dispose();
            principal.lbl_estado.setText("Exito: Se guardo un nuevo iva");
+           txtf_impuesto_int.requestFocus();
        }
        else{
            jLabelInfoNuevoIva.setText(resultado);
+           jTextF_IngresarNuevoIva.requestFocus();
            return;
        }
        
@@ -3717,7 +3728,12 @@ private void funcionalidadBotonOkAddIva(){
                 System.out.println("Error no selecciono tipo de busqueda");
             }
         }
-
+        private void cargarIvas(){
+            jCombo_iva_Articulo.removeAllItems();
+            for(int i =0 ; i<ivas.size();i++){
+                jCombo_iva_Articulo.addItem(ivas.get(i));
+            }
+        }
         private void cargarProducto(int pos) {
             if (pos != -1) {
                 unidades_vendidas.setText("----");
@@ -3729,6 +3745,7 @@ private void funcionalidadBotonOkAddIva(){
                 
                 //-------
                 if (prodSeleccionado != null) {
+                    
                     jCombo_iva_Articulo.setSelectedItem(prodSeleccionado.getIva());
                     
                     if (prodSeleccionado.getObservaciones().equals("null")) {
@@ -3790,25 +3807,25 @@ private void funcionalidadBotonOkAddIva(){
                 if (AuxCoeficiente.isEmpty() || !Statics.Funciones.isFloat(AuxCoeficiente)) {
                     coeficiente = 0;
                 } else {
-                    coeficiente = Float.parseFloat(AuxCoeficiente);
+                    coeficiente = (float)Float.parseFloat(AuxCoeficiente)/100;
                 }
                 if (txtf_impuesto_int.getText().isEmpty() || !Statics.Funciones.isFloat(txtf_impuesto_int.getText())) {
                     impInterno = 0;
                 } else {
-                    impInterno = Float.parseFloat(txtf_impuesto_int.getText());
+                    impInterno = (float)Float.parseFloat(txtf_impuesto_int.getText())/100;
                 }
                 if (txtf_imp_int_fijo.getText().isEmpty() || !Statics.Funciones.isFloat(txtf_imp_int_fijo.getText())) {
                     impInternoFijo = 0;
                 } else {
-                    impInternoFijo = Float.parseFloat(txtf_imp_int_fijo.getText());
+                    impInternoFijo = (float)Float.parseFloat(txtf_imp_int_fijo.getText())/100;
                 }
                 if (txtf_sobretasa_iva.getText().isEmpty() || !Statics.Funciones.isFloat(txtf_sobretasa_iva.getText())) {
                     sobreTasaIva = 0;
                 } else {
-                    sobreTasaIva = Float.parseFloat(txtf_sobretasa_iva.getText());
+                    sobreTasaIva = (float)Float.parseFloat(txtf_sobretasa_iva.getText())/100;
                 }
                 if (jCombo_iva_Articulo.getSelectedIndex()!=-1) {
-                    iva = (float) jCombo_iva_Articulo.getSelectedItem();
+                    iva = (float) jCombo_iva_Articulo.getSelectedItem()/100;
                 } else {
                         iva=0;
                 }

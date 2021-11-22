@@ -142,7 +142,7 @@ public class EmpleadosDAO {
                         contactos.add(c);
                     }
                 }catch(Exception ex){
-                    //no hago nada para que no se trabe
+                    new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
                 }
                 e.setContacto((ArrayList<Contacto>) contactos);
                 // info de login:
@@ -152,7 +152,7 @@ public class EmpleadosDAO {
                list.add(e);
             }
        }catch(Exception ex){
-           ex.printStackTrace();
+           new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
        }
 
        return list;
@@ -281,14 +281,15 @@ public class EmpleadosDAO {
                             while(rs.next()){
                                 e.setId(rs.getInt("id"));
                             }
+                            //INSERT INTO `contactos`(`id_persona`, `contacto`, `tipo`, `tipo_persona`) VALUES (2 ,142131 ,"TELEFONO" , "EMPLEADO");
                             SQL = "INSERT INTO contactos (id_persona, contacto, tipo,tipo_persona) VALUES";
                             for(int i = e.getContacto().size()-1 ; i > 0; i--){
                                 SQL += "("+e.getId()+",'"+e.getContacto().get(i).getContacto()+"','"+e.getContacto().get(i).getTipo()+"','EMPLEADO'),";
                             }
-                            SQL += "("+e.getId()+",'"+e.getContacto().get(0).getContacto()+"','"+e.getContacto().get(0).getTipo()+"','EMPLEADO')";
+                            SQL += " ("+e.getId()+",'"+e.getContacto().get(0).getContacto()+"','"+e.getContacto().get(0).getTipo()+"','EMPLEADO')";
                             res = conexion.EjecutarOperacion(SQL);
                             
-                            System.out.println("la consulta para el contacto fie:");
+                            System.out.println("INSERTS PARA  contacto EMPLEADO fie:");
                             System.out.println(""+res);
                         } catch (SQLException ex) {
                             System.out.println("me tiro la exception");

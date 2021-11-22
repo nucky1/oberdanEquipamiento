@@ -86,9 +86,11 @@ public class ComercioDAO {
                 + "`tipo_iva`, `inicio_actividades`, `esPropietario`) "
                 + "VALUES ("+c.getClienteId()+","+c.getDireccion().getId()+","+c.getRubro().getId()+",'"
                 +c.getNombre()+"','"+c.getReferencia()+"',"+c.getNumero()+","
-                + c.getPropietario()+",'"+c.getZona()+"','"+c.getCuit()+"','"
-                + c.getTipo_iva()+"','"+c.getIncio_actividades()+" , "+c.getPropietario()+"')";
-        conexion.EjecutarOperacion(SQL);
+                + c.getDireIdemProp()+",'"+c.getZona()+"','"+c.getCuit()+"','"
+                + c.getTipo_iva()+"', '"+c.getIncio_actividades()+"' , "+c.getPropietario()+")";
+        int resultado=conexion.EjecutarOperacion(SQL);
+        System.out.println("insertando comercio tengo sql: \n"+SQL);
+        System.out.println("Y en conexion devuelve:"+resultado);
         SQL = "SELECT MAX(id) as idLast FROM comercio WHERE state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {

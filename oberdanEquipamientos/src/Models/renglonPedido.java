@@ -14,10 +14,11 @@ import java.util.Objects;
 public class renglonPedido {
     private int id;
     private Producto p;
-    private int cantidad;
-    private int cantFaltante;
+    private int cantidad=0;
+    private int cantFaltante=0;
     private float subTotal;
     private float costo;
+    private float porcentajeIva=1;
 
     public int getCantFaltante() {
         return cantFaltante;
@@ -89,5 +90,6 @@ public class renglonPedido {
         return Objects.hash(id,p,cantidad,subTotal,costo);
     }
 
+    
     
 }

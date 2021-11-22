@@ -104,7 +104,9 @@ public class Pedido {
         }
         this.renglones.add(rp);
     }
-
+    public void limpiarRenglones(){ 
+        this.renglones =null;
+    }
     @Override
     public String toString() {
         return estado+renglones.size();
