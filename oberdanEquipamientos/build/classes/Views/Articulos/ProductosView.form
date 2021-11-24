@@ -1935,10 +1935,10 @@
                                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="txtf_productos_costo" min="-2" pref="121" max="-2" attributes="0"/>
+                                                  <Component id="txtf_productos_costo" min="-2" pref="112" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                                   <Component id="txtf_coeficiente_articulo" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -2049,7 +2049,7 @@
                         <Component class="javax.swing.JLabel" name="jLabel55">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="Precio Costo $"/>
+                            <Property name="text" type="java.lang.String" value="Precio Neto $"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel52">
@@ -2148,7 +2148,7 @@
                         <Component class="javax.swing.JLabel" name="jLabel64">
                           <Properties>
                             <Property name="horizontalAlignment" type="int" value="2"/>
-                            <Property name="text" type="java.lang.String" value="Precio venta $"/>
+                            <Property name="text" type="java.lang.String" value="Precio costo $"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtf_productos_venta">
@@ -2204,7 +2204,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel16">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="CoeF %"/>
+                            <Property name="text" type="java.lang.String" value="Aumento%"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtf_coeficiente_articulo">

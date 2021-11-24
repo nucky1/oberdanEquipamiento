@@ -1412,7 +1412,7 @@ public void limpiarCamposInventario() {
         jLabel237.setText("Codigo de barra");
 
         jLabel55.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel55.setText("Precio Costo $");
+        jLabel55.setText("Precio Neto $");
 
         jLabel52.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel52.setText("Observaciones:");
@@ -1468,7 +1468,7 @@ public void limpiarCamposInventario() {
         });
 
         jLabel64.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel64.setText("Precio venta $");
+        jLabel64.setText("Precio costo $");
 
         txtf_productos_venta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtf_productos_venta.setEnabled(false);
@@ -1499,7 +1499,7 @@ public void limpiarCamposInventario() {
             }
         });
 
-        jLabel16.setText("CoeF %");
+        jLabel16.setText("Aumento%");
 
         txtf_coeficiente_articulo.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
@@ -1566,7 +1566,7 @@ public void limpiarCamposInventario() {
                                     .addComponent(txtf_productos_codigo_barra, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtf_productos_costo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtf_productos_costo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
