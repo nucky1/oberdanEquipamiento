@@ -345,11 +345,9 @@ public class ProductoDAO {
     public List<Float> recuperarIvas() {
         List<Float> ivas = new ArrayList<>();
         try {
-          
             String SQL = "SELECT * FROM iva";
             ResultSet rs =conexion.EjecutarConsultaSQL(SQL);
             while(rs.next()){
-                
                 Float iva=rs.getFloat("valor");
                 ivas.add(iva);
             } }catch(Exception ex){
@@ -359,3 +357,4 @@ public class ProductoDAO {
     }
 
 }
+

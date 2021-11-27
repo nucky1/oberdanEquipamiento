@@ -17,24 +17,51 @@ public class renglonPedido {
     private int cantidad=0;
     private int cantFaltante=0;
     private float subTotal;
-    private float costo;
-    private float porcentajeIva=1;
+    private float neto;
+    private float descuentoUnitario;
+    private float porcentajeIva=0;
+    private float ivaValor=0;
 
+    public float getIvaValor() {
+        return ivaValor;
+    }
+
+    public void setIvaValor(float ivaValor) {
+        this.ivaValor = ivaValor;
+    }
+    
+    
     public int getCantFaltante() {
         return cantFaltante;
     }
-
+  
     public void setCantFaltante(int cantFaltante) {
         this.cantFaltante = cantFaltante;
     }
 
-    
-    public float getCosto() {
-        return costo;
+    public float getDescuentoUnitario() {
+        return descuentoUnitario;
     }
 
-    public void setCosto(float costo) {
-        this.costo = costo;
+    public void setDescuentoUnitario(float descuentoUnitario) {
+        this.descuentoUnitario = descuentoUnitario;
+    }
+
+    public float getPorcentajeIva() {
+        return porcentajeIva;
+    }
+
+    public void setPorcentajeIva(float porcentajeIva) {
+        this.porcentajeIva = porcentajeIva;
+    }
+  
+    
+    public float getNeto() {
+        return neto;
+    }
+
+    public void setNeto(float neto) {
+        this.neto = neto;
     }
     
 
@@ -87,7 +114,7 @@ public class renglonPedido {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,p,cantidad,subTotal,costo);
+        return Objects.hash(id,p,cantidad,subTotal,neto);
     }
 
     

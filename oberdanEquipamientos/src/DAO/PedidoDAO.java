@@ -75,7 +75,7 @@ public class PedidoDAO {
                 rp.setCantidad(rs.getInt("cantidad"));
                 rp.setId(rs.getInt("renglon_nota_id"));
                 rp.setSubTotal(rs.getFloat("sub_total"));
-                rp.setCosto(rs.getFloat("costo_prod"));
+                rp.setNeto(rs.getFloat("costo_prod"));
                 rp.setCantFaltante(rs.getInt("cant_faltante"));
                 //prod
                 prod.setId(rs.getInt("id"));
@@ -131,10 +131,10 @@ public class PedidoDAO {
     public void insertRP(Pedido pedidoNuevo) {
         String SQL = "INSERT INTO renglon_nota(nota_pedido_id,producto_id,costo_prod,cantidad,cant_faltante,sub_total) VALUES ";
         for(int i = pedidoNuevo.getRenglones().size()-1; i > 0 ;i--){
-            SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(i).getP().getId()+","+pedidoNuevo.getRenglones().get(i).getCosto()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getSubTotal()+"),";
+            SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(i).getP().getId()+","+pedidoNuevo.getRenglones().get(i).getNeto()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getSubTotal()+"),";
             insertarStockPedido(pedidoNuevo.getRenglones().get(i));
         }
-        SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(0).getP().getId()+","+pedidoNuevo.getRenglones().get(0).getCosto()+","+pedidoNuevo.getRenglones().get(0).getCantidad()+","+pedidoNuevo.getRenglones().get(0).getCantidad()+","+pedidoNuevo.getRenglones().get(0).getSubTotal()+")";
+        SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(0).getP().getId()+","+pedidoNuevo.getRenglones().get(0).getNeto()+","+pedidoNuevo.getRenglones().get(0).getCantidad()+","+pedidoNuevo.getRenglones().get(0).getCantidad()+","+pedidoNuevo.getRenglones().get(0).getSubTotal()+")";
         insertarStockPedido(pedidoNuevo.getRenglones().get(0));
         conexion.EjecutarOperacion(SQL);
         SQL = "UPDATE nota_pedido SET total ="+pedidoNuevo.getTotal()+" WHERE nro_pedido = "+pedidoNuevo.getNumPedido();
@@ -148,12 +148,12 @@ public class PedidoDAO {
      * @param rp 
      */
     public void insertarStockPedido(renglonPedido rp){
-        String SQLstock = "UPDATE `art_stock` SET stock_pedido = "+rp.getCantFaltante()+" WHERE producto_id = "+rp.getP().getId()+" AND precio_compra ="+rp.getCosto();
+        String SQLstock = "UPDATE `art_stock` SET stock_pedido = "+rp.getCantFaltante()+" WHERE producto_id = "+rp.getP().getId()+" AND precio_compra ="+rp.getNeto();
         int filasAfectadas = conexion.EjecutarOperacion(SQLstock);
         System.out.println(" Al insertar Stock pedido, SQL : \n"+SQLstock);
         if(filasAfectadas == 0){
             SQLstock = "INSERT INTO `art_stock`(`producto_id`,`stock_pedido`,`precio_compra`) "
-                    + "VALUES ("+rp.getP().getId()+","+rp.getCantFaltante()+","+rp.getCosto()+")";
+                    + "VALUES ("+rp.getP().getId()+","+rp.getCantFaltante()+","+rp.getNeto()+")";
               conexion.EjecutarOperacion(SQLstock);
         System.out.println(" Al insertar Stock pedido, luego ejecuta este SQL  : \n"+SQLstock);
         }
