@@ -26,7 +26,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
@@ -450,6 +452,7 @@ public void limpiarCamposInventario() {
         jLabel29 = new javax.swing.JLabel();
         jLabelTotalFac = new javax.swing.JLabel();
         jLabelSubtotalFac = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
 
         jDialogAñadirRubro.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialogAñadirRubro.setBackground(new java.awt.Color(255, 255, 255));
@@ -2489,11 +2492,11 @@ public void limpiarCamposInventario() {
 
             },
             new String [] {
-                "Código", "Producto", "Precio Unid", "Cant", "-%", "Subtotal", "Iva%", "Iva Valor"
+                "Código", "Producto", "Precio Unid", "Cant", "-%", "Subtotal", "Iva%"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2520,9 +2523,6 @@ public void limpiarCamposInventario() {
             tabla_productos_pedido.getColumnModel().getColumn(6).setMinWidth(50);
             tabla_productos_pedido.getColumnModel().getColumn(6).setPreferredWidth(50);
             tabla_productos_pedido.getColumnModel().getColumn(6).setMaxWidth(50);
-            tabla_productos_pedido.getColumnModel().getColumn(7).setMinWidth(70);
-            tabla_productos_pedido.getColumnModel().getColumn(7).setPreferredWidth(70);
-            tabla_productos_pedido.getColumnModel().getColumn(7).setMaxWidth(70);
         }
 
         btn_factura_eliminar.setBackground(new java.awt.Color(204, 51, 0));
@@ -2679,6 +2679,11 @@ public void limpiarCamposInventario() {
             jTableIvasMontoFac.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
+        jTextFieldImpInternoFac.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextFieldImpInternoFacCaretUpdate(evt);
+            }
+        });
         jTextFieldImpInternoFac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldImpInternoFacActionPerformed(evt);
@@ -2712,6 +2717,8 @@ public void limpiarCamposInventario() {
         jLabelTotalFac.setText("$");
 
         jLabelSubtotalFac.setText("$");
+
+        jLabel27.setText("Valor de este imp");
 
         javax.swing.GroupLayout panel_pedidosLayout = new javax.swing.GroupLayout(panel_pedidos);
         panel_pedidos.setLayout(panel_pedidosLayout);
@@ -2790,7 +2797,9 @@ public void limpiarCamposInventario() {
                                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jTextFieldImpInternoFac, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                                             .addComponent(jTextFieldImpIntFijoFac))
-                                        .addGap(18, 18, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel27)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(panel_pedidosLayout.createSequentialGroup()
                                                 .addComponent(jLabel26)
@@ -2904,7 +2913,8 @@ public void limpiarCamposInventario() {
                                     .addComponent(jLabel21)
                                     .addComponent(jTextFieldImpInternoFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel28)
-                                    .addComponent(jTextFieldDescGeneralFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextFieldDescGeneralFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel27))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextFieldImpIntFijoFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3586,6 +3596,10 @@ private void funcionalidadBotonOkAddIva(){
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldSobreTasaFacActionPerformed
 
+    private void jTextFieldImpInternoFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldImpInternoFacCaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldImpInternoFacCaretUpdate
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancelar;
@@ -3686,6 +3700,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -4461,6 +4476,7 @@ public class Pestaña3_dinamica {
         private DefaultComboBoxModel modelCombo;
         private ButtonGroup grupo;
         private int posEdit;
+        private Map <Float, Float> montosIvaFactura;
 
         public Pestaña3_dinamica() {
             listProd = new ArrayList<>();
@@ -4497,6 +4513,8 @@ public class Pestaña3_dinamica {
                         txtf_nota_prod_nombre.setEnabled(true);
                         inicializarBusquedaNombre_Pedidos("");
                         txtf_nota_prod_cod.setText("");
+                        //inicializacion de pestaña tal vezx?
+                        montosIvaFactura= new HashMap <String, Float>();
                     }
                 }
             });
@@ -4716,6 +4734,7 @@ public class Pestaña3_dinamica {
         }
 
         private void cargarTablaFactura() {
+            float subtotal=0.f;
             int pos = tabla_nota_PedidossProveedor.getSelectedRow();
             pedidoFact = listPedidos.get(pos);
             model.setNumRows(0);
@@ -4733,14 +4752,99 @@ public class Pestaña3_dinamica {
                 obj[5] = rp.getSubTotal();
                 obj[6] = rp.getP().getIva();
                 obj[7] = rp.getIvaValor();
-                
+                subtotal+=rp.getSubTotal();
                 
                 factura.addRenglon(rf);
                 model.addRow(obj);
+                
             }
         }
-
-
+        private void calcularIvaFactura(){
+             // cargar tabla de iva:
+              
+             //inicializacion opcional
+            montosIvaFactura= new HashMap <Float, Float>();
+            for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
+                //tal vez deba cambiar esto por factura.....
+                renglonPedido rp = pedidoFact.getRenglones().get(i);
+             
+                if(montosIvaFactura.containsKey(rp.getP().getIva())){
+                    //existe la clave, sumo
+                    // iva existente + (subtotal actual *iva coincidente)
+                    float aux=montosIvaFactura.get(rp.getP().getIva())+(float)(rp.getSubTotal()*rp.getP().getIva());
+                    montosIvaFactura.put(rp.getP().getIva(),aux);
+                    
+                }
+             }
+            
+        }
+        private void cargarTablaIvaFactura(){
+           DefaultTableModel modeloIvaFac=(DefaultTableModel) jTableIvasMontoFac.getModel();
+           modeloIvaFac.setNumRows(0);
+           Float [] row = new Float[2];
+           /*
+           for ( Map.Entry<String, Label> entry : map.entrySet() ) {
+                String key = entry.getKey();
+                Label value = entry.getValue();
+            }
+           */
+           for(Map.Entry<Float, Float> entry : montosIvaFactura.entrySet()){
+               row[0]=entry.getKey();
+               row[1]=entry.getValue();
+               modeloIvaFac.addRow(row);
+           }
+        }
+                
+        private void calcularPreciosFactura(){
+            
+            
+            
+            String auxCosto = txtf_productos_costo.getText();
+            String AuxCoeficiente = txtf_coeficiente_articulo.getText();
+            
+            DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
+            float costo, coeficiente,iva,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
+            
+                if (auxCosto.isEmpty() || !Statics.Funciones.isFloat(auxCosto)) {
+                    costo = 0;
+                } else {
+                    costo = Float.parseFloat(auxCosto);
+                }
+                if (AuxCoeficiente.isEmpty() || !Statics.Funciones.isFloat(AuxCoeficiente)) {
+                    coeficiente = 0;
+                } else {
+                    coeficiente = (float)Float.parseFloat(AuxCoeficiente)/100;
+                }
+                if (jTextFieldImpInternoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpInternoFac.getText())) {
+                    impInterno = 0;
+                } else {
+                    impInterno = (float)Float.parseFloat(jTextFieldImpInternoFac.getText())/100;
+                }
+                if (jTextFieldImpIntFijoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpIntFijoFac.getText())) {
+                    impInternoFijo = 0;
+                } else {
+                    impInternoFijo = (float)Float.parseFloat(jTextFieldImpIntFijoFac.getText())/100;
+                }
+                if (jTextFieldSobreTasaFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldSobreTasaFac.getText())) {
+                    sobreTasaIva = 0;
+                } else {
+                    sobreTasaIva = (float)Float.parseFloat(jTextFieldSobreTasaFac.getText())/100;
+                }
+                if (jCombo_iva_Articulo.getSelectedIndex()!=-1) {
+                    iva = (float) jCombo_iva_Articulo.getSelectedItem()/100;
+                } else {
+                        iva=0;
+                }
+                float precio_parcial = costo*(1+iva);
+                precio_parcial=precio_parcial*(1+coeficiente);
+                precio_parcial= precio_parcial*(1+sobreTasaIva);
+                precio_parcial=precio_parcial*(1+impInterno);
+                precio_parcial=precio_parcial*(1+impInternoFijo);
+                jLabelSubtotalFac.setText(""+precio_parcial);
+               
+                
+                
+}
 
         private void selectProducto(int pos) {
             prodSelect = listProdNota.get(pos);
