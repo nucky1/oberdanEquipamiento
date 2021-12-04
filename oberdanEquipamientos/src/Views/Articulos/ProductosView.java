@@ -4758,6 +4758,7 @@ public class Pestaña3_dinamica {
                 model.addRow(obj);
                 
             }
+            jLabelSubtotalFac.setText("$"+subtotal);
         }
         private void calcularIvaFactura(){
              // cargar tabla de iva:
