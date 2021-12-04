@@ -25,7 +25,45 @@ public class facturaProveedor {
     private Date fecha_pago;
     private String estado;
     private ArrayList<renglonFactura> renglones;
+    private float impInterno;
+    private float impInternoFijo;
+    private float sobretasaIva;
+    private float descuentoGrl;
 
+    public float getImpInterno() {
+        return impInterno;
+    }
+
+    public void setImpInterno(float impInterno) {
+        this.impInterno = impInterno;
+    }
+
+    public float getImpInternoFijo() {
+        return impInternoFijo;
+    }
+
+    public void setImpInternoFijo(float impInternoFijo) {
+        this.impInternoFijo = impInternoFijo;
+    }
+
+    public float getSobretasaIva() {
+        return sobretasaIva;
+    }
+
+    public void setSobretasaIva(float sobretasaIva) {
+        this.sobretasaIva = sobretasaIva;
+    }
+
+    public float getDescuentoGrl() {
+        return descuentoGrl;
+    }
+
+    public void setDescuentoGrl(float descuentoGrl) {
+        this.descuentoGrl = descuentoGrl;
+    }
+    
+    
+    
     public String getTipo_factura() {
         return tipo_factura;
     }

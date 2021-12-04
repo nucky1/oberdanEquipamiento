@@ -51,3 +51,8 @@ ALTER TABLE `renglon_factura` ADD `ivaPorcentaje` INT NOT NULL DEFAULT '1' AFTER
 --cambiar el iva de todos los articulos
 -- añadiendo el coeficiente de ganancia a cada articulo:
 ALTER TABLE `articulos` ADD `coeficiente` FLOAT NOT NULL DEFAULT '0' AFTER `precio_compra`;
+
+--adding taxes to factura
+ALTER TABLE `factura_proveedor` ADD `imp_interno_fijo` FLOAT NOT NULL DEFAULT '0' AFTER `tipo_factura`, ADD `imp_interno` FLOAT NOT NULL DEFAULT '0' AFTER `imp_interno_fijo`, 
+ADD `sobretasa_iva` FLOAT NOT NULL DEFAULT '0' AFTER `imp_interno`, 
+ADD `descuento_gral` FLOAT NOT NULL DEFAULT '0' AFTER `sobretasa_iva`;

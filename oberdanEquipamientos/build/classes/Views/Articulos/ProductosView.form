@@ -486,7 +486,6 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
-        <Property name="locationByPlatform" type="boolean" value="true"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[356, 396]"/>
         </Property>
@@ -3475,14 +3474,17 @@
                                                   <Component id="jTextFieldImpInternoFac" pref="50" max="32767" attributes="0"/>
                                                   <Component id="jTextFieldImpIntFijoFac" max="32767" attributes="0"/>
                                               </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel27" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabelValorInternoFac" min="-2" pref="65" max="-2" attributes="0"/>
+                                                  <Component id="jLabelValorImpInterFijIva" min="-2" pref="65" max="-2" attributes="0"/>
+                                              </Group>
                                               <EmptySpace max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                   <Group type="102" attributes="0">
                                                       <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                      <Component id="jLabelTotalImpuestosFac" min="-2" pref="102" max="-2" attributes="0"/>
+                                                      <Component id="jLabelTotalImpuestosFac" linkSize="3" min="-2" pref="102" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -3491,7 +3493,7 @@
                                                       </Group>
                                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jLabelTotalFac" max="32767" attributes="0"/>
+                                                          <Component id="jLabelTotalFac" linkSize="3" max="32767" attributes="0"/>
                                                           <Group type="102" attributes="0">
                                                               <Component id="jTextFieldDescGeneralFac" min="-2" pref="51" max="-2" attributes="0"/>
                                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -3515,7 +3517,9 @@
                                                   <Group type="102" attributes="0">
                                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                       <Component id="jTextFieldSobreTasaFac" max="32767" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="433" max="-2" attributes="0"/>
+                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <Component id="jLabelValorSobreTasaIVaFac" min="-2" pref="65" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="350" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -3616,11 +3620,11 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane15" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
+                                      <Group type="103" groupAlignment="3" max="-2" attributes="0">
                                           <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel26" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelTotalImpuestosFac" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                                          <Component id="jLabelSubtotalFac" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelSubtotalFac" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jLabelTotalImpuestosFac" linkSize="4" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -3628,25 +3632,27 @@
                                           <Component id="jTextFieldImpInternoFac" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jTextFieldDescGeneralFac" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel27" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorInternoFac" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jTextFieldImpIntFijoFac" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel29" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabelTotalFac" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelTotalFac" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorImpInterFijIva" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jTextFieldSobreTasaFac" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabelValorSobreTasaIVaFac" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="260" max="-2" attributes="0"/>
-                              <Component id="jSeparator14" min="-2" pref="15" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jSeparator14" min="-2" pref="10" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="btn_nota_nueva" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                                   <Component id="btn_lote_aceptar" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
@@ -3654,7 +3660,7 @@
                           </Group>
                           <Component id="jScrollPane2" min="-2" pref="108" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4097,6 +4103,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldSobreTasaFac">
               <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="jTextFieldSobreTasaFacCaretUpdate"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldSobreTasaFacActionPerformed"/>
               </Events>
             </Component>
@@ -4106,9 +4113,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelTotalImpuestosFac">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="$"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel28">
               <Properties>
@@ -4126,19 +4130,14 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelTotalFac">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="$"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelSubtotalFac">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="$"/>
-              </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel27">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Valor de este imp"/>
-              </Properties>
+            <Component class="javax.swing.JLabel" name="jLabelValorInternoFac">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelValorImpInterFijIva">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelValorSobreTasaIVaFac">
             </Component>
           </SubComponents>
         </Container>
