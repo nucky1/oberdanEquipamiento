@@ -196,7 +196,7 @@ public void limpiarCamposInventario() {
         tabla_nota_prodPedir = new javax.swing.JTable();
         rbtn_productos_nombre1 = new javax.swing.JRadioButton();
         rbtn_productos_codigo1 = new javax.swing.JRadioButton();
-        txtf_nota_buscar = new javax.swing.JTextField();
+        txtf_nota_buscarProduPedido = new javax.swing.JTextField();
         lbl_nota_proveedor = new javax.swing.JLabel();
         jLabel167 = new javax.swing.JLabel();
         jScrollPane29 = new javax.swing.JScrollPane();
@@ -214,6 +214,7 @@ public void limpiarCamposInventario() {
         txtf_nota_neto = new javax.swing.JTextField();
         jLabel175 = new javax.swing.JLabel();
         txtf_nota_nro = new javax.swing.JTextField();
+        jLabelInfoNotaPedido = new javax.swing.JLabel();
         jDialogAñadirPlan = new javax.swing.JDialog();
         jLabel36 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -518,14 +519,14 @@ public void limpiarCamposInventario() {
         rbtn_productos_codigo1.setSelected(true);
         rbtn_productos_codigo1.setText("Código");
 
-        txtf_nota_buscar.addCaretListener(new javax.swing.event.CaretListener() {
+        txtf_nota_buscarProduPedido.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtf_nota_buscarCaretUpdate(evt);
+                txtf_nota_buscarProduPedidoCaretUpdate(evt);
             }
         });
-        txtf_nota_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtf_nota_buscarProduPedido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtf_nota_buscarKeyTyped(evt);
+                txtf_nota_buscarProduPedidoKeyTyped(evt);
             }
         });
 
@@ -630,7 +631,7 @@ public void limpiarCamposInventario() {
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                                 .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtf_nota_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_nota_buscarProduPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                                         .addComponent(rbtn_productos_codigo1)
                                         .addGap(2, 2, 2)
@@ -661,9 +662,11 @@ public void limpiarCamposInventario() {
                                 .addComponent(btn_nota_eliminar)))))
                 .addGap(0, 17, Short.MAX_VALUE))
             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3)
+                .addGap(19, 19, 19)
+                .addComponent(jLabelInfoNotaPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(generarNota)
                 .addContainerGap())
         );
@@ -684,7 +687,20 @@ public void limpiarCamposInventario() {
                     .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                .addComponent(txtf_nota_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel7))
+                            .addComponent(txtf_nota_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel9))
+                            .addComponent(txtf_nota_neto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addComponent(txtf_nota_buscarProduPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                                         .addGap(6, 6, 6)
@@ -705,24 +721,14 @@ public void limpiarCamposInventario() {
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane29, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                             .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(generarNota)))
-                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel7))
-                            .addComponent(txtf_nota_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel9))
-                            .addComponent(txtf_nota_neto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jLabelInfoNotaPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                .addContainerGap())
+                            .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(generarNota)
+                                .addComponent(jButton3))))))
         );
 
         jDialogAñadirPlan.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1103,7 +1109,7 @@ public void limpiarCamposInventario() {
         );
 
         jPanel22.add(jPanel24);
-        jPanel24.setBounds(871, 50, 1689, 611);
+        jPanel24.setBounds(871, 50, 877, 166);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1150,7 +1156,7 @@ public void limpiarCamposInventario() {
         );
 
         jPanel22.add(jPanel4);
-        jPanel4.setBounds(10, 0, 820, 44);
+        jPanel4.setBounds(10, 0, 820, 0);
 
         jPanel84.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2137,7 +2143,7 @@ public void limpiarCamposInventario() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDevoluciones2Layout.createSequentialGroup()
                 .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
-                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, 516, Short.MAX_VALUE)
+                .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
                 .addGap(51, 51, 51))
         );
 
@@ -2268,7 +2274,7 @@ public void limpiarCamposInventario() {
             .addGroup(panel_devosLayout.createSequentialGroup()
                 .addComponent(jPanelDevoluciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panel_devosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelDevoluciones3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2800,7 +2806,7 @@ public void limpiarCamposInventario() {
                                             .addComponent(jLabelValorInternoFac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabelValorImpInterFijIva, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panel_pedidosLayout.createSequentialGroup()
                                                 .addComponent(jLabel26)
                                                 .addGap(18, 18, 18)
@@ -2812,9 +2818,7 @@ public void limpiarCamposInventario() {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabelTotalFac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                                        .addComponent(jTextFieldDescGeneralFac, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                                                    .addComponent(jTextFieldDescGeneralFac, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(panel_pedidosLayout.createSequentialGroup()
                                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2908,11 +2912,12 @@ public void limpiarCamposInventario() {
                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                                    .addComponent(jLabel20)
-                                    .addComponent(jLabel26)
+                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabelSubtotalFac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelTotalImpuestosFac, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabelTotalImpuestosFac, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel20)
+                                        .addComponent(jLabel26)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel21)
@@ -3227,18 +3232,18 @@ public void limpiarCamposInventario() {
         pedidos.cargarTablaFactura();
     }//GEN-LAST:event_tabla_nota_PedidossProveedorMouseClicked
 
-    private void txtf_nota_buscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_nota_buscarCaretUpdate
+    private void txtf_nota_buscarProduPedidoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_nota_buscarProduPedidoCaretUpdate
         pedidos.cambioBusqueda(txtf_productos_buscar.getText());
-    }//GEN-LAST:event_txtf_nota_buscarCaretUpdate
+    }//GEN-LAST:event_txtf_nota_buscarProduPedidoCaretUpdate
 
-    private void txtf_nota_buscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_buscarKeyTyped
+    private void txtf_nota_buscarProduPedidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_buscarProduPedidoKeyTyped
         char c = evt.getKeyChar();
         if (this.rbtn_productos_codigo.isSelected()) {
             if ((c < '0' || c > '9')) {
                 evt.consume();
             }
         }
-    }//GEN-LAST:event_txtf_nota_buscarKeyTyped
+    }//GEN-LAST:event_txtf_nota_buscarProduPedidoKeyTyped
 
     private void txtf_nota_cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_cantidadKeyTyped
         char c = evt.getKeyChar();
@@ -3249,13 +3254,11 @@ public void limpiarCamposInventario() {
 
     private void btn_nota_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_agregarActionPerformed
         if(!Statics.Funciones.isNumeric(txtf_nota_cantidad.getText())){
-            JOptionPane.showMessageDialog(null, "Debe ingresar un valor valido en cantidad.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+            jLabelInfoNotaPedido.setText("Error!Debe ingresar un valor valido en cantidad. ");
             return;
         }
         if(!Statics.Funciones.isFloat(txtf_nota_neto.getText())){
-            JOptionPane.showMessageDialog(null, "Debe ingresar un valor valido en costo.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+            jLabelInfoNotaPedido.setText("Error!Debe ingresar un valor valido en costo. ");
             return;
         }
         pedidos.agregarRenglonPedido(Float.parseFloat(txtf_nota_neto.getText()),Integer.parseInt(txtf_nota_cantidad.getText()));
@@ -3752,6 +3755,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelInfoNotaPedido;
     private javax.swing.JLabel jLabelInfoNuevoIva;
     private javax.swing.JLabel jLabelSubtotalFac;
     private javax.swing.JLabel jLabelTotalFac;
@@ -3861,7 +3865,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JTextField txtf_impuesto_int;
     private javax.swing.JTextField txtf_lote_prod_flete;
     private javax.swing.JTextField txtf_nombreDevo;
-    protected javax.swing.JTextField txtf_nota_buscar;
+    protected javax.swing.JTextField txtf_nota_buscarProduPedido;
     protected javax.swing.JTextField txtf_nota_cantidad;
     protected javax.swing.JTextField txtf_nota_neto;
     protected javax.swing.JTextField txtf_nota_nro;
@@ -4766,12 +4770,16 @@ public class Pestaña3_dinamica {
                 obj[2] = rp.getNeto();
                 obj[3] = rp.getCantidad();
                 obj[4] = rp.getDescuentoUnitario();
-                asdasdsad hace el descuento boludo!!
-                obj[5] = rp.getSubTotal();
+                if(rp.getDescuentoUnitario()!=0){
+                    subtotal+=(float)rp.getSubTotal()*(1-rp.getDescuentoUnitario()/100);
+                    obj[5]=rp.getSubTotal()*(1-rp.getDescuentoUnitario()/100);
+                }
+                else{
+                    obj[5] = rp.getSubTotal();
+                    subtotal+=rp.getSubTotal();
+                }
                 obj[6] = rp.getP().getIva();
                 obj[7] = rp.getIvaValor();
-                subtotal+=rp.getSubTotal();
-                
                 factura.addRenglon(rf);
                 model.addRow(obj);
                 ivaTotalFactura+=(float)(rp.getSubTotal()*rp.getP().getIva());
@@ -4885,7 +4893,7 @@ public class Pestaña3_dinamica {
         private void selectProducto(int pos) {
             prodSelect = listProdNota.get(pos);
             txtf_nota_neto.setText(prodSelect.getPrecioNeto()+"");
-            txtf_nota_buscar.setText(prodSelect.getNombre());
+            txtf_nota_buscarProduPedido.setText(prodSelect.getNombre());
             txtf_nota_cantidad.requestFocus();
             txtf_nota_cantidad.selectAll();
         }
@@ -4968,7 +4976,7 @@ public class Pestaña3_dinamica {
                 o[4] = rp.getSubTotal();
                 modelNotaprodPedido.addRow(o);
             }
-            txtf_nota_buscar.setText("");
+            txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
             txtf_nota_neto.setText("");
             if(Statics.Funciones.isFloat(txtf_nota_total.getText())){
@@ -4987,8 +4995,10 @@ public class Pestaña3_dinamica {
                 txtf_nota_nro.setText(pedidoNuevo.getNumPedido());
                 lbl_nota_proveedor.setText(prov.getNombre());
             }else{
-                JOptionPane.showMessageDialog(null, "Error al crear pedido",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                
+                 principal.lbl_estado.setText("Error al crear pedido");
+                principal.lbl_estado.setForeground(Color.RED);
+                return;
             }
             
         }
@@ -4997,8 +5007,8 @@ public class Pestaña3_dinamica {
             if(rpSelected != -1){
                 pedidos.pedidoNuevo.getRenglones().remove(rpSelected);
             }else{
-                JOptionPane.showMessageDialog(null, "Error no seleccionó ningun producto.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                jLabelInfoNotaPedido.setText("Error no seleccionó ningun producto");
+                return;
             }
         }
 
@@ -5011,7 +5021,7 @@ public class Pestaña3_dinamica {
             System.out.println("va a insertar pedido");
             pedidoDAO.insertRP(pedidoNuevo);
             System.out.println("inserto el pedido");
-            txtf_nota_buscar.setText("");
+            txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
             txtf_nota_neto.setText("");
             modelNotaprodPedido.setRowCount(0);
@@ -5032,8 +5042,19 @@ public class Pestaña3_dinamica {
         }
 
         private void cancelarNota() {
+            
             pedidoDAO.eliminarPedido(pedidoNuevo);
             jDialogCrearNota.dispose();
+            limpiarCamposNotaPedido();
+        }
+        private void limpiarCamposNotaPedido(){
+            jLabelInfoNotaPedido.setText("");
+            txtf_nota_buscarProduPedido.setText("");
+            txtf_nota_cantidad.setText("");
+            txtf_nota_neto.setText("");
+            txtf_nota_nro.setText("");
+            modelNotaprodPedido.setRowCount(0);
+            modelNotaprodPedir.setRowCount(0);
         }
 
     }
