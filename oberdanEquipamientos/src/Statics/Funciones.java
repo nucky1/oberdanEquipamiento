@@ -212,9 +212,9 @@ public class Funciones {
     }
     public static boolean isFloat(String cadena){
         try {
+                System.out.println("cadena es "+cadena);
 		Float.parseFloat(cadena);
-               
-		return true;
+               return true;
 	} catch (NumberFormatException nfe){
 		return false;
 	}

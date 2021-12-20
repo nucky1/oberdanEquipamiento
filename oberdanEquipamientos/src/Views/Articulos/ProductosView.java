@@ -454,7 +454,7 @@ public void limpiarCamposInventario() {
         jLabelTotalFac = new javax.swing.JLabel();
         jLabelSubtotalFac = new javax.swing.JLabel();
         jLabelValorInternoFac = new javax.swing.JLabel();
-        jLabelValorImpInterFijIva = new javax.swing.JLabel();
+        jLabelValorImpInterFijFac = new javax.swing.JLabel();
         jLabelValorSobreTasaIVaFac = new javax.swing.JLabel();
 
         jDialogAñadirRubro.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -513,6 +513,11 @@ public void limpiarCamposInventario() {
             }
         });
         jScrollPane28.setViewportView(tabla_nota_prodPedir);
+        if (tabla_nota_prodPedir.getColumnModel().getColumnCount() > 0) {
+            tabla_nota_prodPedir.getColumnModel().getColumn(2).setMinWidth(60);
+            tabla_nota_prodPedir.getColumnModel().getColumn(2).setPreferredWidth(60);
+            tabla_nota_prodPedir.getColumnModel().getColumn(2).setMaxWidth(60);
+        }
 
         rbtn_productos_nombre1.setText("Nombre");
 
@@ -541,7 +546,7 @@ public void limpiarCamposInventario() {
 
             },
             new String [] {
-                "Código", "Producto", "Cantidad", "Costo", "Subtotal"
+                "Código", "Producto", "Cantidad", "Neto", "Subtotal"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -558,6 +563,14 @@ public void limpiarCamposInventario() {
             }
         });
         jScrollPane29.setViewportView(tabla_nota_prodPedido);
+        if (tabla_nota_prodPedido.getColumnModel().getColumnCount() > 0) {
+            tabla_nota_prodPedido.getColumnModel().getColumn(2).setMinWidth(65);
+            tabla_nota_prodPedido.getColumnModel().getColumn(2).setPreferredWidth(65);
+            tabla_nota_prodPedido.getColumnModel().getColumn(2).setMaxWidth(65);
+            tabla_nota_prodPedido.getColumnModel().getColumn(3).setMinWidth(85);
+            tabla_nota_prodPedido.getColumnModel().getColumn(3).setPreferredWidth(85);
+            tabla_nota_prodPedido.getColumnModel().getColumn(3).setMaxWidth(85);
+        }
 
         jLabel173.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel173.setText("Nota de pedido");
@@ -618,17 +631,15 @@ public void limpiarCamposInventario() {
             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_nota_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCrearNotaLayout.createSequentialGroup()
+                        .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane29)
+                        .addContainerGap())
                     .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                        .addComponent(jLabel167)
-                        .addGap(374, 374, 374)
-                        .addComponent(jLabel173)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel175)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtf_nota_nro, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel173)
                             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                                 .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtf_nota_buscarProduPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -647,28 +658,32 @@ public void limpiarCamposInventario() {
                                         .addGap(10, 10, 10)
                                         .addComponent(txtf_nota_neto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(8, 8, 8)
-                                .addComponent(btn_nota_agregar))
-                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addComponent(btn_nota_agregar)
                                 .addGap(69, 69, 69)
                                 .addComponent(jLabel8)
                                 .addGap(10, 10, 10)
-                                .addComponent(txtf_nota_total, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(316, 316, 316)
-                                .addComponent(btn_nota_eliminar)))))
-                .addGap(0, 17, Short.MAX_VALUE))
+                                .addComponent(txtf_nota_total, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_nota_eliminar)
+                        .addGap(56, 56, 56))
+                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
+                                .addComponent(jLabel167)
+                                .addGap(532, 532, 532)
+                                .addComponent(jLabel175)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtf_nota_nro, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbl_nota_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabelInfoNotaPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(generarNota)
-                .addContainerGap())
+                .addGap(61, 61, 61))
         );
         jDialogCrearNotaLayout.setVerticalGroup(
             jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -701,30 +716,27 @@ public void limpiarCamposInventario() {
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
                                 .addComponent(txtf_nota_buscarProduPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
                                 .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rbtn_productos_codigo1)
+                                    .addComponent(rbtn_productos_nombre1)
                                     .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(rbtn_productos_codigo1)
-                                            .addComponent(rbtn_productos_nombre1)
-                                            .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                                .addGap(4, 4, 4)
-                                                .addComponent(jLabel8))
-                                            .addComponent(btn_nota_eliminar)))
-                                    .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                        .addGap(7, 7, 7)
-                                        .addComponent(txtf_nota_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jLabel8))
+                                    .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtf_nota_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btn_nota_eliminar)))
                                 .addGap(11, 11, 11))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogCrearNotaLayout.createSequentialGroup()
                                 .addComponent(btn_nota_agregar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane29, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(27, 27, 27)
+                        .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
                         .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDialogCrearNotaLayout.createSequentialGroup()
-                                .addComponent(jLabelInfoNotaPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                                .addComponent(jLabelInfoNotaPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                                 .addContainerGap())
                             .addGroup(jDialogCrearNotaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(generarNota)
@@ -1109,7 +1121,7 @@ public void limpiarCamposInventario() {
         );
 
         jPanel22.add(jPanel24);
-        jPanel24.setBounds(871, 50, 877, 166);
+        jPanel24.setBounds(871, 50, 1689, 611);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1156,7 +1168,7 @@ public void limpiarCamposInventario() {
         );
 
         jPanel22.add(jPanel4);
-        jPanel4.setBounds(10, 0, 820, 0);
+        jPanel4.setBounds(10, 0, 820, 44);
 
         jPanel84.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1458,7 +1470,7 @@ public void limpiarCamposInventario() {
         jLabel61.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel61.setText("Imp interno fijo %");
 
-        txtf_sobretasa_iva.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtf_sobretasa_iva.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtf_sobretasa_iva.setEnabled(false);
         txtf_sobretasa_iva.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
@@ -2427,7 +2439,7 @@ public void limpiarCamposInventario() {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2652,7 +2664,7 @@ public void limpiarCamposInventario() {
 
         cbox_tipo_factura.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Factura A", "Factura B", "Remito" }));
 
-        jLabel20.setText("Subtotal:");
+        jLabel20.setText("Subtotal: $");
 
         jLabel21.setText("Imp Interno %");
 
@@ -2697,6 +2709,12 @@ public void limpiarCamposInventario() {
             }
         });
 
+        jTextFieldImpIntFijoFac.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextFieldImpIntFijoFacCaretUpdate(evt);
+            }
+        });
+
         jLabel24.setText("Imp Interno fijo %");
 
         jLabel25.setText("Sobretasa iva %");
@@ -2716,6 +2734,11 @@ public void limpiarCamposInventario() {
 
         jLabel28.setText("Descuento %");
 
+        jTextFieldDescGeneralFac.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextFieldDescGeneralFacCaretUpdate(evt);
+            }
+        });
         jTextFieldDescGeneralFac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldDescGeneralFacActionPerformed(evt);
@@ -2794,17 +2817,30 @@ public void limpiarCamposInventario() {
                             .addGroup(panel_pedidosLayout.createSequentialGroup()
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel24)
-                                            .addComponent(jLabel21))
-                                        .addGap(2, 2, 2)
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextFieldImpInternoFac, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                                            .addComponent(jTextFieldImpIntFijoFac))
+                                        .addComponent(jLabel25)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextFieldSobreTasaFac)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabelValorSobreTasaIVaFac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(350, 350, 350))
+                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                                .addComponent(jLabel20)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabelSubtotalFac, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_pedidosLayout.createSequentialGroup()
+                                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel24)
+                                                    .addComponent(jLabel21))
+                                                .addGap(2, 2, 2)
+                                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(jTextFieldImpInternoFac, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                                    .addComponent(jTextFieldImpIntFijoFac))))
                                         .addGap(18, 18, 18)
                                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabelValorInternoFac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabelValorImpInterFijIva, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabelValorImpInterFijFac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panel_pedidosLayout.createSequentialGroup()
@@ -2819,22 +2855,7 @@ public void limpiarCamposInventario() {
                                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabelTotalFac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addComponent(jTextFieldDescGeneralFac, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel25)
-                                            .addComponent(jLabel20))
-                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                                .addGap(11, 11, 11)
-                                                .addComponent(jLabelSubtotalFac, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTextFieldSobreTasaFac)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabelValorSobreTasaIVaFac, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(350, 350, 350)))))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panel_pedidosLayout.createSequentialGroup()
                         .addComponent(jLabel165)
@@ -2912,12 +2933,15 @@ public void limpiarCamposInventario() {
                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabelSubtotalFac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelTotalImpuestosFac, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel20)
-                                        .addComponent(jLabel26)))
+                                .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panel_pedidosLayout.createSequentialGroup()
+                                        .addGap(9, 9, 9)
+                                        .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelTotalImpuestosFac, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel20)
+                                                .addComponent(jLabel26))))
+                                    .addComponent(jLabelSubtotalFac, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel21)
@@ -2931,7 +2955,7 @@ public void limpiarCamposInventario() {
                                     .addComponent(jLabel24)
                                     .addComponent(jLabel29)
                                     .addComponent(jLabelTotalFac)
-                                    .addComponent(jLabelValorImpInterFijIva))
+                                    .addComponent(jLabelValorImpInterFijFac))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextFieldSobreTasaFac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2947,7 +2971,7 @@ public void limpiarCamposInventario() {
                 .addGap(33, 33, 33))
         );
 
-        panel_pedidosLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabelTotalFac, jLabelTotalImpuestosFac, jLabelValorImpInterFijIva, jLabelValorInternoFac, jLabelValorSobreTasaIVaFac});
+        panel_pedidosLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabelTotalFac, jLabelTotalImpuestosFac, jLabelValorImpInterFijFac, jLabelValorInternoFac, jLabelValorSobreTasaIVaFac});
 
         tabla_productos.addTab("Pedidos", panel_pedidos);
 
@@ -2970,6 +2994,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_nota_prod_precioKeyPressed
 
     private void btn_lote_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lote_aceptarActionPerformed
+       
         if(JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta factura?", "Generar Nota", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             pedidos.guardarFactura();
         }
@@ -3003,6 +3028,7 @@ public void limpiarCamposInventario() {
         JD_Proveedor_Buscador provBuscador = new JD_Proveedor_Buscador(new JDialog(), true) {
             public void getIDProveedor(int id, String atributo) {
                 if (id != -1) {
+                    pedidos.limpiarCampos(true);
                     pedidos.prov = new Proveedor();
                     pedidos.prov.setId(id);
                     pedidos.prov.setNombre(atributo);
@@ -3222,13 +3248,15 @@ public void limpiarCamposInventario() {
         jDialogCrearNota.setTitle("Crear nota de pedido");
         jDialogCrearNota.setVisible(true);
         jDialogCrearNota.setModal(true);
-        jDialogCrearNota.setSize(1050,600);
+        jDialogCrearNota.setSize(1250,600);
         jDialogCrearNota.setLocationRelativeTo(this);
         pedidos.cambioBusqueda("");
         pedidos.CrearPedido();
     }//GEN-LAST:event_btn_nota_nuevaActionPerformed
 
     private void tabla_nota_PedidossProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_PedidossProveedorMouseClicked
+        pedidos.limpiarCampos(false);
+        //no deberia activar campos tmb??
         pedidos.cargarTablaFactura();
     }//GEN-LAST:event_tabla_nota_PedidossProveedorMouseClicked
 
@@ -3280,14 +3308,15 @@ public void limpiarCamposInventario() {
 
     private void tabla_nota_prodPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_prodPedidoMouseClicked
         pedidos.rpSelected  = tabla_nota_prodPedido.getSelectedRow();
+        System.out.println("en el click de la tabla tengo:"+pedidos.rpSelected);
     }//GEN-LAST:event_tabla_nota_prodPedidoMouseClicked
 
     private void generarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarNotaActionPerformed
-        if(JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta nota de pedido?", "Generar Nota", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+           
             pedidos.terminarPedido();
-        }else{
-            pedidos.cancelarNota();
-        }
+                
+            //pedidos.cancelarNota();
+        
     }//GEN-LAST:event_generarNotaActionPerformed
 
     private void txtf_nota_prod_nombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtf_nota_prod_nombreItemStateChanged
@@ -3597,15 +3626,15 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_txtf_sobretasa_ivaCaretUpdate
 
     private void jTextFieldDescGeneralFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDescGeneralFacActionPerformed
-        pedidos.calcularPreciosFactura();
+       // pedidos.calcularPreciosFactura();
     }//GEN-LAST:event_jTextFieldDescGeneralFacActionPerformed
 
     private void jTextFieldImpInternoFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldImpInternoFacActionPerformed
-        pedidos.calcularPreciosFactura();
+     
     }//GEN-LAST:event_jTextFieldImpInternoFacActionPerformed
 
     private void jTextFieldSobreTasaFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSobreTasaFacActionPerformed
-        pedidos.calcularPreciosFactura();
+       // pedidos.calcularPreciosFactura();
     }//GEN-LAST:event_jTextFieldSobreTasaFacActionPerformed
 
     private void jTextFieldImpInternoFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldImpInternoFacCaretUpdate
@@ -3615,6 +3644,14 @@ private void funcionalidadBotonOkAddIva(){
     private void jTextFieldSobreTasaFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldSobreTasaFacCaretUpdate
         pedidos.calcularPreciosFactura();
     }//GEN-LAST:event_jTextFieldSobreTasaFacCaretUpdate
+
+    private void jTextFieldImpIntFijoFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldImpIntFijoFacCaretUpdate
+        pedidos.calcularPreciosFactura();
+    }//GEN-LAST:event_jTextFieldImpIntFijoFacCaretUpdate
+
+    private void jTextFieldDescGeneralFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldDescGeneralFacCaretUpdate
+        pedidos.calcularPreciosFactura();
+    }//GEN-LAST:event_jTextFieldDescGeneralFacCaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -3760,7 +3797,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JLabel jLabelSubtotalFac;
     private javax.swing.JLabel jLabelTotalFac;
     private javax.swing.JLabel jLabelTotalImpuestosFac;
-    private javax.swing.JLabel jLabelValorImpInterFijIva;
+    private javax.swing.JLabel jLabelValorImpInterFijFac;
     private javax.swing.JLabel jLabelValorInternoFac;
     private javax.swing.JLabel jLabelValorSobreTasaIVaFac;
     private javax.swing.JLabel jLbl_devo_nuevaDevo;
@@ -4033,7 +4070,7 @@ private void funcionalidadBotonOkAddIva(){
             
             String auxCosto = txtf_productos_costo.getText();
             String AuxCoeficiente = txtf_coeficiente_articulo.getText();
-            
+            System.out.println(" entre a calcular precios de");
             DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
             float costo, coeficiente,iva,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
             try {
@@ -4475,7 +4512,7 @@ private void funcionalidadBotonOkAddIva(){
 
 public class Pestaña3_dinamica {
 
-        private DefaultTableModel model;
+        private DefaultTableModel model_tabla_productos_pedido;
         private DefaultTableModel modelNotas;
         private DefaultTableModel modelNotaprodPedido;
         private DefaultTableModel modelNotaprodPedir;
@@ -4508,7 +4545,7 @@ public class Pestaña3_dinamica {
             posEdit = -1;
             prodSelect = null;
             modelCombo = new DefaultComboBoxModel();
-            model = (DefaultTableModel) tabla_productos_pedido.getModel();
+            model_tabla_productos_pedido = (DefaultTableModel) tabla_productos_pedido.getModel();
             modelNotaprodPedido = (DefaultTableModel) tabla_nota_prodPedido.getModel();
             modelNotaprodPedir = (DefaultTableModel) tabla_nota_prodPedir.getModel();
             modelNotas = (DefaultTableModel) tabla_nota_PedidossProveedor.getModel();
@@ -4637,14 +4674,14 @@ public class Pestaña3_dinamica {
                         rf.setP(factura.getRenglones().get(posEdit).getP());
                         factura.getRenglones().remove(posEdit);
                         factura.getRenglones().add(posEdit, rf);
-                        model.setNumRows(0);
+                        model_tabla_productos_pedido.setNumRows(0);
                         for (int i = 0; i < factura.getRenglones().size(); i++) {
                             obj[0] = factura.getRenglones().get(i).getP().getCod();
                             obj[1] = factura.getRenglones().get(i).getP().getNombre();
                             obj[2] = factura.getRenglones().get(i).getCantidad();
                             obj[3] = factura.getRenglones().get(i).getCosto();
                             obj[4] = factura.getRenglones().get(i).getSubTotal();
-                            model.addRow(obj);
+                            model_tabla_productos_pedido.addRow(obj);
                         }
                         posEdit = -1;
                     } else {
@@ -4655,9 +4692,9 @@ public class Pestaña3_dinamica {
                         obj[2] = rf.getCantidad();
                         obj[3] = rf.getCosto();
                         obj[4] = rf.getSubTotal();
-                        model.addRow(obj);
+                        model_tabla_productos_pedido.addRow(obj);
                     }
-                    limpiarCampos();
+                    limpiarCampos(false);
                     
                 }
             } catch (NumberFormatException ex) {
@@ -4666,7 +4703,10 @@ public class Pestaña3_dinamica {
             }
         }
 
-        private void limpiarCampos() {
+        private void limpiarCampos(boolean flag) {
+            DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedido.getModel();
+            modelo.setRowCount(0);
+            
             prodSelect = null;
             posEdit = -1;
             rbtn_nota_prod_codigo.setEnabled(true);
@@ -4675,7 +4715,10 @@ public class Pestaña3_dinamica {
             txtf_nota_prod_cod.setText("");
             txtf_nota_prod_stock.setText("");
             txtf_nota_prod_precio.setText("");
-            modelNotas.setNumRows(0);
+            if(flag){
+                modelNotas.setRowCount(0);
+            }
+           
             if (rbtn_nota_prod_codigo.isSelected()) {
                 txtf_nota_prod_cod.setEditable(true);
                 txtf_nota_prod_cod.requestFocus();
@@ -4684,6 +4727,20 @@ public class Pestaña3_dinamica {
                 txtf_nota_prod_nombre.requestFocus();
             }
             listProd = new ArrayList<>();
+            jLabelSubtotalFac.setText("");
+            jTextFieldImpInternoFac.setText("");
+            jLabelValorInternoFac.setText("");
+            jTextFieldImpIntFijoFac.setText("");
+            jLabelValorImpInterFijFac.setText("");    
+            jTextFieldSobreTasaFac.setText("");
+            jLabelValorSobreTasaIVaFac.setText("");
+            jLabelTotalImpuestosFac.setText("");
+            jTextFieldDescGeneralFac.setText("");
+            jLabelTotalFac.setText("");
+            ivaTotalFactura=0.f;
+                    //jTableIvasMontoFac
+            
+            
         }
 
         private void eliminarProducto() {
@@ -4691,8 +4748,8 @@ public class Pestaña3_dinamica {
             if (pos != -1 && pos <= factura.getRenglones().size()) {
                 try {
                     factura.getRenglones().remove(pos);
-                    model.removeRow(pos);
-                    limpiarCampos();
+                    model_tabla_productos_pedido.removeRow(pos);
+                    limpiarCampos(false);
                 } catch (Exception ex) {
                     new Statics.ExceptionManager().saveDump(ex, "Eliminar producto en tabla de pedidos", Main.isProduccion);
                 }
@@ -4734,17 +4791,26 @@ public class Pestaña3_dinamica {
             factura.setFecha_factura(fechaFac);
             factura.setFecha_pago(fechaPago);
             factura.setForma_pago(formaPago);
-            pedidoDAO.insertarFactura(factura);
+            
+            if(!pedidoDAO.insertarFactura(factura)){
+                principal.lbl_estado.setText("Error, el numero de factura ya existe, controle");
+                return;
+            }
+            //puede ser por que estas cargando una factura sin pedido??
+            //o por que tenes 2 o mas  facturas para un pedido
             if(!pedidoFact.getNumPedido().equals(factura.getNumPedido())){
                 pedidoDAO.checkStockPedido(factura,pedidoFact);
             }
+            pedidos.limpiarCampos(false);
+            principal.lbl_estado.setText("La factura numero "+factura.getNumFactura()+" se guardo con exito");
+            pedidos.cargarTabla();
             pedidoFact = null;
         }
 
         private void cargarTabla() {
             listPedidos = pedidoDAO.getPedidos(prov.getId());
             modelNotas.setNumRows(0);
-            model.setRowCount(0);
+            model_tabla_productos_pedido.setRowCount(0);
             for(int i = 0; i < listPedidos.size();i++){
                 Object[] c = new Object[3];
                 c[0] = listPedidos.get(i).getNumPedido();
@@ -4758,13 +4824,13 @@ public class Pestaña3_dinamica {
             float subtotal=0.f;
             int pos = tabla_nota_PedidossProveedor.getSelectedRow();
             pedidoFact = listPedidos.get(pos);
-            model.setNumRows(0);
+            model_tabla_productos_pedido.setNumRows(0);
             factura = new facturaProveedor();
             factura.setNumPedido(pedidoFact.getNumPedido());
             for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
                 renglonFactura rf = new renglonFactura(rp.getP(),rp.getCantidad(),rp.getNeto(),rp.getSubTotal());
-                Object[] obj = new Object[5];
+                Object[] obj = new Object[7];
                 obj[0] = rp.getP().getCod();
                 obj[1] = rp.getP().getNombre();
                 obj[2] = rp.getNeto();
@@ -4779,35 +4845,47 @@ public class Pestaña3_dinamica {
                     subtotal+=rp.getSubTotal();
                 }
                 obj[6] = rp.getP().getIva();
-                obj[7] = rp.getIvaValor();
+                //obj[7] = rp.getIvaValor();
                 factura.addRenglon(rf);
-                model.addRow(obj);
-                ivaTotalFactura+=(float)(rp.getSubTotal()*rp.getP().getIva());
+                model_tabla_productos_pedido.addRow(obj);
+                System.out.println("rp.subtotal tiene "+rp.getSubTotal());
+                System.out.println("rp.getIva tine"+rp.getP().getIva());
+                
+                ivaTotalFactura+=(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100));
+                System.out.println("le SUME: "+(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100)));
+                System.out.println("ivaTOTAL FAC "+ivaTotalFactura);
             }
-            jLabelSubtotalFac.setText("$"+subtotal);
+            jLabelSubtotalFac.setText(""+subtotal);
+            pedidos.calcularIvaFactura();
+            pedidos.cargarTablaIvaFactura();
+            pedidos.calcularPreciosFactura();
+           
         }
         private void calcularIvaFactura(){
              // cargar tabla de ivaTotalFac:
               
              //inicializacion opcional
-            montosIvaFactura= new HashMap <Float, Float>();
+            pedidos.montosIvaFactura= new HashMap <Float, Float>();
             for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
                 //tal vez deba cambiar esto por factura.....
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
-             
-                if(montosIvaFactura.containsKey(rp.getP().getIva())){
+               
+                if(pedidos.montosIvaFactura.containsKey((float)rp.getP().getIva())){
                     //existe la clave, sumo
                     // ivaTotalFac existente + (subtotal actual *ivaTotalFac coincidente)
-                    float aux=montosIvaFactura.get(rp.getP().getIva())+(float)(rp.getSubTotal()*rp.getP().getIva());
-                    montosIvaFactura.put(rp.getP().getIva(),aux);
-                    
+                    float aux=(float)pedidos.montosIvaFactura.get(rp.getP().getIva()) + (float)(rp.getSubTotal()*rp.getP().getIva()/100);
+                    pedidos.montosIvaFactura.put(rp.getP().getIva(),aux);
+                   
+                }
+                else{
+                    pedidos.montosIvaFactura.put(rp.getP().getIva(), rp.getSubTotal()*rp.getP().getIva()/100);
                 }
              }
             
         }
         private void cargarTablaIvaFactura(){
            DefaultTableModel modeloIvaFac=(DefaultTableModel) jTableIvasMontoFac.getModel();
-           modeloIvaFac.setNumRows(0);
+           modeloIvaFac.setRowCount(0);
            Float [] row = new Float[2];
            /*
            for ( Map.Entry<String, Label> entry : map.entrySet() ) {
@@ -4815,7 +4893,9 @@ public class Pestaña3_dinamica {
                 Label value = entry.getValue();
             }
            */
-           for(Map.Entry<Float, Float> entry : montosIvaFactura.entrySet()){
+            
+           for(Map.Entry<Float, Float> entry : pedidos.montosIvaFactura.entrySet()){
+              
                row[0]=entry.getKey();
                row[1]=entry.getValue();
                modeloIvaFac.addRow(row);
@@ -4825,66 +4905,77 @@ public class Pestaña3_dinamica {
         }
                 
         private void calcularPreciosFactura(){
-            
-            String auxCosto = jLabelSubtotalFac.getText();
-            String descuento= jTextFieldDescGeneralFac.getText();
-           
+            System.out.println("entre GATO");
             DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
             float subTotal, descuentoGralFac,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
-            
-                if (auxCosto.isEmpty() || !Statics.Funciones.isFloat(auxCosto)) {
+         
+                if (jLabelSubtotalFac.getText().isEmpty() || !Statics.Funciones.isFloat(jLabelSubtotalFac.getText())) {
                     subTotal = 0;
+                   
                 } else {
-                    subTotal = Float.parseFloat(auxCosto);
+                    subTotal = Float.parseFloat(jLabelSubtotalFac.getText());
                 }
-                if (descuento.isEmpty() || !Statics.Funciones.isFloat(descuento)) {
+                if (jTextFieldDescGeneralFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldDescGeneralFac.getText())) {
                     descuentoGralFac = 0;
                 } else {
-                    descuentoGralFac = (float)Float.parseFloat(descuento)/100;
+                    factura.setDescuentoGrl(Float.parseFloat(jTextFieldDescGeneralFac.getText()));
+                    descuentoGralFac = (float)Float.parseFloat(jTextFieldDescGeneralFac.getText())/100;
                 }
                 if (jTextFieldImpInternoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpInternoFac.getText())) {
                     impInterno = 0;
                 } else {
+                    factura.setImpInterno(Float.parseFloat(jTextFieldImpInternoFac.getText()));
                     impInterno = (float)Float.parseFloat(jTextFieldImpInternoFac.getText())/100;
                 }
                 if (jTextFieldImpIntFijoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpIntFijoFac.getText())) {
                     impInternoFijo = 0;
                 } else {
+                    factura.setImpInternoFijo(Float.parseFloat(jTextFieldImpIntFijoFac.getText()));
+                    
                     impInternoFijo = (float)Float.parseFloat(jTextFieldImpIntFijoFac.getText())/100;
                 }
                 if (jTextFieldSobreTasaFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldSobreTasaFac.getText())) {
                     sobreTasaIva = 0;
                 } else {
+                    factura.setSobretasaIva(Float.parseFloat(jTextFieldSobreTasaFac.getText()));
                     sobreTasaIva = (float)Float.parseFloat(jTextFieldSobreTasaFac.getText())/100;
                 }
                 
                 
                 float precio_parcial = subTotal;
                 float auxImpuestos=(float)0;
+                
                 precio_parcial=precio_parcial*(1-descuentoGralFac);
                 
+                auxImpuestos=precio_parcial*sobreTasaIva;
+                jLabelValorSobreTasaIVaFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
+                System.out.println("sobretasa iva es "+sobreTasaIva);
                 precio_parcial= precio_parcial*(1+sobreTasaIva);
-                jLabelValorSobreTasaIVaFac.setText("$:"+precio_parcial*(1+sobreTasaIva));
-                auxImpuestos+= precio_parcial*(1+sobreTasaIva);
                 
+                
+                auxImpuestos+=precio_parcial*impInterno;
+                jLabelValorInternoFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial*impInterno));
                 precio_parcial=precio_parcial*(1+impInterno);
-                jLabelValorInternoFac.setText("$:"+precio_parcial*(1+impInterno));
-                auxImpuestos+=precio_parcial*(1+impInterno);
                 
                 
+                
+                jLabelValorImpInterFijFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial*impInternoFijo));
+              
+                auxImpuestos+=precio_parcial*impInternoFijo;
                 precio_parcial=precio_parcial*(1+impInternoFijo);
-                jLabelValorImpInterFijIva.setText("$:"+precio_parcial*(1+impInternoFijo));
-                auxImpuestos+=precio_parcial*(1+impInternoFijo);
                 
+                System.out.println("aux impuestos tiene: "+auxImpuestos);
+                System.out.println("Ivatotal tiene: "+ivaTotalFactura);
                 auxImpuestos+=ivaTotalFactura;
-                jLabelTotalImpuestosFac.setText("$:"+auxImpuestos);
-                
+                jLabelTotalImpuestosFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
                 //subtotal - descuentos + ivas + impuestos
                 // Los impuestos ya estan calculados, me falta sumar el total del iva
                 precio_parcial+=ivaTotalFactura;
-                jLabelTotalFac.setText("$:"+precio_parcial);
+                jLabelTotalFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial));
+                factura.setTotal(precio_parcial);
                 
-                
+               
+              
                
                 
                 
@@ -4906,14 +4997,14 @@ public class Pestaña3_dinamica {
                     int cod = Integer.parseInt(text);
                     cargarProductos(productosDAO.buscarProducto(cod));
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Debe ingresar un c�digo",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    jLabelInfoNotaPedido.setText("Error - debe ingresar un codigo");
                     txtf_productos_buscar.setText("");
                 }
             } else if (rbtn_productos_nombre.isSelected()) {
                 cargarProductos(productosDAO.buscarProducto("nombre",text.toLowerCase()));
             } else {
-                System.out.println("Error no selecciono tipo de busqueda");
+                 jLabelInfoNotaPedido.setText("Error - o selecciono tipo de busqueda");
+                
             }
         }
         
@@ -4938,8 +5029,8 @@ public class Pestaña3_dinamica {
 
         private void agregarRenglonPedido(float parseFloat, int parseInt) {
             if(prodSelect == null){
-                JOptionPane.showMessageDialog(null, "Debe seleccionar un producto.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                
+                jLabelInfoNotaPedido.setText("Error - Debe seleccionar un producto ");
                 return;
             }
             renglonPedido rp = new renglonPedido();
@@ -4948,11 +5039,12 @@ public class Pestaña3_dinamica {
             rp.setNeto(parseFloat);
             rp.setP(prodSelect);
             rp.setSubTotal(parseFloat*parseInt);
-            float rest = 0f;
+            float subtotal = 0f;
             if(pedidoNuevo.getRenglones().contains(rp)){
+                //estaria actualizando la cantidad, el neto y el subtotal
                 for(int i = 0; i< pedidoNuevo.getRenglones().size() ; i++){
                     if(pedidoNuevo.getRenglones().get(i).getP().getId() == prodSelect.getId()){
-                        rest = pedidoNuevo.getRenglones().get(i).getSubTotal();
+                        subtotal = pedidoNuevo.getRenglones().get(i).getSubTotal();
                         pedidoNuevo.getRenglones().get(i).setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
                         pedidoNuevo.getRenglones().get(i).setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
                         // pedidoNuevo.getRenglones().get(i).setCantidad(rp.getCantidad());//reemplaza la cantidad actual por la del txt
@@ -4981,7 +5073,7 @@ public class Pestaña3_dinamica {
             txtf_nota_neto.setText("");
             if(Statics.Funciones.isFloat(txtf_nota_total.getText())){
                 float total = Float.parseFloat(txtf_nota_total.getText());
-                total += rp.getSubTotal() - rest;
+                total += rp.getSubTotal() - subtotal; // no seria mas?
                 txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(total));
             }else{
                 float total = rp.getSubTotal();
@@ -4996,7 +5088,7 @@ public class Pestaña3_dinamica {
                 lbl_nota_proveedor.setText(prov.getNombre());
             }else{
                 
-                 principal.lbl_estado.setText("Error al crear pedido");
+                principal.lbl_estado.setText("Error al crear pedido");
                 principal.lbl_estado.setForeground(Color.RED);
                 return;
             }
@@ -5004,12 +5096,33 @@ public class Pestaña3_dinamica {
         }
 
         private void eliminarRP() {
-            if(rpSelected != -1){
-                pedidos.pedidoNuevo.getRenglones().remove(rpSelected);
+            if(pedidos.rpSelected != -1){
+                System.out.println("rpSelected es: "+pedidos.rpSelected);
+                pedidos.pedidoNuevo.getRenglones().remove(pedidos.rpSelected);
+                recargarTablaPedido();
+                jLabelInfoNotaPedido.setText("Producto eliminado");
+                
             }else{
                 jLabelInfoNotaPedido.setText("Error no seleccionó ningun producto");
                 return;
             }
+        }
+        private void recargarTablaPedido(){
+            modelNotaprodPedido.setRowCount(0);
+             float subtotal = 0f;
+              for(int i = 0; i< pedidoNuevo.getRenglones().size() ; i++){
+                renglonPedido rp = new renglonPedido();
+                rp=pedidoNuevo.getRenglones().get(i);
+                Object[] o = new Object [5];
+                o[0] = rp.getP().getCod();
+                o[1] = rp.getP().getNombre();
+                o[2] = rp.getCantidad();
+                o[3] = rp.getNeto();
+                o[4] = rp.getSubTotal();
+                modelNotaprodPedido.addRow(o);
+                subtotal+=rp.getSubTotal();
+               }
+              txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(subtotal));
         }
 
         private void terminarPedido() {
@@ -5019,14 +5132,21 @@ public class Pestaña3_dinamica {
                 pedidoNuevo.setFecha(new Date());
             }
             System.out.println("va a insertar pedido");
-            pedidoDAO.insertRP(pedidoNuevo);
-            System.out.println("inserto el pedido");
+          
+            if(pedidoDAO.insertRP(pedidoNuevo)){
+                System.out.println("inserto el pedido");
             txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
             txtf_nota_neto.setText("");
             modelNotaprodPedido.setRowCount(0);
             jDialogCrearNota.dispose();
             cargarTabla();
+            principal.lbl_estado.setText("Su pedido fue ingresado correctamente");
+            }
+            else{
+                jLabelInfoNotaPedido.setText("Error, no se pudo generar el pedido");
+            }
+            
         }
 
         private void activarCampos(boolean flag) {
@@ -5044,8 +5164,9 @@ public class Pestaña3_dinamica {
         private void cancelarNota() {
             
             pedidoDAO.eliminarPedido(pedidoNuevo);
-            jDialogCrearNota.dispose();
             limpiarCamposNotaPedido();
+            jDialogCrearNota.dispose();
+            
         }
         private void limpiarCamposNotaPedido(){
             jLabelInfoNotaPedido.setText("");
@@ -5053,6 +5174,7 @@ public class Pestaña3_dinamica {
             txtf_nota_cantidad.setText("");
             txtf_nota_neto.setText("");
             txtf_nota_nro.setText("");
+            txtf_nota_total.setText("");
             modelNotaprodPedido.setRowCount(0);
             modelNotaprodPedir.setRowCount(0);
         }

@@ -128,7 +128,7 @@ public class PedidoDAO {
         }
         
     }
-    public void insertRP(Pedido pedidoNuevo) {
+    public boolean insertRP(Pedido pedidoNuevo) {
         String SQL = "INSERT INTO renglon_nota(nota_pedido_id,producto_id,costo_prod,cantidad,cant_faltante,sub_total) VALUES ";
         for(int i = pedidoNuevo.getRenglones().size()-1; i > 0 ;i--){
             SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(i).getP().getId()+","+pedidoNuevo.getRenglones().get(i).getNeto()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getSubTotal()+"),";
@@ -138,7 +138,8 @@ public class PedidoDAO {
         insertarStockPedido(pedidoNuevo.getRenglones().get(0));
         conexion.EjecutarOperacion(SQL);
         SQL = "UPDATE nota_pedido SET total ="+pedidoNuevo.getTotal()+" WHERE nro_pedido = "+pedidoNuevo.getNumPedido();
-        conexion.EjecutarOperacion(SQL);
+        if(conexion.EjecutarOperacion(SQL) > 0 ) return true;
+        else return false;
     }
     
     /**
