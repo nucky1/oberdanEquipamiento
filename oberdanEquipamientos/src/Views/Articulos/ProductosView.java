@@ -576,6 +576,9 @@ public void limpiarCamposInventario() {
         jLabel173.setText("Nota de pedido");
 
         txtf_nota_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtf_nota_cantidadKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtf_nota_cantidadKeyTyped(evt);
             }
@@ -2663,6 +2666,11 @@ public void limpiarCamposInventario() {
         jLabel177.setText("Tipo factura");
 
         cbox_tipo_factura.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Factura A", "Factura B", "Remito" }));
+        cbox_tipo_factura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbox_tipo_facturaActionPerformed(evt);
+            }
+        });
 
         jLabel20.setText("Subtotal: $");
 
@@ -3281,6 +3289,9 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_nota_cantidadKeyTyped
 
     private void btn_nota_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_agregarActionPerformed
+            accion_btn_nota_agregar();
+    }//GEN-LAST:event_btn_nota_agregarActionPerformed
+    private void accion_btn_nota_agregar(){
         if(!Statics.Funciones.isNumeric(txtf_nota_cantidad.getText())){
             jLabelInfoNotaPedido.setText("Error!Debe ingresar un valor valido en cantidad. ");
             return;
@@ -3290,8 +3301,7 @@ public void limpiarCamposInventario() {
             return;
         }
         pedidos.agregarRenglonPedido(Float.parseFloat(txtf_nota_neto.getText()),Integer.parseInt(txtf_nota_cantidad.getText()));
-    }//GEN-LAST:event_btn_nota_agregarActionPerformed
-
+    }
     private void btn_nota_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_eliminarActionPerformed
         pedidos.eliminarRP();
     }//GEN-LAST:event_btn_nota_eliminarActionPerformed
@@ -3312,11 +3322,8 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_tabla_nota_prodPedidoMouseClicked
 
     private void generarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarNotaActionPerformed
+           pedidos.terminarPedido();
            
-            pedidos.terminarPedido();
-                
-            //pedidos.cancelarNota();
-        
     }//GEN-LAST:event_generarNotaActionPerformed
 
     private void txtf_nota_prod_nombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtf_nota_prod_nombreItemStateChanged
@@ -3652,6 +3659,16 @@ private void funcionalidadBotonOkAddIva(){
     private void jTextFieldDescGeneralFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldDescGeneralFacCaretUpdate
         pedidos.calcularPreciosFactura();
     }//GEN-LAST:event_jTextFieldDescGeneralFacCaretUpdate
+
+    private void cbox_tipo_facturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_tipo_facturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbox_tipo_facturaActionPerformed
+
+    private void txtf_nota_cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_cantidadKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            accion_btn_nota_agregar();
+        }
+    }//GEN-LAST:event_txtf_nota_cantidadKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -4706,7 +4723,7 @@ public class Pestaña3_dinamica {
         private void limpiarCampos(boolean flag) {
             DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedido.getModel();
             modelo.setRowCount(0);
-            
+            principal.lbl_estado.setText("");
             prodSelect = null;
             posEdit = -1;
             rbtn_nota_prod_codigo.setEnabled(true);
@@ -4798,7 +4815,8 @@ public class Pestaña3_dinamica {
             }
             //puede ser por que estas cargando una factura sin pedido??
             //o por que tenes 2 o mas  facturas para un pedido
-            if(!pedidoFact.getNumPedido().equals(factura.getNumPedido())){
+            // estaba asi : if(!pedidoFact.getNumPedido().equals(factura.getNumPedido()))
+            if(pedidoFact.getNumPedido().equals(factura.getNumPedido())){
                 pedidoDAO.checkStockPedido(factura,pedidoFact);
             }
             pedidos.limpiarCampos(false);

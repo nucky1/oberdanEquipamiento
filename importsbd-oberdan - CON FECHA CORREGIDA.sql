@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS art_stock (
   id int(11) NOT NULL AUTO_INCREMENT,
   producto_id int(11) NOT NULL,
   stock_actual float DEFAULT 0,
-  stock_ingresado float DEFAULT 0,
+  --stock_ingresado float DEFAULT 0, supuestamente esta al pedo
   stock_pedido float DEFAULT 0,
   stock_reservado float DEFAULT 0,
   precio_compra float NOT NULL DEFAULT 0,

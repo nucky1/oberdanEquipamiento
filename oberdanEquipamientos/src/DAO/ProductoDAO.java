@@ -223,11 +223,11 @@ public class ProductoDAO {
             break;
         }
         case "Pedido":{
-            
+            // solo esta trayendo en unidad condesadora, el ultimo que pediste
             SQL = "SELECT articulos.id, articulos.nombre,articulos.stock_existente,stock_pedido AS stock, "
                 + "articulos.precio_venta, articulos.tipo FROM articulos "
                 + "LEFT JOIN art_stock ON art_stock.producto_id = articulos.id "
-                + "WHERE articulos.state= 'ACTIVO'";
+                + "WHERE articulos.state= 'ACTIVO' AND art_stock.stock_pedido>0 ";
             break;
         }
     }

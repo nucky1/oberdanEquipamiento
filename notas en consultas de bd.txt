@@ -1,0 +1,2 @@
+SELECT articulos.id, articulos.nombre, SUM(art_stock.stock_pedido) AS cantPedida FROM articulos LEFT JOIN art_stock ON art_stock.producto_id = articulos.id WHERE articulos.state= 'ACTIVO' AND art_stock.stock_pedido>0;
+me trae la unidad condensadora pero solo esa y cantPedida pone la suma de todos los pedidos

@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -149,7 +151,18 @@ public class PedidoDAO {
      * @param rp 
      */
     public void insertarStockPedido(renglonPedido rp){
-        String SQLstock = "UPDATE `art_stock` SET stock_pedido = "+rp.getCantFaltante()+" WHERE producto_id = "+rp.getP().getId()+" AND precio_compra ="+rp.getNeto();
+       // primero debo controlar cuantos ya hay pedidos de ese articulo y a ese precio
+       String SQLstock= "SELECT * FROM art_stock WHERE art_stock.producto_id = "+rp.getP().getId()+" AND art_stock.precio_compra ="+rp.getNeto();
+       ResultSet rs= conexion.EjecutarConsultaSQL(SQLstock);
+        try {
+            if (rs.first()){
+                //si ya hay algo pedido, aumento la cantidad 
+                int cantNuevaPedida = rp.getCantFaltante();
+                rp.setCantFaltante(rs.getInt("stock_pedido")+cantNuevaPedida);
+            }} catch (SQLException ex) {
+            Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         SQLstock = "UPDATE `art_stock` SET stock_pedido = "+rp.getCantFaltante()+" WHERE producto_id = "+rp.getP().getId()+" AND precio_compra ="+rp.getNeto();
         int filasAfectadas = conexion.EjecutarOperacion(SQLstock);
         System.out.println(" Al insertar Stock pedido, SQL : \n"+SQLstock);
         if(filasAfectadas == 0){
@@ -234,14 +247,13 @@ public class PedidoDAO {
         int renCompletos = 0;
         ArrayList<renglonFactura> renglonesFactura = factura.getRenglones();
         ArrayList<renglonPedido> renglonesPedido = pedidoFact.getRenglones();
-        System.out.println("El tamaño de renglones pedido es: "+renglonesPedido.size());
-       
         for(int i = 0 ; i <renglonesPedido.size() ;i++){
             int res = renglonesFactura.indexOf(renglonesPedido.get(i));
-         
+           //pregunta si esta o no
             if(res != -1){
                 if(renglonesFactura.get(res).getCantidad()>= renglonesPedido.get(i).getCantFaltante()){
-                    //Hay un trigger cuando update----
+                    //esta, pregunta por cantidad
+                     //Hay un trigger cuando update----
                     //el problema es que le manda cualquier id al producto
                     SQL = "UPDATE `renglon_nota` SET `cant_faltante`= 0 WHERE id ="+renglonesPedido.get(i).getId();
                     renglonesPedido.get(i).setCantFaltante(0);
