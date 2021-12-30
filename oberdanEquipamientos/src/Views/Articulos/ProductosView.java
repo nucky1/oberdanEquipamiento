@@ -3699,8 +3699,8 @@ private void funcionalidadBotonOkAddIva(){
 
     private void txtf_nota_prod_precio_unitarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precio_unitarioKeyTyped
         char c = evt.getKeyChar();
-
-        if ((c < '0' || c > '9')) {
+        // como añade el punto?
+        if ((c < '0' || c > '9') || c!='.') {
             evt.consume();
         }
        
@@ -3708,6 +3708,10 @@ private void funcionalidadBotonOkAddIva(){
 
     private void tabla_productos_pedidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoKeyPressed
         // TODO add your handling code here:
+        agarra el elemento elegido
+                lo elimina, y lo vuelve a cargar como en agregar producto
+                        Pero con los nuevos valores.
+                                y listo bro
     }//GEN-LAST:event_tabla_productos_pedidoKeyPressed
 
 
@@ -4721,9 +4725,12 @@ public class Pestaña3_dinamica {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
             String cantIngresada = txtf_nota_prod_cant_recibida.getText();
             String precioUnidad = txtf_nota_prod_precio_unitario.getText();
+            deberia poner el descuento unitario tmb aca, asi directamente lo carga
             try {
+                float subtotal=0.f;
                 int cantRecibida = Integer.parseInt(cantIngresada);
                 float precioUnitario = Float.parseFloat(precioUnidad);
                 if (prodSelect != null) {
@@ -4734,6 +4741,7 @@ public class Pestaña3_dinamica {
                     Object[] obj = new Object[7];
                     if (posEdit != -1) {
                         //tiene un producto seleccionado de la tabla
+                        // esta por variar la cantidad de elementos recibidos de un articulo
                         rf.setP(factura.getRenglones().get(posEdit).getP());
                         factura.getRenglones().remove(posEdit);
                         //lo remuevo ya que uso el pedido para re cargar la tabla
@@ -4749,14 +4757,24 @@ public class Pestaña3_dinamica {
                             obj[3] = factura.getRenglones().get(i).getCantidad();
                             obj[4] = factura.getRenglones().get(i).getDescuento();
                             //ojo   que esto podria necesitar calcularse.
-                            obj[5] = factura.getRenglones().get(i).getSubTotal();
+                            if(factura.getRenglones().get(i).getDescuento()!=0){
+                                subtotal+=(float)factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
+                                obj[5]=factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
+                            }
+                            else{
+                                obj[5] = factura.getRenglones().get(i).getSubTotal();
+                                subtotal+=factura.getRenglones().get(i).getSubTotal();
+                            }
+                            //obj[5] = factura.getRenglones().get(i).getSubTotal();
                             obj[6] = factura.getRenglones().get(i).getP().getIva();
                             model_tabla_productos_pedido.addRow(obj);
+                            
                         }
                         posEdit = -1;
                     } else {
                         //no habria seleccionado nada de la tabla
                         rf.setP(prodSelect);
+                       
                         factura.getRenglones().add(rf);
                         obj[0] = rf.getP().getCod();
                         obj[1] = rf.getP().getNombre();
@@ -4764,12 +4782,14 @@ public class Pestaña3_dinamica {
                         // ojo podria ser costo obj[3] = rf.getCosto();
                         obj[3] = rf.getCantidad();
                         obj[4]= 0; //ya que no hay nada seleccionado, lo debera controlar user
+                        me queda ver que pasa si hay un descuento unitario en el producto que selecciona
                         obj[5] = rf.getSubTotal();
                         obj[6] = rf.getP().getIva();
                         model_tabla_productos_pedido.addRow(obj);
                     }
                     limpiarCampos(false,false);
                     
+                   
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "El formato de stock o precio no es correcto.",
@@ -4820,12 +4840,15 @@ public class Pestaña3_dinamica {
         }
 
         private void eliminarProducto() {
+           
             int pos = tabla_productos_pedido.getSelectedRow();
             if (pos != -1 && pos <= factura.getRenglones().size()) {
                 try {
                     pedidoFact.getRenglones().remove(pos);
-                    factura.getRenglones().remove(pos);
-                    model_tabla_productos_pedido.removeRow(pos);
+                    //factura.getRenglones().remove(pos);
+                    factura = new facturaProveedor();
+                    factura.setNumPedido(pedidoFact.getNumPedido());
+                    //model_tabla_productos_pedido.removeRow(pos);
                     limpiarCampos(false,false);
                     
                     pedidos.calcularSubtotalFactura();
@@ -4907,8 +4930,7 @@ public class Pestaña3_dinamica {
             
             int pos = tabla_nota_PedidossProveedor.getSelectedRow();
             pedidoFact = listPedidos.get(pos);
-            factura = new facturaProveedor();
-            factura.setNumPedido(pedidoFact.getNumPedido());
+            
             calcularSubtotalFactura();
             pedidos.calcularIvaFactura();
             pedidos.cargarTablaIvaFactura();
@@ -4917,7 +4939,9 @@ public class Pestaña3_dinamica {
         }
         private void calcularSubtotalFactura(){
             float subtotal=0.f;
+            
             model_tabla_productos_pedido.setNumRows(0);
+            
             for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
                 renglonFactura rf = new renglonFactura(rp.getP(),rp.getCantidad(),rp.getNeto(),rp.getSubTotal());
@@ -4939,12 +4963,8 @@ public class Pestaña3_dinamica {
                 //obj[7] = rp.getIvaValor();
                 factura.addRenglon(rf);
                 model_tabla_productos_pedido.addRow(obj);
-                System.out.println("rp.subtotal tiene "+rp.getSubTotal());
-                System.out.println("rp.getIva tine"+rp.getP().getIva());
-                
                 ivaTotalFactura+=(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100));
-                System.out.println("le SUME: "+(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100)));
-                System.out.println("ivaTOTAL FAC "+ivaTotalFactura);
+               
             }
             jLabelSubtotalFac.setText(""+subtotal);
         }
@@ -4992,8 +5012,6 @@ public class Pestaña3_dinamica {
         }
                 
         private void calcularPreciosFactura(){
-            
-            DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
             float subTotal, descuentoGralFac,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
          
                 if (jLabelSubtotalFac.getText().isEmpty() || !Statics.Funciones.isFloat(jLabelSubtotalFac.getText())) {
@@ -5050,9 +5068,7 @@ public class Pestaña3_dinamica {
               
                 auxImpuestos+=precio_parcial*impInternoFijo;
                 precio_parcial=precio_parcial*(1+impInternoFijo);
-                
-                System.out.println("aux impuestos tiene: "+auxImpuestos);
-                System.out.println("Ivatotal tiene: "+ivaTotalFactura);
+               
                 auxImpuestos+=ivaTotalFactura;
                 jLabelTotalImpuestosFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
                 //subtotal - descuentos + ivas + impuestos
@@ -5060,12 +5076,7 @@ public class Pestaña3_dinamica {
                 precio_parcial+=ivaTotalFactura;
                 jLabelTotalFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial));
                 factura.setTotal(precio_parcial);
-                
-               
-              
-               
-                
-                
+                        
 }
 
         private void selectProducto(int pos) {
