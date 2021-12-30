@@ -3447,7 +3447,7 @@
                                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                               <Component id="txtf_nota_prod_nombre" min="-2" pref="422" max="-2" attributes="0"/>
                                               <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                                              <Component id="txtf_nota_prod_stock" min="-2" pref="77" max="-2" attributes="0"/>
+                                              <Component id="txtf_nota_prod_cant_recibida" min="-2" pref="77" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="rbtn_nota_prod_codigo" min="-2" pref="149" max="-2" attributes="0"/>
@@ -3461,7 +3461,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel169" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" attributes="0">
-                                              <Component id="txtf_nota_prod_precio" min="-2" pref="68" max="-2" attributes="0"/>
+                                              <Component id="txtf_nota_prod_precio_unitario" min="-2" pref="68" max="-2" attributes="0"/>
                                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                               <Component id="btn_factura_agregar" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -3601,8 +3601,8 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="txtf_nota_prod_cod" min="-2" max="-2" attributes="0"/>
                                           <Component id="txtf_nota_prod_nombre" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtf_nota_prod_stock" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtf_nota_prod_precio" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtf_nota_prod_cant_recibida" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtf_nota_prod_precio_unitario" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -3715,10 +3715,13 @@
                 <Property name="text" type="java.lang.String" value="Cantidad:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtf_nota_prod_stock">
+            <Component class="javax.swing.JTextField" name="txtf_nota_prod_cant_recibida">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtf_nota_prod_cant_recibidaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_factura_agregar">
               <Properties>
@@ -3798,6 +3801,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tabla_productos_pedidoKeyPressed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -3827,17 +3833,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_lote_aceptarActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtf_nota_prod_precio">
+            <Component class="javax.swing.JTextField" name="txtf_nota_prod_precio_unitario">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtf_nota_prod_precioKeyPressed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtf_nota_prod_precio_unitarioKeyPressed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtf_nota_prod_precio_unitarioKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel169">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Subtotal:"/>
+                <Property name="text" type="java.lang.String" value="Precio unitario:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtf_nota_prod_factura">

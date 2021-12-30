@@ -39,12 +39,12 @@ ALTER TABLE `comercio` ADD `dirIdemProp` INT NOT NULL AFTER `updated_at`;
 ALTER TABLE `contactos` CHANGE `cargo` `cargo` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 ALTER TABLE `comercio` CHANGE `dirIdemProp` `direIdemProp` INT(11) NOT NULL;
 
--- estas Son las nuevas modificaciones:
+
 
 CREATE TABLE `bd-oberdan`.`iva` ( `valor` FLOAT NOT NULL DEFAULT '1' UNIQUE ) ENGINE = InnoDB;
-INSERT INTO iva (nombre, valor) VALUES ('TIPO IVA', 1.0)
-INSERT INTO iva (nombre, valor) VALUES ('TIPO IVA', 21.0)
-INSERT INTO iva (nombre, valor) VALUES ('TIPO IVA', 15.0)
+INSERT INTO iva (valor) VALUES (1.0);
+INSERT INTO iva (valor) VALUES (21.0);
+INSERT INTO iva (valor) VALUES (15.0)
 -- modificaciones a renglon factura para poder soportar ivas mejor
 ALTER TABLE `renglon_factura` ADD `ivaPorcentaje` INT NOT NULL DEFAULT '1' AFTER `cantidad`;
 -- podria guardar ivaCosto, pero lo tomare como un atributo calculado.
@@ -56,3 +56,6 @@ ALTER TABLE `articulos` ADD `coeficiente` FLOAT NOT NULL DEFAULT '0' AFTER `prec
 ALTER TABLE `factura_proveedor` ADD `imp_interno_fijo` FLOAT NOT NULL DEFAULT '0' AFTER `tipo_factura`, ADD `imp_interno` FLOAT NOT NULL DEFAULT '0' AFTER `imp_interno_fijo`, 
 ADD `sobretasa_iva` FLOAT NOT NULL DEFAULT '0' AFTER `imp_interno`, 
 ADD `descuento_gral` FLOAT NOT NULL DEFAULT '0' AFTER `sobretasa_iva`;
+
+-- estas Son las nuevas modificaciones:
+ALTER TABLE `renglon_factura` ADD `descuento` FLOAT NOT NULL DEFAULT '0' AFTER `cantidad`;

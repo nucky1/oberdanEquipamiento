@@ -15,6 +15,8 @@ public class renglonFactura {
     private int cantidad;
     private float subTotal;
     private float costo;
+    private float descuento;
+    
 
     public renglonFactura(Producto p, int cantidad, float costo, float subTotal) {
         this.p = p;
@@ -30,6 +32,14 @@ public class renglonFactura {
         this.costo = 0f;
     }
 
+    public float getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(float descuento) {
+        this.descuento = descuento;
+    }
+    
     public int getId() {
         return id;
     }

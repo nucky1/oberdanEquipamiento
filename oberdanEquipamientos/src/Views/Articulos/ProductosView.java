@@ -407,13 +407,13 @@ public void limpiarCamposInventario() {
         jLabel165 = new javax.swing.JLabel();
         txtf_nota_prod_cod = new javax.swing.JTextField();
         jLabel168 = new javax.swing.JLabel();
-        txtf_nota_prod_stock = new javax.swing.JTextField();
+        txtf_nota_prod_cant_recibida = new javax.swing.JTextField();
         btn_factura_agregar = new javax.swing.JButton();
         jScrollPane27 = new javax.swing.JScrollPane();
         tabla_productos_pedido = new javax.swing.JTable();
         btn_factura_eliminar = new javax.swing.JButton();
         btn_lote_aceptar = new javax.swing.JButton();
-        txtf_nota_prod_precio = new javax.swing.JTextField();
+        txtf_nota_prod_precio_unitario = new javax.swing.JTextField();
         jLabel169 = new javax.swing.JLabel();
         txtf_nota_prod_factura = new javax.swing.JTextField();
         jLabel170 = new javax.swing.JLabel();
@@ -2158,7 +2158,7 @@ public void limpiarCamposInventario() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDevoluciones2Layout.createSequentialGroup()
                 .addComponent(jPanel40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
-                .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, 516, Short.MAX_VALUE)
                 .addGap(51, 51, 51))
         );
 
@@ -2289,7 +2289,7 @@ public void limpiarCamposInventario() {
             .addGroup(panel_devosLayout.createSequentialGroup()
                 .addComponent(jPanelDevoluciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(jPanelDevoluciones2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panel_devosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelDevoluciones3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2497,7 +2497,12 @@ public void limpiarCamposInventario() {
 
         jLabel168.setText("Cantidad:");
 
-        txtf_nota_prod_stock.setEnabled(false);
+        txtf_nota_prod_cant_recibida.setEnabled(false);
+        txtf_nota_prod_cant_recibida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtf_nota_prod_cant_recibidaKeyTyped(evt);
+            }
+        });
 
         btn_factura_agregar.setBackground(new java.awt.Color(0, 153, 0));
         btn_factura_agregar.setForeground(new java.awt.Color(255, 255, 255));
@@ -2523,6 +2528,11 @@ public void limpiarCamposInventario() {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabla_productos_pedido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabla_productos_pedidoKeyPressed(evt);
             }
         });
         jScrollPane27.setViewportView(tabla_productos_pedido);
@@ -2565,14 +2575,17 @@ public void limpiarCamposInventario() {
             }
         });
 
-        txtf_nota_prod_precio.setEnabled(false);
-        txtf_nota_prod_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtf_nota_prod_precio_unitario.setEnabled(false);
+        txtf_nota_prod_precio_unitario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtf_nota_prod_precioKeyPressed(evt);
+                txtf_nota_prod_precio_unitarioKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtf_nota_prod_precio_unitarioKeyTyped(evt);
             }
         });
 
-        jLabel169.setText("Subtotal:");
+        jLabel169.setText("Precio unitario:");
 
         jLabel170.setText("Numero de factura");
 
@@ -2806,7 +2819,7 @@ public void limpiarCamposInventario() {
                                         .addGap(6, 6, 6)
                                         .addComponent(txtf_nota_prod_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtf_nota_prod_stock, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtf_nota_prod_cant_recibida, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panel_pedidosLayout.createSequentialGroup()
                                         .addComponent(rbtn_nota_prod_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(6, 6, 6)
@@ -2817,7 +2830,7 @@ public void limpiarCamposInventario() {
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel169)
                                     .addGroup(panel_pedidosLayout.createSequentialGroup()
-                                        .addComponent(txtf_nota_prod_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtf_nota_prod_precio_unitario, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(6, 6, 6)
                                         .addComponent(btn_factura_agregar)
                                         .addGap(6, 6, 6)
@@ -2927,8 +2940,8 @@ public void limpiarCamposInventario() {
                                 .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtf_nota_prod_cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtf_nota_prod_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtf_nota_prod_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtf_nota_prod_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtf_nota_prod_cant_recibida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_nota_prod_precio_unitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane27, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2995,11 +3008,13 @@ public void limpiarCamposInventario() {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtf_nota_prod_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precioKeyPressed
+    private void txtf_nota_prod_precio_unitarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precio_unitarioKeyPressed
+        //tambien deberia controlar que ponga cantidades validas no?
+        
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             pedidos.agregarProducto();
         }
-    }//GEN-LAST:event_txtf_nota_prod_precioKeyPressed
+    }//GEN-LAST:event_txtf_nota_prod_precio_unitarioKeyPressed
 
     private void btn_lote_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lote_aceptarActionPerformed
        
@@ -3028,15 +3043,17 @@ public void limpiarCamposInventario() {
 
     private void txtf_nota_prod_codKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_codKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("ENTRE AL EVENTO ");
             pedidos.buscarProducto(txtf_nota_prod_cod.getText());
         }
+       
     }//GEN-LAST:event_txtf_nota_prod_codKeyPressed
 
     private void btn_lotes_prod_buscarprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lotes_prod_buscarprovActionPerformed
         JD_Proveedor_Buscador provBuscador = new JD_Proveedor_Buscador(new JDialog(), true) {
             public void getIDProveedor(int id, String atributo) {
                 if (id != -1) {
-                    pedidos.limpiarCampos(true);
+                    pedidos.limpiarCampos(true,true);
                     pedidos.prov = new Proveedor();
                     pedidos.prov.setId(id);
                     pedidos.prov.setNombre(atributo);
@@ -3263,7 +3280,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_btn_nota_nuevaActionPerformed
 
     private void tabla_nota_PedidossProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_PedidossProveedorMouseClicked
-        pedidos.limpiarCampos(false);
+        pedidos.limpiarCampos(false,true);
         //no deberia activar campos tmb??
         pedidos.cargarTablaFactura();
     }//GEN-LAST:event_tabla_nota_PedidossProveedorMouseClicked
@@ -3327,6 +3344,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_generarNotaActionPerformed
 
     private void txtf_nota_prod_nombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtf_nota_prod_nombreItemStateChanged
+        //Si encontro el producto que le gusta:
         
     }//GEN-LAST:event_txtf_nota_prod_nombreItemStateChanged
 
@@ -3670,6 +3688,28 @@ private void funcionalidadBotonOkAddIva(){
         }
     }//GEN-LAST:event_txtf_nota_cantidadKeyPressed
 
+    private void txtf_nota_prod_cant_recibidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyTyped
+       char c = evt.getKeyChar();
+       
+            if ((c < '0' || c > '9')) {
+                evt.consume();
+            }
+        
+    }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyTyped
+
+    private void txtf_nota_prod_precio_unitarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precio_unitarioKeyTyped
+        char c = evt.getKeyChar();
+
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
+       
+    }//GEN-LAST:event_txtf_nota_prod_precio_unitarioKeyTyped
+
+    private void tabla_productos_pedidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabla_productos_pedidoKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancelar;
@@ -3923,11 +3963,11 @@ private void funcionalidadBotonOkAddIva(){
     protected javax.swing.JTextField txtf_nota_cantidad;
     protected javax.swing.JTextField txtf_nota_neto;
     protected javax.swing.JTextField txtf_nota_nro;
+    private javax.swing.JTextField txtf_nota_prod_cant_recibida;
     private javax.swing.JTextField txtf_nota_prod_cod;
     private javax.swing.JTextField txtf_nota_prod_factura;
     private javax.swing.JComboBox txtf_nota_prod_nombre;
-    private javax.swing.JTextField txtf_nota_prod_precio;
-    private javax.swing.JTextField txtf_nota_prod_stock;
+    private javax.swing.JTextField txtf_nota_prod_precio_unitario;
     private javax.swing.JTextField txtf_nota_proveedor;
     protected javax.swing.JTextField txtf_nota_total;
     private javax.swing.JTextField txtf_nuevo_rubro;
@@ -4627,8 +4667,8 @@ public class Pestaña3_dinamica {
                 txtf_nota_prod_nombre.setSelectedItem(rf.getP().getNombre());
                 txtf_nota_prod_cod.setEditable(false);
                 txtf_nota_prod_nombre.setEnabled(false);
-                txtf_nota_prod_stock.setText("" + rf.getCantidad());
-                txtf_nota_prod_precio.setText("" + rf.getSubTotal());
+                txtf_nota_prod_cant_recibida.setText("" + rf.getCantidad());
+                txtf_nota_prod_precio_unitario.setText("" + rf.getSubTotal());
                 rbtn_nota_prod_codigo.setEnabled(false);
                 rbtn_nota_prod_prod.setEnabled(false);
             }
@@ -4637,23 +4677,28 @@ public class Pestaña3_dinamica {
         private void buscarProducto(String aux_idP) {
             if (!aux_idP.isEmpty()) {
                 if (rbtn_nota_prod_codigo.isSelected()) {
-                    int idP = Integer.parseInt(aux_idP);
-                    listProd = Pestaña1_dinamica.productosDAO.buscarProducto(idP);
+                    int idProducto = Integer.parseInt(aux_idP);
+                    listProd = Pestaña1_dinamica.productosDAO.buscarProducto(idProducto);
+                   
                     if (listProd.size() == 1) {
                         txtf_nota_prod_cod.setText("" + listProd.get(0).getCod());
                         prodSelect = listProd.get(0);
                     }
-                    if (prodSelect != null && prodSelect.getId() == idP) {
+                    
+                    if (prodSelect != null && prodSelect.getCod()== idProducto) {
                         String[] aux = new String[1];
                         aux[0] = prodSelect.getNombre();
+                        
                         modelCombo = new DefaultComboBoxModel(aux);
                         txtf_nota_prod_nombre.setModel(modelCombo);
+                        txtf_nota_prod_precio_unitario.setText(""+prodSelect.getPrecioNeto());
                     }
                 } else if (rbtn_nota_prod_prod.isSelected()) {
                     listProd = Pestaña1_dinamica.productosDAO.buscarProducto("nombre", aux_idP);
                     if (listProd.size() == 1) {
                         txtf_nota_prod_cod.setText("" + listProd.get(0).getCod());
                         prodSelect = listProd.get(0);
+                        
                     }
                 }
             }
@@ -4676,42 +4721,54 @@ public class Pestaña3_dinamica {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String auxStock = txtf_nota_prod_stock.getText();
-            String auxPrecio = txtf_nota_prod_precio.getText();
+            String cantIngresada = txtf_nota_prod_cant_recibida.getText();
+            String precioUnidad = txtf_nota_prod_precio_unitario.getText();
             try {
-                int stock = Integer.parseInt(auxStock);
-                float precio = Float.parseFloat(auxPrecio);
+                int cantRecibida = Integer.parseInt(cantIngresada);
+                float precioUnitario = Float.parseFloat(precioUnidad);
                 if (prodSelect != null) {
                     renglonFactura rf = new renglonFactura();
-                    rf.setCantidad(stock);
-                    rf.setCosto(precio);
-                    rf.setSubTotal(precio*stock);
-                    Object[] obj = new Object[5];
+                    rf.setCantidad(cantRecibida);
+                    rf.setCosto(precioUnitario);
+                    rf.setSubTotal(precioUnitario*cantRecibida);
+                    Object[] obj = new Object[7];
                     if (posEdit != -1) {
+                        //tiene un producto seleccionado de la tabla
                         rf.setP(factura.getRenglones().get(posEdit).getP());
                         factura.getRenglones().remove(posEdit);
+                        //lo remuevo ya que uso el pedido para re cargar la tabla
+                        
                         factura.getRenglones().add(posEdit, rf);
                         model_tabla_productos_pedido.setNumRows(0);
                         for (int i = 0; i < factura.getRenglones().size(); i++) {
                             obj[0] = factura.getRenglones().get(i).getP().getCod();
                             obj[1] = factura.getRenglones().get(i).getP().getNombre();
-                            obj[2] = factura.getRenglones().get(i).getCantidad();
-                            obj[3] = factura.getRenglones().get(i).getCosto();
-                            obj[4] = factura.getRenglones().get(i).getSubTotal();
+                            obj[2] = factura.getRenglones().get(i).getP().getPrecioNeto();
+                            // obj[4] = factura.getRenglones().get(i).getCosto();
+                            // OJO tambien tengo la opcion del costo en la factura
+                            obj[3] = factura.getRenglones().get(i).getCantidad();
+                            obj[4] = factura.getRenglones().get(i).getDescuento();
+                            //ojo   que esto podria necesitar calcularse.
+                            obj[5] = factura.getRenglones().get(i).getSubTotal();
+                            obj[6] = factura.getRenglones().get(i).getP().getIva();
                             model_tabla_productos_pedido.addRow(obj);
                         }
                         posEdit = -1;
                     } else {
+                        //no habria seleccionado nada de la tabla
                         rf.setP(prodSelect);
                         factura.getRenglones().add(rf);
                         obj[0] = rf.getP().getCod();
                         obj[1] = rf.getP().getNombre();
-                        obj[2] = rf.getCantidad();
-                        obj[3] = rf.getCosto();
-                        obj[4] = rf.getSubTotal();
+                        obj[2] = rf.getP().getPrecioNeto();
+                        // ojo podria ser costo obj[3] = rf.getCosto();
+                        obj[3] = rf.getCantidad();
+                        obj[4]= 0; //ya que no hay nada seleccionado, lo debera controlar user
+                        obj[5] = rf.getSubTotal();
+                        obj[6] = rf.getP().getIva();
                         model_tabla_productos_pedido.addRow(obj);
                     }
-                    limpiarCampos(false);
+                    limpiarCampos(false,false);
                     
                 }
             } catch (NumberFormatException ex) {
@@ -4720,9 +4777,11 @@ public class Pestaña3_dinamica {
             }
         }
 
-        private void limpiarCampos(boolean flag) {
-            DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedido.getModel();
-            modelo.setRowCount(0);
+        private void limpiarCampos(boolean flagNotas, boolean flagTabla) {
+            if(flagTabla){
+                DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedido.getModel();
+                modelo.setRowCount(0);
+            }
             principal.lbl_estado.setText("");
             prodSelect = null;
             posEdit = -1;
@@ -4730,9 +4789,9 @@ public class Pestaña3_dinamica {
             rbtn_nota_prod_prod.setEnabled(true);
             btn_nota_nueva.setEnabled(true);
             txtf_nota_prod_cod.setText("");
-            txtf_nota_prod_stock.setText("");
-            txtf_nota_prod_precio.setText("");
-            if(flag){
+            txtf_nota_prod_cant_recibida.setText("");
+            txtf_nota_prod_precio_unitario.setText("");
+            if(flagNotas){
                 modelNotas.setRowCount(0);
             }
            
@@ -4764,9 +4823,15 @@ public class Pestaña3_dinamica {
             int pos = tabla_productos_pedido.getSelectedRow();
             if (pos != -1 && pos <= factura.getRenglones().size()) {
                 try {
+                    pedidoFact.getRenglones().remove(pos);
                     factura.getRenglones().remove(pos);
                     model_tabla_productos_pedido.removeRow(pos);
-                    limpiarCampos(false);
+                    limpiarCampos(false,false);
+                    
+                    pedidos.calcularSubtotalFactura();
+                    pedidos.calcularIvaFactura();
+                    pedidos.cargarTablaIvaFactura();
+                    pedidos.calcularPreciosFactura();
                 } catch (Exception ex) {
                     new Statics.ExceptionManager().saveDump(ex, "Eliminar producto en tabla de pedidos", Main.isProduccion);
                 }
@@ -4819,7 +4884,7 @@ public class Pestaña3_dinamica {
             if(pedidoFact.getNumPedido().equals(factura.getNumPedido())){
                 pedidoDAO.checkStockPedido(factura,pedidoFact);
             }
-            pedidos.limpiarCampos(false);
+            pedidos.limpiarCampos(false,true);
             principal.lbl_estado.setText("La factura numero "+factura.getNumFactura()+" se guardo con exito");
             pedidos.cargarTabla();
             pedidoFact = null;
@@ -4839,12 +4904,20 @@ public class Pestaña3_dinamica {
         }
 
         private void cargarTablaFactura() {
-            float subtotal=0.f;
+            
             int pos = tabla_nota_PedidossProveedor.getSelectedRow();
             pedidoFact = listPedidos.get(pos);
-            model_tabla_productos_pedido.setNumRows(0);
             factura = new facturaProveedor();
             factura.setNumPedido(pedidoFact.getNumPedido());
+            calcularSubtotalFactura();
+            pedidos.calcularIvaFactura();
+            pedidos.cargarTablaIvaFactura();
+            pedidos.calcularPreciosFactura();
+           
+        }
+        private void calcularSubtotalFactura(){
+            float subtotal=0.f;
+            model_tabla_productos_pedido.setNumRows(0);
             for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
                 renglonFactura rf = new renglonFactura(rp.getP(),rp.getCantidad(),rp.getNeto(),rp.getSubTotal());
@@ -4874,10 +4947,6 @@ public class Pestaña3_dinamica {
                 System.out.println("ivaTOTAL FAC "+ivaTotalFactura);
             }
             jLabelSubtotalFac.setText(""+subtotal);
-            pedidos.calcularIvaFactura();
-            pedidos.cargarTablaIvaFactura();
-            pedidos.calcularPreciosFactura();
-           
         }
         private void calcularIvaFactura(){
              // cargar tabla de ivaTotalFac:
@@ -4923,7 +4992,7 @@ public class Pestaña3_dinamica {
         }
                 
         private void calcularPreciosFactura(){
-            System.out.println("entre GATO");
+            
             DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
             float subTotal, descuentoGralFac,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
          
@@ -5173,8 +5242,8 @@ public class Pestaña3_dinamica {
             btn_factura_eliminar.setEnabled(flag);
             txtf_nota_prod_cod.setEnabled(flag);
             txtf_nota_prod_nombre.setEnabled(flag);
-            txtf_nota_prod_stock.setEnabled(flag);
-            txtf_nota_prod_precio.setEnabled(flag);
+            txtf_nota_prod_cant_recibida.setEnabled(flag);
+            txtf_nota_prod_precio_unitario.setEnabled(flag);
             rbtn_nota_prod_codigo.setEnabled(flag);
             rbtn_nota_prod_prod.setEnabled(flag);
         }
