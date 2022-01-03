@@ -410,7 +410,7 @@ public void limpiarCamposInventario() {
         txtf_nota_prod_cant_recibida = new javax.swing.JTextField();
         btn_factura_agregar = new javax.swing.JButton();
         jScrollPane27 = new javax.swing.JScrollPane();
-        tabla_productos_pedido = new javax.swing.JTable();
+        tabla_productos_pedidoFactura = new javax.swing.JTable();
         btn_factura_eliminar = new javax.swing.JButton();
         btn_lote_aceptar = new javax.swing.JButton();
         txtf_nota_prod_precio_unitario = new javax.swing.JTextField();
@@ -2499,6 +2499,9 @@ public void limpiarCamposInventario() {
 
         txtf_nota_prod_cant_recibida.setEnabled(false);
         txtf_nota_prod_cant_recibida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtf_nota_prod_cant_recibidaKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtf_nota_prod_cant_recibidaKeyTyped(evt);
             }
@@ -2514,7 +2517,7 @@ public void limpiarCamposInventario() {
             }
         });
 
-        tabla_productos_pedido.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_productos_pedidoFactura.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -2523,38 +2526,46 @@ public void limpiarCamposInventario() {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tabla_productos_pedido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tabla_productos_pedidoKeyPressed(evt);
+        tabla_productos_pedidoFactura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabla_productos_pedidoFacturaMouseClicked(evt);
             }
         });
-        jScrollPane27.setViewportView(tabla_productos_pedido);
-        if (tabla_productos_pedido.getColumnModel().getColumnCount() > 0) {
-            tabla_productos_pedido.getColumnModel().getColumn(0).setMinWidth(110);
-            tabla_productos_pedido.getColumnModel().getColumn(0).setPreferredWidth(110);
-            tabla_productos_pedido.getColumnModel().getColumn(0).setMaxWidth(110);
-            tabla_productos_pedido.getColumnModel().getColumn(2).setMinWidth(90);
-            tabla_productos_pedido.getColumnModel().getColumn(2).setPreferredWidth(90);
-            tabla_productos_pedido.getColumnModel().getColumn(2).setMaxWidth(90);
-            tabla_productos_pedido.getColumnModel().getColumn(3).setMinWidth(50);
-            tabla_productos_pedido.getColumnModel().getColumn(3).setPreferredWidth(50);
-            tabla_productos_pedido.getColumnModel().getColumn(3).setMaxWidth(50);
-            tabla_productos_pedido.getColumnModel().getColumn(4).setMinWidth(40);
-            tabla_productos_pedido.getColumnModel().getColumn(4).setPreferredWidth(40);
-            tabla_productos_pedido.getColumnModel().getColumn(4).setMaxWidth(40);
-            tabla_productos_pedido.getColumnModel().getColumn(5).setMinWidth(80);
-            tabla_productos_pedido.getColumnModel().getColumn(5).setPreferredWidth(80);
-            tabla_productos_pedido.getColumnModel().getColumn(5).setMaxWidth(80);
-            tabla_productos_pedido.getColumnModel().getColumn(6).setMinWidth(50);
-            tabla_productos_pedido.getColumnModel().getColumn(6).setPreferredWidth(50);
-            tabla_productos_pedido.getColumnModel().getColumn(6).setMaxWidth(50);
+        tabla_productos_pedidoFactura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tabla_productos_pedidoFacturaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tabla_productos_pedidoFacturaKeyTyped(evt);
+            }
+        });
+        jScrollPane27.setViewportView(tabla_productos_pedidoFactura);
+        if (tabla_productos_pedidoFactura.getColumnModel().getColumnCount() > 0) {
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(0).setMinWidth(110);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(0).setPreferredWidth(110);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(0).setMaxWidth(110);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(2).setMinWidth(90);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(2).setPreferredWidth(90);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(2).setMaxWidth(90);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(3).setMinWidth(50);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(3).setMaxWidth(50);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(4).setMinWidth(40);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(4).setPreferredWidth(40);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(4).setMaxWidth(40);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(5).setMinWidth(80);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(5).setMaxWidth(80);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(6).setMinWidth(50);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tabla_productos_pedidoFactura.getColumnModel().getColumn(6).setMaxWidth(50);
         }
 
         btn_factura_eliminar.setBackground(new java.awt.Color(204, 51, 0));
@@ -3698,21 +3709,48 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyTyped
 
     private void txtf_nota_prod_precio_unitarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precio_unitarioKeyTyped
-        char c = evt.getKeyChar();
-        // como añade el punto?
-        if ((c < '0' || c > '9') || c!='.') {
-            evt.consume();
-        }
+        
        
     }//GEN-LAST:event_txtf_nota_prod_precio_unitarioKeyTyped
 
-    private void tabla_productos_pedidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoKeyPressed
-        // TODO add your handling code here:
-        agarra el elemento elegido
-                lo elimina, y lo vuelve a cargar como en agregar producto
-                        Pero con los nuevos valores.
-                                y listo bro
-    }//GEN-LAST:event_tabla_productos_pedidoKeyPressed
+    private void tabla_productos_pedidoFacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaKeyPressed
+        
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int pos = tabla_productos_pedidoFactura.getSelectedRow();
+            if(pos!= -1){
+                System.out.println("pos es : "+pos);
+                System.out.println("el tamaño DE LA FACTURA ES "+pedidos.factura.getRenglones().size());
+                pedidos.factura.getRenglones().get(pos).setSubTotal((float) pedidos.factura.getRenglones().get(pos).getCosto() * pedidos.factura.getRenglones().get(pos).getCantidad());
+                pedidos.factura.getRenglones().get(pos).setDescuento(Float.parseFloat((String)tabla_productos_pedidoFactura.getValueAt(pos, 4)));
+                System.out.println("QUIERE DESCONTAR: "+Float.parseFloat((String)tabla_productos_pedidoFactura.getValueAt(pos, 4)));
+                pedidos.recargarTablaFactura();
+                pedidos.calcularIvaFactura();
+                pedidos.cargarTablaIvaFactura();
+                pedidos.calcularPreciosFactura();
+
+            }
+            pos=-1;
+        }
+            
+        
+         
+    }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyPressed
+
+    private void tabla_productos_pedidoFacturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9')) {
+                evt.consume();
+            }
+        
+    }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyTyped
+
+    private void txtf_nota_prod_cant_recibidaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyPressed
+        txtf_nota_prod_precio_unitario.requestFocus();
+    }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyPressed
+
+    private void tabla_productos_pedidoFacturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaMouseClicked
+       
+    }//GEN-LAST:event_tabla_productos_pedidoFacturaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -3943,7 +3981,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JTable tabla_producto_precioVenta;
     private javax.swing.JTabbedPane tabla_productos;
     private javax.swing.JTable tabla_productos_busqueda;
-    private javax.swing.JTable tabla_productos_pedido;
+    private javax.swing.JTable tabla_productos_pedidoFactura;
     private javax.swing.JTextField tipo_cuota;
     private javax.swing.JTextField txt_StockActual;
     private javax.swing.JTextField txt_precioCompra;
@@ -4573,9 +4611,9 @@ private void funcionalidadBotonOkAddIva(){
 
 public class Pestaña3_dinamica {
 
-        private DefaultTableModel model_tabla_productos_pedido;
+        private DefaultTableModel model_tabla_productos_pedidoFactura;
         private DefaultTableModel modelNotas;
-        private DefaultTableModel modelNotaprodPedido;
+        private DefaultTableModel modelTabla_nota_prodPedido;
         private DefaultTableModel modelNotaprodPedir;
         private Proveedor prov;
         private ProveedoresDAO proveedoresDAO;
@@ -4606,8 +4644,8 @@ public class Pestaña3_dinamica {
             posEdit = -1;
             prodSelect = null;
             modelCombo = new DefaultComboBoxModel();
-            model_tabla_productos_pedido = (DefaultTableModel) tabla_productos_pedido.getModel();
-            modelNotaprodPedido = (DefaultTableModel) tabla_nota_prodPedido.getModel();
+            model_tabla_productos_pedidoFactura = (DefaultTableModel) tabla_productos_pedidoFactura.getModel();
+            modelTabla_nota_prodPedido = (DefaultTableModel) tabla_nota_prodPedido.getModel();
             modelNotaprodPedir = (DefaultTableModel) tabla_nota_prodPedir.getModel();
             modelNotas = (DefaultTableModel) tabla_nota_PedidossProveedor.getModel();
             grupo = new ButtonGroup();
@@ -4637,12 +4675,12 @@ public class Pestaña3_dinamica {
                     }
                 }
             });
-            tabla_productos_pedido.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            ListSelectionModel selectionModel = tabla_productos_pedido.getSelectionModel();
+            tabla_productos_pedidoFactura.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            ListSelectionModel selectionModel = tabla_productos_pedidoFactura.getSelectionModel();
             selectionModel.addListSelectionListener(new ListSelectionListener() {
                 public void valueChanged(ListSelectionEvent e) {
                     try {
-                        int pos = tabla_productos_pedido.getSelectedRow();
+                        int pos = tabla_productos_pedidoFactura.getSelectedRow();
                         if (pos != -1) {
                             seleccionarProductoTabla(pos);
                         }
@@ -4663,6 +4701,7 @@ public class Pestaña3_dinamica {
             date_nota_fecha_pago.setDate(hoy);
         }
 
+        
         private void seleccionarProductoTabla(int pos) {
             renglonFactura rf = factura.getRenglones().get(pos);
             if (rf != null) {
@@ -4718,7 +4757,47 @@ public class Pestaña3_dinamica {
             txtf_nota_prod_nombre.setModel(modelCombo);
             AutoCompleteDecorator.decorate(txtf_nota_prod_nombre);
         }
+        /**
+         * @see sdasad resetea ivaTotalFactura, model_tabla_productos_pedidoFactura y 
+         * la carga de nuevo calculando nuevamente el subtotal. Usa lo que esta en pedidos.factura
+         * 
+         */
+        private void recargarTablaFactura(){
+             
+            model_tabla_productos_pedidoFactura.setNumRows(0);
+            float subtotal=0.f;
+            Object[] obj = new Object[7];
+            //reseeteo el iva 
+            ivaTotalFactura=0.f;
+            System.out.println("en recargar tabla factura, LA CANTIDAD DE RENGLONES ES "+factura.getRenglones().size());
+             for (int i = 0; i < factura.getRenglones().size(); i++) {
+                    obj[0] = factura.getRenglones().get(i).getP().getCod();
+                    obj[1] = factura.getRenglones().get(i).getP().getNombre();
+                    obj[2] = factura.getRenglones().get(i).getCosto();
+                    // obj[4] = factura.getRenglones().get(i).getCosto();
+                    // OJO tambien tengo la opcion del costo en la factura
+                    obj[3] = factura.getRenglones().get(i).getCantidad();
+                    obj[4] = factura.getRenglones().get(i).getDescuento();
+                    //ojo   que esto podria necesitar calcularse.
 
+                    if(factura.getRenglones().get(i).getDescuento()>0){
+                        subtotal+=(float)factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
+                        float auxSub=factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
+                        obj[5]=auxSub;
+                        factura.getRenglones().get(i).setSubTotal(auxSub);
+                        
+                    }
+                    else{
+                        obj[5] = factura.getRenglones().get(i).getSubTotal();
+                        subtotal+=factura.getRenglones().get(i).getSubTotal();
+                    }
+                    //obj[5] = factura.getRenglones().get(i).getSubTotal();
+                    obj[6] = factura.getRenglones().get(i).getP().getIva();
+                    model_tabla_productos_pedidoFactura.addRow(obj);
+                    ivaTotalFactura+= (float) (factura.getRenglones().get(i).getSubTotal()* (float)factura.getRenglones().get(i).getP().getIva()/100);
+             }
+             jLabelSubtotalFac.setText(""+subtotal);
+        }
         private void agregarProducto() {
             if (pedidos.prov == null) {
                 JOptionPane.showMessageDialog(null, "Primero debe seleccionar un proveedor",
@@ -4728,64 +4807,44 @@ public class Pestaña3_dinamica {
             
             String cantIngresada = txtf_nota_prod_cant_recibida.getText();
             String precioUnidad = txtf_nota_prod_precio_unitario.getText();
-            deberia poner el descuento unitario tmb aca, asi directamente lo carga
+            
+            
             try {
-                float subtotal=0.f;
+                
                 int cantRecibida = Integer.parseInt(cantIngresada);
                 float precioUnitario = Float.parseFloat(precioUnidad);
                 if (prodSelect != null) {
                     renglonFactura rf = new renglonFactura();
                     rf.setCantidad(cantRecibida);
                     rf.setCosto(precioUnitario);
-                    rf.setSubTotal(precioUnitario*cantRecibida);
-                    Object[] obj = new Object[7];
+                    //rf.setSubTotal(precioUnitario*cantRecibida); no puedo definir ya el subtotal, falta el desc. uni
+                    
                     if (posEdit != -1) {
                         //tiene un producto seleccionado de la tabla
                         // esta por variar la cantidad de elementos recibidos de un articulo
                         rf.setP(factura.getRenglones().get(posEdit).getP());
+                        rf.setDescuento(factura.getRenglones().get(posEdit).getDescuento());
                         factura.getRenglones().remove(posEdit);
                         //lo remuevo ya que uso el pedido para re cargar la tabla
-                        
                         factura.getRenglones().add(posEdit, rf);
-                        model_tabla_productos_pedido.setNumRows(0);
-                        for (int i = 0; i < factura.getRenglones().size(); i++) {
-                            obj[0] = factura.getRenglones().get(i).getP().getCod();
-                            obj[1] = factura.getRenglones().get(i).getP().getNombre();
-                            obj[2] = factura.getRenglones().get(i).getP().getPrecioNeto();
-                            // obj[4] = factura.getRenglones().get(i).getCosto();
-                            // OJO tambien tengo la opcion del costo en la factura
-                            obj[3] = factura.getRenglones().get(i).getCantidad();
-                            obj[4] = factura.getRenglones().get(i).getDescuento();
-                            //ojo   que esto podria necesitar calcularse.
-                            if(factura.getRenglones().get(i).getDescuento()!=0){
-                                subtotal+=(float)factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
-                                obj[5]=factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
-                            }
-                            else{
-                                obj[5] = factura.getRenglones().get(i).getSubTotal();
-                                subtotal+=factura.getRenglones().get(i).getSubTotal();
-                            }
-                            //obj[5] = factura.getRenglones().get(i).getSubTotal();
-                            obj[6] = factura.getRenglones().get(i).getP().getIva();
-                            model_tabla_productos_pedido.addRow(obj);
-                            
-                        }
+                        pedidos.recargarTablaFactura();
                         posEdit = -1;
                     } else {
                         //no habria seleccionado nada de la tabla
                         rf.setP(prodSelect);
-                       
+                        Object[] obj = new Object[7];
                         factura.getRenglones().add(rf);
                         obj[0] = rf.getP().getCod();
                         obj[1] = rf.getP().getNombre();
-                        obj[2] = rf.getP().getPrecioNeto();
+                        obj[2] = rf.getCosto();
                         // ojo podria ser costo obj[3] = rf.getCosto();
                         obj[3] = rf.getCantidad();
+                        // esto sirve solo 1 vez.
                         obj[4]= 0; //ya que no hay nada seleccionado, lo debera controlar user
-                        me queda ver que pasa si hay un descuento unitario en el producto que selecciona
+                        //me queda ver que pasa si hay un descuento unitario en el producto que selecciona
                         obj[5] = rf.getSubTotal();
                         obj[6] = rf.getP().getIva();
-                        model_tabla_productos_pedido.addRow(obj);
+                        model_tabla_productos_pedidoFactura.addRow(obj);
                     }
                     limpiarCampos(false,false);
                     
@@ -4799,7 +4858,7 @@ public class Pestaña3_dinamica {
 
         private void limpiarCampos(boolean flagNotas, boolean flagTabla) {
             if(flagTabla){
-                DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedido.getModel();
+                DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedidoFactura.getModel();
                 modelo.setRowCount(0);
             }
             principal.lbl_estado.setText("");
@@ -4841,17 +4900,19 @@ public class Pestaña3_dinamica {
 
         private void eliminarProducto() {
            
-            int pos = tabla_productos_pedido.getSelectedRow();
+            int pos = tabla_productos_pedidoFactura.getSelectedRow();
             if (pos != -1 && pos <= factura.getRenglones().size()) {
                 try {
-                    pedidoFact.getRenglones().remove(pos);
-                    //factura.getRenglones().remove(pos);
-                    factura = new facturaProveedor();
-                    factura.setNumPedido(pedidoFact.getNumPedido());
+                    //pedidoFact.getRenglones().remove(pos);
+                    // ojo habria que controlar que este correcto quien elimina..
+                    factura.getRenglones().remove(pos);
+                   // factura = new facturaProveedor();
+                    //factura.setNumPedido(pedidoFact.getNumPedido());
                     //model_tabla_productos_pedido.removeRow(pos);
                     limpiarCampos(false,false);
-                    
-                    pedidos.calcularSubtotalFactura();
+                    // lo puedo calcular desde pedido por que lo esta borrando
+                    // pero que pasa si agrega uno desde factura?
+                    pedidos.recargarTablaFactura();
                     pedidos.calcularIvaFactura();
                     pedidos.cargarTablaIvaFactura();
                     pedidos.calcularPreciosFactura();
@@ -4916,7 +4977,7 @@ public class Pestaña3_dinamica {
         private void cargarTabla() {
             listPedidos = pedidoDAO.getPedidos(prov.getId());
             modelNotas.setNumRows(0);
-            model_tabla_productos_pedido.setRowCount(0);
+            model_tabla_productos_pedidoFactura.setRowCount(0);
             for(int i = 0; i < listPedidos.size();i++){
                 Object[] c = new Object[3];
                 c[0] = listPedidos.get(i).getNumPedido();
@@ -4930,17 +4991,17 @@ public class Pestaña3_dinamica {
             
             int pos = tabla_nota_PedidossProveedor.getSelectedRow();
             pedidoFact = listPedidos.get(pos);
-            
-            calcularSubtotalFactura();
+            factura = new facturaProveedor();
+            calcularSubtotalFacturaDesdePedido();
             pedidos.calcularIvaFactura();
             pedidos.cargarTablaIvaFactura();
             pedidos.calcularPreciosFactura();
            
         }
-        private void calcularSubtotalFactura(){
+        private void calcularSubtotalFacturaDesdePedido(){
             float subtotal=0.f;
             
-            model_tabla_productos_pedido.setNumRows(0);
+            model_tabla_productos_pedidoFactura.setNumRows(0);
             
             for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
@@ -4960,32 +5021,37 @@ public class Pestaña3_dinamica {
                     subtotal+=rp.getSubTotal();
                 }
                 obj[6] = rp.getP().getIva();
-                //obj[7] = rp.getIvaValor();
+                //obj[7] = rf.getIvaValor();
+                System.out.println("AÑADI UN RENGLON EN LA FACTURA");
+                System.out.println("tengo ya :"+factura.getRenglones().size());
                 factura.addRenglon(rf);
-                model_tabla_productos_pedido.addRow(obj);
+                model_tabla_productos_pedidoFactura.addRow(obj);
                 ivaTotalFactura+=(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100));
                
             }
             jLabelSubtotalFac.setText(""+subtotal);
         }
+        /**
+         * @see Necesita que la factura este cargada!
+         */
         private void calcularIvaFactura(){
              // cargar tabla de ivaTotalFac:
               
              //inicializacion opcional
             pedidos.montosIvaFactura= new HashMap <Float, Float>();
-            for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
+            for(int i = 0 ; i < pedidos.factura.getRenglones().size(); i++){
                 //tal vez deba cambiar esto por factura.....
-                renglonPedido rp = pedidoFact.getRenglones().get(i);
+                renglonFactura rf = pedidos.factura.getRenglones().get(i);
                
-                if(pedidos.montosIvaFactura.containsKey((float)rp.getP().getIva())){
+                if(pedidos.montosIvaFactura.containsKey((float)rf.getP().getIva())){
                     //existe la clave, sumo
                     // ivaTotalFac existente + (subtotal actual *ivaTotalFac coincidente)
-                    float aux=(float)pedidos.montosIvaFactura.get(rp.getP().getIva()) + (float)(rp.getSubTotal()*rp.getP().getIva()/100);
-                    pedidos.montosIvaFactura.put(rp.getP().getIva(),aux);
+                    float aux=(float)pedidos.montosIvaFactura.get(rf.getP().getIva()) + (float)(rf.getSubTotal()*rf.getP().getIva()/100);
+                    pedidos.montosIvaFactura.put(rf.getP().getIva(),aux);
                    
                 }
                 else{
-                    pedidos.montosIvaFactura.put(rp.getP().getIva(), rp.getSubTotal()*rp.getP().getIva()/100);
+                    pedidos.montosIvaFactura.put(rf.getP().getIva(), rf.getSubTotal()*rf.getP().getIva()/100);
                 }
              }
             
@@ -5008,9 +5074,16 @@ public class Pestaña3_dinamica {
                modeloIvaFac.addRow(row);
                //ivaTotalFactura+=entry.getValue();
                //subtotalFac= subtotalFac*(1+entry.getValue());
+               
               }
         }
-                
+        
+        
+        /** 
+         * @see 
+         *  solo necesita el valor de subtotal general. 
+         *   Lee los campos de impuestos y calcula el monto final
+         */       
         private void calcularPreciosFactura(){
             float subTotal, descuentoGralFac,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
          
@@ -5054,7 +5127,7 @@ public class Pestaña3_dinamica {
                 
                 auxImpuestos=precio_parcial*sobreTasaIva;
                 jLabelValorSobreTasaIVaFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
-                System.out.println("sobretasa iva es "+sobreTasaIva);
+                
                 precio_parcial= precio_parcial*(1+sobreTasaIva);
                 
                 
@@ -5145,15 +5218,15 @@ public class Pestaña3_dinamica {
                         subtotal = pedidoNuevo.getRenglones().get(i).getSubTotal();
                         pedidoNuevo.getRenglones().get(i).setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
                         pedidoNuevo.getRenglones().get(i).setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
-                        // pedidoNuevo.getRenglones().get(i).setCantidad(rp.getCantidad());//reemplaza la cantidad actual por la del txt
+                        // pedidoNuevo.getRenglones().get(i).setCantidad(rf.getCantidad());//reemplaza la cantidad actual por la del txt
                         pedidoNuevo.getRenglones().get(i).setSubTotal(pedidoNuevo.getRenglones().get(i).getCantidad()*rp.getNeto());
                         pedidoNuevo.getRenglones().get(i).setNeto(rp.getNeto());
                         rp.setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad());
                         rp.setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad());
                         rp.setSubTotal(pedidoNuevo.getRenglones().get(i).getSubTotal());
-                        modelNotaprodPedido.setValueAt(rp.getCantidad(), i, 2);
-                        modelNotaprodPedido.setValueAt(rp.getNeto(), i, 3);
-                        modelNotaprodPedido.setValueAt(rp.getSubTotal(), i, 4);
+                        modelTabla_nota_prodPedido.setValueAt(rp.getCantidad(), i, 2);
+                        modelTabla_nota_prodPedido.setValueAt(rp.getNeto(), i, 3);
+                        modelTabla_nota_prodPedido.setValueAt(rp.getSubTotal(), i, 4);
                     }
                 }
             }else{
@@ -5164,7 +5237,7 @@ public class Pestaña3_dinamica {
                 o[2] = rp.getCantidad();
                 o[3] = rp.getNeto();
                 o[4] = rp.getSubTotal();
-                modelNotaprodPedido.addRow(o);
+                modelTabla_nota_prodPedido.addRow(o);
             }
             txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
@@ -5206,7 +5279,7 @@ public class Pestaña3_dinamica {
             }
         }
         private void recargarTablaPedido(){
-            modelNotaprodPedido.setRowCount(0);
+            modelTabla_nota_prodPedido.setRowCount(0);
              float subtotal = 0f;
               for(int i = 0; i< pedidoNuevo.getRenglones().size() ; i++){
                 renglonPedido rp = new renglonPedido();
@@ -5217,7 +5290,7 @@ public class Pestaña3_dinamica {
                 o[2] = rp.getCantidad();
                 o[3] = rp.getNeto();
                 o[4] = rp.getSubTotal();
-                modelNotaprodPedido.addRow(o);
+                modelTabla_nota_prodPedido.addRow(o);
                 subtotal+=rp.getSubTotal();
                }
               txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(subtotal));
@@ -5236,7 +5309,7 @@ public class Pestaña3_dinamica {
             txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
             txtf_nota_neto.setText("");
-            modelNotaprodPedido.setRowCount(0);
+            modelTabla_nota_prodPedido.setRowCount(0);
             jDialogCrearNota.dispose();
             cargarTabla();
             principal.lbl_estado.setText("Su pedido fue ingresado correctamente");
@@ -5273,7 +5346,7 @@ public class Pestaña3_dinamica {
             txtf_nota_neto.setText("");
             txtf_nota_nro.setText("");
             txtf_nota_total.setText("");
-            modelNotaprodPedido.setRowCount(0);
+            modelTabla_nota_prodPedido.setRowCount(0);
             modelNotaprodPedir.setRowCount(0);
         }
 
