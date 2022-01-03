@@ -3072,6 +3072,7 @@ public void limpiarCamposInventario() {
                     pedidos.activarCampos(true);
                     pedidos.cargarTabla();
                     pedidos.factura = new facturaProveedor();
+                    pedidos.factura.setIdProv(id);
                 }
 
             }
@@ -4822,31 +4823,41 @@ public class Pestaña3_dinamica {
                     if (posEdit != -1) {
                         //tiene un producto seleccionado de la tabla
                         // esta por variar la cantidad de elementos recibidos de un articulo
+                        System.out.println("ELEGI ALGO DE LA TABLA POS EDIT:"+posEdit );
                         rf.setP(factura.getRenglones().get(posEdit).getP());
                         rf.setDescuento(factura.getRenglones().get(posEdit).getDescuento());
                         factura.getRenglones().remove(posEdit);
                         //lo remuevo ya que uso el pedido para re cargar la tabla
                         factura.getRenglones().add(posEdit, rf);
                         pedidos.recargarTablaFactura();
+                        pedidos.calcularIvaFactura();
+                        pedidos.cargarTablaIvaFactura();
+                        pedidos.calcularPreciosFactura();
                         posEdit = -1;
                     } else {
                         //no habria seleccionado nada de la tabla
                         rf.setP(prodSelect);
-                        Object[] obj = new Object[7];
+                        rf.setSubTotal(rf.getCantidad()*rf.getCosto());
+                        //Object[] obj = new Object[7];
                         factura.getRenglones().add(rf);
-                        obj[0] = rf.getP().getCod();
-                        obj[1] = rf.getP().getNombre();
-                        obj[2] = rf.getCosto();
+                        pedidos.recargarTablaFactura();
+                        pedidos.calcularIvaFactura();
+                        pedidos.cargarTablaIvaFactura();
+                        pedidos.calcularPreciosFactura();
+                        //obj[0] = rf.getP().getCod();
+                        //obj[1] = rf.getP().getNombre();
+                        //obj[2] = rf.getCosto();
                         // ojo podria ser costo obj[3] = rf.getCosto();
-                        obj[3] = rf.getCantidad();
+                        //obj[3] = rf.getCantidad();
                         // esto sirve solo 1 vez.
-                        obj[4]= 0; //ya que no hay nada seleccionado, lo debera controlar user
+                        //obj[4]= 0; //ya que no hay nada seleccionado, lo debera controlar user
                         //me queda ver que pasa si hay un descuento unitario en el producto que selecciona
-                        obj[5] = rf.getSubTotal();
-                        obj[6] = rf.getP().getIva();
-                        model_tabla_productos_pedidoFactura.addRow(obj);
+                        
+                        //obj[5] = rf.getSubTotal();
+                        //obj[6] = rf.getP().getIva();
+                        //model_tabla_productos_pedidoFactura.addRow(obj);
                     }
-                    limpiarCampos(false,false);
+                    //limpiarCampos(false,false);
                     
                    
                 }
@@ -5025,6 +5036,8 @@ public class Pestaña3_dinamica {
                 System.out.println("AÑADI UN RENGLON EN LA FACTURA");
                 System.out.println("tengo ya :"+factura.getRenglones().size());
                 factura.addRenglon(rf);
+                factura.setNumPedido(pedidoFact.getNumPedido());
+                
                 model_tabla_productos_pedidoFactura.addRow(obj);
                 ivaTotalFactura+=(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100));
                

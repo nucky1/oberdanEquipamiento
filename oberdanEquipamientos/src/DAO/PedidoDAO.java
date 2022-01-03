@@ -206,8 +206,6 @@ public class PedidoDAO {
         if(resultadoSQL<0){
             return false;
         }
-        System.out.println("SQL es : "+SQL);
-        System.out.println("al insertar factura tuve resultado: "+resultadoSQL);
         //ojo con esto xq cuando tengas multiples pcs puede fallar
         // ya tengo el numero de factura en factura.getNumFactura()
         // si es un control de carga, entonces modificarlo por que no defiende de errores
@@ -223,15 +221,13 @@ public class PedidoDAO {
             new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
         }
         
-        SQL = "INSERT INTO renglon_factura(sub_total,nro_factura,producto_id,costo_prod,cantidad) VALUES ";
+        SQL = "INSERT INTO renglon_factura(sub_total,nro_factura,producto_id,costo_prod,cantidad,descuento) VALUES ";
         System.out.println(" el tamaño de los renglones es: " +factura.getRenglones().size());
         for(int i = factura.getRenglones().size()-1 ; i > 0 ; i--){            
-            SQL += "("+factura.getRenglones().get(i).getSubTotal()+","+factura.getNumFactura()+","+factura.getRenglones().get(i).getP().getId()+","+factura.getRenglones().get(i).getCosto()+","+factura.getRenglones().get(i).getCantidad()+"),";
+            SQL += "("+factura.getRenglones().get(i).getSubTotal()+","+factura.getNumFactura()+","+factura.getRenglones().get(i).getP().getId()+","+factura.getRenglones().get(i).getCosto()+","+factura.getRenglones().get(i).getCantidad()+","+factura.getRenglones().get(i).getDescuento()+" ),";
         }
-        SQL += "("+factura.getRenglones().get(0).getSubTotal()+","+nroFact+","+factura.getRenglones().get(0).getP().getId()+","+factura.getRenglones().get(0).getCosto()+","+factura.getRenglones().get(0).getCantidad()+")";
+        SQL += "("+factura.getRenglones().get(0).getSubTotal()+","+nroFact+","+factura.getRenglones().get(0).getP().getId()+","+factura.getRenglones().get(0).getCosto()+","+factura.getRenglones().get(0).getCantidad()+", "+factura.getRenglones().get(0).getDescuento()+" )";
         resultadoSQL=conexion.EjecutarOperacion(SQL);
-        System.out.println("EL insert en renglon factura es:  "+SQL);
-        System.out.println("Resultado fue "+resultadoSQL);
         if (resultadoSQL > 0){
             return true;
         }
