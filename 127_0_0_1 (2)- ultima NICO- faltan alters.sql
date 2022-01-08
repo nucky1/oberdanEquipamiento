@@ -74,12 +74,13 @@ DELIMITER ;
 --
 -- Estructura de tabla para la tabla `art_stock`
 --
-
+-- ESTO ESTA MAL !
 CREATE TABLE `art_stock` (
   `id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL,
   `stock_actual` float DEFAULT NULL,
   `stock_ingresado` float DEFAULT NULL,
+  -- HAY QUE HACER DEFAULT 0
   `stock_pedido` float DEFAULT NULL,
   `stock_reservado` float DEFAULT NULL,
   `precio_compra` float NOT NULL DEFAULT '0',

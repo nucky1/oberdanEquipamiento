@@ -59,3 +59,5 @@ ADD `descuento_gral` FLOAT NOT NULL DEFAULT '0' AFTER `sobretasa_iva`;
 
 -- estas Son las nuevas modificaciones:
 ALTER TABLE `renglon_factura` ADD `descuento` FLOAT NOT NULL DEFAULT '0' AFTER `cantidad`;
+ALTER TABLE `art_stock` CHANGE `stock_actual` `stock_actual` FLOAT NULL DEFAULT '0';
+ALTER TABLE `art_stock` CHANGE `stock_ingresado` `stock_ingresado` FLOAT NULL DEFAULT '0', CHANGE `stock_pedido` `stock_pedido` FLOAT NULL DEFAULT '0', CHANGE `stock_reservado` `stock_reservado` FLOAT NULL DEFAULT '0';

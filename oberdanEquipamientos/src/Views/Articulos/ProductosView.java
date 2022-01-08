@@ -4904,6 +4904,7 @@ public class Pestaña3_dinamica {
             jTextFieldDescGeneralFac.setText("");
             jLabelTotalFac.setText("");
             ivaTotalFactura=0.f;
+            txtf_nota_prod_factura.setText("");
                     //jTableIvasMontoFac
             
             
@@ -5220,6 +5221,8 @@ public class Pestaña3_dinamica {
             renglonPedido rp = new renglonPedido();
             rp.setCantidad(parseInt);
             rp.setCantFaltante(parseInt);
+            
+            System.out.println("voy a poner cant faltante: "+parseInt);
             rp.setNeto(parseFloat);
             rp.setP(prodSelect);
             rp.setSubTotal(parseFloat*parseInt);

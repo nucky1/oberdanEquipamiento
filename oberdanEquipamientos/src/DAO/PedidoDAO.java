@@ -131,17 +131,22 @@ public class PedidoDAO {
         
     }
     public boolean insertRP(Pedido pedidoNuevo) {
-        String SQL = "INSERT INTO renglon_nota(nota_pedido_id,producto_id,costo_prod,cantidad,cant_faltante,sub_total) VALUES ";
+        String SQL = "INSERT INTO renglon_nota (nota_pedido_id,producto_id,costo_prod,cantidad,cant_faltante,sub_total) VALUES ";
+       
         for(int i = pedidoNuevo.getRenglones().size()-1; i > 0 ;i--){
             SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(i).getP().getId()+","+pedidoNuevo.getRenglones().get(i).getNeto()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getCantidad()+","+pedidoNuevo.getRenglones().get(i).getSubTotal()+"),";
             insertarStockPedido(pedidoNuevo.getRenglones().get(i));
         }
         SQL += "("+pedidoNuevo.getNumPedido()+","+pedidoNuevo.getRenglones().get(0).getP().getId()+","+pedidoNuevo.getRenglones().get(0).getNeto()+","+pedidoNuevo.getRenglones().get(0).getCantidad()+","+pedidoNuevo.getRenglones().get(0).getCantidad()+","+pedidoNuevo.getRenglones().get(0).getSubTotal()+")";
         insertarStockPedido(pedidoNuevo.getRenglones().get(0));
-        conexion.EjecutarOperacion(SQL);
-        SQL = "UPDATE nota_pedido SET total ="+pedidoNuevo.getTotal()+" WHERE nro_pedido = "+pedidoNuevo.getNumPedido();
-        if(conexion.EjecutarOperacion(SQL) > 0 ) return true;
+        //conexion.EjecutarOperacion(SQL);
+        if(conexion.EjecutarOperacion(SQL) > 0 ) {
+            SQL = "UPDATE nota_pedido SET total ="+pedidoNuevo.getTotal()+" WHERE nro_pedido = "+pedidoNuevo.getNumPedido();
+            if(conexion.EjecutarOperacion(SQL) > 0 ) return true;
+            else return false;
+        }
         else return false;
+
     }
     
     /**
@@ -152,7 +157,8 @@ public class PedidoDAO {
      */
     public void insertarStockPedido(renglonPedido rp){
        // primero debo controlar cuantos ya hay pedidos de ese articulo y a ese precio
-       String SQLstock= "SELECT * FROM art_stock WHERE art_stock.producto_id = "+rp.getP().getId()+" AND art_stock.precio_compra ="+rp.getNeto();
+       String SQLstock= "SELECT * FROM art_stock WHERE art_stock.producto_id = "
+               +rp.getP().getId()+" AND art_stock.precio_compra ="+rp.getNeto();
        ResultSet rs= conexion.EjecutarConsultaSQL(SQLstock);
         try {
             if (rs.first()){
@@ -162,7 +168,9 @@ public class PedidoDAO {
             }} catch (SQLException ex) {
             Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         SQLstock = "UPDATE `art_stock` SET stock_pedido = "+rp.getCantFaltante()+" WHERE producto_id = "+rp.getP().getId()+" AND precio_compra ="+rp.getNeto();
+        SQLstock = "UPDATE `art_stock` SET stock_pedido = "+rp.getCantFaltante()
+                +" WHERE producto_id = "+rp.getP().getId()+" AND precio_compra ="
+                +rp.getNeto();
         int filasAfectadas = conexion.EjecutarOperacion(SQLstock);
         System.out.println(" Al insertar Stock pedido, SQL : \n"+SQLstock);
         if(filasAfectadas == 0){
@@ -180,7 +188,7 @@ public class PedidoDAO {
      * @param rf 
      */
     public void insertarStockFactura (renglonFactura rf){
-        String SQLstock = "UPDATE `art_stock` SET stock_pedido = IF(stock_pedido-"+rf.getCantidad()+" < 0, 0, stock_pedido - "+rf.getCantidad()+"),"
+        String SQLstock = "UPDATE `art_stock` SET stock_pedido = IF(stock_pedido - "+rf.getCantidad()+" < 0, 0, stock_pedido - "+rf.getCantidad()+"),"
                 + " stock_actual = stock_actual + "+rf.getCantidad()
                 + " WHERE producto_id = "+rf.getP().getId()+" AND precio_compra = "+rf.getCosto();
         System.out.println(" Al insertar Stock factura, SQL : \n"+SQLstock);
