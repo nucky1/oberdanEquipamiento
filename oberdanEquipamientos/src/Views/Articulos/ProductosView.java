@@ -389,18 +389,6 @@ public void limpiarCamposInventario() {
         txtf_codigoProd = new javax.swing.JTextField();
         btn_editDevolucion = new javax.swing.JButton();
         btn_eliminar_devolucion = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jRadioButtonNegativo = new javax.swing.JRadioButton();
-        jRadioButtonExistente = new javax.swing.JRadioButton();
-        jRadioButtonCompleto = new javax.swing.JRadioButton();
-        jButtonBuscar = new javax.swing.JButton();
-        jButtonImprimirStock = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableTablaStock = new javax.swing.JTable();
         panel_pedidos = new javax.swing.JPanel();
         txtf_nota_proveedor = new javax.swing.JTextField();
         btn_lotes_prod_buscarprov = new javax.swing.JButton();
@@ -456,6 +444,18 @@ public void limpiarCamposInventario() {
         jLabelValorInternoFac = new javax.swing.JLabel();
         jLabelValorImpInterFijFac = new javax.swing.JLabel();
         jLabelValorSobreTasaIVaFac = new javax.swing.JLabel();
+        panel_stock = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jRadioButtonNegativo = new javax.swing.JRadioButton();
+        jRadioButtonExistente = new javax.swing.JRadioButton();
+        jRadioButtonCompleto = new javax.swing.JRadioButton();
+        jButtonBuscar = new javax.swing.JButton();
+        jButtonImprimirStock = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableTablaStock = new javax.swing.JTable();
 
         jDialogAñadirRubro.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialogAñadirRubro.setBackground(new java.awt.Color(255, 255, 255));
@@ -2320,155 +2320,6 @@ public void limpiarCamposInventario() {
 
         tabla_productos.addTab("Devoluciones", panel_devos);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Listado de productos");
-
-        jLabel2.setText("Filtrar por:");
-
-        buttonGroupFiltroStock.add(jRadioButtonNegativo);
-        jRadioButtonNegativo.setText("Pedido");
-        jRadioButtonNegativo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonNegativoActionPerformed(evt);
-            }
-        });
-
-        buttonGroupFiltroStock.add(jRadioButtonExistente);
-        jRadioButtonExistente.setText("Existente");
-        jRadioButtonExistente.setSelected(true);
-
-        buttonGroupFiltroStock.add(jRadioButtonCompleto);
-        jRadioButtonCompleto.setText("Completo");
-
-        jButtonBuscar.setText("Buscar");
-        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuscarActionPerformed(evt);
-            }
-        });
-
-        jButtonImprimirStock.setText("Imprimir listado");
-        jButtonImprimirStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImprimirStockActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jLabel2)
-                        .addGap(60, 60, 60)
-                        .addComponent(jRadioButtonExistente)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButtonNegativo)
-                        .addGap(28, 28, 28)
-                        .addComponent(jRadioButtonCompleto)
-                        .addGap(57, 57, 57)
-                        .addComponent(jButtonBuscar)
-                        .addGap(37, 37, 37)
-                        .addComponent(jButtonImprimirStock)))
-                .addContainerGap(461, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jRadioButtonNegativo)
-                    .addComponent(jRadioButtonExistente)
-                    .addComponent(jRadioButtonCompleto)
-                    .addComponent(jButtonBuscar)
-                    .addComponent(jButtonImprimirStock))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTableTablaStock.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Codigo", "ARTICULO", "CANTIDAD", "TIPO"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTableTablaStock);
-        if (jTableTablaStock.getColumnModel().getColumnCount() > 0) {
-            jTableTablaStock.getColumnModel().getColumn(0).setResizable(false);
-            jTableTablaStock.getColumnModel().getColumn(0).setPreferredWidth(20);
-            jTableTablaStock.getColumnModel().getColumn(1).setResizable(false);
-            jTableTablaStock.getColumnModel().getColumn(1).setPreferredWidth(160);
-            jTableTablaStock.getColumnModel().getColumn(2).setResizable(false);
-            jTableTablaStock.getColumnModel().getColumn(2).setPreferredWidth(20);
-            jTableTablaStock.getColumnModel().getColumn(3).setResizable(false);
-            jTableTablaStock.getColumnModel().getColumn(3).setPreferredWidth(60);
-        }
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
-        );
-
-        tabla_productos.addTab("Stock", jPanel1);
-
         panel_pedidos.setBackground(new java.awt.Color(245, 245, 245));
 
         txtf_nota_proveedor.setEditable(false);
@@ -3006,6 +2857,152 @@ public void limpiarCamposInventario() {
         panel_pedidosLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabelTotalFac, jLabelTotalImpuestosFac, jLabelValorImpInterFijFac, jLabelValorInternoFac, jLabelValorSobreTasaIVaFac});
 
         tabla_productos.addTab("Pedidos", panel_pedidos);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Listado de productos");
+
+        jLabel2.setText("Filtrar por:");
+
+        buttonGroupFiltroStock.add(jRadioButtonNegativo);
+        jRadioButtonNegativo.setText("Pedido");
+        jRadioButtonNegativo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonNegativoActionPerformed(evt);
+            }
+        });
+
+        buttonGroupFiltroStock.add(jRadioButtonExistente);
+        jRadioButtonExistente.setText("Existente");
+        jRadioButtonExistente.setSelected(true);
+
+        buttonGroupFiltroStock.add(jRadioButtonCompleto);
+        jRadioButtonCompleto.setText("Completo");
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        jButtonImprimirStock.setText("Imprimir listado");
+        jButtonImprimirStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImprimirStockActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(jLabel2)
+                        .addGap(60, 60, 60)
+                        .addComponent(jRadioButtonExistente)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonNegativo)
+                        .addGap(28, 28, 28)
+                        .addComponent(jRadioButtonCompleto)
+                        .addGap(57, 57, 57)
+                        .addComponent(jButtonBuscar)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButtonImprimirStock)))
+                .addContainerGap(461, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jRadioButtonNegativo)
+                    .addComponent(jRadioButtonExistente)
+                    .addComponent(jRadioButtonCompleto)
+                    .addComponent(jButtonBuscar)
+                    .addComponent(jButtonImprimirStock))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTableTablaStock.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Codigo", "ARTICULO", "CANTIDAD", "TIPO"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableTablaStock);
+        if (jTableTablaStock.getColumnModel().getColumnCount() > 0) {
+            jTableTablaStock.getColumnModel().getColumn(0).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTableTablaStock.getColumnModel().getColumn(1).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(1).setPreferredWidth(160);
+            jTableTablaStock.getColumnModel().getColumn(2).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTableTablaStock.getColumnModel().getColumn(3).setResizable(false);
+            jTableTablaStock.getColumnModel().getColumn(3).setPreferredWidth(60);
+        }
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panel_stockLayout = new javax.swing.GroupLayout(panel_stock);
+        panel_stock.setLayout(panel_stockLayout);
+        panel_stockLayout.setHorizontalGroup(
+            panel_stockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_stockLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_stockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panel_stockLayout.setVerticalGroup(
+            panel_stockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_stockLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16))
+        );
+
+        tabla_productos.addTab("Stock", panel_stock);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -3902,7 +3899,6 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JLabel jLabelValorSobreTasaIVaFac;
     private javax.swing.JLabel jLbl_devo_nuevaDevo;
     private javax.swing.JLabel jLbl_devo_prodAsociado;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
@@ -3961,6 +3957,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JPanel panel_devos;
     private javax.swing.JPanel panel_pedidos;
     private javax.swing.JPanel panel_productos_detalle;
+    private javax.swing.JPanel panel_stock;
     private javax.swing.JTextField porcentaje_cuota;
     private javax.swing.JComboBox<Models.Proveedor> producto_Proveedor;
     private javax.swing.JComboBox<Models.Rubro> producto_Rubro;
@@ -5240,6 +5237,9 @@ public class Pestaña3_dinamica {
                         rp.setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad());
                         rp.setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad());
                         rp.setSubTotal(pedidoNuevo.getRenglones().get(i).getSubTotal());
+                        //tabla_nota_prodPedido la tabla de lo que estas pidiendo
+                        modelTabla_nota_prodPedido.setValueAt(rp.getP().getCod(), i, 0);
+                        modelTabla_nota_prodPedido.setValueAt(rp.getP().getNombre(), i, 1);
                         modelTabla_nota_prodPedido.setValueAt(rp.getCantidad(), i, 2);
                         modelTabla_nota_prodPedido.setValueAt(rp.getNeto(), i, 3);
                         modelTabla_nota_prodPedido.setValueAt(rp.getSubTotal(), i, 4);

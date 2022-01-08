@@ -41,8 +41,8 @@ public class PedidoDAO {
         // Pendiente:
         // Añadir un parametro mas para que separa cuando solo quiero ver los parciales / pendientes    
         
-        HashMap<String,Pedido> pedidos = new HashMap();
-         Pedido p = new Pedido();
+        HashMap<String,Pedido> PEDIDOS = new HashMap();
+         Pedido pedido = new Pedido();
         String SQL = "SELECT * FROM `nota_pedido` "
                 + "INNER JOIN (SELECT renglon_nota.id as renglon_nota_id, "
                                     + "renglon_nota.sub_total, renglon_nota.nota_pedido_id, "
@@ -62,41 +62,50 @@ public class PedidoDAO {
         try{
             while (rs.next()) {
                
-                renglonPedido rp = new renglonPedido();
-                Producto prod = new Producto();
-                if(!pedidos.containsKey(rs.getString("nro_pedido"))){
-                    p = new Pedido();
-                    p.setEstado(rs.getString("estado"));
-                    p.setNumPedido(rs.getString("nro_pedido"));
-                    p.setTotal(rs.getFloat("total"));
-                    p.setIdProv(rs.getInt("proveedor_id"));
-                    p.setFecha(rs.getDate("nota_pedido.created_at"));
-                    pedidos.put(p.getNumPedido(), p);
+                renglonPedido renglon_pedido = new renglonPedido();
+                Producto producto = new Producto();
+                if(!PEDIDOS.containsKey(rs.getString("nro_pedido"))){
+                    pedido = new Pedido();
+                    pedido.setEstado(rs.getString("estado"));
+                    pedido.setNumPedido(rs.getString("nro_pedido"));
+                    pedido.setTotal(rs.getFloat("total"));
+                    pedido.setIdProv(rs.getInt("proveedor_id"));
+                    pedido.setFecha(rs.getDate("nota_pedido.created_at"));
+                    //PEDIDOS.put(pedido.getNumPedido(), pedido); - lo puse mas adelante
                 }
-                rp = new renglonPedido();
-                rp.setCantidad(rs.getInt("cantidad"));
-                rp.setId(rs.getInt("renglon_nota_id"));
-                rp.setSubTotal(rs.getFloat("sub_total"));
-                rp.setNeto(rs.getFloat("costo_prod"));
-                rp.setCantFaltante(rs.getInt("cant_faltante"));
+                renglon_pedido = new renglonPedido();
+                renglon_pedido.setCantidad(rs.getInt("cantidad"));
+                renglon_pedido.setId(rs.getInt("renglon_nota_id"));
+                renglon_pedido.setSubTotal(rs.getFloat("sub_total"));
+                renglon_pedido.setNeto(rs.getFloat("costo_prod"));
+                renglon_pedido.setCantFaltante(rs.getInt("cant_faltante"));
                 //prod
-                prod.setId(rs.getInt("id"));
-                prod.setCod(rs.getInt("cod"));
-                prod.setNombre(rs.getString("nombre"));
-                prod.setIva(rs.getFloat("iva"));
-                rp.setP(prod);
-                String numPedido = p.getNumPedido();
+                producto.setId(rs.getInt("id"));
+                producto.setCod(rs.getInt("cod"));
+                producto.setNombre(rs.getString("nombre"));
+                producto.setIva(rs.getFloat("iva"));
+                renglon_pedido.setP(producto);
+                String numPedido = pedido.getNumPedido();
                 //System.out.println("el num pedido es :"+numPedido);
                 if(numPedido!= null){
-                    pedidos.get(p.getNumPedido()).addRenglon(rp); 
+                    if(renglon_pedido.getCantFaltante()>0){
+                        //aca puedo poner las condiciones para filtrar los PEDIDOS
+                         if(!PEDIDOS.containsKey(rs.getString("nro_pedido"))){
+                             //lo colocaria solo 1 vez
+                              PEDIDOS.put(pedido.getNumPedido(), pedido);
+                         }
+                      
+                       PEDIDOS.get(pedido.getNumPedido()).addRenglon(renglon_pedido);  
+                    }
+                    
                 }
                 
             }
         }catch(Exception e){
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
-        //System.out.println(pedidos.values());
-        return new ArrayList<Pedido>(pedidos.values());
+        //System.out.println(PEDIDOS.values());
+        return new ArrayList<Pedido>(PEDIDOS.values());
     }
 
     public Pedido insertPedido(int idProv){
@@ -156,7 +165,7 @@ public class PedidoDAO {
      * @param rp 
      */
     public void insertarStockPedido(renglonPedido rp){
-       // primero debo controlar cuantos ya hay pedidos de ese articulo y a ese precio
+       // primero debo controlar cuantos ya hay PEDIDOS de ese articulo y a ese precio
        String SQLstock= "SELECT * FROM art_stock WHERE art_stock.producto_id = "
                +rp.getP().getId()+" AND art_stock.precio_compra ="+rp.getNeto();
        ResultSet rs= conexion.EjecutarConsultaSQL(SQLstock);
