@@ -12,6 +12,8 @@ import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -68,11 +70,21 @@ public class ComercioDAO {
     public ArrayList<String> getZona() {
         ArrayList<String> zonas = new ArrayList<>();
         try {
+            /**
+             * 
+            Esta forma funcionaba, la zona atada al comercio.
             String SQL = "SELECT zona FROM comercio WHERE state = 'ACTIVO' GROUP BY zona";
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             while (rs.next()) {
                 zonas.add(rs.getString("zona"));
             }
+            *  */
+            String SQL = "SELECT * FROM zonas WHERE state = 'ACTIVO'";
+            ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+            while (rs.next()) {
+                zonas.add(rs.getString("nombre"));
+            }
+            
         } catch (SQLException ex) {
             new Statics.ExceptionManager().saveDump(ex, "error al obtener zonas clientesDao", Main.isProduccion);
         }
@@ -115,6 +127,25 @@ public class ComercioDAO {
                 + "`tipo_iva`='"+c.getTipo_iva()+"',`inicio_actividades`='"+c.getIncio_actividades()+"'"
                 + " WHERE id = "+c.getId();
         conexion.EjecutarOperacion(SQL);
+    }
+
+    public boolean insertZona(String text) {
+        String SQL = "SELECT * FROM zonas WHERE state = 'ACTIVO' AND zonas.nombre='"+text+"'";
+        ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
+        try {
+            if(rs.first()){
+               return false; 
+            }
+            else{
+                SQL = "INSERT INTO zonas (nombre) VALUES ('"+text+"')";
+                if(conexion.EjecutarOperacion(SQL)>0){
+                    return true;
+                } 
+                }
+        } catch (SQLException ex) {
+             new Statics.ExceptionManager().saveDump(ex, "error al insertar zonas clientesDao", Main.isProduccion);
+        }
+        return false;
     }
 
 }

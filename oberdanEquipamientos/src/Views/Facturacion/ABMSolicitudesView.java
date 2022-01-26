@@ -73,7 +73,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     public ABMSolicitudesView() {
         initComponents();
         Statics.style.setPlaceHolder(txtf_nuevo_elemento, "Ingrese nuevo");
-        Statics.style.setPlaceHolder(txtf_codPostal, "Ingrese el codigo postal de su ciudad");
+        //Statics.style.setPlaceHolder(txtf_codPostal, "Ingrese el codigo postal de su ciudad");
         clienteDAO = ClientesDAO.getInstance();
         empleadosDAO = EmpleadosDAO.getInstance();
         creditoDAO = CreditosDAO.getInstance();
@@ -135,8 +135,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        txtf_codPostal = new javax.swing.JTextField();
-        lbl_codPostal = new javax.swing.JLabel();
+        jLabelAñadirElementoInfo = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDialogVerSolicitante = new javax.swing.JDialog();
         jPanel7 = new javax.swing.JPanel();
@@ -386,7 +385,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jPanel15_addElemento.add(jLabelTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 300, 40));
 
         jLabelInfoAgregarNuevo.setText("Info:");
-        jPanel15_addElemento.add(jLabelInfoAgregarNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 270, 30));
+        jPanel15_addElemento.add(jLabelInfoAgregarNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 340, 30));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -532,7 +531,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         );
 
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel14.add(txtf_nuevo_elemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 240, -1));
+        jPanel14.add(txtf_nuevo_elemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 240, 30));
 
         jLabel38.setText("Nuevo:");
         jPanel14.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 24, -1, -1));
@@ -543,7 +542,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 jButton12ActionPerformed(evt);
             }
         });
-        jPanel14.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 70, -1));
+        jPanel14.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 70, -1));
 
         jButton13.setText("Cancelar");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -551,18 +550,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 jButton13ActionPerformed(evt);
             }
         });
-        jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
-
-        txtf_codPostal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtf_codPostalActionPerformed(evt);
-            }
-        });
-        jPanel14.add(txtf_codPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 240, -1));
-
-        lbl_codPostal.setText("Codigo postal:");
-        lbl_codPostal.setOpaque(true);
-        jPanel14.add(lbl_codPostal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 20));
+        jPanel14.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, -1, -1));
+        jPanel14.add(jLabelAñadirElementoInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 330, 30));
 
         javax.swing.GroupLayout jDialogAñadirElementoLayout = new javax.swing.GroupLayout(jDialogAñadirElemento.getContentPane());
         jDialogAñadirElemento.getContentPane().setLayout(jDialogAñadirElementoLayout);
@@ -575,7 +564,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         );
         jDialogAñadirElementoLayout.setVerticalGroup(
             jDialogAñadirElementoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jDialogVerSolicitante.setBackground(new java.awt.Color(255, 255, 255));
@@ -957,7 +946,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel28.setText("Zona");
 
-        cbox_zonas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "1", "2" }));
         cbox_zonas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbox_zonasActionPerformed(evt);
@@ -1275,7 +1263,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jPanel4.setPreferredSize(new java.awt.Dimension(330, 620));
 
         buttonGroup1.add(rbtn_clientesDni);
-        rbtn_clientesDni.setSelected(true);
         rbtn_clientesDni.setText("DNI");
         rbtn_clientesDni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1379,8 +1366,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 878, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1492,14 +1479,19 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 comercioDAO.updateComercio(c);
             }
             System.out.println("En zona tengo: "+c.getZona());
-             int zona = Integer.parseInt(c.getZona());
-            if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),zona))
+            // int zona = Integer.parseInt(c.getZona()); lo saque, no recuerdo como estaba
+            if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),c.getZona()))
                 { 
                  principal.lbl_estado.setText("La solicitud se cargo con exito");
                  principal.lbl_estado.setForeground(Color.GREEN);
+                 limpiarCampos();
+                 limpiarAtributos();
                 }
-                limpiarCampos();
-                limpiarAtributos();
+            else{
+                principal.lbl_estado.setText("ERROR- La solicitud no se pudo guardar");
+                 principal.lbl_estado.setForeground(Color.RED);
+            }
+                
         }else{
             System.out.println("la lista es null, tiene 0 elementos o el posComercioSelected es -1");
         }
@@ -1847,136 +1839,44 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_CargarDireInfoActionPerformed
 
-    private void txtf_codPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_codPostalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtf_codPostalActionPerformed
-
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         txtf_nuevo_elemento.setText("");
-        txtf_codPostal.setText("");
-        txtf_codPostal.setVisible(false);
-        lbl_codPostal.setVisible(false);
+        jLabelAñadirElementoInfo.setText("");
         jDialogAñadirElemento.dispose();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
        
-        /**
-        boolean todook=true;
-        String texto = txtf_nuevo_elemento.getText().toUpperCase();
-        String codPostal = txtf_codPostal.getText().toUpperCase();
-        switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir un nuevo pais":{
-                if(!direcciones.controlPais(texto)){
-                    Provincia p = direccionesDAO.añadirPais(texto);
-                    Pais pais = new Pais();
-                    pais.setId(p.getId_pais());
-                    pais.setNombre(texto);
-                    //actualizo mapa
-
-                    direcciones = direccionesDAO.getMapa();
-                    //actualizo cbox
-                    cbox_pais.addItem(pais);
-                    cbox_pais.setSelectedItem(pais);
-
-                }else{
-                    //jTextF_IngresarNuevoElemento.setFColor.red);
-                JOptionPane.showMessageDialog(null, "El pais que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-                todook=false;
-            }
-            break;
-        }
-        case "Añadir una nueva provincia":{
-            if(!direcciones.controlProvincia(pais_selected.getId(), texto)){
-                Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
-                Provincia p = new Provincia();
-                p.setId(l.getId_provincia());
-                p.setNombre(texto);
-                p.setId_pais(pais_selected.getId());
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_provincia.addItem(p);
-                cbox_provincia.setSelectedItem(p);
-                cbox_ciudad.removeAllItems();
-                cbox_ciudad.addItem(l);
-            }
-            else{
-                todook=false;
-                JOptionPane.showMessageDialog(null, "La provincia que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        case "Añadir una nueva ciudad":{
-            if(!direcciones.controlLocalidad(provincia_selected.getId(), texto)){
-                Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId(),codPostal);
-                Localidad l = new Localidad();
-                l.setId(b.getId_localidad());
-                l.setNombre(texto);
-                l.setCod_postal(codPostal);
-                l.setId_provincia(provincia_selected.getId());
-                txt_codigoPostal.setText(codPostal);
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_ciudad.addItem(l);
-                cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
-                cbox_barrio.removeAllItems();
-                cbox_barrio.addItem(b);
-            }
-            else{
-                todook=false;
-                JOptionPane.showMessageDialog(null, "La localidad que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        case "Añadir un nuevo barrio":{
-            if(!direcciones.controlBarrio(localidad_selected.getId(), texto)){
-                Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
-                Barrio b = new Barrio();
-                b.setId(d.getId_barrio());
-                b.setId_localidad(localidad_selected.getId());
-                b.setNombre(texto);
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_barrio.addItem(b);
-                cbox_barrio.setSelectedItem(b);
-                cbox_direccion.removeAllItems();
-                cbox_direccion.addItem(d);
-            }
-            else{
-                todook=false;
-                JOptionPane.showMessageDialog(null, "El barrio que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        case "Añadir una nueva direccion":{
-            if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
-                int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
-                Direccion d = new Direccion();
-                d.setId(id);
-                d.setId_barrio(barrio_selected.getId());
-                d.setNombre(texto);
-                direcciones.getBarrio_direccion().get(barrio_selected.getId());
-                //actualizo cbox
-                cbox_direccion.addItem(d);
-                cbox_direccion.setSelectedItem(d);
-            }
-            else{
-                todook=false;
-                JOptionPane.showMessageDialog(null, "La direccion que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        }
-        if(todook) {
-            txtf_nuevo_elemento.setText("");
-            txtf_codPostal.setText("");
-            txtf_codPostal.setVisible(false);
-            lbl_codPostal.setVisible(false);
-            jDialogAñadirElemento.dispose();
-        }*/
+       // añadir una nueva zona
+       if(!txtf_nuevo_elemento.getText().isEmpty()){
+           if(txtf_nuevo_elemento.getText().length()>50){
+               jLabelAñadirElementoInfo.setText("Error, el nombre no debe superar los 50 caracteres");
+               return;
+           }
+           if(comercioDAO.insertZona(txtf_nuevo_elemento.getText())){
+               txtf_nuevo_elemento.setText("");
+               jLabelAñadirElementoInfo.setText("");
+                jDialogAñadirElemento.dispose();
+                 principal.lbl_estado.setText("Exito: Se guardo una nueva zona");
+                 cbox_zonas.removeAllItems();
+                 listZona = comercioDAO.getZona();
+                    Collections.sort(listVendedores);
+                    listZona.forEach((t) -> {
+                        cbox_zonas.addItem(t);
+                    });
+                    cbox_zonas.setEnabled(true);
+                    //cbox_zonas.setSelectedItem((String)txtf_nuevo_elemento.getText());
+                    //System.out.println("el index es: "+listZona.indexOf((String)txtf_nuevo_elemento.getText()));
+                    cbox_zonas.setSelectedIndex(cbox_zonas.getItemCount()-1);
+                       }
+           else{
+               jLabelInfoAgregarNuevo.setText("Error, la zona no se pudo agregar, controle que no este repetida");
+           }
+       }
+       else{
+           jLabelInfoAgregarNuevo.setText("Debe ingresar algo");
+       }
+       
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
@@ -2114,8 +2014,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             txtf_nuevo_elemento1.setText("");
             txtf_codPostal1.setText("");
             txtf_codPostal1.setVisible(false);
-            lbl_codPostal.setVisible(false);
+            lbl_codPostal1.setVisible(false);
             //jDialogAñadirElemento.dispose();
+            jLabelInfoAgregarNuevo.setText(" la informacion se guardo con exito");
         }
     }//GEN-LAST:event_jButton14ActionPerformed
 
@@ -2213,6 +2114,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabelAñadirElementoInfo;
     private javax.swing.JLabel jLabelInfoAgregarNuevo;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanel1;
@@ -2233,7 +2135,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField_CargarDireInfo;
     private javax.swing.JLabel lbl_barrioCliente;
     private javax.swing.JLabel lbl_cantidadCreditos;
-    private javax.swing.JLabel lbl_codPostal;
     private javax.swing.JLabel lbl_codPostal1;
     private javax.swing.JLabel lbl_contactoCliente;
     private javax.swing.JLabel lbl_documentoConyugue;
@@ -2262,7 +2163,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTextField txt_nroSolicitud;
     private javax.swing.JTextArea txt_observacionSolicitud;
     private javax.swing.JTextArea txt_referenciaComercio;
-    private javax.swing.JTextField txtf_codPostal;
     private javax.swing.JTextField txtf_codPostal1;
     private javax.swing.JTextField txtf_nuevo_elemento;
     private javax.swing.JTextField txtf_nuevo_elemento1;

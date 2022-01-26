@@ -1182,14 +1182,14 @@ public void limpiarCamposInventario() {
 
             },
             new String [] {
-                "id", "#Cuotas", "Tipo", "Precio Cuota", "Activo"
+                "Activo", "#Cuotas", "Tipo", "Precio Cuota"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1233,22 +1233,24 @@ public void limpiarCamposInventario() {
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel26Layout.createSequentialGroup()
-                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel26Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel26Layout.createSequentialGroup()
                         .addComponent(jLabel53)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator28))
                     .addGroup(jPanel26Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(chk_venta_iva, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel26Layout.createSequentialGroup()
-                                .addComponent(producto_plan, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_crearPago))
-                            .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(0, 41, Short.MAX_VALUE)))
+                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel26Layout.createSequentialGroup()
+                                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chk_venta_iva, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel26Layout.createSequentialGroup()
+                                        .addComponent(producto_plan, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn_crearPago)))
+                                .addGap(0, 41, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel26Layout.setVerticalGroup(
@@ -3606,6 +3608,8 @@ private void funcionalidadBotonOkAddIva(){
            jTextF_IngresarNuevoIva.setText("");
            jLabelInfoNuevoIva.setText("INFO");
            jDialogAñadirIva.dispose();
+           Pestaña1_dinamica.cargarIvas();
+           jCombo_iva_Articulo.setSelectedIndex(jCombo_iva_Articulo.getItemCount()-1);
            principal.lbl_estado.setText("Exito: Se guardo un nuevo iva");
            txtf_impuesto_int.requestFocus();
        }
@@ -3743,7 +3747,10 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyTyped
 
     private void txtf_nota_prod_cant_recibidaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyPressed
-        txtf_nota_prod_precio_unitario.requestFocus();
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+             txtf_nota_prod_precio_unitario.requestFocus();
+        }
+        
     }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyPressed
 
     private void tabla_productos_pedidoFacturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaMouseClicked
@@ -4101,7 +4108,7 @@ private void funcionalidadBotonOkAddIva(){
         private void cargarIvas(){
             jCombo_iva_Articulo.removeAllItems();
             for(int i =0 ; i<ivas.size();i++){
-                System.out.println(" estoy por meter "+ivas.get(i));
+                //System.out.println(" estoy por meter "+ivas.get(i));
                 jCombo_iva_Articulo.addItem((float)ivas.get(i));
             }
         }
@@ -4164,7 +4171,6 @@ private void funcionalidadBotonOkAddIva(){
         }
 
         private void calcularPrecios() {
-            
             String auxCosto = txtf_productos_costo.getText();
             String AuxCoeficiente = txtf_coeficiente_articulo.getText();
             System.out.println(" entre a calcular precios de");
@@ -4215,14 +4221,15 @@ private void funcionalidadBotonOkAddIva(){
                     if(cuotas !=null){
                         for (int i = 0; i < cuotas.size(); i++) {
                         System.out.println("Id de cuota: "+cuotas.get(i).getId());
-                        obj[0] = cuotas.get(i).getId();
+                        obj[0] = cuotas.get(i).getActiva();
+                        //obj[1] = cuotas.get(i).getId();
                         obj[1] = cuotas.get(i).getCantidad();
                         obj[2] = cuotas.get(i).getTipo();
                         float precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra()/100) + 1);
                         //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
                         float precio_cuota = precio_final / cuotas.get(i).getCantidad();;
                         obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
-                        obj[4] = cuotas.get(i).getActiva();
+                        
                         tablaProdPrecios.addRow(obj);
                     }
                     }
@@ -4568,6 +4575,7 @@ private void funcionalidadBotonOkAddIva(){
                 return false;
             }
             try {
+                
                 Integer.parseInt(txtf_productos_codigo.getText());
             } catch (Exception e) {
                 return false;
@@ -4576,6 +4584,12 @@ private void funcionalidadBotonOkAddIva(){
         }
         private boolean guardarNuevoProd() {
             if(controlProductoNuevo()){
+                if(txtf_productos_nombre.getText().length()>75){
+                    principal.lbl_estado.setText("Error, el nombre es demasiado largo. Max 75 caracteres");
+                    /// ponle color rojo
+                    txtf_productos_nombre.requestFocus();
+                    return false;
+                }
                 prodSeleccionado.setNombre(txtf_productos_nombre.getText());
                 prodSeleccionado.setEstado(1);
                 prodSeleccionado.setCod(Integer.parseInt(txtf_productos_codigo.getText()));

@@ -188,6 +188,10 @@ public class Funciones {
     public static Float redondeo2Deci(Float f){
         return  Float.parseFloat(String.format(Locale.US,"%.2f",f));
     }
+    public static Float redondeoSinDeci(Float f){
+        return  Float.parseFloat(String.format(Locale.US,"%.0f",f));
+    }
+    
     /**
      * 
      * @param f
@@ -196,6 +200,7 @@ public class Funciones {
     public static String redondeo2String(Float f){
         return  String.format(Locale.US,"%.2f",f);
     }
+    
     /**
      * 
      * @param cadena

@@ -125,7 +125,7 @@ public class CreditosDAO {
                 cred.setDireccion_id(rs.getInt("direccionActual_id"));
                 cred.setId(rs.getInt("credito.id"));
                 cred.setSolicitud_id(rs.getInt("credito.nro_solicitud"));
-                cred.setZona(rs.getInt("credito.zona"));
+                cred.setZona(rs.getString("credito.zona"));
                 cred.setCant_cuotas(rs.getInt("credito.cant_cuotas"));
                 cred.setTipo(rs.getString("credito.tipo"));
                 cred.setObservacion(rs.getString("credito.observacion"));
@@ -239,7 +239,7 @@ public class CreditosDAO {
                 + creditoSelected.getImporte_total()+","+creditoSelected.getImporte_cuota()+","+creditoSelected.getImporte_pri_cuota()+","
                 + creditoSelected.getImporte_deuda()+","+creditoSelected.getImporte_credito()+","+creditoSelected.getAnticipo()+","
                 + creditoSelected.getImporte_ult_cuota()+","+creditoSelected.getComision()+",'"+creditoSelected.getTipo()+"','"
-                + creditoSelected.getObservacion()+"',"+creditoSelected.getVenc_pri_cuota()+","+creditoSelected.getZona()+",'"
+                + creditoSelected.getObservacion()+"',"+creditoSelected.getVenc_pri_cuota()+", '"+creditoSelected.getZona()+"','"
                 + creditoSelected.getFecha_solicitud()+"','"+creditoSelected.getFecha_credito()+"',"+creditoSelected.getSolicitud_id()+","
                 + creditoSelected.getCant_cuotas()+","+creditoSelected.getConyugue_id()+","+creditoSelected.getDireccion_id()+")";
         
@@ -431,7 +431,7 @@ public class CreditosDAO {
         return 0;
     }
 
-public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, int zona) {
+public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, int idcomerce, String observacion, int nroSoli, Empleado vendedor, String zona) {
         boolean exito= false;
         
         // si no tiene conyugue, en idConyugue trae un -1}
@@ -445,8 +445,9 @@ public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, i
                 + "VALUES ("+idClient+","+idDireccion+","
                 + idConyugue+","+idcomerce+",'"
                 + observacion+"','"
-                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+", 'SOLICITUD', "+zona+")";
+                + new Timestamp(System.currentTimeMillis())+"',"+nroSoli+", 'SOLICITUD', '"+zona+"')";
         //si no puede ejecutar la operacion, devuelve -1
+        System.out.println("SQL al insertar solicitud tiene: /n"+SQL);
         int EjecutarOperacion = conexion.EjecutarOperacion(SQL);
         if(EjecutarOperacion == -1) {return false;}
         System.out.println("guardando soli \n "+SQL);
@@ -494,7 +495,7 @@ public boolean insertarSolicitud(int idConyugue,int idDireccion, int idClient, i
                 + "`importe_pri_cuota`="+creditoSelected.getImporte_pri_cuota()+",`importe_deuda`="+creditoSelected.getImporte_deuda()+",`importe_credito`="+creditoSelected.getImporte_credito()+","
                 + "`anticipo`="+creditoSelected.getAnticipo()+",`importe_ult_cuota`="+creditoSelected.getImporte_ult_cuota()+",`comision`="+creditoSelected.getComision()+","
                 + "`tipo`="+creditoSelected.getTipo()+",`observacion`='"+creditoSelected.getObservacion()+"',`venc_pri_cuota`='"+creditoSelected.getVenc_pri_cuota()+"',"
-                + "`zona`="+creditoSelected.getZona()+", `venc_credito` = '"
+                + "`zona`= '"+creditoSelected.getZona()+"', `venc_credito` = '"
                 +creditoSelected.getVenc_credito()+"', "
                 + "`cuota_id`="+creditoSelected.getPlan().getId()+" WHERE `id`="+creditoSelected.getId();
         conexion.EjecutarOperacion(SQL);

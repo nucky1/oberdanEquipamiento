@@ -35,7 +35,7 @@ public class Credito {
     private float comision;
     private String tipo;
     private String observacion;
-    private int zona;
+    private String zona;
     private boolean mercaderia_entregada;
     private Timestamp venc_pri_cuota;
     private Timestamp fecha_aprobacion;
@@ -284,11 +284,11 @@ public class Credito {
         this.observacion = observacion;
     }
 
-    public int getZona() {
+    public String getZona() {
         return zona;
     }
 
-    public void setZona(int zona) {
+    public void setZona(String zona) {
         this.zona = zona;
     }
 

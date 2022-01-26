@@ -1,2 +1,6 @@
 SELECT articulos.id, articulos.nombre, SUM(art_stock.stock_pedido) AS cantPedida FROM articulos LEFT JOIN art_stock ON art_stock.producto_id = articulos.id WHERE articulos.state= 'ACTIVO' AND art_stock.stock_pedido>0;
 me trae la unidad condensadora pero solo esa y cantPedida pone la suma de todos los pedidos
+
+
+INSERT INTO credito (id, cliente_id, fecha_aprobacion, estado, cant_cuotas, importe_total, importe_cuota, importe_pri_cuota, importe_deuda, importe_credito, saldo_anterior, anticipo, importe_ult_cuota, comision, tipo, observacion, venc_pri_cuota, venc_credito, state, created_at, updated_at, zona, comercio_id, conyugue_id, direccionActual_id, mercaderia_entregada, fecha_solicitud, fecha_credito, nro_solicitud, cuota_id, cobrador_id) VALUES
+(5, 1, NULL, 'PENDIENTE', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'SOLICITUD', 'asd', NULL, NULL, 'ACTIVO', '2021-04-06 05:32:25', '2021-04-10 20:12:24', NULL, 2, -1, 1, 0, '2021-04-06 05:32:25', '1970-01-01 00:00:01', 2, -1,3);

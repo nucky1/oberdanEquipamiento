@@ -213,7 +213,6 @@ CREATE TABLE IF NOT EXISTS art_stock (
   id int(11) NOT NULL AUTO_INCREMENT,
   producto_id int(11) NOT NULL,
   stock_actual float DEFAULT 0,
-  --stock_ingresado float DEFAULT 0, supuestamente esta al pedo
   stock_pedido float DEFAULT 0,
   stock_reservado float DEFAULT 0,
   precio_compra float NOT NULL DEFAULT 0,
@@ -255,11 +254,11 @@ DELIMITER ;
 -- Dumping data for table art_stock
 --
 
-INSERT INTO art_stock (id, producto_id, stock_actual, stock_ingresado, stock_pedido, stock_reservado, precio_compra, created_at, updated_at, state, fecha_ult_compra) VALUES
-(1, 1, 10, 0, 0, 0, 2400, '2021-03-29 13:16:17', '2021-03-29 13:16:17', 'ACTIVO', '2021-03-29 13:13:16'),
-(2, 1, 15, 0, 0, 0, 2000, '2021-03-29 13:31:38', '2021-03-30 13:48:20', 'ACTIVO', '2021-03-29 03:00:00'),
-(3, 5, 4, 4, 23, 0, 312, '2021-06-19 15:16:08', '2021-06-19 15:17:33', 'ACTIVO', '2021-06-19 15:15:51'),
-(4, 6, 4, 3, 2, 0, 100, '2021-06-23 23:53:13', '2021-06-24 00:27:41', 'ACTIVO', '2021-06-23 23:52:26');
+INSERT INTO art_stock (id, producto_id, stock_actual, stock_pedido, stock_reservado, precio_compra, created_at, updated_at, state, fecha_ult_compra) VALUES
+(1, 1,  0, 0, 0, 2400, '2021-03-29 13:16:17', '2021-03-29 13:16:17', 'ACTIVO', '2021-03-29 13:13:16'),
+(2, 1,  0, 0, 0, 2000, '2021-03-29 13:31:38', '2021-03-30 13:48:20', 'ACTIVO', '2021-03-29 03:00:00'),
+(3, 5,  4, 23, 0, 312, '2021-06-19 15:16:08', '2021-06-19 15:17:33', 'ACTIVO', '2021-06-19 15:15:51'),
+(4, 6,  3, 2, 0, 100, '2021-06-23 23:53:13', '2021-06-24 00:27:41', 'ACTIVO', '2021-06-23 23:52:26');
 
 -- --------------------------------------------------------
 
@@ -527,7 +526,7 @@ INSERT INTO contactos (id, id_persona, contacto, nombre, cargo, tipo, created_at
 -- --------------------------------------------------------
 
 --
--- Table structure for table credito
+-- Table structure for table credito 
 --
 
 DROP TABLE IF EXISTS credito;
@@ -553,7 +552,7 @@ CREATE TABLE IF NOT EXISTS credito (
   state varchar(50) NOT NULL DEFAULT 'ACTIVO',
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
   updated_at timestamp NULL DEFAULT NULL,
-  zona int(11) DEFAULT NULL,
+  zona varchar(20) DEFAULT NULL,
   comercio_id int(11) NOT NULL,
   conyugue_id int(11) NOT NULL,
   direccionActual_id int(11) NOT NULL,
@@ -565,8 +564,8 @@ CREATE TABLE IF NOT EXISTS credito (
   cobrador_id INT NOT NULL DEFAULT -1,
   PRIMARY KEY (id),
   KEY credito_ibfk_1 (cliente_id),
-  KEY credito_ibfk_2 (comercio_id),
-  KEY credito_ibfk_3 (cobrador_id)
+  KEY credito_ibfk_2 (comercio_id)
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
 -- Disparadores `credito`
@@ -1489,8 +1488,8 @@ ALTER TABLE comercio
 --
 ALTER TABLE credito
   ADD CONSTRAINT credito_ibfk_1 FOREIGN KEY (cliente_id) REFERENCES cliente (id),
-  ADD CONSTRAINT credito_ibfk_2 FOREIGN KEY (comercio_id) REFERENCES comercio (id),
-  ADD CONSTRAINT credito_ibfk_3 FOREIGN KEY (cobrador_id) REFERENCES empleado (id);
+  ADD CONSTRAINT credito_ibfk_2 FOREIGN KEY (comercio_id) REFERENCES comercio (id);
+  
 
 --
 -- Constraints for table devolucion

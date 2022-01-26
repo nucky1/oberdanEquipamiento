@@ -61,3 +61,16 @@ ADD `descuento_gral` FLOAT NOT NULL DEFAULT '0' AFTER `sobretasa_iva`;
 ALTER TABLE `renglon_factura` ADD `descuento` FLOAT NOT NULL DEFAULT '0' AFTER `cantidad`;
 ALTER TABLE `art_stock` CHANGE `stock_actual` `stock_actual` FLOAT NULL DEFAULT '0';
 ALTER TABLE `art_stock` CHANGE `stock_ingresado` `stock_ingresado` FLOAT NULL DEFAULT '0', CHANGE `stock_pedido` `stock_pedido` FLOAT NULL DEFAULT '0', CHANGE `stock_reservado` `stock_reservado` FLOAT NULL DEFAULT '0';
+
+
+-- tabla para el combo box de las zonas de los comercios
+CREATE TABLE `bd-oberdan`.`zonas` ( `id` INT NOT NULL , `nombre` VARCHAR(50) NULL DEFAULT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE `zonas` ADD `state` VARCHAR(10) NOT NULL DEFAULT 'ACTIVO' AFTER `nombre`;
+ALTER TABLE `zonas` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `zonas` ADD UNIQUE(`nombre`);
+ALTER TABLE `credito` DROP INDEX `credito_ibfk_3`; esto no lo toma por consola.
+
+
+-- añadir coeficiente de aumento para el articulo
+ALTER TABLE `articulos` ADD `coeficiente` FLOAT NOT NULL DEFAULT '0' AFTER `precio_compra`;
