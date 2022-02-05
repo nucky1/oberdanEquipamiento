@@ -186,11 +186,11 @@ public class Funciones {
      * @return 
      */
     public static Float redondeo2Deci(Float f){
-        return  Float.parseFloat(String.format(Locale.US,"%.2f",f));
+        float aux = (float) Math.round(f);
+        //antes el f pasaba derecho
+        return  Float.parseFloat(String.format(Locale.US,"%.2f",aux));
     }
-    public static Float redondeoSinDeci(Float f){
-        return  Float.parseFloat(String.format(Locale.US,"%.0f",f));
-    }
+   
     
     /**
      * 

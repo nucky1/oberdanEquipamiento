@@ -43,15 +43,15 @@ public class CuotasDAO {
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try{
             while(rs.next()){
-                Cuota p = new Cuota();
-                p.setId(rs.getInt("id"));
-                p.setCantidad(rs.getInt("cantidad"));
-                p.setMes(rs.getInt("mes"));
-                p.setDia(rs.getInt("dia"));
-                p.setPorcentajeExtra(rs.getFloat("porcentaje_extra"));
-                p.setActiva(rs.getInt("cuota_activa"));
-                p.setTipo(rs.getString("tipo"));
-                cuotas.add(p);
+                Cuota planPago = new Cuota();
+                planPago.setId(rs.getInt("id"));
+                planPago.setCantidad(rs.getInt("cantidad"));
+                planPago.setMes(rs.getInt("mes"));
+                planPago.setDia(rs.getInt("dia"));
+                planPago.setPorcentajeExtra(rs.getFloat("porcentaje_extra"));
+                planPago.setActiva(rs.getInt("cuota_activa"));
+                planPago.setTipo(rs.getString("tipo"));
+                cuotas.add(planPago);
             }
         }catch(Exception ex){
             new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);

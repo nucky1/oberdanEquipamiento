@@ -43,7 +43,7 @@ ALTER TABLE `comercio` CHANGE `dirIdemProp` `direIdemProp` INT(11) NOT NULL;
 
 CREATE TABLE `bd-oberdan`.`iva` ( `valor` FLOAT NOT NULL DEFAULT '1' UNIQUE ) ENGINE = InnoDB;
 INSERT INTO iva (valor) VALUES (1.0);
-INSERT INTO iva (valor) VALUES (21.0);
+INSERT INTO iva (valor) VALUES (21.0);    -- estas NO ESTAN EN LA OTRA BASE DE DATOS  
 INSERT INTO iva (valor) VALUES (15.0)
 -- modificaciones a renglon factura para poder soportar ivas mejor
 ALTER TABLE `renglon_factura` ADD `ivaPorcentaje` INT NOT NULL DEFAULT '1' AFTER `cantidad`;
@@ -57,10 +57,10 @@ ALTER TABLE `factura_proveedor` ADD `imp_interno_fijo` FLOAT NOT NULL DEFAULT '0
 ADD `sobretasa_iva` FLOAT NOT NULL DEFAULT '0' AFTER `imp_interno`, 
 ADD `descuento_gral` FLOAT NOT NULL DEFAULT '0' AFTER `sobretasa_iva`;
 
--- estas Son las nuevas modificaciones:
+-- estas Son las nuevas modificaciones: QUE EN ALGUNA BASE DE DATOS NO ESTAN! :@
 ALTER TABLE `renglon_factura` ADD `descuento` FLOAT NOT NULL DEFAULT '0' AFTER `cantidad`;
 ALTER TABLE `art_stock` CHANGE `stock_actual` `stock_actual` FLOAT NULL DEFAULT '0';
-ALTER TABLE `art_stock` CHANGE `stock_ingresado` `stock_ingresado` FLOAT NULL DEFAULT '0', CHANGE `stock_pedido` `stock_pedido` FLOAT NULL DEFAULT '0', CHANGE `stock_reservado` `stock_reservado` FLOAT NULL DEFAULT '0';
+ALTER TABLE `art_stock`  FLOAT NULL DEFAULT '0', CHANGE `stock_pedido` `stock_pedido` FLOAT NULL DEFAULT '0', CHANGE `stock_reservado` `stock_reservado` FLOAT NULL DEFAULT '0';
 
 
 -- tabla para el combo box de las zonas de los comercios
@@ -72,5 +72,3 @@ ALTER TABLE `zonas` ADD UNIQUE(`nombre`);
 ALTER TABLE `credito` DROP INDEX `credito_ibfk_3`; esto no lo toma por consola.
 
 
--- añadir coeficiente de aumento para el articulo
-ALTER TABLE `articulos` ADD `coeficiente` FLOAT NOT NULL DEFAULT '0' AFTER `precio_compra`;

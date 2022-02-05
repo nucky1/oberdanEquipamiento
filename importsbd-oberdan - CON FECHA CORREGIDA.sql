@@ -212,9 +212,9 @@ DROP TABLE IF EXISTS art_stock;
 CREATE TABLE IF NOT EXISTS art_stock (
   id int(11) NOT NULL AUTO_INCREMENT,
   producto_id int(11) NOT NULL,
-  stock_actual float DEFAULT 0,
-  stock_pedido float DEFAULT 0,
-  stock_reservado float DEFAULT 0,
+  stock_actual int(11) DEFAULT 0,
+  stock_pedido int(11) DEFAULT 0,
+  stock_reservado int(11) DEFAULT 0,
   precio_compra float NOT NULL DEFAULT 0,
   created_at timestamp NULL DEFAULT current_timestamp(),
   updated_at timestamp NULL DEFAULT NULL,

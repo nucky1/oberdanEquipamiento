@@ -78,11 +78,11 @@ DELIMITER ;
 CREATE TABLE `art_stock` (
   `id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL,
-  `stock_actual` float DEFAULT NULL,
-  `stock_ingresado` float DEFAULT NULL,
+  `stock_actual` int(11) DEFAULT 0,
+  --`stock_ingresado` float DEFAULT NULL, -- ESTE ME PA QUE NO VA
   -- HAY QUE HACER DEFAULT 0
-  `stock_pedido` float DEFAULT NULL,
-  `stock_reservado` float DEFAULT NULL,
+  `stock_pedido` int(11) DEFAULT 0,
+  `stock_reservado` int(11) DEFAULT 0, -- Y POR QUE SON FLOAT JAJAJA
   `precio_compra` float NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,

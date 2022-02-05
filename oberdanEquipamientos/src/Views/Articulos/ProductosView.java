@@ -11,6 +11,7 @@ import DAO.ProductoDAO;
 import DAO.ProveedoresDAO;
 import DAO.RubroDAO;
 import Models.*;
+import Statics.DesplazarColumnas;
 import static Statics.Funciones.getSelection;
 import Statics.MiRenderer;
 import Views.Proveedores.JD_Proveedor_Buscador;
@@ -24,9 +25,12 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ButtonGroup;
@@ -42,6 +46,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+//imports para acomodar la informacion en las tablas
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -71,12 +78,15 @@ public class ProductosView extends javax.swing.JPanel {
         proveedoresDAO = ProveedoresDAO.getInstance();
         productoDAO = ProductoDAO.getInstance();
         cuotasDAO = CuotasDAO.getInstance();
-        rubroDAO = RubroDAO.getInstance();      
+        rubroDAO = RubroDAO.getInstance();
         new Statics.TextPrompt("Nombre..", txtf_productos_nombre);
         new Statics.TextPrompt("Buscar..", txtf_productos_buscar);
         Pestaña1_dinamica.cambioBusqueda("");
+        rbtn_productos_nombre.setSelected(true);
+        txtf_productos_buscar.requestFocus();
+        //Pestaña1_dinamica.view.buttonGroup1.setSelected(rbtn_productos_nombre.getModel(), true);
         Pestaña1_dinamica.ivas=productoDAO.recuperarIvas();
-       
+
     }
 public void limpiarCamposInventario() {
         txtf_productos_nombre.setEnabled(true);
@@ -168,7 +178,7 @@ public void limpiarCamposInventario() {
         txtf_codDevolucion.setText("");
         txtf_nombreDevo.setText("");
         txtf_nombreDevo.setEnabled(flag);
-        txtf_codDevolucion.setEnabled(flag); 
+        txtf_codDevolucion.setEnabled(flag);
         txtf_porcentaje.setEnabled(flag);
         txtf_codigoProd.setEnabled(flag);
         btn_guardar_devolucion.setEnabled(flag);
@@ -217,7 +227,7 @@ public void limpiarCamposInventario() {
         jLabelInfoNotaPedido = new javax.swing.JLabel();
         jDialogAñadirPlan = new javax.swing.JDialog();
         jLabel36 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonGuardarPlan = new javax.swing.JButton();
         tipo_cuota = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         cantidad_cuota = new javax.swing.JTextField();
@@ -289,18 +299,18 @@ public void limpiarCamposInventario() {
         btn_Modificar = new javax.swing.JButton();
         jPanel27 = new javax.swing.JPanel();
         jLabel70 = new javax.swing.JLabel();
-        btn_producto_editarLote = new javax.swing.JButton();
-        jSeparator22 = new javax.swing.JSeparator();
         jLabel79 = new javax.swing.JLabel();
+        jSeparator22 = new javax.swing.JSeparator();
+        btn_producto_editarLote = new javax.swing.JButton();
         stock = new javax.swing.JTextField();
         jPanel85 = new javax.swing.JPanel();
         fecha_inicio = new com.toedter.calendar.JDateChooser();
         fecha_fin = new com.toedter.calendar.JDateChooser();
+        btn_consultar_historial = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         unidades_vendidas = new javax.swing.JLabel();
         jLabel223 = new javax.swing.JLabel();
-        btn_consultar_historial = new javax.swing.JButton();
         jLabel174 = new javax.swing.JLabel();
         jSeparator26 = new javax.swing.JSeparator();
         btn_Guardar = new javax.swing.JButton();
@@ -754,13 +764,13 @@ public void limpiarCamposInventario() {
         jLabel36.setText("Tipo");
         jDialogAñadirPlan.getContentPane().add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 34, 110, -1));
 
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGuardarPlan.setText("Guardar");
+        jButtonGuardarPlan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonGuardarPlanActionPerformed(evt);
             }
         });
-        jDialogAñadirPlan.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
+        jDialogAñadirPlan.getContentPane().add(jButtonGuardarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
         jDialogAñadirPlan.getContentPane().add(tipo_cuota, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 31, 126, -1));
 
         jButton2.setText("Cancelar");
@@ -977,7 +987,7 @@ public void limpiarCamposInventario() {
 
             },
             new String [] {
-                "ID", "Nombre"
+                "Codigo", "Nombre"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1285,6 +1295,9 @@ public void limpiarCamposInventario() {
         jLabel70.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel70.setText("Inventario");
 
+        jLabel79.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel79.setText("Unidades");
+
         btn_producto_editarLote.setBackground(new java.awt.Color(255, 255, 255));
         btn_producto_editarLote.setText("Editar Stock");
         btn_producto_editarLote.setEnabled(false);
@@ -1293,9 +1306,6 @@ public void limpiarCamposInventario() {
                 btn_producto_editarLoteActionPerformed(evt);
             }
         });
-
-        jLabel79.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel79.setText("Unidades");
 
         stock.setEditable(false);
         stock.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1339,6 +1349,15 @@ public void limpiarCamposInventario() {
 
         fecha_fin.setEnabled(false);
 
+        btn_consultar_historial.setBackground(new java.awt.Color(255, 255, 255));
+        btn_consultar_historial.setText("Consultar");
+        btn_consultar_historial.setEnabled(false);
+        btn_consultar_historial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_consultar_historialActionPerformed(evt);
+            }
+        });
+
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel22.setText("Inicio");
 
@@ -1352,15 +1371,6 @@ public void limpiarCamposInventario() {
         jLabel223.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel223.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel223.setText("unid.");
-
-        btn_consultar_historial.setBackground(new java.awt.Color(255, 255, 255));
-        btn_consultar_historial.setText("Consultar");
-        btn_consultar_historial.setEnabled(false);
-        btn_consultar_historial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_consultar_historialActionPerformed(evt);
-            }
-        });
 
         jLabel174.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel174.setText("Historial de Ventas");
@@ -2980,7 +2990,7 @@ public void limpiarCamposInventario() {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_stockLayout = new javax.swing.GroupLayout(panel_stock);
@@ -3014,20 +3024,20 @@ public void limpiarCamposInventario() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtf_nota_prod_precio_unitarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precio_unitarioKeyPressed
         //tambien deberia controlar que ponga cantidades validas no?
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             pedidos.agregarProducto();
         }
     }//GEN-LAST:event_txtf_nota_prod_precio_unitarioKeyPressed
 
     private void btn_lote_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lote_aceptarActionPerformed
-       
+
         if(JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta factura?", "Generar Nota", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             pedidos.guardarFactura();
         }
@@ -3056,7 +3066,7 @@ public void limpiarCamposInventario() {
             System.out.println("ENTRE AL EVENTO ");
             pedidos.buscarProducto(txtf_nota_prod_cod.getText());
         }
-       
+
     }//GEN-LAST:event_txtf_nota_prod_codKeyPressed
 
     private void btn_lotes_prod_buscarprovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lotes_prod_buscarprovActionPerformed
@@ -3225,30 +3235,41 @@ public void limpiarCamposInventario() {
         int pos = tabla_productos_busqueda.getSelectedRow();
         if (pos != -1) {
             Pestaña1_dinamica.cargarIvas();
-            System.out.println("cargue ivas");
             Pestaña1_dinamica.cargarProducto(pos);
-             System.out.println("cuotaas size "+Pestaña1_dinamica.cuotas.size());
+
         }
     }//GEN-LAST:event_tabla_productos_busquedaMouseClicked
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         Pestaña1_dinamica.eliminar();
         limpiarCamposInventario();
+        
+        int[] myarr = {12, 2, 4, 35};
+        int aux=myarr.length;
+        
+       int aux2= myarr[0];
+        Arrays.sort(myarr);
+        //Dictionary<Type,Type> obj = new Hashtable<Type,Type>();
+       Dictionary<Integer,Integer> dic = new Hashtable<Integer,Integer>();
+      
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+       String algo = "algo";
+       
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void jRadioButtonNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonNegativoActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jRadioButtonNegativoActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
         JRadioButton jrb=getSelection(buttonGroupFiltroStock);
-       
+
         PantallaStock.cargarTablaStock(jrb.getText());
         //System.out.println("el jrb seleccionado es: "+jrb.getText());
-        
-        
+
+
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonImprimirStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirStockActionPerformed
@@ -3270,7 +3291,7 @@ public void limpiarCamposInventario() {
             int i = rubroDAO.InsertRubro(texto);
             Pestaña1_dinamica.actualizarRubro();
         }else{
-            
+
         }
         jDialogAñadirRubro.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
@@ -3335,7 +3356,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_btn_nota_eliminarActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        pedidos.cancelarNota();        
+        pedidos.cancelarNota();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void tabla_nota_prodPedirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_prodPedirMouseClicked
@@ -3351,15 +3372,15 @@ public void limpiarCamposInventario() {
 
     private void generarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarNotaActionPerformed
            pedidos.terminarPedido();
-           
+
     }//GEN-LAST:event_generarNotaActionPerformed
 
     private void txtf_nota_prod_nombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtf_nota_prod_nombreItemStateChanged
         //Si encontro el producto que le gusta:
-        
+
     }//GEN-LAST:event_txtf_nota_prod_nombreItemStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonGuardarPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarPlanActionPerformed
         String tipo = tipo_cuota.getText();
         String porcentaje = porcentaje_cuota.getText();
         String cantidad = cantidad_cuota.getText();
@@ -3367,22 +3388,24 @@ public void limpiarCamposInventario() {
         String dia = dia_vencimiento.getText();
         if(!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) >0 || Integer.parseInt(dia) > 0 )){
             jLabel17.setText("Error- Debe completar el intervalo de vencimiento entre cuotas. \n Es decir cuantos dias y/o meses deben pasar entre el vencimiento cada cuota");
-            
+
             return;
         }
         if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
             Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad),Integer.parseInt(dia),Integer.parseInt(mes));
+            // ojo! Falta un control que no deje meter cuotas repetidas
             cuotasDAO.insertCuota(c);
+
             if(Pestaña1_dinamica.prodSeleccionado != null){
                 Pestaña1_dinamica.actualizarPrecios();
             }
             jDialogAñadirPlan.dispose();
         }else{
-            
+
             jLabel17.setText("ERROR: Debe completar todos los campos correctamente");
            return;
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonGuardarPlanActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         tipo_cuota.setText("");
@@ -3430,9 +3453,9 @@ public void limpiarCamposInventario() {
         //Pestaña1_dinamica.limpiarCampos(); no funciona como quiero
         //Pestaña1_dinamica.limpiarCamposStockNuevo();
         Pestaña1_dinamica.cargarIvas();
-        Pestaña1_dinamica.prodSeleccionado = new Producto(); 
+        Pestaña1_dinamica.prodSeleccionado = new Producto();
         Pestaña1_dinamica.prodSeleccionado.setId(productoDAO.getNextID());
-        
+
     }//GEN-LAST:event_btn_productoNuevoActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
@@ -3470,19 +3493,19 @@ public void limpiarCamposInventario() {
                 principal.lbl_estado.setText("Error- Ocurrio un error al guardar el producto.");
                 return;
             }
-            //, si se guardo actualiza el resto de los campos 
-            
+            //, si se guardo actualiza el resto de los campos
+
                 principal.lbl_estado.setText("El producto se creo con exito.");
                 principal.lbl_estado.setForeground(Color.GREEN);
-            
-            
+
+
             modificarTrue = false;
             //(se hace en dos metodos porque es un fix y aprovecho lo que esta hecho)
-            
+
         }
         if(Pestaña1_dinamica.actualizarProduto()){ //esta actualizando un producto
             if(modificarTrue)
-                principal.lbl_estado.setText("El producto se actualizo con exito.");  
+                principal.lbl_estado.setText("El producto se actualizo con exito.");
         }else{
             principal.lbl_estado.setText("Ocurrio un error al actualizar el producto.");
         }
@@ -3581,7 +3604,7 @@ public void limpiarCamposInventario() {
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9')) {
             evt.consume();
-        }   
+        }
     }//GEN-LAST:event_txtf_productos_codigoKeyTyped
 
     private void txtf_coeficiente_articuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_coeficiente_articuloActionPerformed
@@ -3589,12 +3612,12 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_coeficiente_articuloActionPerformed
 
     private void jTextF_IngresarNuevoIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextF_IngresarNuevoIvaActionPerformed
-        
+
     }//GEN-LAST:event_jTextF_IngresarNuevoIvaActionPerformed
 
     private void btn_añadirNuevoIvaOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoIvaOkActionPerformed
      funcionalidadBotonOkAddIva();
-       
+
     }//GEN-LAST:event_btn_añadirNuevoIvaOkActionPerformed
 private void funcionalidadBotonOkAddIva(){
     String valor=jTextF_IngresarNuevoIva.getText();
@@ -3618,13 +3641,13 @@ private void funcionalidadBotonOkAddIva(){
            jTextF_IngresarNuevoIva.requestFocus();
            return;
        }
-       
+
 }
     private void jButtonCancelarJdialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarJdialogActionPerformed
         // TODO add your handling code here:
         jTextF_IngresarNuevoIva.setText("");
         jLabelInfoNuevoIva.setText("INFO");
-        
+
         jDialogAñadirIva.dispose();
 
     }//GEN-LAST:event_jButtonCancelarJdialogActionPerformed
@@ -3668,7 +3691,7 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_jTextFieldDescGeneralFacActionPerformed
 
     private void jTextFieldImpInternoFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldImpInternoFacActionPerformed
-     
+
     }//GEN-LAST:event_jTextFieldImpInternoFacActionPerformed
 
     private void jTextFieldSobreTasaFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSobreTasaFacActionPerformed
@@ -3703,20 +3726,20 @@ private void funcionalidadBotonOkAddIva(){
 
     private void txtf_nota_prod_cant_recibidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyTyped
        char c = evt.getKeyChar();
-       
+
             if ((c < '0' || c > '9')) {
                 evt.consume();
             }
-        
+
     }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyTyped
 
     private void txtf_nota_prod_precio_unitarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_precio_unitarioKeyTyped
-        
-       
+
+
     }//GEN-LAST:event_txtf_nota_prod_precio_unitarioKeyTyped
 
     private void tabla_productos_pedidoFacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaKeyPressed
-        
+
          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int pos = tabla_productos_pedidoFactura.getSelectedRow();
             if(pos!= -1){
@@ -3733,9 +3756,9 @@ private void funcionalidadBotonOkAddIva(){
             }
             pos=-1;
         }
-            
-        
-         
+
+
+
     }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyPressed
 
     private void tabla_productos_pedidoFacturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaKeyTyped
@@ -3743,18 +3766,18 @@ private void funcionalidadBotonOkAddIva(){
         if ((c < '0' || c > '9')) {
                 evt.consume();
             }
-        
+
     }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyTyped
 
     private void txtf_nota_prod_cant_recibidaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyPressed
        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
              txtf_nota_prod_precio_unitario.requestFocus();
         }
-        
+
     }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyPressed
 
     private void tabla_productos_pedidoFacturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaMouseClicked
-       
+
     }//GEN-LAST:event_tabla_productos_pedidoFacturaMouseClicked
 
 
@@ -3796,7 +3819,6 @@ private void funcionalidadBotonOkAddIva(){
     private com.toedter.calendar.JDateChooser fecha_fin;
     private com.toedter.calendar.JDateChooser fecha_inicio;
     private javax.swing.JButton generarNota;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
@@ -3804,6 +3826,7 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JButton jButtonAddIvaArti;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonCancelarJdialog;
+    private javax.swing.JButton jButtonGuardarPlan;
     private javax.swing.JButton jButtonImprimirStock;
     private javax.swing.JComboBox<Float> jCombo_iva_Articulo;
     private javax.swing.JDialog jDialogAñadirIva;
@@ -4048,11 +4071,11 @@ private void funcionalidadBotonOkAddIva(){
             grupo.add(rbtn_productos_codigo);
             grupo.add(rbtn_productos_nombre);
             rbtn_productos_codigo.setSelected(true);
-                
+
             modelProducto = (DefaultTableModel) tabla_productos_busqueda.getModel();
             //modelInv = (DefaultTableModel) tabla_productos_inventarioLotes.getModel();
 
-            modelDevo =(DefaultTableModel) tabla_devos.getModel();    
+            modelDevo =(DefaultTableModel) tabla_devos.getModel();
             tabla_productos_busqueda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             limpiarCampos();
@@ -4086,6 +4109,7 @@ private void funcionalidadBotonOkAddIva(){
                 System.out.println("Error no selecciono tipo de busqueda");
             }
         }
+
         
         public void cambioBusqueda(String txt) {
             if (txt.isEmpty()) {
@@ -4119,14 +4143,14 @@ private void funcionalidadBotonOkAddIva(){
                 //btn_consultar_historial.setEnabled(true);
                 prodSeleccionado = listProductos.get(pos);
                 //Consultas extras
-                
+
                 cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
-                System.out.println("cuotaas size "+cuotas.size());
+
                 //-------
                 if (prodSeleccionado != null) {
-                    
+
                     jCombo_iva_Articulo.setSelectedItem(prodSeleccionado.getIva());
-                    
+
                     if (prodSeleccionado.getObservaciones().equals("null")) {
                         txtf_productos_observaciones.setText("");
                     } else {
@@ -4173,8 +4197,10 @@ private void funcionalidadBotonOkAddIva(){
         private void calcularPrecios() {
             String auxCosto = txtf_productos_costo.getText();
             String AuxCoeficiente = txtf_coeficiente_articulo.getText();
-            System.out.println(" entre a calcular precios de");
+
             DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
+            //jTable1.setDefaultRenderer(Object.class, new CentrarColumnas());
+            tabla_producto_precioVenta.setDefaultRenderer(Object.class, new DesplazarColumnas());
             float costo, coeficiente,iva,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
             try {
                 if (auxCosto.isEmpty() || !Statics.Funciones.isFloat(auxCosto)) {
@@ -4213,8 +4239,9 @@ private void funcionalidadBotonOkAddIva(){
                 precio_parcial=precio_parcial*(1+impInterno);
                 precio_parcial=precio_parcial*(1+impInternoFijo);
                 txtf_productos_venta.setText(""+precio_parcial);
-                
+
                 try {
+                    //cargando tabla de planes de pago
                     tablaProdPrecios.setNumRows(0);
                     Object[] obj = new Object[5];
                     //System.out.println("El tamaño de cuotas es: "+cuotas.size());
@@ -4229,7 +4256,7 @@ private void funcionalidadBotonOkAddIva(){
                         //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
                         float precio_cuota = precio_final / cuotas.get(i).getCantidad();;
                         obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
-                        
+
                         tablaProdPrecios.addRow(obj);
                     }
                     }
@@ -4293,14 +4320,14 @@ private void funcionalidadBotonOkAddIva(){
                 }
                 cuotasDAO.setCuotasProd(cuotas,prodSeleccionado.getId());
                 if(productosDAO.actualizarProducto(prodSeleccionado) > 0)
-                    return true;                  
+                    return true;
                 else
                     return false;
             } else {
                 return false;
             }
         }
-        
+
         /**
          * Actualizar el rubro del producto cuando se crea uno nuevo.
          */
@@ -4329,7 +4356,7 @@ private void funcionalidadBotonOkAddIva(){
                         porcentaje = rs.getInt("devolucion_porcentajeAsociado");
                         txtf_devo_porcentajeAdevolver.setText("" + porcentaje);
                     }
-                    
+
                 } catch (Exception e) {
                     System.out.println("" + e.getMessage());;
                 }
@@ -4354,11 +4381,11 @@ private void funcionalidadBotonOkAddIva(){
 
             }
             //CALCULAR IMPORTE DE LA VENTA DEL PRODUCTO EN EL MES PASADO
-            Thread hilo = new Thread () { 
-                        public void run () { 
+            Thread hilo = new Thread () {
+                        public void run () {
                         txtf_devo_precioTotal.setText(String.format("$ %.2f",productosDAO.traerImporteMesPasado(devoSelect.getId())));
-                        } 
-                      };  
+                        }
+                      };
                 hilo.start();
         }*/
     }
@@ -4385,16 +4412,16 @@ private void funcionalidadBotonOkAddIva(){
             txtf_codDevolucion.setText(String.valueOf(devoSelect.getId()));
             txtf_codDevolucion.setEditable(false);
             txtf_porcentaje.setText(txtf_devo_porcentajeAdevolver.getText());
-            txtf_codigoProd.setText(txtf_devo_codigo.getText()); 
+            txtf_codigoProd.setText(txtf_devo_codigo.getText());
             txtf_codigoProd.setEditable(false);
         }
     }
-        
+
         /**
-         * llena la tabla con las devoluciones de la LIST 
-         * @param list lista de devoluciones 
+         * llena la tabla con las devoluciones de la LIST
+         * @param list lista de devoluciones
          */
-        
+
         public void cargarDevoluciones(List<Producto> list) {
             listDevoluciones = list;
             try {
@@ -4409,14 +4436,14 @@ private void funcionalidadBotonOkAddIva(){
                 ex.printStackTrace();
             }
         }
-        
+
         public void cargarProductos(List<Producto> list) {
-            listProductos = list;          
+            listProductos = list;
             try {
                 modelProducto.setNumRows(0);
                 Object[] obj = new Object[2];
                 for (int i = 0; i < list.size(); i++) {
-                    obj[0] = list.get(i).getId();
+                    obj[0] = list.get(i).getCod();
                     obj[1] = list.get(i).getNombre();
                     modelProducto.addRow(obj);
                 }
@@ -4424,8 +4451,8 @@ private void funcionalidadBotonOkAddIva(){
                 ex.printStackTrace();
             }
         }
-        
- 
+
+
         private void getunidadesVendidas() {
             if (prodSeleccionado == null) {
                 JOptionPane.showMessageDialog(null, "Primero debe seleccionar un producto.",
@@ -4438,7 +4465,7 @@ private void funcionalidadBotonOkAddIva(){
             fecha_inicio_sql = new java.sql.Date(fecha_java.getTime());
             fecha_java = fecha_fin.getDate();
             fecha_fin_sql = new java.sql.Date(fecha_java.getTime());
-            
+
             //unidades_vendidas.setText("" + productosDAO.getUnidadesVendidas(0, fecha_inicio_sql, fecha_fin_sql, prodSeleccionado.getId()));
         }
 
@@ -4460,7 +4487,7 @@ private void funcionalidadBotonOkAddIva(){
                                 "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
         public void errorActualizarStock() {
             JOptionPane.showMessageDialog(null, "No se pudo editar el lote", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -4575,7 +4602,7 @@ private void funcionalidadBotonOkAddIva(){
                 return false;
             }
             try {
-                
+
                 Integer.parseInt(txtf_productos_codigo.getText());
             } catch (Exception e) {
                 return false;
@@ -4599,7 +4626,7 @@ private void funcionalidadBotonOkAddIva(){
                         productoDAO.nuevoProducto(prodSeleccionado);
                         return true;
                     }else{
-                        JOptionPane.showMessageDialog(null,"El codigo "+prodSeleccionado.getCod()+" ya pertenece a un producto ingresado.\n", 
+                        JOptionPane.showMessageDialog(null,"El codigo "+prodSeleccionado.getCod()+" ya pertenece a un producto ingresado.\n",
                             "Error",  JOptionPane.ERROR_MESSAGE);
                         /* Esto es para reactivar codigos en caso de ser necesario descomentar y revisar DAO
                         int i = 0;
@@ -4610,14 +4637,14 @@ private void funcionalidadBotonOkAddIva(){
                             productoDAO.eliminarProducto(prodSeleccionado);
                             productoDAO.actualizarProducto(prodSeleccionado);
                         }*/
-                    }   
+                    }
             }else
-                JOptionPane.showMessageDialog(null,"Debe ingresar un nombre, código del producto (valor numérico) y asociar un proveedor", 
+                JOptionPane.showMessageDialog(null,"Debe ingresar un nombre, código del producto (valor numérico) y asociar un proveedor",
                             "Error",  JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        
+
 
     }
 
@@ -4713,7 +4740,7 @@ public class Pestaña3_dinamica {
             date_nota_fecha_pago.setDate(hoy);
         }
 
-        
+
         private void seleccionarProductoTabla(int pos) {
             renglonFactura rf = factura.getRenglones().get(pos);
             if (rf != null) {
@@ -4734,16 +4761,16 @@ public class Pestaña3_dinamica {
                 if (rbtn_nota_prod_codigo.isSelected()) {
                     int idProducto = Integer.parseInt(aux_idP);
                     listProd = Pestaña1_dinamica.productosDAO.buscarProducto(idProducto);
-                   
+
                     if (listProd.size() == 1) {
                         txtf_nota_prod_cod.setText("" + listProd.get(0).getCod());
                         prodSelect = listProd.get(0);
                     }
-                    
+
                     if (prodSelect != null && prodSelect.getCod()== idProducto) {
                         String[] aux = new String[1];
                         aux[0] = prodSelect.getNombre();
-                        
+
                         modelCombo = new DefaultComboBoxModel(aux);
                         txtf_nota_prod_nombre.setModel(modelCombo);
                         txtf_nota_prod_precio_unitario.setText(""+prodSelect.getPrecioNeto());
@@ -4753,7 +4780,7 @@ public class Pestaña3_dinamica {
                     if (listProd.size() == 1) {
                         txtf_nota_prod_cod.setText("" + listProd.get(0).getCod());
                         prodSelect = listProd.get(0);
-                        
+
                     }
                 }
             }
@@ -4770,16 +4797,16 @@ public class Pestaña3_dinamica {
             AutoCompleteDecorator.decorate(txtf_nota_prod_nombre);
         }
         /**
-         * @see sdasad resetea ivaTotalFactura, model_tabla_productos_pedidoFactura y 
+         * @see sdasad resetea ivaTotalFactura, model_tabla_productos_pedidoFactura y
          * la carga de nuevo calculando nuevamente el subtotal. Usa lo que esta en pedidos.factura
-         * 
+         *
          */
         private void recargarTablaFactura(){
-             
+
             model_tabla_productos_pedidoFactura.setNumRows(0);
             float subtotal=0.f;
             Object[] obj = new Object[7];
-            //reseeteo el iva 
+            //reseeteo el iva
             ivaTotalFactura=0.f;
             System.out.println("en recargar tabla factura, LA CANTIDAD DE RENGLONES ES "+factura.getRenglones().size());
              for (int i = 0; i < factura.getRenglones().size(); i++) {
@@ -4797,7 +4824,7 @@ public class Pestaña3_dinamica {
                         float auxSub=factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
                         obj[5]=auxSub;
                         factura.getRenglones().get(i).setSubTotal(auxSub);
-                        
+
                     }
                     else{
                         obj[5] = factura.getRenglones().get(i).getSubTotal();
@@ -4816,13 +4843,13 @@ public class Pestaña3_dinamica {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             String cantIngresada = txtf_nota_prod_cant_recibida.getText();
             String precioUnidad = txtf_nota_prod_precio_unitario.getText();
-            
-            
+
+
             try {
-                
+
                 int cantRecibida = Integer.parseInt(cantIngresada);
                 float precioUnitario = Float.parseFloat(precioUnidad);
                 if (prodSelect != null) {
@@ -4830,7 +4857,7 @@ public class Pestaña3_dinamica {
                     rf.setCantidad(cantRecibida);
                     rf.setCosto(precioUnitario);
                     //rf.setSubTotal(precioUnitario*cantRecibida); no puedo definir ya el subtotal, falta el desc. uni
-                    
+
                     if (posEdit != -1) {
                         //tiene un producto seleccionado de la tabla
                         // esta por variar la cantidad de elementos recibidos de un articulo
@@ -4863,14 +4890,14 @@ public class Pestaña3_dinamica {
                         // esto sirve solo 1 vez.
                         //obj[4]= 0; //ya que no hay nada seleccionado, lo debera controlar user
                         //me queda ver que pasa si hay un descuento unitario en el producto que selecciona
-                        
+
                         //obj[5] = rf.getSubTotal();
                         //obj[6] = rf.getP().getIva();
                         //model_tabla_productos_pedidoFactura.addRow(obj);
                     }
                     //limpiarCampos(false,false);
-                    
-                   
+
+
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "El formato de stock o precio no es correcto.",
@@ -4895,7 +4922,7 @@ public class Pestaña3_dinamica {
             if(flagNotas){
                 modelNotas.setRowCount(0);
             }
-           
+
             if (rbtn_nota_prod_codigo.isSelected()) {
                 txtf_nota_prod_cod.setEditable(true);
                 txtf_nota_prod_cod.requestFocus();
@@ -4908,7 +4935,7 @@ public class Pestaña3_dinamica {
             jTextFieldImpInternoFac.setText("");
             jLabelValorInternoFac.setText("");
             jTextFieldImpIntFijoFac.setText("");
-            jLabelValorImpInterFijFac.setText("");    
+            jLabelValorImpInterFijFac.setText("");
             jTextFieldSobreTasaFac.setText("");
             jLabelValorSobreTasaIVaFac.setText("");
             jLabelTotalImpuestosFac.setText("");
@@ -4917,12 +4944,12 @@ public class Pestaña3_dinamica {
             ivaTotalFactura=0.f;
             txtf_nota_prod_factura.setText("");
                     //jTableIvasMontoFac
-            
-            
+
+
         }
 
         private void eliminarProducto() {
-           
+
             int pos = tabla_productos_pedidoFactura.getSelectedRow();
             if (pos != -1 && pos <= factura.getRenglones().size()) {
                 try {
@@ -4980,7 +5007,7 @@ public class Pestaña3_dinamica {
             factura.setFecha_factura(fechaFac);
             factura.setFecha_pago(fechaPago);
             factura.setForma_pago(formaPago);
-            
+
             if(!pedidoDAO.insertarFactura(factura)){
                 principal.lbl_estado.setText("Error, el numero de factura ya existe, controle");
                 return;
@@ -5011,7 +5038,7 @@ public class Pestaña3_dinamica {
         }
 
         private void cargarTablaFactura() {
-            
+
             int pos = tabla_nota_PedidossProveedor.getSelectedRow();
             pedidoFact = listPedidos.get(pos);
             factura = new facturaProveedor();
@@ -5019,13 +5046,13 @@ public class Pestaña3_dinamica {
             pedidos.calcularIvaFactura();
             pedidos.cargarTablaIvaFactura();
             pedidos.calcularPreciosFactura();
-           
+
         }
         private void calcularSubtotalFacturaDesdePedido(){
             float subtotal=0.f;
-            
+
             model_tabla_productos_pedidoFactura.setNumRows(0);
-            
+
             for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
                 renglonFactura rf = new renglonFactura(rp.getP(),rp.getCantidad(),rp.getNeto(),rp.getSubTotal());
@@ -5049,10 +5076,10 @@ public class Pestaña3_dinamica {
                 System.out.println("tengo ya :"+factura.getRenglones().size());
                 factura.addRenglon(rf);
                 factura.setNumPedido(pedidoFact.getNumPedido());
-                
+
                 model_tabla_productos_pedidoFactura.addRow(obj);
                 ivaTotalFactura+=(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100));
-               
+
             }
             jLabelSubtotalFac.setText(""+subtotal);
         }
@@ -5061,25 +5088,25 @@ public class Pestaña3_dinamica {
          */
         private void calcularIvaFactura(){
              // cargar tabla de ivaTotalFac:
-              
+
              //inicializacion opcional
             pedidos.montosIvaFactura= new HashMap <Float, Float>();
             for(int i = 0 ; i < pedidos.factura.getRenglones().size(); i++){
                 //tal vez deba cambiar esto por factura.....
                 renglonFactura rf = pedidos.factura.getRenglones().get(i);
-               
+
                 if(pedidos.montosIvaFactura.containsKey((float)rf.getP().getIva())){
                     //existe la clave, sumo
                     // ivaTotalFac existente + (subtotal actual *ivaTotalFac coincidente)
                     float aux=(float)pedidos.montosIvaFactura.get(rf.getP().getIva()) + (float)(rf.getSubTotal()*rf.getP().getIva()/100);
                     pedidos.montosIvaFactura.put(rf.getP().getIva(),aux);
-                   
+
                 }
                 else{
                     pedidos.montosIvaFactura.put(rf.getP().getIva(), rf.getSubTotal()*rf.getP().getIva()/100);
                 }
              }
-            
+
         }
         private void cargarTablaIvaFactura(){
            DefaultTableModel modeloIvaFac=(DefaultTableModel) jTableIvasMontoFac.getModel();
@@ -5091,30 +5118,30 @@ public class Pestaña3_dinamica {
                 Label value = entry.getValue();
             }
            */
-            
+
            for(Map.Entry<Float, Float> entry : pedidos.montosIvaFactura.entrySet()){
-              
+
                row[0]=entry.getKey();
                row[1]=entry.getValue();
                modeloIvaFac.addRow(row);
                //ivaTotalFactura+=entry.getValue();
                //subtotalFac= subtotalFac*(1+entry.getValue());
-               
+
               }
         }
-        
-        
-        /** 
-         * @see 
-         *  solo necesita el valor de subtotal general. 
+
+
+        /**
+         * @see
+         *  solo necesita el valor de subtotal general.
          *   Lee los campos de impuestos y calcula el monto final
-         */       
+         */
         private void calcularPreciosFactura(){
             float subTotal, descuentoGralFac,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
-         
+
                 if (jLabelSubtotalFac.getText().isEmpty() || !Statics.Funciones.isFloat(jLabelSubtotalFac.getText())) {
                     subTotal = 0;
-                   
+
                 } else {
                     subTotal = Float.parseFloat(jLabelSubtotalFac.getText());
                 }
@@ -5134,7 +5161,7 @@ public class Pestaña3_dinamica {
                     impInternoFijo = 0;
                 } else {
                     factura.setImpInternoFijo(Float.parseFloat(jTextFieldImpIntFijoFac.getText()));
-                    
+
                     impInternoFijo = (float)Float.parseFloat(jTextFieldImpIntFijoFac.getText())/100;
                 }
                 if (jTextFieldSobreTasaFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldSobreTasaFac.getText())) {
@@ -5143,30 +5170,30 @@ public class Pestaña3_dinamica {
                     factura.setSobretasaIva(Float.parseFloat(jTextFieldSobreTasaFac.getText()));
                     sobreTasaIva = (float)Float.parseFloat(jTextFieldSobreTasaFac.getText())/100;
                 }
-                
-                
+
+
                 float precio_parcial = subTotal;
                 float auxImpuestos=(float)0;
-                
+
                 precio_parcial=precio_parcial*(1-descuentoGralFac);
-                
+
                 auxImpuestos=precio_parcial*sobreTasaIva;
                 jLabelValorSobreTasaIVaFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
-                
+
                 precio_parcial= precio_parcial*(1+sobreTasaIva);
-                
-                
+
+
                 auxImpuestos+=precio_parcial*impInterno;
                 jLabelValorInternoFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial*impInterno));
                 precio_parcial=precio_parcial*(1+impInterno);
-                
-                
-                
+
+
+
                 jLabelValorImpInterFijFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial*impInternoFijo));
-              
+
                 auxImpuestos+=precio_parcial*impInternoFijo;
                 precio_parcial=precio_parcial*(1+impInternoFijo);
-               
+
                 auxImpuestos+=ivaTotalFactura;
                 jLabelTotalImpuestosFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
                 //subtotal - descuentos + ivas + impuestos
@@ -5174,7 +5201,7 @@ public class Pestaña3_dinamica {
                 precio_parcial+=ivaTotalFactura;
                 jLabelTotalFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial));
                 factura.setTotal(precio_parcial);
-                        
+
 }
 
         private void selectProducto(int pos) {
@@ -5200,14 +5227,14 @@ public class Pestaña3_dinamica {
                 cargarProductos(productosDAO.buscarProducto("nombre",text.toLowerCase()));
             } else {
                  jLabelInfoNotaPedido.setText("Error - o selecciono tipo de busqueda");
-                
+
             }
         }
-        
+
         public void cargarProductos(List<Producto> list) {
-            listProdNota = list;          
+            listProdNota = list;
             try {
-                
+
                 modelNotaprodPedir.setNumRows(0);
                 Object[] obj = new Object[4];
                 for (int i = 0; i < list.size(); i++) {
@@ -5225,14 +5252,14 @@ public class Pestaña3_dinamica {
 
         private void agregarRenglonPedido(float parseFloat, int parseInt) {
             if(prodSelect == null){
-                
+
                 jLabelInfoNotaPedido.setText("Error - Debe seleccionar un producto ");
                 return;
             }
             renglonPedido rp = new renglonPedido();
             rp.setCantidad(parseInt);
             rp.setCantFaltante(parseInt);
-            
+
             System.out.println("voy a poner cant faltante: "+parseInt);
             rp.setNeto(parseFloat);
             rp.setP(prodSelect);
@@ -5288,12 +5315,12 @@ public class Pestaña3_dinamica {
                 txtf_nota_nro.setText(pedidoNuevo.getNumPedido());
                 lbl_nota_proveedor.setText(prov.getNombre());
             }else{
-                
+
                 principal.lbl_estado.setText("Error al crear pedido");
                 principal.lbl_estado.setForeground(Color.RED);
                 return;
             }
-            
+
         }
 
         private void eliminarRP() {
@@ -5302,7 +5329,7 @@ public class Pestaña3_dinamica {
                 pedidos.pedidoNuevo.getRenglones().remove(pedidos.rpSelected);
                 recargarTablaPedido();
                 jLabelInfoNotaPedido.setText("Producto eliminado");
-                
+
             }else{
                 jLabelInfoNotaPedido.setText("Error no seleccionó ningun producto");
                 return;
@@ -5332,22 +5359,21 @@ public class Pestaña3_dinamica {
                 pedidoNuevo.setTotal(total);
                 pedidoNuevo.setFecha(new Date());
             }
-            System.out.println("va a insertar pedido");
-          
+
+
             if(pedidoDAO.insertRP(pedidoNuevo)){
-                System.out.println("inserto el pedido");
-            txtf_nota_buscarProduPedido.setText("");
-            txtf_nota_cantidad.setText("");
-            txtf_nota_neto.setText("");
-            modelTabla_nota_prodPedido.setRowCount(0);
-            jDialogCrearNota.dispose();
-            cargarTabla();
-            principal.lbl_estado.setText("Su pedido fue ingresado correctamente");
+                txtf_nota_buscarProduPedido.setText("");
+                txtf_nota_cantidad.setText("");
+                txtf_nota_neto.setText("");
+                modelTabla_nota_prodPedido.setRowCount(0);
+                jDialogCrearNota.dispose();
+                cargarTabla();
+                principal.lbl_estado.setText("Su pedido fue ingresado correctamente");
             }
             else{
                 jLabelInfoNotaPedido.setText("Error, no se pudo generar el pedido");
             }
-            
+
         }
 
         private void activarCampos(boolean flag) {
@@ -5363,11 +5389,11 @@ public class Pestaña3_dinamica {
         }
 
         private void cancelarNota() {
-            
+
             pedidoDAO.eliminarPedido(pedidoNuevo);
             limpiarCamposNotaPedido();
             jDialogCrearNota.dispose();
-            
+
         }
         private void limpiarCamposNotaPedido(){
             jLabelInfoNotaPedido.setText("");
@@ -5394,25 +5420,25 @@ public class Pestaña4_dinamica extends Thread
       listaStock= new ArrayList();
       productosDAO = ProductoDAO.getInstance();
       this.view=view;
-              
+
   }
   public void cargarTablaStock(String seleccion) {
-            
+
             listaStock.clear();
             listaStock=productosDAO.getStockFiltrado(seleccion);
             try {
                 modeloStock.setNumRows(0);
                 Object[] obj = new Object[4];
-                
+
                 for (int i = 0; i < listaStock.size(); i++) {
                     obj[0] = listaStock.get(i).getId();
                     obj[1] = listaStock.get(i).getNombre();
                     obj[2] = listaStock.get(i).getStock();
                     //obj[2] = listaStock.get(i).getPrecioVenta();
                    obj[3]=seleccion;
-                   
+
                     modeloStock.addRow(obj);
-                  
+
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
