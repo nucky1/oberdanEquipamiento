@@ -88,7 +88,7 @@ public class CuotasDAO {
 
     public ArrayList<Cuota> getCuotas() {
         ArrayList<Cuota> cuotas = new ArrayList<>();
-        String SQL = "SELECT *"
+        String SQL = "  SELECT *"
                 + "FROM cuota "
                 + "WHERE cuota.state = 'ACTIVO'";
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);

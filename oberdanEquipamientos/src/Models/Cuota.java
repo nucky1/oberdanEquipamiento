@@ -45,7 +45,7 @@ public class Cuota implements Comparable<Cuota>{
     public Cuota() {
         
     }
-
+    //este es el comparador usado
     @Override
     public boolean equals(Object o){
         if(o instanceof Cuota){
