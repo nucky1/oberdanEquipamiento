@@ -504,7 +504,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel36">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tipo"/>
+            <Property name="text" type="java.lang.String" value="Tipo (ej: diario)"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -512,36 +512,10 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonGuardarPlan">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGuardarPlanActionPerformed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="180" y="330" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="javax.swing.JTextField" name="tipo_cuota">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="121" y="31" width="126" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancelar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="330" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -648,6 +622,32 @@
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="20" y="230" width="260" height="80"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonGuardarPlan">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Guardar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGuardarPlanActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="180" y="330" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cancelar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="10" y="330" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -986,7 +986,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="tabla_productos" alignment="0" pref="648" max="32767" attributes="0"/>
+          <Component id="tabla_productos" alignment="0" pref="654" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -1019,7 +1019,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel21" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jPanel22" pref="841" max="32767" attributes="0"/>
+                      <Component id="jPanel22" pref="858" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1384,31 +1384,30 @@
                                           <Component id="jPanel85" min="-2" max="-2" attributes="0"/>
                                           <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jPanel26" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jPanel29" min="-2" pref="428" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="jPanel26" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jPanel29" alignment="0" min="-2" pref="428" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="btn_Modificar" min="-2" pref="167" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btn_productoNuevo" min="-2" pref="166" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jPanel30" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jPanel27" alignment="0" min="-2" pref="428" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                                               <Component id="btn_Cancelar" min="-2" pref="166" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                               <Component id="btn_Guardar" min="-2" pref="166" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="jPanel30" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jPanel27" alignment="0" min="-2" pref="428" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -1592,6 +1591,7 @@
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Crear nuevo"/>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_crearPagoActionPerformed"/>
@@ -1601,6 +1601,9 @@
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="producto_planKeyPressed"/>
+                          </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Models.Cuota&gt;"/>
                           </AuxValues>
@@ -3203,7 +3206,7 @@
                                   <Component id="cbox_tipo_factura" alignment="0" min="-2" pref="149" max="-2" attributes="0"/>
                                   <Component id="jScrollPane15" alignment="0" min="-2" pref="327" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                              <EmptySpace pref="33" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jSeparator16" max="32767" attributes="0"/>
                                   <Component id="jScrollPane27" alignment="0" max="32767" attributes="0"/>
@@ -3999,7 +4002,7 @@
                                   <Component id="jButtonImprimirStock" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="461" max="32767" attributes="0"/>
+                          <EmptySpace pref="478" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

@@ -12,6 +12,7 @@ import DAO.ProveedoresDAO;
 import DAO.RubroDAO;
 import Models.*;
 import Statics.DesplazarColumnas;
+import Statics.Funciones;
 import static Statics.Funciones.getSelection;
 import Statics.MiRenderer;
 import Views.Proveedores.JD_Proveedor_Buscador;
@@ -49,12 +50,12 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 //imports para acomodar la informacion en las tablas
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author demig
  */
 public class ProductosView extends javax.swing.JPanel {
+
     private Pestaña1_dinamica Pestaña1_dinamica;
     private List<Producto> listProductos; // lista setteada en buscarproductos...
     private List<Producto> listDevoluciones; // lista setteada en buscarDevoluciones ...
@@ -67,6 +68,8 @@ public class ProductosView extends javax.swing.JPanel {
     private JD_Producto_Nuevo productoNuevo;
     private JD_Producto_editarStock editarStock;
     private boolean modificarTrue = false;
+    private boolean esNuevo = false;
+
     /**
      * Creates new form productos
      */
@@ -85,10 +88,11 @@ public class ProductosView extends javax.swing.JPanel {
         rbtn_productos_nombre.setSelected(true);
         txtf_productos_buscar.requestFocus();
         //Pestaña1_dinamica.view.buttonGroup1.setSelected(rbtn_productos_nombre.getModel(), true);
-        Pestaña1_dinamica.ivas=productoDAO.recuperarIvas();
+        Pestaña1_dinamica.ivas = productoDAO.recuperarIvas();
 
     }
-public void limpiarCamposInventario() {
+
+    public void limpiarCamposInventario() {
         txtf_productos_nombre.setEnabled(true);
         txtf_productos_codigo.setEnabled(true);
         txtf_productos_costo.setEnabled(true);
@@ -103,49 +107,51 @@ public void limpiarCamposInventario() {
         txtf_sobretasa_iva.setEnabled(true);
         txtf_productos_venta.setEnabled(true);
         txtf_productos_codigo_ean.setEnabled(true);
-         txtf_productos_nombre.setText("");
-         txtf_productos_costo.setText("");
-         txtf_productos_codigo_barra.setText("");
-         txtf_coeficiente_articulo.setText("");
-         txtf_productos_observaciones.setText("");
-         jCombo_iva_Articulo.setSelectedIndex(1);
-         txtf_imp_int_fijo.setText("");
-         txtf_impuesto_int.setText("");
-         txtf_sobretasa_iva.setText("");
-         txtf_productos_venta.setText("");
-         txtf_productos_codigo_ean.setText("");
-         stock.setText("");
-         fecha_inicio.setCalendar(null);
-         fecha_fin.setCalendar(null);
-         txtf_productos_stockMinimo.setText("");
-         txtf_productos_codigo.setText("");
-         producto_Proveedor.removeAllItems();
-         producto_Proveedor.setEnabled(true);
-         Proveedor p = new Proveedor();
-         p.setNombre("-No posee un proveedor asignado-");
-         producto_Proveedor.addItem(p);
-         producto_Rubro.removeAllItems();
-         producto_Rubro.setEnabled(true);
-         Rubro r = new Rubro();
-         r.setNombre("-No posee un rubro asignado-");
-         producto_Rubro.addItem(r);
-         chk_venta_iva.setSelected(false);
-         btn_Guardar.setEnabled(true);
-         btn_Cancelar.setEnabled(true);
-         btn_Modificar.setEnabled(true);
-         btn_productoNuevo.setEnabled(true);
-         btn_eliminar.setEnabled(true);
-         btn_crearRubro.setEnabled(true);
-         btn_crearPago.setEnabled(true);
-         btn_producto_editarLote.setEnabled(true);
-         btn_consultar_historial.setEnabled(false);
-        DefaultTableModel aux =(DefaultTableModel) tabla_producto_precioVenta.getModel();
+        txtf_productos_nombre.setText("");
+        txtf_productos_costo.setText("");
+        txtf_productos_codigo_barra.setText("");
+        txtf_coeficiente_articulo.setText("");
+        txtf_productos_observaciones.setText("");
+        jCombo_iva_Articulo.setSelectedIndex(1);
+        txtf_imp_int_fijo.setText("");
+        txtf_impuesto_int.setText("");
+        txtf_sobretasa_iva.setText("");
+        txtf_productos_venta.setText("");
+        txtf_productos_codigo_ean.setText("");
+        stock.setText("");
+        fecha_inicio.setCalendar(null);
+        fecha_fin.setCalendar(null);
+        txtf_productos_stockMinimo.setText("");
+        txtf_productos_codigo.setText("");
+        producto_Proveedor.removeAllItems();
+        producto_Proveedor.setEnabled(true);
+        Proveedor p = new Proveedor();
+        p.setNombre("-No posee un proveedor asignado-");
+        producto_Proveedor.addItem(p);
+        producto_Rubro.removeAllItems();
+        producto_Rubro.setEnabled(true);
+        Rubro r = new Rubro();
+        r.setNombre("-No posee un rubro asignado-");
+        producto_Rubro.addItem(r);
+        chk_venta_iva.setSelected(false);
+        btn_Guardar.setEnabled(true);
+        btn_Cancelar.setEnabled(true);
+        btn_Modificar.setEnabled(false);
+        btn_productoNuevo.setEnabled(true);
+        btn_eliminar.setEnabled(true);
+        btn_crearRubro.setEnabled(true);
+        btn_crearPago.setEnabled(true);
+        btn_producto_editarLote.setEnabled(true);
+        btn_consultar_historial.setEnabled(false);
+        DefaultTableModel aux = (DefaultTableModel) tabla_producto_precioVenta.getModel();
         aux.setNumRows(0);
         tabla_producto_precioVenta.setEnabled(false);
         Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText());
         txtf_productos_nombre.requestFocus();
-     }
-    public void limpiarCamposDevo(){
+        //modificarTrue=false;
+    }
+
+    public void limpiarCamposDevo() {
         Pestaña1_dinamica.devoSelect = null;
         jLbl_devo_prodAsociado.setText("Producto a devolver...");
         txtf_devo_codigo.setText("");
@@ -153,14 +159,16 @@ public void limpiarCamposInventario() {
         txtf_devo_precioTotal.setText("");
         txtf_devo_porcentajeAdevolver.setText("");
         txtf_devo_devolucionesDisponibles.setText("");
-        DefaultTableModel aux =(DefaultTableModel) tabla_devo_preventistas.getModel();
+        DefaultTableModel aux = (DefaultTableModel) tabla_devo_preventistas.getModel();
         aux.setNumRows(0);
         habilitarPanelNuevaDevo(false);
     }
-    private boolean control(){
-        if(txtf_nombreDevo.getText().isEmpty() || txtf_porcentaje.getText().isEmpty() ||txtf_codDevolucion.getText().isEmpty() || txtf_codigoProd.getText().isEmpty() ){
+
+    private boolean control() {
+        if (txtf_nombreDevo.getText().isEmpty() || txtf_porcentaje.getText().isEmpty() || txtf_codDevolucion.getText().isEmpty() || txtf_codigoProd.getText().isEmpty()) {
             return false;
-        }System.out.println("asdhudsd");
+        }
+        System.out.println("asdhudsd");
         try {
             Integer.parseInt(txtf_porcentaje.getText());
             Integer.parseInt(txtf_codigoProd.getText());
@@ -170,7 +178,8 @@ public void limpiarCamposInventario() {
         }
         return true;
     }
-    private void habilitarPanelNuevaDevo(boolean flag){
+
+    private void habilitarPanelNuevaDevo(boolean flag) {
         txtf_codDevolucion.setEditable(true);
         txtf_codigoProd.setEditable(true);
         txtf_codigoProd.setText("");
@@ -183,7 +192,7 @@ public void limpiarCamposInventario() {
         txtf_codigoProd.setEnabled(flag);
         btn_guardar_devolucion.setEnabled(flag);
         btn_eliminar_devolucion.setEnabled(!flag);
-       // btn_editDevolucion.setEnabled(!flag);
+        // btn_editDevolucion.setEnabled(!flag);
     }
 
     /**
@@ -227,9 +236,7 @@ public void limpiarCamposInventario() {
         jLabelInfoNotaPedido = new javax.swing.JLabel();
         jDialogAñadirPlan = new javax.swing.JDialog();
         jLabel36 = new javax.swing.JLabel();
-        jButtonGuardarPlan = new javax.swing.JButton();
         tipo_cuota = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         cantidad_cuota = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         porcentaje_cuota = new javax.swing.JTextField();
@@ -240,6 +247,8 @@ public void limpiarCamposInventario() {
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        jButtonGuardarPlan = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jDialogNuevoStock = new javax.swing.JDialog();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -761,25 +770,9 @@ public void limpiarCamposInventario() {
         jDialogAñadirPlan.setMinimumSize(new java.awt.Dimension(356, 396));
         jDialogAñadirPlan.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel36.setText("Tipo");
+        jLabel36.setText("Tipo (ej: diario)");
         jDialogAñadirPlan.getContentPane().add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 34, 110, -1));
-
-        jButtonGuardarPlan.setText("Guardar");
-        jButtonGuardarPlan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarPlanActionPerformed(evt);
-            }
-        });
-        jDialogAñadirPlan.getContentPane().add(jButtonGuardarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, -1, -1));
         jDialogAñadirPlan.getContentPane().add(tipo_cuota, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 31, 126, -1));
-
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jDialogAñadirPlan.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
         cantidad_cuota.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -823,6 +816,22 @@ public void limpiarCamposInventario() {
 
         jLabel17.setText("INFO:");
         jDialogAñadirPlan.getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 260, 80));
+
+        jButtonGuardarPlan.setText("Guardar");
+        jButtonGuardarPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarPlanActionPerformed(evt);
+            }
+        });
+        jDialogAñadirPlan.getContentPane().add(jButtonGuardarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, -1, -1));
+
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jDialogAñadirPlan.getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
         jDialogNuevoStock.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialogNuevoStock.setBackground(new java.awt.Color(255, 255, 255));
@@ -1234,6 +1243,7 @@ public void limpiarCamposInventario() {
 
         btn_crearPago.setBackground(new java.awt.Color(255, 255, 255));
         btn_crearPago.setText("Crear nuevo");
+        btn_crearPago.setEnabled(false);
         btn_crearPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_crearPagoActionPerformed(evt);
@@ -1241,6 +1251,11 @@ public void limpiarCamposInventario() {
         });
 
         producto_plan.setEnabled(false);
+        producto_plan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                producto_planKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
@@ -1792,26 +1807,25 @@ public void limpiarCamposInventario() {
                         .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel85, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel84Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel84Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel84Layout.createSequentialGroup()
                         .addComponent(btn_Modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_productoNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
                         .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel84Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel84Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel84Layout.createSequentialGroup()
+                                .addGap(68, 68, 68)
                                 .addComponent(btn_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(47, 47, 47)
+                                .addComponent(btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel84Layout.setVerticalGroup(
@@ -1851,7 +1865,7 @@ public void limpiarCamposInventario() {
             .addGroup(panel_productos_detalleLayout.createSequentialGroup()
                 .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 841, Short.MAX_VALUE))
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 858, Short.MAX_VALUE))
         );
         panel_productos_detalleLayout.setVerticalGroup(
             panel_productos_detalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2685,7 +2699,7 @@ public void limpiarCamposInventario() {
                             .addComponent(jLabel177)
                             .addComponent(cbox_tipo_factura, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addGroup(panel_pedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jSeparator16)
                             .addComponent(jScrollPane27)
@@ -2931,7 +2945,7 @@ public void limpiarCamposInventario() {
                         .addComponent(jButtonBuscar)
                         .addGap(37, 37, 37)
                         .addComponent(jButtonImprimirStock)))
-                .addContainerGap(461, Short.MAX_VALUE))
+                .addContainerGap(478, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3027,7 +3041,7 @@ public void limpiarCamposInventario() {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -3041,7 +3055,7 @@ public void limpiarCamposInventario() {
 
     private void btn_lote_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lote_aceptarActionPerformed
 
-        if(JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta factura?", "Generar Nota", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+        if (JOptionPane.showConfirmDialog(productoNuevo, "¿Esta seguro que desea generar esta factura?", "Generar Nota", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             pedidos.guardarFactura();
         }
         Pestaña1_dinamica.cambioBusqueda(txtf_productos_buscar.getText().toString());
@@ -3076,7 +3090,7 @@ public void limpiarCamposInventario() {
         JD_Proveedor_Buscador provBuscador = new JD_Proveedor_Buscador(new JDialog(), true) {
             public void getIDProveedor(int id, String atributo) {
                 if (id != -1) {
-                    pedidos.limpiarCampos(true,true);
+                    pedidos.limpiarCampos(true, true);
                     pedidos.prov = new Proveedor();
                     pedidos.prov.setId(id);
                     pedidos.prov.setNombre(atributo);
@@ -3112,11 +3126,13 @@ public void limpiarCamposInventario() {
 
     private void txtf_codDevolucionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_codDevolucionKeyTyped
         char c = evt.getKeyChar();
-        if((c<'0'||c>'9')&&(c!='.'))evt.consume();
+        if ((c < '0' || c > '9') && (c != '.')) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtf_codDevolucionKeyTyped
 
     private void btn_guardar_devolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar_devolucionActionPerformed
-       /* if (control()) {
+        /* if (control()) {
             Producto p = new Producto();
             if (jLbl_devo_nuevaDevo.getText().equals("Nueva Devolución:")) {
                 p.setNombre(txtf_nombreDevo.getText());
@@ -3161,11 +3177,11 @@ public void limpiarCamposInventario() {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
             int pos = tabla_devo_preventistas.getSelectedRow();
-            DefaultTableModel mod = (DefaultTableModel)tabla_devo_preventistas.getModel();
-            try{
-               // productoDAO.editarDevosDisponibles(Integer.parseInt(String.valueOf(mod.getValueAt(pos,3))), String.valueOf(mod.getValueAt(pos,0)) ,Pestaña1_dinamica.devoSelect.getId());
-            }catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Debe ingresar un numero entero para editar correctamente.","Error", JOptionPane.ERROR_MESSAGE);
+            DefaultTableModel mod = (DefaultTableModel) tabla_devo_preventistas.getModel();
+            try {
+                // productoDAO.editarDevosDisponibles(Integer.parseInt(String.valueOf(mod.getValueAt(pos,3))), String.valueOf(mod.getValueAt(pos,0)) ,Pestaña1_dinamica.devoSelect.getId());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un numero entero para editar correctamente.", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -3192,7 +3208,7 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_devolucion_buscarCaretUpdate
 
     private void btn_proveedores_imprimirTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_proveedores_imprimirTodoActionPerformed
-    /*    String archivo = System.getProperty("user.dir") + System.getProperty("file.separator") + path + "src\\Reportes\\Listado_Productos.jasper";
+        /*    String archivo = System.getProperty("user.dir") + System.getProperty("file.separator") + path + "src\\Reportes\\Listado_Productos.jasper";
         JasperReport reporte = null;
 
         try {
@@ -3236,11 +3252,12 @@ public void limpiarCamposInventario() {
 
     private void tabla_productos_busquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_productos_busquedaMouseClicked
         int pos = tabla_productos_busqueda.getSelectedRow();
-        
+
         if (pos != -1) {
             //limpiarCamposInventario();
             Pestaña1_dinamica.habilitarCampos(false, "");
-            modificarTrue=false;
+            modificarTrue = false;
+            esNuevo=false;
             Pestaña1_dinamica.cargarIvas();
             Pestaña1_dinamica.cargarProducto(pos);
 
@@ -3250,18 +3267,18 @@ public void limpiarCamposInventario() {
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         Pestaña1_dinamica.eliminar();
         limpiarCamposInventario();
-        
+
         int[] myarr = {12, 2, 4, 35};
-        int aux=myarr.length;
-        
-       int aux2= myarr[0];
+        int aux = myarr.length;
+
+        int aux2 = myarr[0];
         Arrays.sort(myarr);
         //Dictionary<Type,Type> obj = new Hashtable<Type,Type>();
-       Dictionary<Integer,Integer> dic = new Hashtable<Integer,Integer>();
-      
+        Dictionary<Integer, Integer> dic = new Hashtable<Integer, Integer>();
+
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-       String algo = "algo";
-       
+        String algo = "algo";
+
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void jRadioButtonNegativoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonNegativoActionPerformed
@@ -3271,7 +3288,7 @@ public void limpiarCamposInventario() {
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        JRadioButton jrb=getSelection(buttonGroupFiltroStock);
+        JRadioButton jrb = getSelection(buttonGroupFiltroStock);
 
         PantallaStock.cargarTablaStock(jrb.getText());
         //System.out.println("el jrb seleccionado es: "+jrb.getText());
@@ -3280,9 +3297,9 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonImprimirStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirStockActionPerformed
-        JasperViewer view =null;
+        JasperViewer view = null;
         view = productoDAO.generarReporteStock1();
-        if(view!= null){
+        if (view != null) {
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
         }
@@ -3294,10 +3311,10 @@ public void limpiarCamposInventario() {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         String texto = txtf_nuevo_rubro.getText().toLowerCase();
-        if(Statics.Funciones.controlText(texto)){
+        if (Statics.Funciones.controlText(texto)) {
             int i = rubroDAO.InsertRubro(texto);
             Pestaña1_dinamica.actualizarRubro();
-        }else{
+        } else {
 
         }
         jDialogAñadirRubro.dispose();
@@ -3312,14 +3329,14 @@ public void limpiarCamposInventario() {
         jDialogCrearNota.setTitle("Crear nota de pedido");
         jDialogCrearNota.setVisible(true);
         jDialogCrearNota.setModal(true);
-        jDialogCrearNota.setSize(1250,600);
+        jDialogCrearNota.setSize(1250, 600);
         jDialogCrearNota.setLocationRelativeTo(this);
         pedidos.cambioBusqueda("");
         pedidos.CrearPedido();
     }//GEN-LAST:event_btn_nota_nuevaActionPerformed
 
     private void tabla_nota_PedidossProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_PedidossProveedorMouseClicked
-        pedidos.limpiarCampos(false,true);
+        pedidos.limpiarCampos(false, true);
         //no deberia activar campos tmb??
         pedidos.cargarTablaFactura();
     }//GEN-LAST:event_tabla_nota_PedidossProveedorMouseClicked
@@ -3340,23 +3357,23 @@ public void limpiarCamposInventario() {
     private void txtf_nota_cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_cantidadKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9')) {
-                evt.consume();
+            evt.consume();
         }
     }//GEN-LAST:event_txtf_nota_cantidadKeyTyped
 
     private void btn_nota_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_agregarActionPerformed
-            accion_btn_nota_agregar();
+        accion_btn_nota_agregar();
     }//GEN-LAST:event_btn_nota_agregarActionPerformed
-    private void accion_btn_nota_agregar(){
-        if(!Statics.Funciones.isNumeric(txtf_nota_cantidad.getText())){
+    private void accion_btn_nota_agregar() {
+        if (!Statics.Funciones.isNumeric(txtf_nota_cantidad.getText())) {
             jLabelInfoNotaPedido.setText("Error!Debe ingresar un valor valido en cantidad. ");
             return;
         }
-        if(!Statics.Funciones.isFloat(txtf_nota_neto.getText())){
+        if (!Statics.Funciones.isFloat(txtf_nota_neto.getText())) {
             jLabelInfoNotaPedido.setText("Error!Debe ingresar un valor valido en costo. ");
             return;
         }
-        pedidos.agregarRenglonPedido(Float.parseFloat(txtf_nota_neto.getText()),Integer.parseInt(txtf_nota_cantidad.getText()));
+        pedidos.agregarRenglonPedido(Float.parseFloat(txtf_nota_neto.getText()), Integer.parseInt(txtf_nota_cantidad.getText()));
     }
     private void btn_nota_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_eliminarActionPerformed
         pedidos.eliminarRP();
@@ -3367,18 +3384,18 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void tabla_nota_prodPedirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_prodPedirMouseClicked
-        if(tabla_nota_prodPedir.getSelectedRow() != -1){
+        if (tabla_nota_prodPedir.getSelectedRow() != -1) {
             pedidos.selectProducto(tabla_nota_prodPedir.getSelectedRow());
         }
     }//GEN-LAST:event_tabla_nota_prodPedirMouseClicked
 
     private void tabla_nota_prodPedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_nota_prodPedidoMouseClicked
-        pedidos.rpSelected  = tabla_nota_prodPedido.getSelectedRow();
-        System.out.println("en el click de la tabla tengo:"+pedidos.rpSelected);
+        pedidos.rpSelected = tabla_nota_prodPedido.getSelectedRow();
+        System.out.println("en el click de la tabla tengo:" + pedidos.rpSelected);
     }//GEN-LAST:event_tabla_nota_prodPedidoMouseClicked
 
     private void generarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarNotaActionPerformed
-           pedidos.terminarPedido();
+        pedidos.terminarPedido();
 
     }//GEN-LAST:event_generarNotaActionPerformed
 
@@ -3393,34 +3410,38 @@ public void limpiarCamposInventario() {
         String cantidad = cantidad_cuota.getText();
         String mes = mes_vencimiento.getText();
         String dia = dia_vencimiento.getText();
-        if(!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) >0 || Integer.parseInt(dia) > 0 )){
+        if (!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) > 0 || Integer.parseInt(dia) > 0)) {
             jLabel17.setText("Error- Debe completar el intervalo de vencimiento entre cuotas. \n Es decir cuantos dias y/o meses deben pasar entre el vencimiento cada cuota");
 
             return;
         }
-        if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
-            Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad),Integer.parseInt(dia),Integer.parseInt(mes));
+        if (Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)) {
+            Cuota c = new Cuota(tipo, Float.parseFloat(porcentaje), Integer.parseInt(cantidad), Integer.parseInt(dia), Integer.parseInt(mes));
             // ojo! Falta un control que no deje meter cuotas repetidas
             cuotasDAO.insertCuota(c);
 
-            if(Pestaña1_dinamica.prodSeleccionado != null){
+            if (Pestaña1_dinamica.prodSeleccionado != null) {
                 Pestaña1_dinamica.actualizarPrecios();
             }
+
             Pestaña1_dinamica.cargarPlanes();
-            jDialogAñadirPlan.dispose();
-        }else{
+            this.limpiarCamposNuevoPlan();
+            principal.lbl_estado.setText("El plan se genero con exito!");
+        } else {
 
             jLabel17.setText("ERROR: Debe completar todos los campos correctamente");
-           return;
+            return;
         }
     }//GEN-LAST:event_jButtonGuardarPlanActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void limpiarCamposNuevoPlan() {
         tipo_cuota.setText("");
         porcentaje_cuota.setText("");
         cantidad_cuota.setText("");
         jLabel17.setText("INFO:");
         jDialogAñadirPlan.dispose();
+    }
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.limpiarCamposNuevoPlan();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void cantidad_cuotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidad_cuotaKeyTyped
@@ -3456,14 +3477,19 @@ public void limpiarCamposInventario() {
 
     private void btn_productoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productoNuevoActionPerformed
         modificarTrue = false;
+        esNuevo=true;
+        Pestaña1_dinamica.flagProductoSeleccionado=false;
         txtf_productos_nombre.requestFocus();
         Pestaña1_dinamica.habilitarCampos(true, "NUEVO");
         //Pestaña1_dinamica.limpiarCampos(); no funciona como quiero
         //Pestaña1_dinamica.limpiarCamposStockNuevo();
         Pestaña1_dinamica.cargarIvas();
         Pestaña1_dinamica.prodSeleccionado = new Producto();
+        //Pestaña1_dinamica.cuotas=cuotasDAO.getCuotas();
+        //Pestaña1_dinamica.cuotas = CuotasDAO.getInstance().getCuotas();
         Pestaña1_dinamica.prodSeleccionado.setId(productoDAO.getNextID());
-
+        Pestaña1_dinamica.cuotas = CuotasDAO.getInstance().getCuotas();
+        System.out.println("CUOTAS SIZE: "+Pestaña1_dinamica.cuotas.size());
     }//GEN-LAST:event_btn_productoNuevoActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
@@ -3486,7 +3512,10 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_productos_codigo_eanCaretUpdate
 
     private void txtf_productos_costoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_productos_costoCaretUpdate
-        if(Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() >= 0){
+        System.out.println("EN EL CARET UPDATE CUOTAS ES "+Pestaña1_dinamica.cuotas.size());
+        
+        if (Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() >= 0) {
+            System.out.println("LLAME");
             Pestaña1_dinamica.calcularPrecios();
         }
     }//GEN-LAST:event_txtf_productos_costoCaretUpdate
@@ -3496,31 +3525,33 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_txtf_productos_codigo_barraCaretUpdate
 
     private void btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_GuardarActionPerformed
-        if(!modificarTrue){ // esta guardando un producto nuevo
-            if(!Pestaña1_dinamica.guardarNuevoProd()){ //si no se guardo el producto corta el metodo
+        if (!modificarTrue) { // esta guardando un producto nuevo
+            if (!Pestaña1_dinamica.guardarNuevoProd()) { //si no se guardo el producto corta el metodo
                 principal.lbl_estado.setText("Error- Ocurrio un error al guardar el producto.");
                 return;
             }
             //, si se guardo actualiza el resto de los campos
 
-                principal.lbl_estado.setText("El producto se creo con exito.");
-                principal.lbl_estado.setForeground(Color.GREEN);
+            principal.lbl_estado.setText("El producto se creo con exito.");
+            principal.lbl_estado.setForeground(Color.GREEN);
 
-                
             modificarTrue = false;
             //(se hace en dos metodos porque es un fix y aprovecho lo que esta hecho)
-             limpiarCamposInventario();
+            limpiarCamposInventario();
+            esNuevo=false;
 
         }
-        if(Pestaña1_dinamica.actualizarProduto()){ //esta actualizando un producto
-            if(modificarTrue)
+        if (Pestaña1_dinamica.actualizarProduto()) { //esta actualizando un producto
+            if (modificarTrue) {
                 principal.lbl_estado.setText("El producto se actualizo con exito.");
+                Pestaña1_dinamica.flagProductoSeleccionado=false;
+            }
             //Statics.Funciones.limpiarlbl_estado();
-               limpiarCamposInventario();
-        }else{
+            limpiarCamposInventario();
+        } else {
             principal.lbl_estado.setText("Ocurrio un error al actualizar el producto.");
         }
-        
+
     }//GEN-LAST:event_btn_GuardarActionPerformed
 
     private void btn_consultar_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultar_historialActionPerformed
@@ -3528,20 +3559,22 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_btn_consultar_historialActionPerformed
 
     private void btn_producto_editarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_producto_editarLoteActionPerformed
-        if(Pestaña1_dinamica.prodSeleccionado == null)
+        if (Pestaña1_dinamica.prodSeleccionado == null) {
             return;
-        if(!modificarTrue){
-             JOptionPane.showMessageDialog(null, "Primero debe guardar el producto nuevo.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        if (!modificarTrue) {
+            JOptionPane.showMessageDialog(null, "Primero debe guardar el producto nuevo.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         if (!productoDAO.getStockProducto(Pestaña1_dinamica.prodSeleccionado.getId()).isEmpty()) {
             editarStock = new JD_Producto_editarStock(new JFrame(), true, Pestaña1_dinamica.prodSeleccionado) {
 
-                public void setStock(float st){
-                    stock.setText(st+"");
+                public void setStock(float st) {
+                    stock.setText(st + "");
                 }
-                public void nuevoStock(){
+
+                public void nuevoStock() {
                     jDialogNuevoStock.setTitle("Añadir stock nuevo");
                     jDialogNuevoStock.setVisible(true);
                     jDialogNuevoStock.setModal(true);
@@ -3551,7 +3584,7 @@ public void limpiarCamposInventario() {
             };
             editarStock.setLocationRelativeTo(null);
             editarStock.setVisible(true);
-        }else{
+        } else {
             jDialogNuevoStock.setTitle("Añadir stock nuevo");
             jDialogNuevoStock.setVisible(true);
             jDialogNuevoStock.setModal(true);
@@ -3561,31 +3594,36 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_btn_producto_editarLoteActionPerformed
 
     private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
+        if(!Pestaña1_dinamica.flagProductoSeleccionado) {
+            principal.lbl_estado.setText("Debe seleccionar un producto para ser modificado");
+               return;     
+        }
         modificarTrue = true;
-        Pestaña1_dinamica.habilitarCampos(true,"MODIFICAR");
-        if(Pestaña1_dinamica.prodSeleccionado != null){
+        Pestaña1_dinamica.habilitarCampos(true, "MODIFICAR");
+        if (Pestaña1_dinamica.prodSeleccionado != null) {
             Proveedor aux;
             Rubro aux1;
-            if(Pestaña1_dinamica.prodSeleccionado.getIdProveedorActual() == -1){
+            if (Pestaña1_dinamica.prodSeleccionado.getIdProveedorActual() == -1) {
                 aux = new Proveedor();
                 aux.setNombre("No se encontraron proveedores");
                 aux.setId(-1);
 
-            }else{
+            } else {
                 aux = proveedoresDAO.getProveedor(Pestaña1_dinamica.prodSeleccionado.getIdProveedorActual());
                 producto_Proveedor.setSelectedItem(aux);
             }
-            if(Pestaña1_dinamica.prodSeleccionado.getIdProductoRubro() == -1){
+            if (Pestaña1_dinamica.prodSeleccionado.getIdProductoRubro() == -1) {
                 aux1 = new Rubro();
                 aux.setNombre("No se encontraron rubros");
                 aux.setId(-1);
                 producto_Rubro.setSelectedItem(aux);
-            }else{
+            } else {
                 aux1 = new Rubro();
                 aux1.setId(Pestaña1_dinamica.prodSeleccionado.getIdProductoRubro());
                 aux1.setNombre(Pestaña1_dinamica.prodSeleccionado.getNombreRubro());
                 producto_Rubro.setSelectedItem(aux1);
             }
+            Pestaña1_dinamica.cuotas=cuotasDAO.getCuotasProd(Pestaña1_dinamica.prodSeleccionado.getId());
             Pestaña1_dinamica.cargarTablaCuotas(Float.parseFloat(txtf_productos_venta.getText()));
         }
     }//GEN-LAST:event_btn_ModificarActionPerformed
@@ -3593,7 +3631,7 @@ public void limpiarCamposInventario() {
     private void btn_crearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearPagoActionPerformed
         jDialogAñadirPlan.setTitle("Añadir Plan de pago");
         jDialogAñadirPlan.setVisible(true);
-        jDialogAñadirPlan.setSize(356, 396);
+        jDialogAñadirPlan.setSize(356, 460);
         jDialogAñadirPlan.setModal(true);
         jDialogAñadirPlan.setLocationRelativeTo(this);
     }//GEN-LAST:event_btn_crearPagoActionPerformed
@@ -3603,10 +3641,10 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_chk_venta_ivaItemStateChanged
 
     private void tabla_producto_precioVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_producto_precioVentaMouseClicked
-        if(evt.getClickCount() == 2){
+        if (evt.getClickCount() == 2) {
             int row = tabla_producto_precioVenta.getSelectedRow();
             boolean activa = (boolean) tabla_producto_precioVenta.getValueAt(row, 4);
-            tabla_producto_precioVenta.setValueAt(!activa,row, 4);
+            tabla_producto_precioVenta.setValueAt(!activa, row, 4);
             Pestaña1_dinamica.cuotas.get(row).setActiva(!activa);
         }
     }//GEN-LAST:event_tabla_producto_precioVentaMouseClicked
@@ -3627,33 +3665,32 @@ public void limpiarCamposInventario() {
     }//GEN-LAST:event_jTextF_IngresarNuevoIvaActionPerformed
 
     private void btn_añadirNuevoIvaOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoIvaOkActionPerformed
-     funcionalidadBotonOkAddIva();
+        funcionalidadBotonOkAddIva();
 
     }//GEN-LAST:event_btn_añadirNuevoIvaOkActionPerformed
-private void funcionalidadBotonOkAddIva(){
-    String valor=jTextF_IngresarNuevoIva.getText();
-         if(!Statics.Funciones.isFloat(valor)){
-             jLabelInfoNuevoIva.setText("INFO: ERROR, DEBE INGRESAR UN NUMERO");
-             return;
-         }
-       float iva=(float)Float.parseFloat(valor);
-       String resultado= productoDAO.guardarNuevoIva(iva);
-       if(resultado.equalsIgnoreCase("EXITO")){
-           jTextF_IngresarNuevoIva.setText("");
-           jLabelInfoNuevoIva.setText("INFO");
-           jDialogAñadirIva.dispose();
-           Pestaña1_dinamica.cargarIvas();
-           jCombo_iva_Articulo.setSelectedIndex(jCombo_iva_Articulo.getItemCount()-1);
-           principal.lbl_estado.setText("Exito: Se guardo un nuevo iva");
-           txtf_impuesto_int.requestFocus();
-       }
-       else{
-           jLabelInfoNuevoIva.setText(resultado);
-           jTextF_IngresarNuevoIva.requestFocus();
-           return;
-       }
+    private void funcionalidadBotonOkAddIva() {
+        String valor = jTextF_IngresarNuevoIva.getText();
+        if (!Statics.Funciones.isFloat(valor)) {
+            jLabelInfoNuevoIva.setText("INFO: ERROR, DEBE INGRESAR UN NUMERO");
+            return;
+        }
+        float iva = (float) Float.parseFloat(valor);
+        String resultado = productoDAO.guardarNuevoIva(iva);
+        if (resultado.equalsIgnoreCase("EXITO")) {
+            jTextF_IngresarNuevoIva.setText("");
+            jLabelInfoNuevoIva.setText("INFO");
+            jDialogAñadirIva.dispose();
+            Pestaña1_dinamica.cargarIvas();
+            jCombo_iva_Articulo.setSelectedIndex(jCombo_iva_Articulo.getItemCount() - 1);
+            principal.lbl_estado.setText("Exito: Se guardo un nuevo iva");
+            txtf_impuesto_int.requestFocus();
+        } else {
+            jLabelInfoNuevoIva.setText(resultado);
+            jTextF_IngresarNuevoIva.requestFocus();
+            return;
+        }
 
-}
+    }
     private void jButtonCancelarJdialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarJdialogActionPerformed
         // TODO add your handling code here:
         jTextF_IngresarNuevoIva.setText("");
@@ -3665,7 +3702,7 @@ private void funcionalidadBotonOkAddIva(){
 
     private void jTextF_IngresarNuevoIvaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextF_IngresarNuevoIvaKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           funcionalidadBotonOkAddIva();
+            funcionalidadBotonOkAddIva();
         }
     }//GEN-LAST:event_jTextF_IngresarNuevoIvaKeyPressed
 
@@ -3674,7 +3711,7 @@ private void funcionalidadBotonOkAddIva(){
         jDialogAñadirIva.setVisible(true);
         jDialogAñadirIva.setModal(true);
         jDialogAñadirIva.setLocationRelativeTo(this);
-        jDialogAñadirIva.setSize(441,271);
+        jDialogAñadirIva.setSize(441, 271);
     }//GEN-LAST:event_jButtonAddIvaArtiActionPerformed
 
     private void txtf_coeficiente_articuloCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_coeficiente_articuloCaretUpdate
@@ -3698,7 +3735,7 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_txtf_sobretasa_ivaCaretUpdate
 
     private void jTextFieldDescGeneralFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDescGeneralFacActionPerformed
-       // pedidos.calcularPreciosFactura();
+        // pedidos.calcularPreciosFactura();
     }//GEN-LAST:event_jTextFieldDescGeneralFacActionPerformed
 
     private void jTextFieldImpInternoFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldImpInternoFacActionPerformed
@@ -3706,7 +3743,7 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_jTextFieldImpInternoFacActionPerformed
 
     private void jTextFieldSobreTasaFacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSobreTasaFacActionPerformed
-       // pedidos.calcularPreciosFactura();
+        // pedidos.calcularPreciosFactura();
     }//GEN-LAST:event_jTextFieldSobreTasaFacActionPerformed
 
     private void jTextFieldImpInternoFacCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldImpInternoFacCaretUpdate
@@ -3736,11 +3773,11 @@ private void funcionalidadBotonOkAddIva(){
     }//GEN-LAST:event_txtf_nota_cantidadKeyPressed
 
     private void txtf_nota_prod_cant_recibidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyTyped
-       char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
 
-            if ((c < '0' || c > '9')) {
-                evt.consume();
-            }
+        if ((c < '0' || c > '9')) {
+            evt.consume();
+        }
 
     }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyTyped
 
@@ -3751,23 +3788,22 @@ private void funcionalidadBotonOkAddIva(){
 
     private void tabla_productos_pedidoFacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaKeyPressed
 
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int pos = tabla_productos_pedidoFactura.getSelectedRow();
-            if(pos!= -1){
-                System.out.println("pos es : "+pos);
-                System.out.println("el tamaño DE LA FACTURA ES "+pedidos.factura.getRenglones().size());
+            if (pos != -1) {
+                System.out.println("pos es : " + pos);
+                System.out.println("el tamaño DE LA FACTURA ES " + pedidos.factura.getRenglones().size());
                 pedidos.factura.getRenglones().get(pos).setSubTotal((float) pedidos.factura.getRenglones().get(pos).getCosto() * pedidos.factura.getRenglones().get(pos).getCantidad());
-                pedidos.factura.getRenglones().get(pos).setDescuento(Float.parseFloat((String)tabla_productos_pedidoFactura.getValueAt(pos, 4)));
-                System.out.println("QUIERE DESCONTAR: "+Float.parseFloat((String)tabla_productos_pedidoFactura.getValueAt(pos, 4)));
+                pedidos.factura.getRenglones().get(pos).setDescuento(Float.parseFloat((String) tabla_productos_pedidoFactura.getValueAt(pos, 4)));
+                System.out.println("QUIERE DESCONTAR: " + Float.parseFloat((String) tabla_productos_pedidoFactura.getValueAt(pos, 4)));
                 pedidos.recargarTablaFactura();
                 pedidos.calcularIvaFactura();
                 pedidos.cargarTablaIvaFactura();
                 pedidos.calcularPreciosFactura();
 
             }
-            pos=-1;
+            pos = -1;
         }
-
 
 
     }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyPressed
@@ -3775,14 +3811,14 @@ private void funcionalidadBotonOkAddIva(){
     private void tabla_productos_pedidoFacturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabla_productos_pedidoFacturaKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9')) {
-                evt.consume();
-            }
+            evt.consume();
+        }
 
     }//GEN-LAST:event_tabla_productos_pedidoFacturaKeyTyped
 
     private void txtf_nota_prod_cant_recibidaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtf_nota_prod_cant_recibidaKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-             txtf_nota_prod_precio_unitario.requestFocus();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtf_nota_prod_precio_unitario.requestFocus();
         }
 
     }//GEN-LAST:event_txtf_nota_prod_cant_recibidaKeyPressed
@@ -3797,6 +3833,11 @@ private void funcionalidadBotonOkAddIva(){
             Pestaña1_dinamica.cargarProducto(0);
         }
     }//GEN-LAST:event_txtf_productos_buscarKeyPressed
+
+    private void producto_planKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_producto_planKeyPressed
+        
+       
+    }//GEN-LAST:event_producto_planKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -4073,14 +4114,17 @@ private void funcionalidadBotonOkAddIva(){
     private javax.swing.JLabel unidades_vendidas;
     // End of variables declaration//GEN-END:variables
 
-    public class Pestaña1_dinamica extends Thread{
+    public class Pestaña1_dinamica extends Thread {
+
         private Producto prodSeleccionado = null;
         private Producto devoSelect = null;
         private ProductoDAO productosDAO;
         private ProductosView view;
         private List<Cuota> cuotas;
-        private DefaultTableModel modelProducto, modelProv, modelInv, modelTop,modelDevo;
-        private List <Float> ivas;
+        private DefaultTableModel modelProducto, modelProv, modelInv, modelTop, modelDevo;
+        private List<Float> ivas;
+        private boolean flagProductoSeleccionado= false;
+
         public Pestaña1_dinamica(ProductosView view) {
             productosDAO = ProductoDAO.getInstance();
             this.view = view;
@@ -4093,14 +4137,15 @@ private void funcionalidadBotonOkAddIva(){
             modelProducto = (DefaultTableModel) tabla_productos_busqueda.getModel();
             //modelInv = (DefaultTableModel) tabla_productos_inventarioLotes.getModel();
 
-            modelDevo =(DefaultTableModel) tabla_devos.getModel();
+            modelDevo = (DefaultTableModel) tabla_devos.getModel();
             tabla_productos_busqueda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             limpiarCampos();
             //ivas= new ArrayList<>();
             //ivas=productoDAO.recuperarIvas();
         }
-         private void limpiarCampos() {
+
+        private void limpiarCampos() {
             txtf_productos_costo.setText("");
             txtf_coeficiente_articulo.setText("");
             //txtf_productos_costoIVA.setText("");
@@ -4108,9 +4153,10 @@ private void funcionalidadBotonOkAddIva(){
             modelProducto.setNumRows(0);
             //modelInv.setNumRows(0);
         }
+
         public void devolucionBusqueda(String txt) {
             if (txt.isEmpty()) {
-                 productosDAO.buscarDevolucion("producto_nombre", "");
+                productosDAO.buscarDevolucion("producto_nombre", "");
             } else if (rbtn_devolucion_codigo.isSelected()) {
                 try {
                     int cod = Integer.parseInt(txt);
@@ -4128,7 +4174,6 @@ private void funcionalidadBotonOkAddIva(){
             }
         }
 
-        
         public void cambioBusqueda(String txt) {
             if (txt.isEmpty()) {
                 cargarProductos(productosDAO.buscarProducto("nombre", ""));
@@ -4142,20 +4187,23 @@ private void funcionalidadBotonOkAddIva(){
                     txtf_productos_buscar.setText("");
                 }
             } else if (rbtn_productos_nombre.isSelected()) {
-                cargarProductos(productosDAO.buscarProducto("nombre",txt.toLowerCase()));
+                cargarProductos(productosDAO.buscarProducto("nombre", txt.toLowerCase()));
             } else {
                 System.out.println("Error no selecciono tipo de busqueda");
             }
         }
-        private void cargarIvas(){
+
+        private void cargarIvas() {
             jCombo_iva_Articulo.removeAllItems();
-            for(int i =0 ; i<ivas.size();i++){
+            for (int i = 0; i < ivas.size(); i++) {
                 //System.out.println(" estoy por meter "+ivas.get(i));
-                jCombo_iva_Articulo.addItem((float)ivas.get(i));
+                jCombo_iva_Articulo.addItem((float) ivas.get(i));
             }
         }
+
         private void cargarProducto(int pos) {
             if (pos != -1) {
+                Pestaña1_dinamica.flagProductoSeleccionado=true;
                 unidades_vendidas.setText("----");
                 btn_producto_editarLote.setEnabled(true);
                 //btn_consultar_historial.setEnabled(true);
@@ -4163,8 +4211,6 @@ private void funcionalidadBotonOkAddIva(){
                 //Consultas extras
 
                 cuotas = CuotasDAO.getInstance().getCuotasProd(prodSeleccionado.getId());
-
-                //-------
                 if (prodSeleccionado != null) {
 
                     jCombo_iva_Articulo.setSelectedItem(prodSeleccionado.getIva());
@@ -4182,10 +4228,10 @@ private void funcionalidadBotonOkAddIva(){
                     txtf_coeficiente_articulo.setText("" + prodSeleccionado.getCoeficiente());
                     //txtf_iva.setText("" + prodSeleccionado.getIva());
                     //jCombo_iva_Articulo.setSelectedItem(prodSeleccionado.getIva());
-                    txtf_sobretasa_iva.setText(""+prodSeleccionado.getSobretasaIva());
-                    txtf_imp_int_fijo.setText(""+prodSeleccionado.getImpuesto_int_fijo());
-                    txtf_impuesto_int.setText(""+prodSeleccionado.getImpuesto_interno());
-                    txtf_productos_venta.setText(""+prodSeleccionado.getPrecioVenta());
+                    txtf_sobretasa_iva.setText("" + prodSeleccionado.getSobretasaIva());
+                    txtf_imp_int_fijo.setText("" + prodSeleccionado.getImpuesto_int_fijo());
+                    txtf_impuesto_int.setText("" + prodSeleccionado.getImpuesto_interno());
+                    txtf_productos_venta.setText("" + prodSeleccionado.getPrecioVenta());
                     txtf_productos_codigo_ean.setText(prodSeleccionado.getCodigoEAN());
                     stock.setText("" + prodSeleccionado.getStock());
                     producto_Proveedor.removeAllItems();
@@ -4200,7 +4246,7 @@ private void funcionalidadBotonOkAddIva(){
                         Proveedor p = proveedoresDAO.getProveedor(prodSeleccionado.getIdProveedorActual());
                         producto_Proveedor.addItem(p);
                     }
-                    if(prodSeleccionado.getIdProductoRubro() != -1){
+                    if (prodSeleccionado.getIdProductoRubro() != -1) {
                         Rubro r = new Rubro();
                         r.setId(prodSeleccionado.getIdProductoRubro());
                         r.setNombre(prodSeleccionado.getNombreRubro());
@@ -4216,10 +4262,9 @@ private void funcionalidadBotonOkAddIva(){
             String auxCosto = txtf_productos_costo.getText();
             String AuxCoeficiente = txtf_coeficiente_articulo.getText();
 
-            
             //jTable1.setDefaultRenderer(Object.class, new CentrarColumnas());
             tabla_producto_precioVenta.setDefaultRenderer(Object.class, new DesplazarColumnas());
-            float costo, coeficiente,iva,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
+            float costo, coeficiente, iva, precioVenta, precioCuota, impInterno, sobreTasaIva, impInternoFijo;
             try {
                 if (auxCosto.isEmpty() || !Statics.Funciones.isFloat(auxCosto)) {
                     costo = 0;
@@ -4229,124 +4274,168 @@ private void funcionalidadBotonOkAddIva(){
                 if (AuxCoeficiente.isEmpty() || !Statics.Funciones.isFloat(AuxCoeficiente)) {
                     coeficiente = 0;
                 } else {
-                    coeficiente = (float)Float.parseFloat(AuxCoeficiente)/100;
+                    coeficiente = (float) Float.parseFloat(AuxCoeficiente) / 100;
                 }
                 if (txtf_impuesto_int.getText().isEmpty() || !Statics.Funciones.isFloat(txtf_impuesto_int.getText())) {
                     impInterno = 0;
                 } else {
-                    impInterno = (float)Float.parseFloat(txtf_impuesto_int.getText())/100;
+                    impInterno = (float) Float.parseFloat(txtf_impuesto_int.getText()) / 100;
                 }
                 if (txtf_imp_int_fijo.getText().isEmpty() || !Statics.Funciones.isFloat(txtf_imp_int_fijo.getText())) {
                     impInternoFijo = 0;
                 } else {
-                    impInternoFijo = (float)Float.parseFloat(txtf_imp_int_fijo.getText())/100;
+                    impInternoFijo = (float) Float.parseFloat(txtf_imp_int_fijo.getText()) / 100;
                 }
                 if (txtf_sobretasa_iva.getText().isEmpty() || !Statics.Funciones.isFloat(txtf_sobretasa_iva.getText())) {
                     sobreTasaIva = 0;
                 } else {
-                    sobreTasaIva = (float)Float.parseFloat(txtf_sobretasa_iva.getText())/100;
+                    sobreTasaIva = (float) Float.parseFloat(txtf_sobretasa_iva.getText()) / 100;
                 }
-                if (jCombo_iva_Articulo.getSelectedIndex()!=-1) {
-                    iva = (float) jCombo_iva_Articulo.getSelectedItem()/100;
+                if (jCombo_iva_Articulo.getSelectedIndex() != -1) {
+                    iva = (float) jCombo_iva_Articulo.getSelectedItem() / 100;
                 } else {
-                        iva=0;
+                    iva = 0;
                 }
-                float precio_parcial = costo*(1+iva);
-                precio_parcial=precio_parcial*(1+coeficiente);
-                precio_parcial= precio_parcial*(1+sobreTasaIva);
-                precio_parcial=precio_parcial*(1+impInterno);
-                precio_parcial=precio_parcial*(1+impInternoFijo);
-                txtf_productos_venta.setText(""+precio_parcial);
+                float precio_parcial = costo * (1 + iva);
+                precio_parcial = precio_parcial * (1 + coeficiente);
+                precio_parcial = precio_parcial * (1 + sobreTasaIva);
+                precio_parcial = precio_parcial * (1 + impInterno);
+                precio_parcial = precio_parcial * (1 + impInternoFijo);
+                txtf_productos_venta.setText("" + precio_parcial);
                 cargarTablaCuotas(precio_parcial);
-               
+
             } catch (Exception ex) {
                 new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
             }
 
         }
-        private void cargarTablaCuotas(float precio_parcial){
-             try {
-                    DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
-                    //cargando tabla de planes de pago
-                    tablaProdPrecios.setNumRows(0);
-                    Object[] obj = new Object[5];
-                    //System.out.println("El tamaño de cuotas es: "+cuotas.size());
-                    if(cuotas !=null){
-                        for (int i = 0; i < cuotas.size(); i++) {
-                        if(modificarTrue || cuotas.get(i).getActiva()){
-                            
-                        obj[0] = cuotas.get(i).getActiva();
-                        //obj[1] = cuotas.get(i).getId();
-                        obj[1] = cuotas.get(i).getCantidad();
-                        obj[2] = cuotas.get(i).getTipo();
-                        float precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra()/100) + 1);
-                        //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
-                        float precio_cuota = precio_final / cuotas.get(i).getCantidad();;
-                        obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
 
-                        tablaProdPrecios.addRow(obj);
-                        }
-                            
-                    }
-                    }
-                } catch (Exception ex) {
-                    new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+        private void cargarTablaCuotas(float precio_parcial) {
+            try {
+                if (!Funciones.isFloat(txtf_productos_venta.getText()) || Float.valueOf(txtf_productos_venta.getText()) <= 0) {
+                    System.out.println("no cumplio las condiciones precio parcial");
+                    return;
                 }
+                DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
+                //cargando tabla de planes de pago
+                tablaProdPrecios.setNumRows(0);
+                Object[] obj = new Object[5];
+                //System.out.println("El tamaño de cuotas es: "+cuotas.size());
+                if (Pestaña1_dinamica.cuotas != null) {
+                    System.out.println("Cuotas distinto de null");
+                    float precio_final;
+                    float precio_cuota;
+                    for (int i = 0; i < cuotas.size(); i++) {
+                        if(modificarTrue){
+                            System.out.println("Entro en el de modificarTrue");
+                            obj[0] = cuotas.get(i).getActiva();
+                            //obj[1] = cuotas.get(i).getId();
+                            obj[1] = cuotas.get(i).getCantidad();
+                            obj[2] = cuotas.get(i).getTipo();
+                            precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra() / 100) + 1);
+                            //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
+                            precio_cuota = precio_final / cuotas.get(i).getCantidad();;
+                            obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
+
+                            tablaProdPrecios.addRow(obj); 
+                        }
+                        if(esNuevo){
+                          System.out.println("Entro en el de esNuevo");
+                            obj[0] = false;
+                            obj[1] = cuotas.get(i).getCantidad();
+                            obj[2] = cuotas.get(i).getTipo();
+                            precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra() / 100) + 1);
+                            //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
+                            precio_cuota = precio_final / cuotas.get(i).getCantidad();;
+                            obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
+                            tablaProdPrecios.addRow(obj);
+                    }
+                        if (cuotas.get(i).getActiva() && !modificarTrue && !esNuevo) {
+                            obj[0] = cuotas.get(i).getActiva();
+                            //obj[1] = cuotas.get(i).getId();
+                            obj[1] = cuotas.get(i).getCantidad();
+                            obj[2] = cuotas.get(i).getTipo();
+                            precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra() / 100) + 1);
+                            //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
+                            precio_cuota = precio_final / cuotas.get(i).getCantidad();;
+                            obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
+
+                            tablaProdPrecios.addRow(obj); 
+                        }
+                         
+                       
+                    }
+                    
+                     
+            }}
+            catch (Exception ex) {
+                new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
+            }
 
         }
+
         private boolean actualizarProduto() {
             if (prodSeleccionado != null) {
                 prodSeleccionado.setNombre(txtf_productos_nombre.getText());
                 prodSeleccionado.setObservaciones(txtf_productos_observaciones.getText());
                 prodSeleccionado.setCodigoBarra(txtf_productos_codigo_barra.getText());
                 prodSeleccionado.setCodigoEAN(txtf_productos_codigo_ean.getText());
-                prodSeleccionado.setIdProductoRubro(((Rubro)producto_Rubro.getSelectedItem()).getId());
-                prodSeleccionado.setIdProveedorActual(((Proveedor)producto_Proveedor.getSelectedItem()).getId());
-                if(Statics.Funciones.isFloat(txtf_sobretasa_iva.getText()))
+                prodSeleccionado.setIdProductoRubro(((Rubro) producto_Rubro.getSelectedItem()).getId());
+                prodSeleccionado.setIdProveedorActual(((Proveedor) producto_Proveedor.getSelectedItem()).getId());
+                if (Statics.Funciones.isFloat(txtf_sobretasa_iva.getText())) {
                     prodSeleccionado.setSobretasaIva(Float.parseFloat(txtf_sobretasa_iva.getText()));
-                else
+                } else {
                     prodSeleccionado.setSobretasaIva(0f);
-                if(Statics.Funciones.isFloat(txtf_productos_stockMinimo.getText()))
+                }
+                if (Statics.Funciones.isFloat(txtf_productos_stockMinimo.getText())) {
                     prodSeleccionado.setStockMin(Float.parseFloat(txtf_productos_stockMinimo.getText()));
-                else
+                } else {
                     prodSeleccionado.setStockMin(0f);
-                if(Statics.Funciones.isFloat(txtf_productos_venta.getText()))
+                }
+                if (Statics.Funciones.isFloat(txtf_productos_venta.getText())) {
                     prodSeleccionado.setPrecioVenta(Float.parseFloat(txtf_productos_venta.getText()));
-                else
+                } else {
                     prodSeleccionado.setPrecioVenta(0f);
-                if(jCombo_iva_Articulo.getSelectedIndex()!=-1)
+                }
+                if (jCombo_iva_Articulo.getSelectedIndex() != -1) {
                     prodSeleccionado.setIva((float) jCombo_iva_Articulo.getSelectedItem());
-                else
+                } else {
                     prodSeleccionado.setIva(0f);
-                if(Statics.Funciones.isFloat(txtf_productos_costo.getText()))
+                }
+                if (Statics.Funciones.isFloat(txtf_productos_costo.getText())) {
                     prodSeleccionado.setPrecioNeto(Float.parseFloat(txtf_productos_costo.getText()));
-                else
+                } else {
                     prodSeleccionado.setPrecioNeto(0f);
-                if(Statics.Funciones.isFloat(txtf_coeficiente_articulo.getText()))
+                }
+                if (Statics.Funciones.isFloat(txtf_coeficiente_articulo.getText())) {
                     prodSeleccionado.setCoeficiente(Float.parseFloat(txtf_coeficiente_articulo.getText()));
-                else
+                } else {
                     prodSeleccionado.setCoeficiente(0f);
-                if(Statics.Funciones.isFloat(txtf_imp_int_fijo.getText()))
+                }
+                if (Statics.Funciones.isFloat(txtf_imp_int_fijo.getText())) {
                     prodSeleccionado.setImpuesto_int_fijo(Float.parseFloat(txtf_imp_int_fijo.getText()));
-                else
+                } else {
                     prodSeleccionado.setImpuesto_int_fijo(0f);
-                if(Statics.Funciones.isFloat(txtf_impuesto_int.getText()))
+                }
+                if (Statics.Funciones.isFloat(txtf_impuesto_int.getText())) {
                     prodSeleccionado.setImpuesto_interno(Float.parseFloat(txtf_impuesto_int.getText()));
-                else
+                } else {
                     prodSeleccionado.setImpuesto_interno(0f);
-                if(chk_venta_iva.isSelected()){
+                }
+                if (chk_venta_iva.isSelected()) {
                     prodSeleccionado.setSinIva(true);
-                }else{
+                } else {
                     prodSeleccionado.setSinIva(false);
                 }
                 for (int i = 0; i < tabla_producto_precioVenta.getRowCount(); i++) {
-                    cuotas.get(i).setActiva((boolean)tabla_producto_precioVenta.getValueAt(i, 4));
+                    cuotas.get(i).setActiva((boolean) tabla_producto_precioVenta.getValueAt(i, 0));
                 }
-                cuotasDAO.setCuotasProd(cuotas,prodSeleccionado.getId());
-                if(productosDAO.actualizarProducto(prodSeleccionado) > 0)
+                cuotasDAO.setCuotasProd(cuotas, prodSeleccionado.getId());
+                if (productosDAO.actualizarProducto(prodSeleccionado) > 0) {
                     return true;
-                else
+                } else {
                     return false;
+                }
             } else {
                 return false;
             }
@@ -4356,33 +4445,33 @@ private void funcionalidadBotonOkAddIva(){
          * Actualizar el rubro del producto cuando se crea uno nuevo.
          */
         private void actualizarRubro() {
-            if(prodSeleccionado != null){
+            if (prodSeleccionado != null) {
                 Rubro p = rubroDAO.getLastInsert();
                 producto_Rubro.addItem(p);
                 producto_Rubro.setSelectedItem(p);
             }
         }
-        private void cargarPlanes (){
-            System.out.println("entre a cargar planes");
-            
-               ArrayList<Cuota> aux= cuotasDAO.getCuotas(); 
-               //si pregunto prodSeleccionado != null al cargar uno nuevo si es null..
-               for(int i =0; i<aux.size(); i++){
-                   System.out.println("los planes recuperados son: "+aux.size());
-                   Cuota c = aux.get(i);
-                   producto_plan.addItem(c);
-                   //producto_plan.setSelectedItem(c);
-               
+
+        private void cargarPlanes() {
+            producto_plan.removeAllItems();
+            ArrayList<Cuota> aux = cuotasDAO.getCuotas();
+            //si pregunto prodSeleccionado != null al cargar uno nuevo si es null..
+            for (int i = 0; i < aux.size(); i++) {
+                Cuota c = aux.get(i);
+                producto_plan.addItem(c);
+                //producto_plan.setSelectedItem(c);
+
             }
-            
+
         }
-     /**
-     * Carga los datos de la devolucion
-     *
-     * @param pos
-     */
-    private void cargarDevolucionDeTabla(int pos) {
-        /*int porcentaje = 1, totalVtas;
+
+        /**
+         * Carga los datos de la devolucion
+         *
+         * @param pos
+         */
+        private void cargarDevolucionDeTabla(int pos) {
+            /*int porcentaje = 1, totalVtas;
         if (pos != -1) {
             devoSelect = listDevoluciones.get(pos);
             if (devoSelect != null) {
@@ -4426,9 +4515,10 @@ private void funcionalidadBotonOkAddIva(){
                       };
                 hilo.start();
         }*/
-    }
-    public void eliminarDevolucion(){
-        /*if(devoSelect!=null){
+        }
+
+        public void eliminarDevolucion() {
+            /*if(devoSelect!=null){
             int opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar la devolucion seleccionada?", "Importante", JOptionPane.YES_NO_OPTION);
             if(opcion == JOptionPane.YES_OPTION){
                 if (productoDAO.eliminarDevolucion(devoSelect.getId()) == 1) {
@@ -4441,25 +4531,26 @@ private void funcionalidadBotonOkAddIva(){
                 }
             }
         }*/
-    }
-    public void editarDevolucion(){
-        if(devoSelect!=null){
-            jLbl_devo_nuevaDevo.setText("Editar Devolución : ");
-            habilitarPanelNuevaDevo(true);
-            txtf_nombreDevo.setText(devoSelect.getNombre());
-            txtf_codDevolucion.setText(String.valueOf(devoSelect.getId()));
-            txtf_codDevolucion.setEditable(false);
-            txtf_porcentaje.setText(txtf_devo_porcentajeAdevolver.getText());
-            txtf_codigoProd.setText(txtf_devo_codigo.getText());
-            txtf_codigoProd.setEditable(false);
         }
-    }
+
+        public void editarDevolucion() {
+            if (devoSelect != null) {
+                jLbl_devo_nuevaDevo.setText("Editar Devolución : ");
+                habilitarPanelNuevaDevo(true);
+                txtf_nombreDevo.setText(devoSelect.getNombre());
+                txtf_codDevolucion.setText(String.valueOf(devoSelect.getId()));
+                txtf_codDevolucion.setEditable(false);
+                txtf_porcentaje.setText(txtf_devo_porcentajeAdevolver.getText());
+                txtf_codigoProd.setText(txtf_devo_codigo.getText());
+                txtf_codigoProd.setEditable(false);
+            }
+        }
 
         /**
          * llena la tabla con las devoluciones de la LIST
+         *
          * @param list lista de devoluciones
          */
-
         public void cargarDevoluciones(List<Producto> list) {
             listDevoluciones = list;
             try {
@@ -4490,7 +4581,6 @@ private void funcionalidadBotonOkAddIva(){
             }
         }
 
-
         private void getunidadesVendidas() {
             if (prodSeleccionado == null) {
                 JOptionPane.showMessageDialog(null, "Primero debe seleccionar un producto.",
@@ -4520,9 +4610,9 @@ private void funcionalidadBotonOkAddIva(){
 
                     }
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un producto de la tabla para eliminar.",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -4551,31 +4641,36 @@ private void funcionalidadBotonOkAddIva(){
             int sp = 0;
             int sr = 0;
             float pc = 0f;
-            if(Statics.Funciones.isNumeric(txt_StockActual.getText()))
+            if (Statics.Funciones.isNumeric(txt_StockActual.getText())) {
                 sa = Integer.parseInt(txt_StockActual.getText());
-            if(Statics.Funciones.isNumeric(txt_stockIngresado.getText()))
+            }
+            if (Statics.Funciones.isNumeric(txt_stockIngresado.getText())) {
                 si = Integer.parseInt(txt_stockIngresado.getText());
-            if(Statics.Funciones.isNumeric(txt_stockPedido.getText()))
+            }
+            if (Statics.Funciones.isNumeric(txt_stockPedido.getText())) {
                 sp = Integer.parseInt(txt_stockPedido.getText());
-            if(Statics.Funciones.isNumeric(txt_stockReservado.getText()))
+            }
+            if (Statics.Funciones.isNumeric(txt_stockReservado.getText())) {
                 sr = Integer.parseInt(txt_stockReservado.getText());
-            if(Statics.Funciones.isFloat(txt_precioCompra.getText()))
+            }
+            if (Statics.Funciones.isFloat(txt_precioCompra.getText())) {
                 pc = Float.parseFloat(txt_precioCompra.getText());
+            }
             s.setFechaCompra(new Timestamp(date_fechaCompra.getDate().getTime()));
             s.setStock_actual(sa);
             s.setStock_ingresado(si);
             s.setStock_pedido(sp);
             s.setStock_reservado(sr);
             s.setPrecio_compra(pc);
-            productoDAO.insertarStock(s,prodSeleccionado.getId());
+            productoDAO.insertarStock(s, prodSeleccionado.getId());
             limpiarCamposStockNuevo();
-            if(editarStock != null && editarStock.isVisible()){
-                sa+=prodSeleccionado.getStock()+si+sp;
+            if (editarStock != null && editarStock.isVisible()) {
+                sa += prodSeleccionado.getStock() + si + sp;
                 prodSeleccionado.setStock(sa);
                 editarStock.actualizarTotal(sa);
                 editarStock.cargarTablaProd(productoDAO.getStockProducto(prodSeleccionado.getId()));
-            }else{
-                stock.setText(sa+si+sp+"");
+            } else {
+                stock.setText(sa + si + sp + "");
             }
         }
 
@@ -4592,11 +4687,11 @@ private void funcionalidadBotonOkAddIva(){
             btn_consultar_historial.setEnabled(b);
             tabla_producto_precioVenta.setEnabled(b);
             txtf_productos_nombre.setEnabled(b);
-            if(boton.equals("NUEVO")){
+            if (boton.equals("NUEVO")) {
                 cuotas = CuotasDAO.getInstance().getCuotasProd(-1);
                 calcularPrecios();
                 txtf_productos_codigo.setEnabled(b);
-                
+
             }
             txtf_productos_costo.setEditable(b);
             txtf_productos_codigo_barra.setEnabled(b);
@@ -4610,36 +4705,38 @@ private void funcionalidadBotonOkAddIva(){
             txtf_productos_venta.setEnabled(b);
             txtf_productos_codigo_ean.setEnabled(b);
             producto_plan.setEnabled(b);
+            producto_plan.removeAllItems();
             producto_Rubro.setEnabled(b);
             producto_Proveedor.setEnabled(b);
             producto_Rubro.removeAllItems();
             producto_Proveedor.removeAllItems();
             Pestaña1_dinamica.cargarPlanes();
             List<Proveedor> p = proveedoresDAO.buscarProveedorReducido("proveedor", "");
-            if(p.isEmpty()){
+            if (p.isEmpty()) {
                 Proveedor aux = new Proveedor();
                 aux.setNombre("No se encontraron proveedores");
                 aux.setId(-1);
                 producto_Proveedor.addItem(aux);
-            }else{
+            } else {
                 p.forEach((t) -> {
                     producto_Proveedor.addItem(t);
                 });
             }
             List<Rubro> r = rubroDAO.getRubros();
-            if(r.isEmpty()){
+            if (r.isEmpty()) {
                 Rubro aux = new Rubro();
                 aux.setNombre("No se encontraron rubros");
                 aux.setId(-1);
                 producto_Rubro.addItem(aux);
-            }else{
-               r.forEach((t) -> {
+            } else {
+                r.forEach((t) -> {
                     producto_Rubro.addItem(t);
                 });
             }
         }
-        private boolean controlProductoNuevo(){
-            if(txtf_productos_nombre.getText().isEmpty() || txtf_productos_codigo.getText().isEmpty()){
+
+        private boolean controlProductoNuevo() {
+            if (txtf_productos_nombre.getText().isEmpty() || txtf_productos_codigo.getText().isEmpty()) {
                 return false;
             }
             try {
@@ -4650,9 +4747,10 @@ private void funcionalidadBotonOkAddIva(){
             }
             return true;
         }
+
         private boolean guardarNuevoProd() {
-            if(controlProductoNuevo()){
-                if(txtf_productos_nombre.getText().length()>75){
+            if (controlProductoNuevo()) {
+                if (txtf_productos_nombre.getText().length() > 75) {
                     principal.lbl_estado.setText("Error, el nombre es demasiado largo. Max 75 caracteres");
                     /// ponle color rojo
                     txtf_productos_nombre.requestFocus();
@@ -4661,15 +4759,15 @@ private void funcionalidadBotonOkAddIva(){
                 prodSeleccionado.setNombre(txtf_productos_nombre.getText());
                 prodSeleccionado.setEstado(1);
                 prodSeleccionado.setCod(Integer.parseInt(txtf_productos_codigo.getText()));
-                prodSeleccionado.setIdProveedorActual(((Proveedor)producto_Proveedor.getSelectedItem()).getId());
+                prodSeleccionado.setIdProveedorActual(((Proveedor) producto_Proveedor.getSelectedItem()).getId());
                 int rs = productoDAO.productoEliminado(prodSeleccionado.getCod());
-                    if(rs==-1 || rs == 0 ){
-                        productoDAO.nuevoProducto(prodSeleccionado);
-                        return true;
-                    }else{
-                        JOptionPane.showMessageDialog(null,"El codigo "+prodSeleccionado.getCod()+" ya pertenece a un producto ingresado.\n",
-                            "Error",  JOptionPane.ERROR_MESSAGE);
-                        /* Esto es para reactivar codigos en caso de ser necesario descomentar y revisar DAO
+                if (rs == -1 || rs == 0) {
+                    productoDAO.nuevoProducto(prodSeleccionado);
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El codigo " + prodSeleccionado.getCod() + " ya pertenece a un producto ingresado.\n",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    /* Esto es para reactivar codigos en caso de ser necesario descomentar y revisar DAO
                         int i = 0;
                         int dialogButton = JOptionPane.YES_NO_OPTION;
                         int coincidencia = rs;
@@ -4678,18 +4776,17 @@ private void funcionalidadBotonOkAddIva(){
                             productoDAO.eliminarProducto(prodSeleccionado);
                             productoDAO.actualizarProducto(prodSeleccionado);
                         }*/
-                    }
-            }else
-                JOptionPane.showMessageDialog(null,"Debe ingresar un nombre, código del producto (valor numérico) y asociar un proveedor",
-                            "Error",  JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre, código del producto (valor numérico) y asociar un proveedor",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
             return false;
         }
 
-
-
     }
 
-public class Pestaña3_dinamica {
+    public class Pestaña3_dinamica {
 
         private DefaultTableModel model_tabla_productos_pedidoFactura;
         private DefaultTableModel modelNotas;
@@ -4711,7 +4808,7 @@ public class Pestaña3_dinamica {
         private DefaultComboBoxModel modelCombo;
         private ButtonGroup grupo;
         private int posEdit;
-        private Map <Float, Float> montosIvaFactura;
+        private Map<Float, Float> montosIvaFactura;
         private float ivaTotalFactura;
         private float subtotalFac;
 
@@ -4751,7 +4848,7 @@ public class Pestaña3_dinamica {
                         inicializarBusquedaNombre_Pedidos("");
                         txtf_nota_prod_cod.setText("");
                         //inicializacion de pestaña tal vezx?
-                        montosIvaFactura= new HashMap <Float, Float>();
+                        montosIvaFactura = new HashMap<Float, Float>();
                     }
                 }
             });
@@ -4781,7 +4878,6 @@ public class Pestaña3_dinamica {
             date_nota_fecha_pago.setDate(hoy);
         }
 
-
         private void seleccionarProductoTabla(int pos) {
             renglonFactura rf = factura.getRenglones().get(pos);
             if (rf != null) {
@@ -4808,13 +4904,13 @@ public class Pestaña3_dinamica {
                         prodSelect = listProd.get(0);
                     }
 
-                    if (prodSelect != null && prodSelect.getCod()== idProducto) {
+                    if (prodSelect != null && prodSelect.getCod() == idProducto) {
                         String[] aux = new String[1];
                         aux[0] = prodSelect.getNombre();
 
                         modelCombo = new DefaultComboBoxModel(aux);
                         txtf_nota_prod_nombre.setModel(modelCombo);
-                        txtf_nota_prod_precio_unitario.setText(""+prodSelect.getPrecioNeto());
+                        txtf_nota_prod_precio_unitario.setText("" + prodSelect.getPrecioNeto());
                     }
                 } else if (rbtn_nota_prod_prod.isSelected()) {
                     listProd = Pestaña1_dinamica.productosDAO.buscarProducto("nombre", aux_idP);
@@ -4828,7 +4924,7 @@ public class Pestaña3_dinamica {
         }
 
         private void inicializarBusquedaNombre_Pedidos(String valor) {
-            listProd = Pestaña1_dinamica.productosDAO.buscarProducto("nombre",valor);
+            listProd = Pestaña1_dinamica.productosDAO.buscarProducto("nombre", valor);
             String[] aux = new String[listProd.size()];
             for (int i = 0; i < listProd.size(); i++) {
                 aux[i] = listProd.get(i).getNombre();
@@ -4837,47 +4933,49 @@ public class Pestaña3_dinamica {
             txtf_nota_prod_nombre.setModel(modelCombo);
             AutoCompleteDecorator.decorate(txtf_nota_prod_nombre);
         }
+
         /**
-         * @see sdasad resetea ivaTotalFactura, model_tabla_productos_pedidoFactura y
-         * la carga de nuevo calculando nuevamente el subtotal. Usa lo que esta en pedidos.factura
+         * @see sdasad resetea ivaTotalFactura,
+         * model_tabla_productos_pedidoFactura y la carga de nuevo calculando
+         * nuevamente el subtotal. Usa lo que esta en pedidos.factura
          *
          */
-        private void recargarTablaFactura(){
+        private void recargarTablaFactura() {
 
             model_tabla_productos_pedidoFactura.setNumRows(0);
-            float subtotal=0.f;
+            float subtotal = 0.f;
             Object[] obj = new Object[7];
             //reseeteo el iva
-            ivaTotalFactura=0.f;
-            System.out.println("en recargar tabla factura, LA CANTIDAD DE RENGLONES ES "+factura.getRenglones().size());
-             for (int i = 0; i < factura.getRenglones().size(); i++) {
-                    obj[0] = factura.getRenglones().get(i).getP().getCod();
-                    obj[1] = factura.getRenglones().get(i).getP().getNombre();
-                    obj[2] = factura.getRenglones().get(i).getCosto();
-                    // obj[4] = factura.getRenglones().get(i).getCosto();
-                    // OJO tambien tengo la opcion del costo en la factura
-                    obj[3] = factura.getRenglones().get(i).getCantidad();
-                    obj[4] = factura.getRenglones().get(i).getDescuento();
-                    //ojo   que esto podria necesitar calcularse.
+            ivaTotalFactura = 0.f;
+            System.out.println("en recargar tabla factura, LA CANTIDAD DE RENGLONES ES " + factura.getRenglones().size());
+            for (int i = 0; i < factura.getRenglones().size(); i++) {
+                obj[0] = factura.getRenglones().get(i).getP().getCod();
+                obj[1] = factura.getRenglones().get(i).getP().getNombre();
+                obj[2] = factura.getRenglones().get(i).getCosto();
+                // obj[4] = factura.getRenglones().get(i).getCosto();
+                // OJO tambien tengo la opcion del costo en la factura
+                obj[3] = factura.getRenglones().get(i).getCantidad();
+                obj[4] = factura.getRenglones().get(i).getDescuento();
+                //ojo   que esto podria necesitar calcularse.
 
-                    if(factura.getRenglones().get(i).getDescuento()>0){
-                        subtotal+=(float)factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
-                        float auxSub=factura.getRenglones().get(i).getSubTotal()*(1-factura.getRenglones().get(i).getDescuento()/100);
-                        obj[5]=auxSub;
-                        factura.getRenglones().get(i).setSubTotal(auxSub);
+                if (factura.getRenglones().get(i).getDescuento() > 0) {
+                    subtotal += (float) factura.getRenglones().get(i).getSubTotal() * (1 - factura.getRenglones().get(i).getDescuento() / 100);
+                    float auxSub = factura.getRenglones().get(i).getSubTotal() * (1 - factura.getRenglones().get(i).getDescuento() / 100);
+                    obj[5] = auxSub;
+                    factura.getRenglones().get(i).setSubTotal(auxSub);
 
-                    }
-                    else{
-                        obj[5] = factura.getRenglones().get(i).getSubTotal();
-                        subtotal+=factura.getRenglones().get(i).getSubTotal();
-                    }
-                    //obj[5] = factura.getRenglones().get(i).getSubTotal();
-                    obj[6] = factura.getRenglones().get(i).getP().getIva();
-                    model_tabla_productos_pedidoFactura.addRow(obj);
-                    ivaTotalFactura+= (float) (factura.getRenglones().get(i).getSubTotal()* (float)factura.getRenglones().get(i).getP().getIva()/100);
-             }
-             jLabelSubtotalFac.setText(""+subtotal);
+                } else {
+                    obj[5] = factura.getRenglones().get(i).getSubTotal();
+                    subtotal += factura.getRenglones().get(i).getSubTotal();
+                }
+                //obj[5] = factura.getRenglones().get(i).getSubTotal();
+                obj[6] = factura.getRenglones().get(i).getP().getIva();
+                model_tabla_productos_pedidoFactura.addRow(obj);
+                ivaTotalFactura += (float) (factura.getRenglones().get(i).getSubTotal() * (float) factura.getRenglones().get(i).getP().getIva() / 100);
+            }
+            jLabelSubtotalFac.setText("" + subtotal);
         }
+
         private void agregarProducto() {
             if (pedidos.prov == null) {
                 JOptionPane.showMessageDialog(null, "Primero debe seleccionar un proveedor",
@@ -4887,7 +4985,6 @@ public class Pestaña3_dinamica {
 
             String cantIngresada = txtf_nota_prod_cant_recibida.getText();
             String precioUnidad = txtf_nota_prod_precio_unitario.getText();
-
 
             try {
 
@@ -4902,7 +4999,7 @@ public class Pestaña3_dinamica {
                     if (posEdit != -1) {
                         //tiene un producto seleccionado de la tabla
                         // esta por variar la cantidad de elementos recibidos de un articulo
-                        System.out.println("ELEGI ALGO DE LA TABLA POS EDIT:"+posEdit );
+                        System.out.println("ELEGI ALGO DE LA TABLA POS EDIT:" + posEdit);
                         rf.setP(factura.getRenglones().get(posEdit).getP());
                         rf.setDescuento(factura.getRenglones().get(posEdit).getDescuento());
                         factura.getRenglones().remove(posEdit);
@@ -4916,7 +5013,7 @@ public class Pestaña3_dinamica {
                     } else {
                         //no habria seleccionado nada de la tabla
                         rf.setP(prodSelect);
-                        rf.setSubTotal(rf.getCantidad()*rf.getCosto());
+                        rf.setSubTotal(rf.getCantidad() * rf.getCosto());
                         //Object[] obj = new Object[7];
                         factura.getRenglones().add(rf);
                         pedidos.recargarTablaFactura();
@@ -4938,7 +5035,6 @@ public class Pestaña3_dinamica {
                     }
                     //limpiarCampos(false,false);
 
-
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "El formato de stock o precio no es correcto.",
@@ -4947,8 +5043,8 @@ public class Pestaña3_dinamica {
         }
 
         private void limpiarCampos(boolean flagNotas, boolean flagTabla) {
-            if(flagTabla){
-                DefaultTableModel modelo =(DefaultTableModel) tabla_productos_pedidoFactura.getModel();
+            if (flagTabla) {
+                DefaultTableModel modelo = (DefaultTableModel) tabla_productos_pedidoFactura.getModel();
                 modelo.setRowCount(0);
             }
             principal.lbl_estado.setText("");
@@ -4960,7 +5056,7 @@ public class Pestaña3_dinamica {
             txtf_nota_prod_cod.setText("");
             txtf_nota_prod_cant_recibida.setText("");
             txtf_nota_prod_precio_unitario.setText("");
-            if(flagNotas){
+            if (flagNotas) {
                 modelNotas.setRowCount(0);
             }
 
@@ -4982,10 +5078,9 @@ public class Pestaña3_dinamica {
             jLabelTotalImpuestosFac.setText("");
             jTextFieldDescGeneralFac.setText("");
             jLabelTotalFac.setText("");
-            ivaTotalFactura=0.f;
+            ivaTotalFactura = 0.f;
             txtf_nota_prod_factura.setText("");
-                    //jTableIvasMontoFac
-
+            //jTableIvasMontoFac
 
         }
 
@@ -4997,10 +5092,10 @@ public class Pestaña3_dinamica {
                     //pedidoFact.getRenglones().remove(pos);
                     // ojo habria que controlar que este correcto quien elimina..
                     factura.getRenglones().remove(pos);
-                   // factura = new facturaProveedor();
+                    // factura = new facturaProveedor();
                     //factura.setNumPedido(pedidoFact.getNumPedido());
                     //model_tabla_productos_pedido.removeRow(pos);
-                    limpiarCampos(false,false);
+                    limpiarCampos(false, false);
                     // lo puedo calcular desde pedido por que lo esta borrando
                     // pero que pasa si agrega uno desde factura?
                     pedidos.recargarTablaFactura();
@@ -5025,17 +5120,17 @@ public class Pestaña3_dinamica {
             }
             if (Statics.Funciones.controlText(txtf_nota_prod_factura.getText())) {
                 numFac = txtf_nota_prod_factura.getText();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Debe poner el numero de factura que figura en la misma.",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if(fechaFac.after(fechaPago) || fechaFac.equals(fechaPago)){
+            if (fechaFac.after(fechaPago) || fechaFac.equals(fechaPago)) {
                 factura.setEstado("PAGADA");
-            }else{
+            } else {
                 factura.setEstado("PENDIENTE");
             }
-            if(factura.getRenglones().isEmpty()){
+            if (factura.getRenglones().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No se puede generar una factura sin renglones.",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -5049,18 +5144,18 @@ public class Pestaña3_dinamica {
             factura.setFecha_pago(fechaPago);
             factura.setForma_pago(formaPago);
 
-            if(!pedidoDAO.insertarFactura(factura)){
+            if (!pedidoDAO.insertarFactura(factura)) {
                 principal.lbl_estado.setText("Error, el numero de factura ya existe, controle");
                 return;
             }
             //puede ser por que estas cargando una factura sin pedido??
             //o por que tenes 2 o mas  facturas para un pedido
             // estaba asi : if(!pedidoFact.getNumPedido().equals(factura.getNumPedido()))
-            if(pedidoFact.getNumPedido().equals(factura.getNumPedido())){
-                pedidoDAO.checkStockPedido(factura,pedidoFact);
+            if (pedidoFact.getNumPedido().equals(factura.getNumPedido())) {
+                pedidoDAO.checkStockPedido(factura, pedidoFact);
             }
-            pedidos.limpiarCampos(false,true);
-            principal.lbl_estado.setText("La factura numero "+factura.getNumFactura()+" se guardo con exito");
+            pedidos.limpiarCampos(false, true);
+            principal.lbl_estado.setText("La factura numero " + factura.getNumFactura() + " se guardo con exito");
             pedidos.cargarTabla();
             pedidoFact = null;
         }
@@ -5069,7 +5164,7 @@ public class Pestaña3_dinamica {
             listPedidos = pedidoDAO.getPedidos(prov.getId());
             modelNotas.setNumRows(0);
             model_tabla_productos_pedidoFactura.setRowCount(0);
-            for(int i = 0; i < listPedidos.size();i++){
+            for (int i = 0; i < listPedidos.size(); i++) {
                 Object[] c = new Object[3];
                 c[0] = listPedidos.get(i).getNumPedido();
                 c[1] = listPedidos.get(i).getFecha();
@@ -5089,165 +5184,160 @@ public class Pestaña3_dinamica {
             pedidos.calcularPreciosFactura();
 
         }
-        private void calcularSubtotalFacturaDesdePedido(){
-            float subtotal=0.f;
+
+        private void calcularSubtotalFacturaDesdePedido() {
+            float subtotal = 0.f;
 
             model_tabla_productos_pedidoFactura.setNumRows(0);
 
-            for(int i = 0 ; i < pedidoFact.getRenglones().size(); i++){
+            for (int i = 0; i < pedidoFact.getRenglones().size(); i++) {
                 renglonPedido rp = pedidoFact.getRenglones().get(i);
-                renglonFactura rf = new renglonFactura(rp.getP(),rp.getCantidad(),rp.getNeto(),rp.getSubTotal());
+                renglonFactura rf = new renglonFactura(rp.getP(), rp.getCantidad(), rp.getNeto(), rp.getSubTotal());
                 Object[] obj = new Object[7];
                 obj[0] = rp.getP().getCod();
                 obj[1] = rp.getP().getNombre();
                 obj[2] = rp.getNeto();
                 obj[3] = rp.getCantidad();
                 obj[4] = rp.getDescuentoUnitario();
-                if(rp.getDescuentoUnitario()!=0){
-                    subtotal+=(float)rp.getSubTotal()*(1-rp.getDescuentoUnitario()/100);
-                    obj[5]=rp.getSubTotal()*(1-rp.getDescuentoUnitario()/100);
-                }
-                else{
+                if (rp.getDescuentoUnitario() != 0) {
+                    subtotal += (float) rp.getSubTotal() * (1 - rp.getDescuentoUnitario() / 100);
+                    obj[5] = rp.getSubTotal() * (1 - rp.getDescuentoUnitario() / 100);
+                } else {
                     obj[5] = rp.getSubTotal();
-                    subtotal+=rp.getSubTotal();
+                    subtotal += rp.getSubTotal();
                 }
                 obj[6] = rp.getP().getIva();
                 //obj[7] = rf.getIvaValor();
                 System.out.println("AÑADI UN RENGLON EN LA FACTURA");
-                System.out.println("tengo ya :"+factura.getRenglones().size());
+                System.out.println("tengo ya :" + factura.getRenglones().size());
                 factura.addRenglon(rf);
                 factura.setNumPedido(pedidoFact.getNumPedido());
 
                 model_tabla_productos_pedidoFactura.addRow(obj);
-                ivaTotalFactura+=(float)(rp.getSubTotal()*(float)(rp.getP().getIva()/100));
+                ivaTotalFactura += (float) (rp.getSubTotal() * (float) (rp.getP().getIva() / 100));
 
             }
-            jLabelSubtotalFac.setText(""+subtotal);
+            jLabelSubtotalFac.setText("" + subtotal);
         }
+
         /**
          * @see Necesita que la factura este cargada!
          */
-        private void calcularIvaFactura(){
-             // cargar tabla de ivaTotalFac:
+        private void calcularIvaFactura() {
+            // cargar tabla de ivaTotalFac:
 
-             //inicializacion opcional
-            pedidos.montosIvaFactura= new HashMap <Float, Float>();
-            for(int i = 0 ; i < pedidos.factura.getRenglones().size(); i++){
+            //inicializacion opcional
+            pedidos.montosIvaFactura = new HashMap<Float, Float>();
+            for (int i = 0; i < pedidos.factura.getRenglones().size(); i++) {
                 //tal vez deba cambiar esto por factura.....
                 renglonFactura rf = pedidos.factura.getRenglones().get(i);
 
-                if(pedidos.montosIvaFactura.containsKey((float)rf.getP().getIva())){
+                if (pedidos.montosIvaFactura.containsKey((float) rf.getP().getIva())) {
                     //existe la clave, sumo
                     // ivaTotalFac existente + (subtotal actual *ivaTotalFac coincidente)
-                    float aux=(float)pedidos.montosIvaFactura.get(rf.getP().getIva()) + (float)(rf.getSubTotal()*rf.getP().getIva()/100);
-                    pedidos.montosIvaFactura.put(rf.getP().getIva(),aux);
+                    float aux = (float) pedidos.montosIvaFactura.get(rf.getP().getIva()) + (float) (rf.getSubTotal() * rf.getP().getIva() / 100);
+                    pedidos.montosIvaFactura.put(rf.getP().getIva(), aux);
 
+                } else {
+                    pedidos.montosIvaFactura.put(rf.getP().getIva(), rf.getSubTotal() * rf.getP().getIva() / 100);
                 }
-                else{
-                    pedidos.montosIvaFactura.put(rf.getP().getIva(), rf.getSubTotal()*rf.getP().getIva()/100);
-                }
-             }
+            }
 
         }
-        private void cargarTablaIvaFactura(){
-           DefaultTableModel modeloIvaFac=(DefaultTableModel) jTableIvasMontoFac.getModel();
-           modeloIvaFac.setRowCount(0);
-           Float [] row = new Float[2];
-           /*
+
+        private void cargarTablaIvaFactura() {
+            DefaultTableModel modeloIvaFac = (DefaultTableModel) jTableIvasMontoFac.getModel();
+            modeloIvaFac.setRowCount(0);
+            Float[] row = new Float[2];
+            /*
            for ( Map.Entry<String, Label> entry : map.entrySet() ) {
                 String key = entry.getKey();
                 Label value = entry.getValue();
             }
-           */
+             */
 
-           for(Map.Entry<Float, Float> entry : pedidos.montosIvaFactura.entrySet()){
+            for (Map.Entry<Float, Float> entry : pedidos.montosIvaFactura.entrySet()) {
 
-               row[0]=entry.getKey();
-               row[1]=entry.getValue();
-               modeloIvaFac.addRow(row);
-               //ivaTotalFactura+=entry.getValue();
-               //subtotalFac= subtotalFac*(1+entry.getValue());
+                row[0] = entry.getKey();
+                row[1] = entry.getValue();
+                modeloIvaFac.addRow(row);
+                //ivaTotalFactura+=entry.getValue();
+                //subtotalFac= subtotalFac*(1+entry.getValue());
 
-              }
+            }
         }
 
-
         /**
-         * @see
-         *  solo necesita el valor de subtotal general.
-         *   Lee los campos de impuestos y calcula el monto final
+         * @see solo necesita el valor de subtotal general. Lee los campos de
+         * impuestos y calcula el monto final
          */
-        private void calcularPreciosFactura(){
-            float subTotal, descuentoGralFac,precioVenta, precioCuota, impInterno, sobreTasaIva,impInternoFijo;
+        private void calcularPreciosFactura() {
+            float subTotal, descuentoGralFac, precioVenta, precioCuota, impInterno, sobreTasaIva, impInternoFijo;
 
-                if (jLabelSubtotalFac.getText().isEmpty() || !Statics.Funciones.isFloat(jLabelSubtotalFac.getText())) {
-                    subTotal = 0;
+            if (jLabelSubtotalFac.getText().isEmpty() || !Statics.Funciones.isFloat(jLabelSubtotalFac.getText())) {
+                subTotal = 0;
 
-                } else {
-                    subTotal = Float.parseFloat(jLabelSubtotalFac.getText());
-                }
-                if (jTextFieldDescGeneralFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldDescGeneralFac.getText())) {
-                    descuentoGralFac = 0;
-                } else {
-                    factura.setDescuentoGrl(Float.parseFloat(jTextFieldDescGeneralFac.getText()));
-                    descuentoGralFac = (float)Float.parseFloat(jTextFieldDescGeneralFac.getText())/100;
-                }
-                if (jTextFieldImpInternoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpInternoFac.getText())) {
-                    impInterno = 0;
-                } else {
-                    factura.setImpInterno(Float.parseFloat(jTextFieldImpInternoFac.getText()));
-                    impInterno = (float)Float.parseFloat(jTextFieldImpInternoFac.getText())/100;
-                }
-                if (jTextFieldImpIntFijoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpIntFijoFac.getText())) {
-                    impInternoFijo = 0;
-                } else {
-                    factura.setImpInternoFijo(Float.parseFloat(jTextFieldImpIntFijoFac.getText()));
+            } else {
+                subTotal = Float.parseFloat(jLabelSubtotalFac.getText());
+            }
+            if (jTextFieldDescGeneralFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldDescGeneralFac.getText())) {
+                descuentoGralFac = 0;
+            } else {
+                factura.setDescuentoGrl(Float.parseFloat(jTextFieldDescGeneralFac.getText()));
+                descuentoGralFac = (float) Float.parseFloat(jTextFieldDescGeneralFac.getText()) / 100;
+            }
+            if (jTextFieldImpInternoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpInternoFac.getText())) {
+                impInterno = 0;
+            } else {
+                factura.setImpInterno(Float.parseFloat(jTextFieldImpInternoFac.getText()));
+                impInterno = (float) Float.parseFloat(jTextFieldImpInternoFac.getText()) / 100;
+            }
+            if (jTextFieldImpIntFijoFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldImpIntFijoFac.getText())) {
+                impInternoFijo = 0;
+            } else {
+                factura.setImpInternoFijo(Float.parseFloat(jTextFieldImpIntFijoFac.getText()));
 
-                    impInternoFijo = (float)Float.parseFloat(jTextFieldImpIntFijoFac.getText())/100;
-                }
-                if (jTextFieldSobreTasaFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldSobreTasaFac.getText())) {
-                    sobreTasaIva = 0;
-                } else {
-                    factura.setSobretasaIva(Float.parseFloat(jTextFieldSobreTasaFac.getText()));
-                    sobreTasaIva = (float)Float.parseFloat(jTextFieldSobreTasaFac.getText())/100;
-                }
+                impInternoFijo = (float) Float.parseFloat(jTextFieldImpIntFijoFac.getText()) / 100;
+            }
+            if (jTextFieldSobreTasaFac.getText().isEmpty() || !Statics.Funciones.isFloat(jTextFieldSobreTasaFac.getText())) {
+                sobreTasaIva = 0;
+            } else {
+                factura.setSobretasaIva(Float.parseFloat(jTextFieldSobreTasaFac.getText()));
+                sobreTasaIva = (float) Float.parseFloat(jTextFieldSobreTasaFac.getText()) / 100;
+            }
 
+            float precio_parcial = subTotal;
+            float auxImpuestos = (float) 0;
 
-                float precio_parcial = subTotal;
-                float auxImpuestos=(float)0;
+            precio_parcial = precio_parcial * (1 - descuentoGralFac);
 
-                precio_parcial=precio_parcial*(1-descuentoGralFac);
+            auxImpuestos = precio_parcial * sobreTasaIva;
+            jLabelValorSobreTasaIVaFac.setText("" + Statics.Funciones.redondeo2String(auxImpuestos));
 
-                auxImpuestos=precio_parcial*sobreTasaIva;
-                jLabelValorSobreTasaIVaFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
+            precio_parcial = precio_parcial * (1 + sobreTasaIva);
 
-                precio_parcial= precio_parcial*(1+sobreTasaIva);
+            auxImpuestos += precio_parcial * impInterno;
+            jLabelValorInternoFac.setText("" + Statics.Funciones.redondeo2String(precio_parcial * impInterno));
+            precio_parcial = precio_parcial * (1 + impInterno);
 
+            jLabelValorImpInterFijFac.setText("" + Statics.Funciones.redondeo2String(precio_parcial * impInternoFijo));
 
-                auxImpuestos+=precio_parcial*impInterno;
-                jLabelValorInternoFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial*impInterno));
-                precio_parcial=precio_parcial*(1+impInterno);
+            auxImpuestos += precio_parcial * impInternoFijo;
+            precio_parcial = precio_parcial * (1 + impInternoFijo);
 
+            auxImpuestos += ivaTotalFactura;
+            jLabelTotalImpuestosFac.setText("" + Statics.Funciones.redondeo2String(auxImpuestos));
+            //subtotal - descuentos + ivas + impuestos
+            // Los impuestos ya estan calculados, me falta sumar el total del iva
+            precio_parcial += ivaTotalFactura;
+            jLabelTotalFac.setText("" + Statics.Funciones.redondeo2String(precio_parcial));
+            factura.setTotal(precio_parcial);
 
-
-                jLabelValorImpInterFijFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial*impInternoFijo));
-
-                auxImpuestos+=precio_parcial*impInternoFijo;
-                precio_parcial=precio_parcial*(1+impInternoFijo);
-
-                auxImpuestos+=ivaTotalFactura;
-                jLabelTotalImpuestosFac.setText(""+Statics.Funciones.redondeo2String(auxImpuestos));
-                //subtotal - descuentos + ivas + impuestos
-                // Los impuestos ya estan calculados, me falta sumar el total del iva
-                precio_parcial+=ivaTotalFactura;
-                jLabelTotalFac.setText(""+Statics.Funciones.redondeo2String(precio_parcial));
-                factura.setTotal(precio_parcial);
-
-}
+        }
 
         private void selectProducto(int pos) {
             prodSelect = listProdNota.get(pos);
-            txtf_nota_neto.setText(prodSelect.getPrecioNeto()+"");
+            txtf_nota_neto.setText(prodSelect.getPrecioNeto() + "");
             txtf_nota_buscarProduPedido.setText(prodSelect.getNombre());
             txtf_nota_cantidad.requestFocus();
             txtf_nota_cantidad.selectAll();
@@ -5265,9 +5355,9 @@ public class Pestaña3_dinamica {
                     txtf_productos_buscar.setText("");
                 }
             } else if (rbtn_productos_nombre.isSelected()) {
-                cargarProductos(productosDAO.buscarProducto("nombre",text.toLowerCase()));
+                cargarProductos(productosDAO.buscarProducto("nombre", text.toLowerCase()));
             } else {
-                 jLabelInfoNotaPedido.setText("Error - o selecciono tipo de busqueda");
+                jLabelInfoNotaPedido.setText("Error - o selecciono tipo de busqueda");
 
             }
         }
@@ -5292,7 +5382,7 @@ public class Pestaña3_dinamica {
         }
 
         private void agregarRenglonPedido(float parseFloat, int parseInt) {
-            if(prodSelect == null){
+            if (prodSelect == null) {
 
                 jLabelInfoNotaPedido.setText("Error - Debe seleccionar un producto ");
                 return;
@@ -5301,20 +5391,20 @@ public class Pestaña3_dinamica {
             rp.setCantidad(parseInt);
             rp.setCantFaltante(parseInt);
 
-            System.out.println("voy a poner cant faltante: "+parseInt);
+            System.out.println("voy a poner cant faltante: " + parseInt);
             rp.setNeto(parseFloat);
             rp.setP(prodSelect);
-            rp.setSubTotal(parseFloat*parseInt);
+            rp.setSubTotal(parseFloat * parseInt);
             float subtotal = 0f;
-            if(pedidoNuevo.getRenglones().contains(rp)){
+            if (pedidoNuevo.getRenglones().contains(rp)) {
                 //estaria actualizando la cantidad, el neto y el subtotal
-                for(int i = 0; i< pedidoNuevo.getRenglones().size() ; i++){
-                    if(pedidoNuevo.getRenglones().get(i).getP().getId() == prodSelect.getId()){
+                for (int i = 0; i < pedidoNuevo.getRenglones().size(); i++) {
+                    if (pedidoNuevo.getRenglones().get(i).getP().getId() == prodSelect.getId()) {
                         subtotal = pedidoNuevo.getRenglones().get(i).getSubTotal();
-                        pedidoNuevo.getRenglones().get(i).setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
-                        pedidoNuevo.getRenglones().get(i).setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad()+rp.getCantidad());//suma cantidad del txt mas la que ya estaba
+                        pedidoNuevo.getRenglones().get(i).setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad() + rp.getCantidad());//suma cantidad del txt mas la que ya estaba
+                        pedidoNuevo.getRenglones().get(i).setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad() + rp.getCantidad());//suma cantidad del txt mas la que ya estaba
                         // pedidoNuevo.getRenglones().get(i).setCantidad(rf.getCantidad());//reemplaza la cantidad actual por la del txt
-                        pedidoNuevo.getRenglones().get(i).setSubTotal(pedidoNuevo.getRenglones().get(i).getCantidad()*rp.getNeto());
+                        pedidoNuevo.getRenglones().get(i).setSubTotal(pedidoNuevo.getRenglones().get(i).getCantidad() * rp.getNeto());
                         pedidoNuevo.getRenglones().get(i).setNeto(rp.getNeto());
                         rp.setCantidad(pedidoNuevo.getRenglones().get(i).getCantidad());
                         rp.setCantFaltante(pedidoNuevo.getRenglones().get(i).getCantidad());
@@ -5327,9 +5417,9 @@ public class Pestaña3_dinamica {
                         modelTabla_nota_prodPedido.setValueAt(rp.getSubTotal(), i, 4);
                     }
                 }
-            }else{
+            } else {
                 pedidoNuevo.addRenglon(rp);
-                Object[] o = new Object [5];
+                Object[] o = new Object[5];
                 o[0] = rp.getP().getCod();
                 o[1] = rp.getP().getNombre();
                 o[2] = rp.getCantidad();
@@ -5340,22 +5430,22 @@ public class Pestaña3_dinamica {
             txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
             txtf_nota_neto.setText("");
-            if(Statics.Funciones.isFloat(txtf_nota_total.getText())){
+            if (Statics.Funciones.isFloat(txtf_nota_total.getText())) {
                 float total = Float.parseFloat(txtf_nota_total.getText());
                 total += rp.getSubTotal() - subtotal; // no seria mas?
-                txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(total));
-            }else{
+                txtf_nota_total.setText("" + Statics.Funciones.redondeo2String(total));
+            } else {
                 float total = rp.getSubTotal();
-                txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(total));
+                txtf_nota_total.setText("" + Statics.Funciones.redondeo2String(total));
             }
         }
 
         private void CrearPedido() {
             pedidoNuevo = pedidoDAO.insertPedido(prov.getId());
-            if(pedidoNuevo != null){
+            if (pedidoNuevo != null) {
                 txtf_nota_nro.setText(pedidoNuevo.getNumPedido());
                 lbl_nota_proveedor.setText(prov.getNombre());
-            }else{
+            } else {
 
                 principal.lbl_estado.setText("Error al crear pedido");
                 principal.lbl_estado.setForeground(Color.RED);
@@ -5365,44 +5455,44 @@ public class Pestaña3_dinamica {
         }
 
         private void eliminarRP() {
-            if(pedidos.rpSelected != -1){
-                System.out.println("rpSelected es: "+pedidos.rpSelected);
+            if (pedidos.rpSelected != -1) {
+                System.out.println("rpSelected es: " + pedidos.rpSelected);
                 pedidos.pedidoNuevo.getRenglones().remove(pedidos.rpSelected);
                 recargarTablaPedido();
                 jLabelInfoNotaPedido.setText("Producto eliminado");
 
-            }else{
+            } else {
                 jLabelInfoNotaPedido.setText("Error no seleccionó ningun producto");
                 return;
             }
         }
-        private void recargarTablaPedido(){
+
+        private void recargarTablaPedido() {
             modelTabla_nota_prodPedido.setRowCount(0);
-             float subtotal = 0f;
-              for(int i = 0; i< pedidoNuevo.getRenglones().size() ; i++){
+            float subtotal = 0f;
+            for (int i = 0; i < pedidoNuevo.getRenglones().size(); i++) {
                 renglonPedido rp = new renglonPedido();
-                rp=pedidoNuevo.getRenglones().get(i);
-                Object[] o = new Object [5];
+                rp = pedidoNuevo.getRenglones().get(i);
+                Object[] o = new Object[5];
                 o[0] = rp.getP().getCod();
                 o[1] = rp.getP().getNombre();
                 o[2] = rp.getCantidad();
                 o[3] = rp.getNeto();
                 o[4] = rp.getSubTotal();
                 modelTabla_nota_prodPedido.addRow(o);
-                subtotal+=rp.getSubTotal();
-               }
-              txtf_nota_total.setText(""+Statics.Funciones.redondeo2String(subtotal));
+                subtotal += rp.getSubTotal();
+            }
+            txtf_nota_total.setText("" + Statics.Funciones.redondeo2String(subtotal));
         }
 
         private void terminarPedido() {
-            if(Statics.Funciones.isFloat(txtf_nota_total.getText())){
+            if (Statics.Funciones.isFloat(txtf_nota_total.getText())) {
                 float total = Float.parseFloat(txtf_nota_total.getText());
                 pedidoNuevo.setTotal(total);
                 pedidoNuevo.setFecha(new Date());
             }
 
-
-            if(pedidoDAO.insertRP(pedidoNuevo)){
+            if (pedidoDAO.insertRP(pedidoNuevo)) {
                 txtf_nota_buscarProduPedido.setText("");
                 txtf_nota_cantidad.setText("");
                 txtf_nota_neto.setText("");
@@ -5410,8 +5500,7 @@ public class Pestaña3_dinamica {
                 jDialogCrearNota.dispose();
                 cargarTabla();
                 principal.lbl_estado.setText("Su pedido fue ingresado correctamente");
-            }
-            else{
+            } else {
                 jLabelInfoNotaPedido.setText("Error, no se pudo generar el pedido");
             }
 
@@ -5436,7 +5525,8 @@ public class Pestaña3_dinamica {
             jDialogCrearNota.dispose();
 
         }
-        private void limpiarCamposNotaPedido(){
+
+        private void limpiarCamposNotaPedido() {
             jLabelInfoNotaPedido.setText("");
             txtf_nota_buscarProduPedido.setText("");
             txtf_nota_cantidad.setText("");
@@ -5448,25 +5538,28 @@ public class Pestaña3_dinamica {
         }
 
     }
-public class Pestaña4_dinamica extends Thread
-{
-  private Statics.Funciones funciones;
-  private DAO.ProductoDAO productosDAO;
-  private DefaultTableModel modeloStock;
-  private List<Producto> listaStock;
-  private ProductosView view;
-  public Pestaña4_dinamica(ProductosView view){
-      modeloStock=(DefaultTableModel) jTableTablaStock.getModel();
-      modeloStock.setNumRows(0);
-      listaStock= new ArrayList();
-      productosDAO = ProductoDAO.getInstance();
-      this.view=view;
 
-  }
-  public void cargarTablaStock(String seleccion) {
+    public class Pestaña4_dinamica extends Thread {
+
+        private Statics.Funciones funciones;
+        private DAO.ProductoDAO productosDAO;
+        private DefaultTableModel modeloStock;
+        private List<Producto> listaStock;
+        private ProductosView view;
+
+        public Pestaña4_dinamica(ProductosView view) {
+            modeloStock = (DefaultTableModel) jTableTablaStock.getModel();
+            modeloStock.setNumRows(0);
+            listaStock = new ArrayList();
+            productosDAO = ProductoDAO.getInstance();
+            this.view = view;
+
+        }
+
+        public void cargarTablaStock(String seleccion) {
 
             listaStock.clear();
-            listaStock=productosDAO.getStockFiltrado(seleccion);
+            listaStock = productosDAO.getStockFiltrado(seleccion);
             try {
                 modeloStock.setNumRows(0);
                 Object[] obj = new Object[4];
@@ -5476,7 +5569,7 @@ public class Pestaña4_dinamica extends Thread
                     obj[1] = listaStock.get(i).getNombre();
                     obj[2] = listaStock.get(i).getStock();
                     //obj[2] = listaStock.get(i).getPrecioVenta();
-                   obj[3]=seleccion;
+                    obj[3] = seleccion;
 
                     modeloStock.addRow(obj);
 
@@ -5486,6 +5579,6 @@ public class Pestaña4_dinamica extends Thread
             }
             listaStock.clear();
         }
- }
+    }
 
 }
