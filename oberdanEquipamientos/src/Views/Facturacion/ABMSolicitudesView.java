@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Views.Facturacion;
+
 import DAO.ClientesDAO;
 import DAO.ComercioDAO;
 import DAO.CreditosDAO;
@@ -24,6 +25,7 @@ import Models.Mapa;
 import Models.Pais;
 import Models.Provincia;
 import Models.Rubro;
+import Models.Zona;
 import Views.Main;
 import Views.principal;
 import java.awt.Color;
@@ -36,12 +38,13 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Hernan
  */
 public class ABMSolicitudesView extends javax.swing.JPanel {
-    
+
     private DireccionesDAO direccionesDAO;
     private EmpleadosDAO empleadosDAO;
     private ClientesDAO clienteDAO;
@@ -51,9 +54,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private ArrayList<Empleado> listCobradores;
     private ArrayList<Empleado> listVendedores;
     private List<Rubro> listRubros;
-    private ArrayList<String> listZona;
-    private List <Cliente> listaCliente;
-    private ArrayList <Comercio> listaComercios;
+    private ArrayList<Zona> listZona;
+    private List<Cliente> listaCliente;
+    private ArrayList<Comercio> listaComercios;
     private int posComercioSelected;
     private int idConyugue;
     private Mapa direcciones = null;
@@ -62,11 +65,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private Localidad localidad_selected;
     private Barrio barrio_selected;
     private Direccion direccion_selected;
-    
+
     //flags de control:
     //direccion cargada:
     private boolean direOk = false;
-    
+
     /**
      * Creates new form ABMSolicitudesView
      */
@@ -194,8 +197,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         cbox_EsPropietario = new javax.swing.JCheckBox();
         jLabel31 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        cbox_zonas = new javax.swing.JComboBox<>();
         btn_añadirZona = new javax.swing.JButton();
+        cbox_zonas = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         txt_dniCliente = new javax.swing.JTextField();
         txt_nombreConyugue = new javax.swing.JTextField();
@@ -204,6 +207,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cbox_vendedor = new javax.swing.JComboBox<>();
+        cbox_cobrador = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lbl_cantidadCreditos = new javax.swing.JLabel();
@@ -213,6 +217,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_observacionSolicitud = new javax.swing.JTextArea();
         jLabel23 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btn_cargarRelacion = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
@@ -946,12 +951,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         jLabel28.setText("Zona");
 
-        cbox_zonas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbox_zonasActionPerformed(evt);
-            }
-        });
-
         btn_añadirZona.setText("+");
         btn_añadirZona.setEnabled(false);
         btn_añadirZona.addActionListener(new java.awt.event.ActionListener() {
@@ -959,6 +958,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 btn_añadirZonaActionPerformed(evt);
             }
         });
+
+        cbox_zonas.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -981,9 +982,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                         .addComponent(cbox_EsPropietario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel28)
-                        .addGap(26, 26, 26)
-                        .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(33, 33, 33)
+                        .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btn_añadirZona))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1037,8 +1038,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     .addComponent(jLabel31)
                     .addComponent(cbox_EsPropietario)
                     .addComponent(jLabel28)
-                    .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_añadirZona, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_añadirZona, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbox_zonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -1075,6 +1076,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
         cbox_vendedor.setEnabled(false);
 
+        cbox_cobrador.setEnabled(false);
+
         jLabel4.setText("Solicitud Numero:");
 
         jLabel8.setText("Conyugue");
@@ -1101,6 +1104,8 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jScrollPane2.setViewportView(txt_observacionSolicitud);
 
         jLabel23.setText("Observación de la solicitud:");
+
+        jLabel11.setText("Cobrador:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1144,7 +1149,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(26, 26, 26))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -1179,7 +1189,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
                     .addComponent(cbox_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel23)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1396,7 +1410,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(400, 221);
         jDialogAñadirElemento.setTitle("Añadir un nuevo Rubro");
     }//GEN-LAST:event_btn_nuevoRubroActionPerformed
 
@@ -1404,12 +1418,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         // TODO add your handling code here:
         jDialogClienteCargarDireccion.setVisible(true);
         jDialogClienteCargarDireccion.setModal(true);
-       
+
         jDialogClienteCargarDireccion.setLocation(100, 100);
-        jDialogClienteCargarDireccion.setSize(1008,585);
+        jDialogClienteCargarDireccion.setSize(1008, 585);
         jDialogClienteCargarDireccion.setBackground(Color.WHITE);
         jDialogClienteCargarDireccion.setTitle("Añadir la direccion del comercio");
-        
+
         jPanel15_addElemento.setVisible(false);
         txtf_codPostal1.setVisible(false);
         lbl_codPostal1.setVisible(false);
@@ -1417,43 +1431,62 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_añadirDireccionComercioActionPerformed
 
     private void btn_crearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearSolicitudActionPerformed
-        
-         if(!creditoDAO.controlNroSolicitud(Integer.parseInt(txt_nroSolicitud.getText()))){
-             
-               JOptionPane.showMessageDialog(null,"El numero de la solicitud ya se encuentra registrado","Error",JOptionPane.ERROR_MESSAGE);
-             txt_nroSolicitud.requestFocus();
-             txt_nroSolicitud.setBackground(Color.red);
-               return;
-         }
-        
-        if(listaComercios != null && listaComercios.size()>0 && posComercioSelected != -1){
-            
-            System.out.println(" poscomercio es "+posComercioSelected);
+
+        if (!creditoDAO.controlNroSolicitud(Integer.parseInt(txt_nroSolicitud.getText()))) {
+
+            JOptionPane.showMessageDialog(null, "El numero de la solicitud ya se encuentra registrado", "Error", JOptionPane.ERROR_MESSAGE);
+            txt_nroSolicitud.requestFocus();
+            txt_nroSolicitud.setBackground(Color.red);
+            return;
+        }
+
+        Empleado vendedor = (Empleado) cbox_vendedor.getSelectedItem();
+        if (vendedor == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un vendedor", "Error", JOptionPane.ERROR_MESSAGE);
+            cbox_vendedor.requestFocus();
+            return;
+        }
+        Empleado cobrador = (Empleado) cbox_cobrador.getSelectedItem();
+        if (cobrador == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un cobrador", "Error", JOptionPane.ERROR_MESSAGE);
+            cbox_cobrador.requestFocus();
+            return;
+        }
+        Zona zona = (Zona) cbox_zonas.getSelectedItem(); //TODO preguntar si esto puede ser opcional
+        if (zona == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una zona", "Error", JOptionPane.ERROR_MESSAGE);
+            cbox_zonas.requestFocus();
+            return;
+        }
+        if (listaComercios != null && listaComercios.size() > 0 && posComercioSelected != -1) {
+
+            System.out.println(" poscomercio es " + posComercioSelected);
             //si tiene al menos 1 , poscomercio es 0
-            if(!controlCampos()){
+            if (!controlCampos()) {
                 //este esta genial, pero falta completarlo
                 return;
             }
             Comercio c = listaComercios.get(posComercioSelected);
             c.setNombre(txt_nombreComercio.getText());
-            c.setZona(String.valueOf(cbox_zonas.getSelectedItem()));
-            c.setRubro((Rubro)cbox_rubro.getSelectedItem());
+            c.setZonaId(zona.getId());
+            c.setRubro((Rubro) cbox_rubro.getSelectedItem());
             c.setIncio_actividades(new Timestamp(date_inicioActividades.getDate().getTime()));
             c.setTipo_iva(String.valueOf(cbox_tipoIva.getSelectedItem()));
             c.setCuit(txt_cuitComercio.getText());
             c.setClienteId(clienteSelected.getId());
-            if(cbox_EsPropietario.isSelected())
+            if (cbox_EsPropietario.isSelected()) {
                 c.setPropietario(1);
-            else
+            } else {
                 c.setPropietario(0);
-            if(cbox_habilitarDireccionComercio.isSelected()){
-                if(c.getDireccion()==null){
-                    JOptionPane.showMessageDialog(null,"Debe ingresar la dirección del comercio o destildar el checkbox, \n lo cual indica que el comercio se encuentra en la misma direccion que el cliente","Error",JOptionPane.ERROR_MESSAGE);
+            }
+            if (cbox_habilitarDireccionComercio.isSelected()) {
+                if (c.getDireccion() == null) {
+                    JOptionPane.showMessageDialog(null, "Debe ingresar la dirección del comercio o destildar el checkbox, \n lo cual indica que el comercio se encuentra en la misma direccion que el cliente", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 c.setDireIdemProp(0);
-              
-            }else{
+
+            } else {
                 Direccion d = new Direccion();
                 d.setId(clienteSelected.getDireccion_id());
                 d.setNombre(clienteSelected.getNombre());
@@ -1462,53 +1495,45 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 c.setReferencia(clienteSelected.getReferencia());
             }
             //por default id esta en -1
-            if(c.getId() == -1){
+            if (c.getId() == -1) {
                 // estaria en -1 xq nunca lo recupero desde la base de datos
                 // estaria creando un nuevo comercio
                 //si falla, retorna -1
                 int id = comercioDAO.insertComercio(c);
-                if(id<0){
+                if (id < 0) {
                     //fallo (?
                     principal.lbl_estado.setText("Error - NO se pudo guardar el comercio");
                     principal.lbl_estado.setForeground(Color.GREEN);
                     return;
                 }
                 c.setId(id);
-            }else{
+            } else {
                 //aca estaria actualizando el comercio
                 comercioDAO.updateComercio(c);
             }
-            System.out.println("En zona tengo: "+c.getZona());
+
             // int zona = Integer.parseInt(c.getZona()); lo saque, no recuerdo como estaba
-            if(creditoDAO.insertarSolicitud(idConyugue,c.getDireccion().getId(),clienteSelected.getId(),c.getId(),txt_observacionSolicitud.getText(),Integer.parseInt(txt_nroSolicitud.getText()),(Empleado)cbox_vendedor.getSelectedItem(),c.getZona()))
-                { 
-                 principal.lbl_estado.setText("La solicitud se cargo con exito");
-                 principal.lbl_estado.setForeground(Color.GREEN);
-                 limpiarCampos();
-                 limpiarAtributos();
-                }
-            else{
+            if (creditoDAO.insertarSolicitud(idConyugue, c.getDireccion().getId(), clienteSelected.getId(), c.getId(), txt_observacionSolicitud.getText(), Integer.parseInt(txt_nroSolicitud.getText()), vendedor.getId(), cobrador.getId(), c.getZonaId())) {
+                principal.lbl_estado.setText("La solicitud se cargo con exito");
+                principal.lbl_estado.setForeground(Color.GREEN);
+                limpiarCampos();
+                limpiarAtributos();
+            } else {
                 principal.lbl_estado.setText("ERROR- La solicitud no se pudo guardar");
-                 principal.lbl_estado.setForeground(Color.RED);
+                principal.lbl_estado.setForeground(Color.RED);
             }
-                
-        }else{
+
+        } else {
             System.out.println("la lista es null, tiene 0 elementos o el posComercioSelected es -1");
         }
     }//GEN-LAST:event_btn_crearSolicitudActionPerformed
-
-    private void cbox_zonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_zonasActionPerformed
-        // TODO add your handling code here:
-        btn_añadirZona.setEnabled(true);
-
-    }//GEN-LAST:event_cbox_zonasActionPerformed
 
     private void btn_añadirZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirZonaActionPerformed
         // TODO add your handling code here:
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+        jDialogAñadirElemento.setSize(400, 221);
         jDialogAñadirElemento.setTitle("Añadir una nueva Zona");
     }//GEN-LAST:event_btn_añadirZonaActionPerformed
 
@@ -1522,38 +1547,38 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
 
     private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_okActionPerformed
         //At the end of all controls, it enables the flag of the commerce address;
-        if(Funciones.compareStrings("-",String.valueOf(cbox_pais.getSelectedItem()))){
+        if (Funciones.compareStrings("-", String.valueOf(cbox_pais.getSelectedItem()))) {
             jTextField_CargarDireInfo.setText("Error- Debe ingresar un pais valido");
             //JOptionPane.showMessageDialog(null,"Debe ingresar un pais valido","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Funciones.compareStrings("-",String.valueOf(cbox_provincia.getSelectedItem()))){
-             jTextField_CargarDireInfo.setText("Error- Debe ingresar una provincia valida");
+        if (Funciones.compareStrings("-", String.valueOf(cbox_provincia.getSelectedItem()))) {
+            jTextField_CargarDireInfo.setText("Error- Debe ingresar una provincia valida");
             //JOptionPane.showMessageDialog(null,"Debe ingresar una provincia valida","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Funciones.compareStrings("-", String.valueOf(cbox_ciudad.getSelectedItem()))){
-             jTextField_CargarDireInfo.setText("Error- Debe ingresar una ciudad validad");
+        if (Funciones.compareStrings("-", String.valueOf(cbox_ciudad.getSelectedItem()))) {
+            jTextField_CargarDireInfo.setText("Error- Debe ingresar una ciudad validad");
             //JOptionPane.showMessageDialog(null,"Debe ingresar una ciudad validad","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Funciones.compareStrings("-",String.valueOf(cbox_direccion.getSelectedItem()))){
-             jTextField_CargarDireInfo.setText("Error- Debe ingresar una direccion valida");
+        if (Funciones.compareStrings("-", String.valueOf(cbox_direccion.getSelectedItem()))) {
+            jTextField_CargarDireInfo.setText("Error- Debe ingresar una direccion valida");
             //JOptionPane.showMessageDialog(null, "Debe ingresar una direccion valida", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!Funciones.isNumeric(txt_nroDireccion.getText())){
-             jTextField_CargarDireInfo.setText("Error- Debe ingresar un numero de direccion");
+        if (!Funciones.isNumeric(txt_nroDireccion.getText())) {
+            jTextField_CargarDireInfo.setText("Error- Debe ingresar un numero de direccion");
             //JOptionPane.showMessageDialog(null,"Debe ingresar un numero de direccion","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
         // y si no seleccione nada?
-      
+
         listaComercios.get(posComercioSelected).setDireccion((Direccion) cbox_direccion.getSelectedItem());
         listaComercios.get(posComercioSelected).setNumero(Integer.parseInt(txt_nroDireccion.getText()));
         listaComercios.get(posComercioSelected).setReferencia(txt_referenciaComercio.getText());
         listaComercios.get(posComercioSelected).setDireIdemProp(0);
-        direOk=true;
+        direOk = true;
         jTextField_CargarDireInfo.setText("");
         jDialogClienteCargarDireccion.dispose();
 
@@ -1569,20 +1594,20 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_verSolicitanteActionPerformed
 
     private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
-        int pos= jTableClientes.getSelectedRow();
-        if(pos!=-1){
+        int pos = jTableClientes.getSelectedRow();
+        if (pos != -1) {
             limpiarAtributos();
             limpiarCampos();
             cargarDatosCliente(pos);
             habilitarBotones(true);
             habilitarCheckbox(true);
             limpiarErrores();
-            
+
         }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
     private void txt_buscarClienteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_buscarClienteCaretUpdate
-        cambioBusqueda(txt_buscarCliente.getText().toString(),rbtn_clientesDni.isSelected(),rbtn_clientesNombre.isSelected(),txt_buscarCliente,jTableClientes);
+        cambioBusqueda(txt_buscarCliente.getText().toString(), rbtn_clientesDni.isSelected(), rbtn_clientesNombre.isSelected(), txt_buscarCliente, jTableClientes);
     }//GEN-LAST:event_txt_buscarClienteCaretUpdate
 
     private void txt_buscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_buscarClienteMouseClicked
@@ -1604,153 +1629,155 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_rbtn_clientesDniActionPerformed
 
     private void tabla_creditosClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_creditosClienteMouseClicked
-        if(tabla_creditosCliente.getSelectedRow() != -1){
+        if (tabla_creditosCliente.getSelectedRow() != -1) {
             int idCredito = (int) tabla_creditosCliente.getValueAt(tabla_creditosCliente.getSelectedRow(), 0);
             cargarCuotasCredito(idCredito);
         }
     }//GEN-LAST:event_tabla_creditosClienteMouseClicked
 
     private void txt_nombreComercioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreComercioKeyReleased
-  
-  
-   
-        
-        if(listaComercios!=null && listaComercios.size() >1){
-        //siempre entra aca por que al menos carga uno vacio
-            if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
-                posComercioSelected = (posComercioSelected+1)%listaComercios.size();
-                System.out.println("en el primer if, tengo "+posComercioSelected);
+
+        if (listaComercios != null && listaComercios.size() > 1) {
+            //siempre entra aca por que al menos carga uno vacio
+            if (evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN) {
+                posComercioSelected = (posComercioSelected + 1) % listaComercios.size();
+                //TODO: filtar zonas por el comercio?? o le habilito la info que quiera? deberia tener un abm de comercio tal vez?
                 cargarDatosComercio();
-            }else if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP){
+            } else if (evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP) {
                 // mmm este cero
                 //tal ves se va hacia arriba
-                if(posComercioSelected == 0){
-                    posComercioSelected = listaComercios.size()-1;
+                if (posComercioSelected == 0) {
+                    posComercioSelected = listaComercios.size() - 1;
                     cargarDatosComercio();
-                }else{
+                } else {
                     posComercioSelected--;
                 }
             }
-            
+
         }
-      
+
     }//GEN-LAST:event_txt_nombreComercioKeyReleased
 
     private void cbox_paisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_paisItemStateChanged
-        if(cbox_pais.getItemCount() == 0)
+        if (cbox_pais.getItemCount() == 0) {
             return;
+        }
         Pais p = (Pais) cbox_pais.getSelectedItem();
         pais_selected = p;
         cbox_provincia.removeAllItems();
-        try{
-            if(direcciones.getPais_Provincia().containsKey(p.getId())){
+        try {
+            if (direcciones.getPais_Provincia().containsKey(p.getId())) {
                 direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
                     cbox_provincia.addItem(t);
                 });
                 cbox_provincia.setSelectedIndex(0);
                 cbox_provincia.setEnabled(true);
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_cbox_paisItemStateChanged
 
     private void cbox_provinciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_provinciaItemStateChanged
-        if(cbox_provincia.getItemCount() == 0)
-        return;
+        if (cbox_provincia.getItemCount() == 0) {
+            return;
+        }
         Provincia p = (Provincia) cbox_provincia.getSelectedItem();
         provincia_selected = p;
         p.getId();
         cbox_ciudad.removeAllItems();
-        try{
-            if(direcciones.getProvincia_Localidad().containsKey(p.getId())){
+        try {
+            if (direcciones.getProvincia_Localidad().containsKey(p.getId())) {
                 direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
                     cbox_ciudad.addItem(t);
                 });
                 cbox_ciudad.setSelectedIndex(0);
                 cbox_ciudad.setEnabled(true);
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_cbox_provinciaItemStateChanged
 
     private void cbox_barrioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_barrioItemStateChanged
-        if(cbox_barrio.getItemCount() == 0)
+        if (cbox_barrio.getItemCount() == 0) {
             return;
+        }
         Barrio b = (Barrio) cbox_barrio.getSelectedItem();
         barrio_selected = b;
         cbox_direccion.removeAllItems();
-        try{
-            if(direcciones.getBarrio_direccion().containsKey(b.getId())){
+        try {
+            if (direcciones.getBarrio_direccion().containsKey(b.getId())) {
                 direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
                     cbox_direccion.addItem(t);
                 });
                 cbox_direccion.setSelectedIndex(0);
                 cbox_direccion.setEnabled(true);
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
 
     }//GEN-LAST:event_cbox_barrioItemStateChanged
 
     private void cbox_ciudadItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_ciudadItemStateChanged
-        if(cbox_ciudad.getItemCount() == 0)
-        return;
+        if (cbox_ciudad.getItemCount() == 0) {
+            return;
+        }
         Localidad l = (Localidad) cbox_ciudad.getSelectedItem();
         localidad_selected = l;
         txt_codigoPostal.setText(l.getCod_postal());
         cbox_barrio.removeAllItems();
-        try{
-            if(direcciones.getLocalidad_Barrio().containsKey(l.getId())){
+        try {
+            if (direcciones.getLocalidad_Barrio().containsKey(l.getId())) {
                 direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
                     cbox_barrio.addItem(t);
                 });
                 cbox_barrio.setSelectedIndex(0);
                 cbox_barrio.setEnabled(true);
             }
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_cbox_ciudadItemStateChanged
 
     private void cbox_direccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_direccionItemStateChanged
-        if(cbox_direccion.getItemCount() == 0)
+        if (cbox_direccion.getItemCount() == 0) {
             return;
+        }
         direccion_selected = (Direccion) cbox_direccion.getSelectedItem();
     }//GEN-LAST:event_cbox_direccionItemStateChanged
 
     private void btn_agregarNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarNacionalidadActionPerformed
         jPanel15_addElemento.setVisible(true);
-       jLabelTitulo.setText("Añadir un nuevo pais");
-       txtf_codPostal1.setVisible(false);
+        jLabelTitulo.setText("Añadir un nuevo pais");
+        txtf_codPostal1.setVisible(false);
         lbl_codPostal1.setVisible(false);
-       jLabelInfoAgregarNuevo.setText("");
-               
+        jLabelInfoAgregarNuevo.setText("");
+
         /**
-        jDialogAñadirElemento.setTitle("Añadir un nuevo pais");
-        jDialogAñadirElemento.setVisible(true);
-        jDialogAñadirElemento.setModal(true);
-        jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
-        */
+         * jDialogAñadirElemento.setTitle("Añadir un nuevo pais");
+         * jDialogAñadirElemento.setVisible(true);
+         * jDialogAñadirElemento.setModal(true);
+         * jDialogAñadirElemento.setLocationRelativeTo(this);
+         * jDialogAñadirElemento.setSize(400,221);
+         */
     }//GEN-LAST:event_btn_agregarNacionalidadActionPerformed
 
     private void btn_agregarProvinciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarProvinciaActionPerformed
         jPanel15_addElemento.setVisible(true);
-     jLabelTitulo.setText("Añadir una nueva provincia");
-     txtf_codPostal1.setVisible(false);
+        jLabelTitulo.setText("Añadir una nueva provincia");
+        txtf_codPostal1.setVisible(false);
         lbl_codPostal1.setVisible(false);
         jLabelInfoAgregarNuevo.setText("");
         /**
          * jDialogAñadirElemento.setTitle("Añadir una nueva provincia");
-        jDialogAñadirElemento.setVisible(true);
-        jDialogAñadirElemento.setModal(true);
-        jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
+         * jDialogAñadirElemento.setVisible(true);
+         * jDialogAñadirElemento.setModal(true);
+         * jDialogAñadirElemento.setLocationRelativeTo(this);
+         * jDialogAñadirElemento.setSize(400,221);
          */
-        
+
     }//GEN-LAST:event_btn_agregarProvinciaActionPerformed
 
     private void btn_agregarCiudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarCiudadActionPerformed
@@ -1760,15 +1787,15 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txtf_codPostal1.setVisible(true);
         jLabelInfoAgregarNuevo.setText("");
         /**
-        txtf_codPostal.setVisible(true);
-        lbl_codPostal.setVisible(true);
-        jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
-        jDialogAñadirElemento.setVisible(true);
-        jDialogAñadirElemento.setModal(true);
-        jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
-        * */
-        
+         * txtf_codPostal.setVisible(true); lbl_codPostal.setVisible(true);
+         * jDialogAñadirElemento.setTitle("Añadir una nueva ciudad");
+         * jDialogAñadirElemento.setVisible(true);
+         * jDialogAñadirElemento.setModal(true);
+         * jDialogAñadirElemento.setLocationRelativeTo(this);
+         * jDialogAñadirElemento.setSize(400,221);
+         *
+         */
+
     }//GEN-LAST:event_btn_agregarCiudadActionPerformed
 
     private void btn_agregarBarrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarBarrioActionPerformed
@@ -1777,29 +1804,31 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txtf_codPostal1.setVisible(false);
         lbl_codPostal1.setVisible(false);
         jLabelInfoAgregarNuevo.setText("");
-        
+
         /**
-        jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
-        jDialogAñadirElemento.setVisible(true);
-        jDialogAñadirElemento.setModal(true);
-        jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
-        * */
+         * jDialogAñadirElemento.setTitle("Añadir un nuevo barrio");
+         * jDialogAñadirElemento.setVisible(true);
+         * jDialogAñadirElemento.setModal(true);
+         * jDialogAñadirElemento.setLocationRelativeTo(this);
+         * jDialogAñadirElemento.setSize(400,221);
+         *
+         */
     }//GEN-LAST:event_btn_agregarBarrioActionPerformed
 
     private void btn_agregarDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarDireccionActionPerformed
         jPanel15_addElemento.setVisible(true);
-       jLabelTitulo.setText("Añadir una nueva direccion");
-       txtf_codPostal1.setVisible(false);
+        jLabelTitulo.setText("Añadir una nueva direccion");
+        txtf_codPostal1.setVisible(false);
         lbl_codPostal1.setVisible(false);
         jLabelInfoAgregarNuevo.setText("");
         /**
-        jDialogAñadirElemento.setTitle("Añadir una nueva direccion");
-        jDialogAñadirElemento.setVisible(true);
-        jDialogAñadirElemento.setModal(true);
-        jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(400,221);
-        * */
+         * jDialogAñadirElemento.setTitle("Añadir una nueva direccion");
+         * jDialogAñadirElemento.setVisible(true);
+         * jDialogAñadirElemento.setModal(true);
+         * jDialogAñadirElemento.setLocationRelativeTo(this);
+         * jDialogAñadirElemento.setSize(400,221);
+         *
+         */
     }//GEN-LAST:event_btn_agregarDireccionActionPerformed
 
     private void cbox_habilitarDireccionComercioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbox_habilitarDireccionComercioStateChanged
@@ -1846,53 +1875,51 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-       
-       // añadir una nueva zona
-       if(!txtf_nuevo_elemento.getText().isEmpty()){
-           if(txtf_nuevo_elemento.getText().length()>50){
-               jLabelAñadirElementoInfo.setText("Error, el nombre no debe superar los 50 caracteres");
-               return;
-           }
-           if(comercioDAO.insertZona(txtf_nuevo_elemento.getText())){
-               txtf_nuevo_elemento.setText("");
-               jLabelAñadirElementoInfo.setText("");
+
+        // añadir una nueva zona
+        if (!txtf_nuevo_elemento.getText().isEmpty()) {
+            if (txtf_nuevo_elemento.getText().length() > 50) {
+                jLabelAñadirElementoInfo.setText("Error, el nombre no debe superar los 50 caracteres");
+                return;
+            }
+            if (comercioDAO.insertZona(txtf_nuevo_elemento.getText())) {
+                txtf_nuevo_elemento.setText("");
+                jLabelAñadirElementoInfo.setText("");
                 jDialogAñadirElemento.dispose();
-                 principal.lbl_estado.setText("Exito: Se guardo una nueva zona");
-                 cbox_zonas.removeAllItems();
-                 listZona = comercioDAO.getZona();
-                    Collections.sort(listVendedores);
-                    listZona.forEach((t) -> {
-                        cbox_zonas.addItem(t);
-                    });
-                    cbox_zonas.setEnabled(true);
-                    //cbox_zonas.setSelectedItem((String)txtf_nuevo_elemento.getText());
-                    //System.out.println("el index es: "+listZona.indexOf((String)txtf_nuevo_elemento.getText()));
-                    cbox_zonas.setSelectedIndex(cbox_zonas.getItemCount()-1);
-                       }
-           else{
-               jLabelInfoAgregarNuevo.setText("Error, la zona no se pudo agregar, controle que no este repetida");
-           }
-       }
-       else{
-           jLabelInfoAgregarNuevo.setText("Debe ingresar algo");
-       }
-       
+                principal.lbl_estado.setText("Exito: Se guardo una nueva zona");
+                cbox_zonas.removeAllItems();
+                listZona = comercioDAO.getZonas();
+                Collections.sort(listVendedores);
+                listZona.forEach((t) -> {
+                    cbox_zonas.addItem(t);
+                });
+                cbox_zonas.setEnabled(true);
+                //cbox_zonas.setSelectedItem((String)txtf_nuevo_elemento.getText());
+                //System.out.println("el index es: "+listZona.indexOf((String)txtf_nuevo_elemento.getText()));
+                cbox_zonas.setSelectedIndex(cbox_zonas.getItemCount() - 1);
+            } else {
+                jLabelInfoAgregarNuevo.setText("Error, la zona no se pudo agregar, controle que no este repetida");
+            }
+        } else {
+            jLabelInfoAgregarNuevo.setText("Debe ingresar algo");
+        }
+
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        boolean todook=true;
+        boolean todook = true;
 
         String texto = txtf_nuevo_elemento1.getText().toUpperCase();
         String codPostal = txtf_codPostal1.getText().toUpperCase();
-        if(!Funciones.controlText(texto) || texto.equalsIgnoreCase("")){
-                      jLabelInfoAgregarNuevo.setText("Error- Debe escribir algo");
-                      return;
-                }
-        System.out.println("El titulo leido es: "+jLabelTitulo.getText());
-        switch(jLabelTitulo.getText()){
-            case "Añadir un nuevo pais":{
-                
-                if(!direcciones.controlPais(texto)){
+        if (!Funciones.controlText(texto) || texto.equalsIgnoreCase("")) {
+            jLabelInfoAgregarNuevo.setText("Error- Debe escribir algo");
+            return;
+        }
+        System.out.println("El titulo leido es: " + jLabelTitulo.getText());
+        switch (jLabelTitulo.getText()) {
+            case "Añadir un nuevo pais": {
+
+                if (!direcciones.controlPais(texto)) {
                     Provincia p = direccionesDAO.añadirPais(texto);
                     Pais pais = new Pais();
                     pais.setId(p.getId_pais());
@@ -1904,113 +1931,109 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                     cbox_pais.addItem(pais);
                     cbox_pais.setSelectedItem(pais);
 
-                }else{
+                } else {
                     //jTextF_IngresarNuevoElemento.setFColor.red);
                     jLabelInfoAgregarNuevo.setText("El pais que intenta ingresar ya existe!");
-                            
-                //JOptionPane.showMessageDialog(null, "El pais que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-                todook=false;
+
+                    //JOptionPane.showMessageDialog(null, "El pais que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                    todook = false;
+                }
+                break;
             }
-            break;
+            case "Añadir una nueva provincia": {
+
+                if (!direcciones.controlProvincia(pais_selected.getId(), texto)) {
+                    Localidad l = direccionesDAO.añadirProvincia(texto, pais_selected.getId());
+                    Provincia p = new Provincia();
+                    p.setId(l.getId_provincia());
+                    p.setNombre(texto);
+                    p.setId_pais(pais_selected.getId());
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_provincia.addItem(p);
+                    cbox_provincia.setSelectedItem(p);
+                    cbox_ciudad.removeAllItems();
+                    cbox_ciudad.addItem(l);
+                } else {
+                    todook = false;
+                    jLabelInfoAgregarNuevo.setText("Error- La provincia que intenta ingresar ya existe!");
+                    //JOptionPane.showMessageDialog(null, "La provincia que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            }
+            case "Añadir una nueva ciudad": {
+
+                if (txtf_codPostal1.getText().equalsIgnoreCase("")) {
+                    //deberia controlar que no este repetido el codigo postal
+                    jLabelInfoAgregarNuevo.setText("Error, debe ingresar un codigo postal");
+                }
+                if (!direcciones.controlLocalidad(provincia_selected.getId(), texto)) {
+                    Barrio b = direccionesDAO.añadirCiudad(texto, provincia_selected.getId(), codPostal);
+                    Localidad l = new Localidad();
+                    l.setId(b.getId_localidad());
+                    l.setNombre(texto);
+                    l.setCod_postal(codPostal);
+                    l.setId_provincia(provincia_selected.getId());
+                    txt_codigoPostal.setText(codPostal);
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_ciudad.addItem(l);
+                    cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
+                    cbox_barrio.removeAllItems();
+                    cbox_barrio.addItem(b);
+                    // si esta todo ok oculto
+                    txtf_codPostal1.setVisible(false);
+                    lbl_codPostal1.setVisible(false);
+                } else {
+                    todook = false;
+                    jLabelInfoAgregarNuevo.setText("Error- La localidad que intenta ingresar ya existe!");
+                    //JOptionPane.showMessageDialog(null, "La localidad que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            }
+            case "Añadir un nuevo barrio": {
+                if (!direcciones.controlBarrio(localidad_selected.getId(), texto)) {
+                    Direccion d = direccionesDAO.añadirBarrio(texto, localidad_selected.getId());
+                    Barrio b = new Barrio();
+                    b.setId(d.getId_barrio());
+                    b.setId_localidad(localidad_selected.getId());
+                    b.setNombre(texto);
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+                    //actualizo cbox
+                    cbox_barrio.addItem(b);
+                    cbox_barrio.setSelectedItem(b);
+                    cbox_direccion.removeAllItems();
+                    cbox_direccion.addItem(d);
+                } else {
+                    todook = false;
+                    jLabelInfoAgregarNuevo.setText("Error- El barrio que intenta ingresar ya existe!");
+                    //JOptionPane.showMessageDialog(null, "El barrio que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            }
+            case "Añadir una nueva direccion": {
+                if (!direcciones.controlDireccion(direccion_selected.getId(), texto)) {
+                    int id = direccionesDAO.añadirDireccion(texto, barrio_selected.getId());
+                    Direccion d = new Direccion();
+                    d.setId(id);
+                    d.setId_barrio(barrio_selected.getId());
+                    d.setNombre(texto);
+                    direcciones.getBarrio_direccion().get(barrio_selected.getId());
+                    //actualizo cbox
+                    cbox_direccion.addItem(d);
+                    cbox_direccion.setSelectedItem(d);
+                } else {
+                    todook = false;
+                    jLabelInfoAgregarNuevo.setText("Error- La direccion que intenta ingresar ya existe!");
+                    //<JOptionPane.showMessageDialog(null, "La direccion que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            }
         }
-        case "Añadir una nueva provincia":{
-            
-            if(!direcciones.controlProvincia(pais_selected.getId(), texto)){
-                Localidad l = direccionesDAO.añadirProvincia(texto,pais_selected.getId());
-                Provincia p = new Provincia();
-                p.setId(l.getId_provincia());
-                p.setNombre(texto);
-                p.setId_pais(pais_selected.getId());
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_provincia.addItem(p);
-                cbox_provincia.setSelectedItem(p);
-                cbox_ciudad.removeAllItems();
-                cbox_ciudad.addItem(l);
-            }
-            else{
-                todook=false;
-                jLabelInfoAgregarNuevo.setText("Error- La provincia que intenta ingresar ya existe!");
-                //JOptionPane.showMessageDialog(null, "La provincia que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        case "Añadir una nueva ciudad":{
-            
-            if(txtf_codPostal1.getText().equalsIgnoreCase("")){
-                //deberia controlar que no este repetido el codigo postal
-                 jLabelInfoAgregarNuevo.setText("Error, debe ingresar un codigo postal");
-            }
-            if(!direcciones.controlLocalidad(provincia_selected.getId(), texto)){
-                Barrio b = direccionesDAO.añadirCiudad(texto,provincia_selected.getId(),codPostal);
-                Localidad l = new Localidad();
-                l.setId(b.getId_localidad());
-                l.setNombre(texto);
-                l.setCod_postal(codPostal);
-                l.setId_provincia(provincia_selected.getId());
-                txt_codigoPostal.setText(codPostal);
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_ciudad.addItem(l);
-                cbox_ciudad.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
-                cbox_barrio.removeAllItems();
-                cbox_barrio.addItem(b);
-                // si esta todo ok oculto
-                txtf_codPostal1.setVisible(false);
-                lbl_codPostal1.setVisible(false);
-            }
-            else{
-                todook=false;
-                 jLabelInfoAgregarNuevo.setText("Error- La localidad que intenta ingresar ya existe!");
-                //JOptionPane.showMessageDialog(null, "La localidad que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        case "Añadir un nuevo barrio":{
-            if(!direcciones.controlBarrio(localidad_selected.getId(), texto)){
-                Direccion d = direccionesDAO.añadirBarrio(texto,localidad_selected.getId());
-                Barrio b = new Barrio();
-                b.setId(d.getId_barrio());
-                b.setId_localidad(localidad_selected.getId());
-                b.setNombre(texto);
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                //actualizo cbox
-                cbox_barrio.addItem(b);
-                cbox_barrio.setSelectedItem(b);
-                cbox_direccion.removeAllItems();
-                cbox_direccion.addItem(d);
-            }
-            else{
-                todook=false;
-                jLabelInfoAgregarNuevo.setText("Error- El barrio que intenta ingresar ya existe!");
-                //JOptionPane.showMessageDialog(null, "El barrio que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        case "Añadir una nueva direccion":{
-            if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
-                int id = direccionesDAO.añadirDireccion(texto,barrio_selected.getId());
-                Direccion d = new Direccion();
-                d.setId(id);
-                d.setId_barrio(barrio_selected.getId());
-                d.setNombre(texto);
-                direcciones.getBarrio_direccion().get(barrio_selected.getId());
-                //actualizo cbox
-                cbox_direccion.addItem(d);
-                cbox_direccion.setSelectedItem(d);
-            }
-            else{
-                todook=false;
-                jLabelInfoAgregarNuevo.setText("Error- La direccion que intenta ingresar ya existe!");
-                //<JOptionPane.showMessageDialog(null, "La direccion que intenta ingresar ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            break;
-        }
-        }
-        if(todook) {
+        if (todook) {
             txtf_nuevo_elemento1.setText("");
             txtf_codPostal1.setText("");
             txtf_codPostal1.setVisible(false);
@@ -2051,6 +2074,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JCheckBox cbox_EsPropietario;
     private javax.swing.JComboBox<Models.Barrio> cbox_barrio;
     private javax.swing.JComboBox<Models.Localidad> cbox_ciudad;
+    private javax.swing.JComboBox<Models.Empleado> cbox_cobrador;
     private javax.swing.JComboBox<Models.Direccion> cbox_direccion;
     private javax.swing.JCheckBox cbox_habilitarDireccionComercio;
     private javax.swing.JComboBox<Models.Pais> cbox_pais;
@@ -2058,7 +2082,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JComboBox<Models.Rubro> cbox_rubro;
     private javax.swing.JComboBox<String> cbox_tipoIva;
     private javax.swing.JComboBox<Models.Empleado> cbox_vendedor;
-    private javax.swing.JComboBox<String> cbox_zonas;
+    private javax.swing.JComboBox<Models.Zona> cbox_zonas;
     private com.toedter.calendar.JDateChooser date_inicioActividades;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
@@ -2070,6 +2094,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JDialog jDialogVerSolicitante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -2168,40 +2193,41 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private javax.swing.JTextField txtf_nuevo_elemento1;
     // End of variables declaration//GEN-END:variables
 //panel buscador
-    public void cambioBusqueda(String txt,boolean dni,boolean nombre,JTextField buscador, JTable tablaBuscador ){
-        if(txt.isEmpty()){
+    public void cambioBusqueda(String txt, boolean dni, boolean nombre, JTextField buscador, JTable tablaBuscador) {
+        if (txt.isEmpty()) {
             System.out.println("Entre por txt empty");
-            cargarTablaBusqueda(clienteDAO.buscarCliente("nombre",""),tablaBuscador);
-            
-        }else if(dni){
-            try{
-                int cod= Integer.parseInt(txt);
-                cargarTablaBusqueda(clienteDAO.buscarCliente("id",cod+""),tablaBuscador);
-            }catch(Exception ex){
+            cargarTablaBusqueda(clienteDAO.buscarCliente("nombre", ""), tablaBuscador);
+
+        } else if (dni) {
+            try {
+                int cod = Integer.parseInt(txt);
+                cargarTablaBusqueda(clienteDAO.buscarCliente("id", cod + ""), tablaBuscador);
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dni",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                 txt_buscarCliente.setText("");
-                 buscador.setText("");
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                txt_buscarCliente.setText("");
+                buscador.setText("");
             }
-        }else if(nombre){
-            cargarTablaBusqueda(clienteDAO.buscarCliente("nombre",txt.toLowerCase()),tablaBuscador);
-            
-        }else {
-             System.out.println("Error no selecciono tipo de busqueda");
+        } else if (nombre) {
+            cargarTablaBusqueda(clienteDAO.buscarCliente("nombre", txt.toLowerCase()), tablaBuscador);
+
+        } else {
+            System.out.println("Error no selecciono tipo de busqueda");
         }
     }
-    public void cargarTablaBusqueda(List<Cliente> client, JTable tablaBuscador){
-        listaCliente=client;
+
+    public void cargarTablaBusqueda(List<Cliente> client, JTable tablaBuscador) {
+        listaCliente = client;
         DefaultTableModel model = (DefaultTableModel) tablaBuscador.getModel();
         model.setNumRows(0);
-        try{
-            Object[] obj = new Object [2];
-            for (int i=0; i< listaCliente.size();i++){
-            obj[0]=listaCliente.get(i).getDni();
-            obj[1]=listaCliente.get(i).getNombre();
-            model.addRow(obj);
-        }
-        }catch(Exception ex){
+        try {
+            Object[] obj = new Object[2];
+            for (int i = 0; i < listaCliente.size(); i++) {
+                obj[0] = listaCliente.get(i).getDni();
+                obj[1] = listaCliente.get(i).getNombre();
+                model.addRow(obj);
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -2214,7 +2240,15 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             cbox_vendedor.addItem(t);
         });
         cbox_vendedor.setEnabled(false);
-        
+
+        cbox_cobrador.setEnabled(true);
+        listCobradores = empleadosDAO.getCobradores();
+        Collections.sort(listCobradores);
+        listCobradores.forEach((t) -> {
+            cbox_cobrador.addItem(t);
+        });
+        cbox_cobrador.setEnabled(false);
+
         cbox_rubro.setEnabled(true);
         listRubros = RubroDAO.getInstance().getRubros();
         Collections.sort(listVendedores);
@@ -2222,20 +2256,22 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             cbox_rubro.addItem(t);
         });
         cbox_rubro.setEnabled(false);
+
         cbox_zonas.setEnabled(true);
-        listZona = comercioDAO.getZona();
+        listZona = comercioDAO.getZonas();
         Collections.sort(listVendedores);
         listZona.forEach((t) -> {
             cbox_zonas.addItem(t);
         });
         cbox_zonas.setEnabled(false);
     }
+
     //METODOS jDialog VER SOLICITANTE
     private void cargarDatosSolicitante() {
         ArrayList<Credito> cred = creditoDAO.getCreditosCliente(clienteSelected.getId());
         DefaultTableModel model = (DefaultTableModel) tabla_creditosCliente.getModel();
         float saldoActual = 0f;
-        for(int i = 0 ; i < cred.size(); i++){
+        for (int i = 0; i < cred.size(); i++) {
             Object[] o = new Object[6];
             o[0] = cred.get(i).getId();
             o[1] = cred.get(i).getCant_cuotas();
@@ -2243,37 +2279,39 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             o[3] = cred.get(i).getImporte_credito();
             o[4] = cred.get(i).getEstado();
             o[5] = cred.get(i).getTipo();
-            if(cred.get(i).getCobrador() != null)
+            if (cred.get(i).getCobrador() != null) {
                 o[6] = cred.get(i).getCobrador().getNombre();
-            else
+            } else {
                 o[6] = "-";
+            }
             saldoActual += cred.get(i).getImporte_deuda();
             model.addRow(o);
         }
-        if(!clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
+        if (!clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")) {
             Cliente conyugue = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
-              //datos conyugue
+            //datos conyugue
             lbl_nombreConyugue.setText(conyugue.getNombre());
             lbl_fechaNacimientoConyugue.setText(Statics.Funciones.dateFormat(conyugue.getFechaNacimiento()));
-            lbl_documentoConyugue.setText(conyugue.getDni()+"");
+            lbl_documentoConyugue.setText(conyugue.getDni() + "");
         }
-        
+
         Cliente cliente = clienteDAO.buscarCliente(clienteSelected.getId());
         lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
-        if(cliente.getContacto().size()>0)
+        if (cliente.getContacto().size() > 0) {
             lbl_contactoCliente.setText(cliente.getContacto().get(0).getContacto());
+        }
         lbl_nombreCliente.setText(cliente.getNombre());
-        lbl_domicilioCliente.setText(cliente.getDireccion()+" "+cliente.getNumero());
+        lbl_domicilioCliente.setText(cliente.getDireccion() + " " + cliente.getNumero());
         lbl_estadoCivilClient.setText(cliente.getEstadoCivil());
         lbl_localidadCliente.setText(cliente.getCiudad());
         lbl_barrioCliente.setText(cliente.getBarrio());
         lbl_provinciaCliente.setText(cliente.getProvincia());
         //datos monetarios we
-        lbl_limiteCredito.setText(cliente.getLimite_credito()+"");
-        lbl_saldoActual.setText(saldoActual+"");
-      
-        
+        lbl_limiteCredito.setText(cliente.getLimite_credito() + "");
+        lbl_saldoActual.setText(saldoActual + "");
+
     }
+
     private void cargarCuotasCredito(int idCredito) {
         ArrayList<Carton> cartones = creditoDAO.getCartonesCredito(idCredito);
         DefaultTableModel model = (DefaultTableModel) tabla_creditosCliente.getModel();
@@ -2287,52 +2325,69 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             model.addRow(o);
         }
     }
-    
+
     //FIN METODOS jDialog VER SOLICITANTE
     private void cargarDatosCliente(int pos) {
-        if(pos !=-1){
+        if (pos != -1) {
             clienteSelected = listaCliente.get(pos);
             txt_nombreCliente.setText(clienteSelected.getNombre());
-            txt_dniCliente.setText(clienteSelected.getDni()+"");
+            txt_dniCliente.setText(clienteSelected.getDni() + "");
             Cliente c = null;
-            if(!clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
+            if (!clienteSelected.getEstadoCivil().equalsIgnoreCase("SOLTERO")) {
                 //Dato conyugue
                 c = clienteDAO.recuperarConyugue(String.valueOf(clienteSelected.getId()));
-                txt_nombreConyugue.setText(c.getNombre()+ " ("+c.getDni()+")");
-            }else{
+                txt_nombreConyugue.setText(c.getNombre() + " (" + c.getDni() + ")");
+            } else {
                 c = new Cliente();
                 c.setId(-1);
                 c.setNombre("");
             }
             idConyugue = c.getId();
             //cantidad creditos
-            int cant = creditoDAO.getCantCredPorPareja(clienteSelected.getId(),c.getId());
-            lbl_cantidadCreditos.setText(cant+"");
+            int cant = creditoDAO.getCantCredPorPareja(clienteSelected.getId(), c.getId());
+            lbl_cantidadCreditos.setText(cant + "");
             //datos comercios
             listaComercios = comercioDAO.getComerciosByCliente(clienteSelected.getId());
             Comercio com = new Comercio();
             com.setClienteId(clienteSelected.getId());
             //añade al menos un comercio vacio
             listaComercios.add(com);
-            posComercioSelected = listaComercios.size()-1;
-            System.out.println("al cargar los comercios, pos es "+posComercioSelected);
+            posComercioSelected = listaComercios.size() - 1;
+            System.out.println("al cargar los comercios, pos es " + posComercioSelected);
         }
-    
+
     }
-    
-    private void cargarDatosComercio(){
-             txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
-            cbox_rubro.setSelectedItem(listaComercios.get(posComercioSelected).getRubro());
-            txt_observacionSolicitud.setText(listaComercios.get(posComercioSelected).getReferencia());
-            txt_cuitComercio.setText(listaComercios.get(posComercioSelected).getCuit());
-            date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
-            cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
-            cbox_zonas.setSelectedItem(listaComercios.get(posComercioSelected).getZona());
-            cbox_EsPropietario.setSelected(listaComercios.get(posComercioSelected).getPropietario()==1);
-            boolean val = listaComercios.get(posComercioSelected).getDireccion().getId() != clienteSelected.getDireccion_id();
-            cbox_habilitarDireccionComercio.setSelected(val);
-            btn_añadirDireccionComercio.setEnabled(val);
+
+    private void cargarDatosComercio() {
+        txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
+        cbox_rubro.setSelectedItem(listaComercios.get(posComercioSelected).getRubro());
+        txt_observacionSolicitud.setText(listaComercios.get(posComercioSelected).getReferencia());
+        txt_cuitComercio.setText(listaComercios.get(posComercioSelected).getCuit());
+        date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
+        cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
+        cbox_zonas.setEnabled(true);
+
+        int zona = -1;
+
+        for (int i = 0; i < listZona.size(); i++) {
+            if (listZona.get(i).getId() == listaComercios.get(posComercioSelected).getZonaId()) {
+                zona = i;
+            }
+        }
+        if (zona == -1) {
+            principal.lbl_estado.setText("No se pudo recuperar la zona del comercio");
+        } else {
+            cbox_zonas.setEnabled(false);
+            cbox_zonas.setSelectedItem(listZona.get(zona));
+
+        }
+
+        cbox_EsPropietario.setSelected(listaComercios.get(posComercioSelected).getPropietario() == 1);
+        boolean val = listaComercios.get(posComercioSelected).getDireccion().getId() != clienteSelected.getDireccion_id();
+        cbox_habilitarDireccionComercio.setSelected(val);
+        btn_añadirDireccionComercio.setEnabled(val);
     }
+
     private void habilitarBotones(boolean b) {
         btn_cancelar.setEnabled(b);
         btn_crearSolicitud.setEnabled(b);
@@ -2340,23 +2395,32 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_cargarRelacion.setEnabled(b);
         btn_nuevoRubro.setEnabled(b);
     }
-    private void habilitarCheckbox(boolean b){
-        if(b){
-            if(cbox_vendedor.getItemCount()>0)
+
+    private void habilitarCheckbox(boolean b) {
+        if (b) {
+            if (cbox_vendedor.getItemCount() > 0) {
                 cbox_vendedor.setEnabled(b);
-            if(cbox_rubro.getItemCount()>0)
+            }
+            if (cbox_cobrador.getItemCount() > 0) {
+                cbox_cobrador.setEnabled(b);
+            }
+            if (cbox_rubro.getItemCount() > 0) {
                 cbox_rubro.setEnabled(b);
-            if(cbox_tipoIva.getItemCount()>0)
+            }
+            if (cbox_tipoIva.getItemCount() > 0) {
                 cbox_tipoIva.setEnabled(b);
-            if(cbox_zonas.getItemCount()>0)
+            }
+            if (cbox_zonas.getItemCount() > 0) {
                 cbox_zonas.setEnabled(b);
-        }else{
+            }
+        } else {
             cbox_vendedor.setEnabled(b);
             cbox_rubro.setEnabled(b);
             cbox_tipoIva.setEnabled(b);
             cbox_zonas.setEnabled(b);
         }
     }
+
     private void cargarDatosDireccion() {
         // pero y si no selecciono nada?
         // este metodo funciona ok con comercios ya cargados
@@ -2365,11 +2429,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         cargarNacionalidades();
         txt_nroDireccion.setText("");
         txt_codigoPostal.setText("");
-        if(c.getDireccion()!= null){
+        if (c.getDireccion() != null) {
             Direccion d = c.getDireccion();
             Object[] obj = direccionesDAO.getDireccionCompleta(d.getId());
-            if(obj!= null){
-                Barrio b = (Barrio) obj[0]; 
+            if (obj != null) {
+                Barrio b = (Barrio) obj[0];
                 Localidad l = (Localidad) obj[1];
                 Provincia prov = (Provincia) obj[2];
                 Pais p = (Pais) obj[3];
@@ -2378,48 +2442,48 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 cbox_ciudad.setSelectedItem(l);
                 cbox_barrio.setSelectedItem(b);
                 cbox_direccion.setSelectedItem(c.getDireccion());
-                txt_nroDireccion.setText(c.getNumero()+"");
+                txt_nroDireccion.setText(c.getNumero() + "");
                 txt_codigoPostal.setText(((Localidad) obj[1]).getCod_postal());
-            }else{
+            } else {
                 System.out.println("error en la consulta del metodo getDireccionCompleta");
             }
         }
     }
-    
+
     private void cargarNacionalidades() {
         cbox_pais.removeAllItems();
         direcciones.getPaises().values().forEach((t) -> {
-        cbox_pais.addItem(t);
+            cbox_pais.addItem(t);
         });
     }
+
     /**
-     *   public void cargarDireccionAlModificar(){
-        if(modificarTrue){
-           
-           Pais p = new Pais();
-           p.setNombre(String.valueOf(clienteSeleccionado.getPais()));
-           jCombo_Naciones.setSelectedItem(p);
-           
-           Provincia pro = new Provincia();
-           pro.setNombre(String.valueOf(clienteSeleccionado.getProvincia()));
-           jComboBox_Provincias.setSelectedItem(pro);
-           
-           Localidad loca = new Localidad();
-           loca.setNombre(String.valueOf(clienteSeleccionado.getCiudad()));
-           jComboBox_Ciudades.setSelectedItem(loca);
-           
-           Barrio barr = new Barrio();
-           barr.setNombre(String.valueOf(clienteSeleccionado.getBarrio()));
-           jComboBox_Barrios.setSelectedItem(barr);
-           
-           Direccion dir = new Direccion();
-           dir.setNombre(String.valueOf(clienteSeleccionado.getDireccion()));
-           jComboBox_calles.setSelectedItem(dir);
-           
-           
-        }
+     * public void cargarDireccionAlModificar(){ if(modificarTrue){
+     *
+     * Pais p = new Pais();
+     * p.setNombre(String.valueOf(clienteSeleccionado.getPais()));
+     * jCombo_Naciones.setSelectedItem(p);
+     *
+     * Provincia pro = new Provincia();
+     * pro.setNombre(String.valueOf(clienteSeleccionado.getProvincia()));
+     * jComboBox_Provincias.setSelectedItem(pro);
+     *
+     * Localidad loca = new Localidad();
+     * loca.setNombre(String.valueOf(clienteSeleccionado.getCiudad()));
+     * jComboBox_Ciudades.setSelectedItem(loca);
+     *
+     * Barrio barr = new Barrio();
+     * barr.setNombre(String.valueOf(clienteSeleccionado.getBarrio()));
+     * jComboBox_Barrios.setSelectedItem(barr);
+     *
+     * Direccion dir = new Direccion();
+     * dir.setNombre(String.valueOf(clienteSeleccionado.getDireccion()));
+     * jComboBox_calles.setSelectedItem(dir);
+     *
+     *
+     * }
      */
-    private void limpiarCampos(){
+    private void limpiarCampos() {
         //capos de la pantalla
         txt_nroSolicitud.setText("");
         txt_buscarCliente.setText("");
@@ -2438,37 +2502,36 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         posComercioSelected = -1;
         listaComercios = null;
         pais_selected = null;
-        provincia_selected= null;
+        provincia_selected = null;
         localidad_selected = null;
         barrio_selected = null;
         direccion_selected = null;
     }
 
-
     private boolean controlCampos() {
-        
-        if(!Statics.Funciones.controlText(txt_nombreComercio.getText())){
+
+        if (!Statics.Funciones.controlText(txt_nombreComercio.getText())) {
             txt_nombreComercio.requestFocus();
-            JOptionPane.showMessageDialog(null,"Debe ingresar el nombre del comercio.","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre del comercio.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         //Si el comercio no se ubica en la misma direccion que el propietario
         //debe agregrar una direccion nueva
-        if(cbox_habilitarDireccionComercio.isSelected()){
-            
+        if (cbox_habilitarDireccionComercio.isSelected()) {
+
         }
-        if(!Statics.Funciones.isNumeric(txt_nroSolicitud.getText())){
-            JOptionPane.showMessageDialog(null,"Debe ingresar un numero de solicitud.","Error",JOptionPane.ERROR_MESSAGE);
+        if (!Statics.Funciones.isNumeric(txt_nroSolicitud.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un numero de solicitud.", "Error", JOptionPane.ERROR_MESSAGE);
             txt_nroSolicitud.requestFocus();
             return false;
         }
-        if(!Statics.Funciones.controlText(txt_cuitComercio.getText())){
-            JOptionPane.showMessageDialog(null,"Debe ingresar el CUIT.","Error",JOptionPane.ERROR_MESSAGE);
-             txt_cuitComercio.requestFocus();
+        if (!Statics.Funciones.controlText(txt_cuitComercio.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar el CUIT.", "Error", JOptionPane.ERROR_MESSAGE);
+            txt_cuitComercio.requestFocus();
             return false;
         }
-        if(date_inicioActividades.getDate()==null){
-            JOptionPane.showMessageDialog(null,"Debe ingresar el inicio de actividades del comercio.","Error",JOptionPane.ERROR_MESSAGE);
+        if (date_inicioActividades.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar el inicio de actividades del comercio.", "Error", JOptionPane.ERROR_MESSAGE);
             date_inicioActividades.requestFocus();
             return false;
         }

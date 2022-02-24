@@ -35,6 +35,7 @@ import javax.swing.table.DefaultTableModel;
  * @author demig
  */
 public class ABMCreditosView extends javax.swing.JPanel {
+
     private CreditosDAO creditoDAO;
     private ClientesDAO clienteDAO;
     private CuotasDAO cuotasDAO;
@@ -47,8 +48,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private ArrayList<Producto> listProductos;
     private int posProductoSelected = -1;
     private ArrayList<Producto> filteredList;
-    
-    
+
     /**
      * Creates new form ABMCreditosView
      */
@@ -470,6 +470,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jDialogVerSolicitante.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialogVerSolicitante.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel47.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1570,7 +1571,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txt_buscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_buscarCaretUpdate
-        cambioBusqueda(txt_buscar.getText(),rbtn_solicitud.isSelected(),rbtn_credito.isSelected());
+        cambioBusqueda(txt_buscar.getText(), rbtn_solicitud.isSelected(), rbtn_credito.isSelected());
     }//GEN-LAST:event_txt_buscarCaretUpdate
 
     private void txt_buscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyTyped
@@ -1583,6 +1584,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
             limpiarCampos();
             cargarDatosSoli(pos);
             habilitarCampos();
+            
         }
     }//GEN-LAST:event_tabla_SolicitudesMouseClicked
 
@@ -1599,21 +1601,22 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_crearPagoActionPerformed
 
     private void btn_terminarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_terminarCreditoActionPerformed
-        if(creditoSelected.getRenglones().size() > 0){
+        if (creditoSelected.getRenglones().size() > 0) {
             creditoSelected.setPlan(cuotaSelected);
             creditoSelected.setFecha_credito(new Timestamp(System.currentTimeMillis()));
-            if(Statics.Funciones.isFloat(txt_anticipo.getText()))
+            if (Statics.Funciones.isFloat(txt_anticipo.getText())) {
                 creditoSelected.setAnticipo(Float.parseFloat(txt_anticipo.getText()));
-            else
+            } else {
                 creditoSelected.setAnticipo(0f);
+            }
             //POR QUE ESTARIA PENDIENTE DE APROBACION
             creditoSelected.setEstado("PENDIENTE");
-            if(creditoSelected.getTipo().equals("SOLICITUD")){
+            if (creditoSelected.getTipo().equals("SOLICITUD")) {
                 creditoSelected.setTipo("CREDITO");
                 int id = creditoDAO.insertCreditoNuevo(creditoSelected);
-                if(id == -1){
+                if (id == -1) {
                     JOptionPane.showMessageDialog(null, "Hubo un error al insertar el credito nuevo. Contacte con soporte técnico",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                            "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 creditoSelected.setId(id);
@@ -1621,7 +1624,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 tabla_Solicitudes.setValueAt("EMITIDA", tabla_Solicitudes.getSelectedRow(), 2);
                 principal.lbl_estado.setText("El credito se guardo con exito");
                 principal.lbl_estado.setForeground(Color.GREEN);
-            }else{
+            } else {
                 //ES UNA ACTUALIZACION DEL CREDITO
                 creditoDAO.updateCredito(creditoSelected);
                 lbl_cobrador.setText("Nombre de la persona que aprobo");
@@ -1631,35 +1634,35 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 lbl_fechaAprobacion.setText("");
             }
             //actualizo txt finales
-            txt_cantidadCuotasFin.setText(creditoSelected.getCant_cuotas()+"");
-            txt_importeCuotaFin.setText(creditoSelected.getImporte_cuota()+"");
-            txt_importeUltimaCuota.setText(creditoSelected.getImporte_ult_cuota()+"");
-            txt_importeFinalCredito.setText(creditoSelected.getImporte_credito()+"");    
-        }else{
+            txt_cantidadCuotasFin.setText(creditoSelected.getCant_cuotas() + "");
+            txt_importeCuotaFin.setText(creditoSelected.getImporte_cuota() + "");
+            txt_importeUltimaCuota.setText(creditoSelected.getImporte_ult_cuota() + "");
+            txt_importeFinalCredito.setText(creditoSelected.getImporte_credito() + "");
+        } else {
             JOptionPane.showMessageDialog(null, "No puede terminar el credito sin agregar al menos un producto.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_terminarCreditoActionPerformed
 
     private void btn_agregarArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarArticuloActionPerformed
-        if(cuotaSelected != null && posProductoSelected != -1 && Statics.Funciones.isFloat(txt_importeSubTotal.getText()) && Statics.Funciones.isFloat(txt_importeCuotaProd.getText())){
+        if (cuotaSelected != null && posProductoSelected != -1 && Statics.Funciones.isFloat(txt_importeSubTotal.getText()) && Statics.Funciones.isFloat(txt_importeCuotaProd.getText())) {
             System.out.println("Entre a funcionalidad de boton agregar Articulo");
             Producto p = filteredList.get(posProductoSelected);
-           float precioCuota = Float.parseFloat(txt_importeCuotaProd.getText());
-           float subtotal = Float.parseFloat(txt_importeSubTotal.getText());
-           int cantidad = Integer.parseInt(txt_cantidadProd.getText());
-           Object[] o = new Object[8];
-           o[0] = p.getCod();
-           o[1] = p.getNombre();
-           o[2] = p.getPrecioVenta();
-           o[3] = cantidad;
-           o[4] = subtotal;
-           o[5] = precioCuota;
-           o[6] = cuotaSelected.getCantidad();
-           o[7] = "";
-           DefaultTableModel model = (DefaultTableModel) table_articulos.getModel();
-           model.addRow(o);
-           //creamos el renglon
+            float precioCuota = Float.parseFloat(txt_importeCuotaProd.getText());
+            float subtotal = Float.parseFloat(txt_importeSubTotal.getText());
+            int cantidad = Integer.parseInt(txt_cantidadProd.getText());
+            Object[] o = new Object[8];
+            o[0] = p.getCod();
+            o[1] = p.getNombre();
+            o[2] = p.getPrecioVenta();
+            o[3] = cantidad;
+            o[4] = subtotal;
+            o[5] = precioCuota;
+            o[6] = cuotaSelected.getCantidad();
+            o[7] = "";
+            DefaultTableModel model = (DefaultTableModel) table_articulos.getModel();
+            model.addRow(o);
+            //creamos el renglon
             RenglonCredito rc = new RenglonCredito();
             rc.setCantidad(cantidad);
             rc.setCosto(p.getPrecioNeto());
@@ -1667,27 +1670,27 @@ public class ABMCreditosView extends javax.swing.JPanel {
             rc.setSubTotal(subtotal);
             rc.setP(p);
             creditoSelected.addRenglon(rc);
-            float aux = precioCuota+creditoSelected.getImporte_cuota();
+            float aux = precioCuota + creditoSelected.getImporte_cuota();
             creditoSelected.setImporte_cuota(aux);
-            aux = subtotal+creditoSelected.getImporte_total();
+            aux = subtotal + creditoSelected.getImporte_total();
             creditoSelected.setImporte_total(aux);
             creditoSelected.setImporte_credito(aux);
             //actualizamos valores del credito
-            txt_importeCredito.setText(creditoSelected.getImporte_credito()+"");
-            txt_cantidadCuotas.setText(cuotaSelected.getCantidad()+"");
-            txt_importeCuotaTotal.setText(creditoSelected.getImporte_cuota()+"");
-            txt_importePrimeraCuota.setText(creditoSelected.getImporte_cuota()+"");
-           //limpiamos los campos
-           posProductoSelected = -1;
-           txt_nombreArticulo.setText("");
-           txt_cantidadProd.setText("1");
-           txt_importeSubTotal.setText("0.00");
-           txt_importeCuotaProd.setText("0.00");
-        }else{
+            txt_importeCredito.setText(creditoSelected.getImporte_credito() + "");
+            txt_cantidadCuotas.setText(cuotaSelected.getCantidad() + "");
+            txt_importeCuotaTotal.setText(creditoSelected.getImporte_cuota() + "");
+            txt_importePrimeraCuota.setText(creditoSelected.getImporte_cuota() + "");
+            //limpiamos los campos
+            posProductoSelected = -1;
+            txt_nombreArticulo.setText("");
+            txt_cantidadProd.setText("1");
+            txt_importeSubTotal.setText("0.00");
+            txt_importeCuotaProd.setText("0.00");
+        } else {
             JOptionPane.showMessageDialog(null, "Por favor verifique que selecciono un producto, un plan y coloco la cantidad.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-            
+
     }//GEN-LAST:event_btn_agregarArticuloActionPerformed
 
     private void btn_comprobarUnificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_comprobarUnificacionActionPerformed
@@ -1703,57 +1706,57 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_imprimirCreditoActionPerformed
 
     private void btn_aprobarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aprobarCreditoActionPerformed
-        Main.logueado.setAprobado(true);
+        Main.logueado.setAprobado(true); //TODO no se guardo el id de la cuota al poner varios articulos
         Main.logueado.setFechaAprobacion(new Timestamp(System.currentTimeMillis()));
         JLabel lbl = null;
-        switch(Main.logueado.getTipo()){
-            case "VENDEDOR":{
+        switch (Main.logueado.getTipo()) {
+            case "VENDEDOR": {
                 lbl = lbl_vendedor;
                 creditoSelected.setVendedor(Main.logueado);
                 break;
             }
-            case "COBRADOR":{
+            case "COBRADOR": {
                 lbl = lbl_cobrador;
                 creditoSelected.setCobrador(Main.logueado);
                 break;
             }
-            case "ADMINISTRADOR":{
+            case "ADMINISTRADOR": {
                 System.out.println("entre en el case del administrador");
                 lbl = lbl_administrador;
                 creditoSelected.setAdmin(Main.logueado);
                 break;
             }
-            case "GERENTE":{
+            case "GERENTE": {
                 lbl = lbl_gerente;
                 creditoSelected.setGerente(Main.logueado);
                 break;
             }
         }
-        if(lbl != null){
+        if (lbl != null) {
             System.out.println("lbl esta no null");
             lbl.setText(Main.logueado.getNombre());
             lbl.setForeground(Color.green);
         }
-        if(creditoSelected.getCobrador() != null && creditoSelected.getCobrador().isAprobado()
-                && creditoSelected.getVendedor()!= null && creditoSelected.getVendedor().isAprobado()
-                && creditoSelected.getGerente()!= null && creditoSelected.getGerente().isAprobado() 
-                && creditoSelected.getAdmin()!= null && creditoSelected.getAdmin().isAprobado()){
-            if(date_vencimientoPrimerCuota.getDate().after(new Date())){
+        if (creditoSelected.getCobrador() != null && creditoSelected.getCobrador().isAprobado()
+                && creditoSelected.getVendedor() != null && creditoSelected.getVendedor().isAprobado()
+                && creditoSelected.getGerente() != null && creditoSelected.getGerente().isAprobado()
+                && creditoSelected.getAdmin() != null && creditoSelected.getAdmin().isAprobado()) {
+            if (date_vencimientoPrimerCuota.getDate().after(new Date())) {
                 //ACTUALIZAR DATOS Y CAMPOS
                 creditoSelected.setVenc_pri_cuota(new Timestamp(date_vencimientoPrimerCuota.getDate().getTime()));
                 creditoSelected.setFecha_aprobacion(Main.logueado.getFechaAprobacion());
                 creditoSelected.setEstado("APROBADO");
                 tabla_Solicitudes.setValueAt("APROBADO", tabla_Solicitudes.getSelectedRow(), 2);
-                lbl_fechaAprobacion.setText(new SimpleDateFormat ("dd/MM/yyyy").format(creditoSelected.getFecha_aprobacion()));
+                lbl_fechaAprobacion.setText(new SimpleDateFormat("dd/MM/yyyy").format(creditoSelected.getFecha_aprobacion()));
                 //UPDATEAR EL CREDITO
-                creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), true,true,creditoSelected.getFecha_aprobacion(),creditoSelected.getVenc_pri_cuota());
-            }else{
+                creditoDAO.updateAprobado(creditoSelected.getId(), Main.logueado.getId(), true, true, creditoSelected.getFecha_aprobacion(), creditoSelected.getVenc_pri_cuota());
+            } else {
                 lbl.setText("Nombre de la persona que aprobo");
                 lbl.setForeground(Color.black);
-                JOptionPane.showMessageDialog(null, "Por favor coloque el vencimiento de la primera cuota para dar la aprobacion final al credito.","Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Por favor coloque el vencimiento de la primera cuota para dar la aprobacion final al credito.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
-            creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), true,false,Main.logueado.getFechaAprobacion(),null);
+        } else {
+            creditoDAO.updateAprobado(creditoSelected.getId(), Main.logueado.getId(), true, false, Main.logueado.getFechaAprobacion(), null);
         }
     }//GEN-LAST:event_btn_aprobarCreditoActionPerformed
 
@@ -1767,25 +1770,26 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_verSolicitanteActionPerformed
 
     private void txt_nombreArticuloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreArticuloKeyReleased
-        if(filteredList!=null && filteredList.size() > 0){
-            if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN){
-                posProductoSelected = (posProductoSelected+1)%filteredList.size();
+      
+        if (filteredList != null && filteredList.size() > 0) {
+            if (evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_DOWN) {
+                posProductoSelected = (posProductoSelected + 1) % filteredList.size();
                 txt_nombreArticulo.setText(filteredList.get(posProductoSelected).getNombre());
-            }else if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP){
-                if(posProductoSelected == 0){
-                    posProductoSelected = filteredList.size()-1;
-                }else{
+            } else if (evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_UP) {
+                if (posProductoSelected == 0) {
+                    posProductoSelected = filteredList.size() - 1;
+                } else {
                     posProductoSelected--;
                 }
-                txt_nombreArticulo.setText(filteredList.get(posProductoSelected).getNombre());
+                //txt_nombreArticulo.setText(filteredList.get(posProductoSelected).getNombre());
             }
         }
-        if(evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+        if (evt.getExtendedKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             filteredList = (ArrayList<Producto>) listProductos.stream().filter((Producto t) -> {
-                System.out.println(t.getNombre() + "      "+ txt_nombreArticulo.getText());
+                System.out.println(t.getNombre() + "      " + txt_nombreArticulo.getText());
                 return t.getNombre().toLowerCase().contains(txt_nombreArticulo.getText().toLowerCase());
             }).collect(Collectors.toList());
-            if(filteredList.size() > 0){
+            if (filteredList.size() > 0) {
                 posProductoSelected = 0;
                 txt_nombreArticulo.setText(filteredList.get(0).getNombre());
             }
@@ -1798,21 +1802,21 @@ public class ABMCreditosView extends javax.swing.JPanel {
         String cantidad = cantidad_cuota.getText();
         String mes = mes_vencimiento.getText();
         String dia = dia_vencimiento.getText();
-        if(!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) >0 || Integer.parseInt(dia) > 0 )){
+        if (!Statics.Funciones.isNumeric(mes) || !Statics.Funciones.isNumeric(dia) || !(Integer.parseInt(mes) > 0 || Integer.parseInt(dia) > 0)) {
             JOptionPane.showMessageDialog(null, "Debe completar el intervalo de vencimiento entre cuotas. \n Es decir cuantos dias y/o meses deben pasar entre el vencimiento cada cuota",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)){
-            Cuota c = new Cuota(tipo,Float.parseFloat(porcentaje),Integer.parseInt(cantidad),Integer.parseInt(dia),Integer.parseInt(mes));
+        if (Statics.Funciones.controlText(tipo) && Statics.Funciones.isNumeric(cantidad) && Statics.Funciones.isFloat(porcentaje)) {
+            Cuota c = new Cuota(tipo, Float.parseFloat(porcentaje), Integer.parseInt(cantidad), Integer.parseInt(dia), Integer.parseInt(mes));
             cuotasDAO.insertCuota(c);
             jDialogAñadirPlan.dispose();
             c = CuotasDAO.getInstance().getUltimoAñadido();
             listPlanes.add(c);
             cbox_plan.setSelectedItem(CuotasDAO.getInstance().getUltimoAñadido());
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe completar todos los campos correctamente.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1831,29 +1835,30 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_txt_cantidadProdKeyTyped
 
     private void txt_cantidadProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadProdKeyReleased
-        if(Statics.Funciones.isFloat(txt_cantidadProd.getText()) && posProductoSelected != -1){
+        if (Statics.Funciones.isFloat(txt_cantidadProd.getText()) && posProductoSelected != -1) {
             float cant = Float.valueOf(txt_cantidadProd.getText());
             Producto p = filteredList.get(posProductoSelected);
-            if(cbox_plan.getItemCount() > 0){
-                if(cuotaSelected == null)
+            if (cbox_plan.getItemCount() > 0) {
+                if (cuotaSelected == null) {
                     cuotaSelected = (Cuota) cbox_plan.getSelectedItem();
-                float precio_final = cant * (p.getCostoFlete() + p.getPrecioVenta()) * ((cuotaSelected.getPorcentajeExtra()/100) + 1);
-                txt_importeSubTotal.setText(precio_final+"");
-            }else{
+                }
+                float precio_final = cant * (p.getCostoFlete() + p.getPrecioVenta()) * ((cuotaSelected.getPorcentajeExtra() / 100) + 1);
+                txt_importeSubTotal.setText(precio_final + "");
+            } else {
                 JOptionPane.showMessageDialog(null, "No hay planes de pago disponibles, debe crear un nuevo plan.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un producto y poner un valor en cantidad",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_txt_cantidadProdKeyReleased
 
     private void txt_importeSubTotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txt_importeSubTotalCaretUpdate
-        if(cuotaSelected != null && Statics.Funciones.isFloat(txt_importeSubTotal.getText())){
+        if (cuotaSelected != null && Statics.Funciones.isFloat(txt_importeSubTotal.getText())) {
             float subt = Float.parseFloat(txt_importeSubTotal.getText());
-            txt_importeCuotaProd.setText(subt/cuotaSelected.getCantidad() + "");
+            txt_importeCuotaProd.setText(subt / cuotaSelected.getCantidad() + "");
         }
     }//GEN-LAST:event_txt_importeSubTotalCaretUpdate
 
@@ -1879,32 +1884,32 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_cantidad_cuotaKeyTyped
 
     private void txt_importeCuotaTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_importeCuotaTotalKeyReleased
-        if(!"".equals(txt_importeCuotaTotal.getText()) && creditoSelected.getRenglones().size()>0){
+        if (!"".equals(txt_importeCuotaTotal.getText()) && creditoSelected.getRenglones().size() > 0) {
             float impCuota = Float.valueOf(txt_importeCuotaTotal.getText());
             creditoSelected.setImporte_cuota(impCuota);
-            if(Statics.Funciones.isFloat(txt_anticipo.getText())){
-                float f = creditoSelected.getImporte_credito()-Float.parseFloat(txt_anticipo.getText());
+            if (Statics.Funciones.isFloat(txt_anticipo.getText())) {
+                float f = creditoSelected.getImporte_credito() - Float.parseFloat(txt_anticipo.getText());
                 creditoSelected.setImporte_total(f);
                 creditoSelected.setImporte_credito(f);
             }
             float total = creditoSelected.getImporte_total();
             float resto = total % impCuota;
-            if(resto != 0){
-               creditoSelected.setImporte_ult_cuota(resto+impCuota);
-               total = total-resto;
+            if (resto != 0) {
+                creditoSelected.setImporte_ult_cuota(resto + impCuota);
+                total = total - resto;
             }
             creditoSelected.setImporte_pri_cuota(impCuota);
-            creditoSelected.setCant_cuotas((int) ((int)total/impCuota));
+            creditoSelected.setCant_cuotas((int) ((int) total / impCuota));
             //seteamos los txt
-            txt_importePrimeraCuota.setText(""+impCuota);
-            txt_importeUltimaCuota.setText(""+creditoSelected.getImporte_ult_cuota());
-            txt_cantidadCuotas.setText(""+creditoSelected.getCant_cuotas());
-            txt_cantidadCuotasFin.setText(""+creditoSelected.getCant_cuotas());
+            txt_importePrimeraCuota.setText("" + impCuota);
+            txt_importeUltimaCuota.setText("" + creditoSelected.getImporte_ult_cuota());
+            txt_cantidadCuotas.setText("" + creditoSelected.getCant_cuotas());
+            txt_cantidadCuotasFin.setText("" + creditoSelected.getCant_cuotas());
             txt_importeCuotaFin.setText(txt_importeCuotaTotal.getText());
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(null, "Debe agrear al menos un producto para modificar este valor",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_txt_importeCuotaTotalKeyReleased
 
@@ -1923,7 +1928,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }//GEN-LAST:event_txt_anticipoKeyTyped
 
     private void tabla_creditosClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_creditosClienteMouseClicked
-        if(tabla_creditosCliente.getSelectedRow() != -1){
+        if (tabla_creditosCliente.getSelectedRow() != -1) {
             int idCredito = (int) tabla_creditosCliente.getValueAt(tabla_creditosCliente.getSelectedRow(), 0);
             cargarCuotasCredito(idCredito);
         }
@@ -1932,57 +1937,58 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private void btn_rechazarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rechazarCreditoActionPerformed
         Main.logueado.setAprobado(false);
         Main.logueado.setFechaAprobacion(new Timestamp(System.currentTimeMillis()));
-        switch(Main.logueado.getTipo()){
-            case "VENDEDOR":{
+        switch (Main.logueado.getTipo()) {
+            case "VENDEDOR": {
                 creditoSelected.setVendedor(Main.logueado);
                 lbl_vendedor.setText(Main.logueado.getNombre());
                 lbl_vendedor.setForeground(Color.red);
                 break;
             }
-            case "COBRADOR":{
+            case "COBRADOR": {
                 creditoSelected.setCobrador(Main.logueado);
                 lbl_cobrador.setText(Main.logueado.getNombre());
                 lbl_cobrador.setForeground(Color.red);
                 break;
             }
-            case "ADMINISTRADOR":{
+            case "ADMINISTRADOR": {
                 creditoSelected.setAdmin(Main.logueado);
                 lbl_administrador.setText(Main.logueado.getNombre());
                 lbl_administrador.setForeground(Color.red);
                 break;
             }
-            case "GERENTE":{
+            case "GERENTE": {
                 creditoSelected.setGerente(Main.logueado);
                 lbl_gerente.setText(Main.logueado.getNombre());
                 lbl_gerente.setForeground(Color.red);
                 break;
             }
         }
-        creditoDAO.updateAprobado(creditoSelected.getId(),Main.logueado.getId(), false,false,Main.logueado.getFechaAprobacion(),null);
+        creditoDAO.updateAprobado(creditoSelected.getId(), Main.logueado.getId(), false, false, Main.logueado.getFechaAprobacion(), null);
     }//GEN-LAST:event_btn_rechazarCreditoActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int[] rows = tabla_creditosUnificar.getSelectedRows();
-        if(rows.length > 0){
-            for(int i = 0; i < rows.length; i++){
+        if (rows.length > 0) {
+            for (int i = 0; i < rows.length; i++) {
                 Credito c = listCredUnificables.get(rows[i]);
-                
-                
+
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un credito para calcular la unificacion.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void rbtn_solicitudItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtn_solicitudItemStateChanged
-        if(rbtn_solicitud.isSelected())
-            cambioBusqueda(txt_buscar.getText(),rbtn_solicitud.isSelected(),rbtn_credito.isSelected());
+        if (rbtn_solicitud.isSelected()) {
+            cambioBusqueda(txt_buscar.getText(), rbtn_solicitud.isSelected(), rbtn_credito.isSelected());
+        }
     }//GEN-LAST:event_rbtn_solicitudItemStateChanged
 
     private void rbtn_creditoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtn_creditoItemStateChanged
-        if(rbtn_credito.isSelected())
-            cambioBusqueda(txt_buscar.getText(),rbtn_solicitud.isSelected(),rbtn_credito.isSelected());
+        if (rbtn_credito.isSelected()) {
+            cambioBusqueda(txt_buscar.getText(), rbtn_solicitud.isSelected(), rbtn_credito.isSelected());
+        }
     }//GEN-LAST:event_rbtn_creditoItemStateChanged
 
     private void rbtn_creditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtn_creditoActionPerformed
@@ -2152,50 +2158,54 @@ public class ABMCreditosView extends javax.swing.JPanel {
         //datos en comun entre credito y solicitud
         txt_nombreComercio.setText(creditoSelected.getComerce().getNombre());
         txt_nombreSolicitante.setText(creditoSelected.getCliente().getNombre());
-        txt_limiteCredito.setText(""+creditoSelected.getCliente().getLimite_credito());
-        txt_saldoCredito.setText(""+creditoSelected.getImporte_deuda());
+        txt_limiteCredito.setText("" + creditoSelected.getCliente().getLimite_credito());
+        txt_saldoCredito.setText("" + creditoSelected.getImporte_deuda());
         lbl_FechaSoli.setText(Statics.Funciones.dateFormat(creditoSelected.getFecha_solicitud()));
-        lbl_NroSoli.setText(""+creditoSelected.getSolicitud_id());
+        lbl_NroSoli.setText("" + creditoSelected.getSolicitud_id());
         //carga de datos en caso de que sea un credito
-        if(!creditoSelected.getTipo().equals("SOLICITUD")){
+        if (!creditoSelected.getTipo().equals("SOLICITUD")) {
             txtArea_observaciones.setText(creditoSelected.getObservacion());
             lbl_FechaCred.setText(Statics.Funciones.dateFormat(creditoSelected.getFecha_credito()));
-            lbl_NroCred.setText(""+creditoSelected.getId());
-            if(creditoSelected.getCobrador() != null){
+            lbl_NroCred.setText("" + creditoSelected.getId());
+            if (creditoSelected.getCobrador() != null) {
                 lbl_cobrador.setText(creditoSelected.getCobrador().getNombre());
-                if(creditoSelected.getCobrador().isAprobado())
+                if (creditoSelected.getCobrador().isAprobado()) {
                     lbl_cobrador.setForeground(Color.green);
-                else
+                } else {
                     lbl_cobrador.setForeground(Color.red);
+                }
             }
-            if(creditoSelected.getAdmin()!= null){
+            if (creditoSelected.getAdmin() != null) {
                 lbl_administrador.setText(creditoSelected.getAdmin().getNombre());
-                if(creditoSelected.getAdmin().isAprobado())
+                if (creditoSelected.getAdmin().isAprobado()) {
                     lbl_administrador.setForeground(Color.green);
-                else
+                } else {
                     lbl_administrador.setForeground(Color.red);
+                }
             }
-            if(creditoSelected.getVendedor()!= null){
+            if (creditoSelected.getVendedor() != null) {
                 lbl_vendedor.setText(creditoSelected.getVendedor().getNombre());
-                if(creditoSelected.getVendedor().isAprobado())
+                if (creditoSelected.getVendedor().isAprobado()) {
                     lbl_vendedor.setForeground(Color.green);
-                else
+                } else {
                     lbl_vendedor.setForeground(Color.red);
+                }
             }
-            if(creditoSelected.getGerente()!= null){
+            if (creditoSelected.getGerente() != null) {
                 lbl_gerente.setText(creditoSelected.getGerente().getNombre());
-                if(creditoSelected.getGerente().isAprobado())
+                if (creditoSelected.getGerente().isAprobado()) {
                     lbl_gerente.setForeground(Color.green);
-                else
+                } else {
                     lbl_gerente.setForeground(Color.red);
+                }
             }
-            txt_importeUltimaCuota.setText(creditoSelected.getImporte_ult_cuota()+"");
-            txt_importePrimeraCuota.setText(creditoSelected.getImporte_pri_cuota()+"");
-            txt_importeFinalCredito.setText(creditoSelected.getImporte_credito()+"");
-            txt_importeCuotaTotal.setText(creditoSelected.getImporte_cuota()+"");
-            txt_importeCuotaFin.setText(creditoSelected.getImporte_cuota()+"");
-            txt_importeCredito.setText(creditoSelected.getImporte_credito()+"");
-            txt_cantidadCuotasFin.setText(creditoSelected.getPlan().getCantidad()+"");
+            txt_importeUltimaCuota.setText(creditoSelected.getImporte_ult_cuota() + "");
+            txt_importePrimeraCuota.setText(creditoSelected.getImporte_pri_cuota() + "");
+            txt_importeFinalCredito.setText(creditoSelected.getImporte_credito() + "");
+            txt_importeCuotaTotal.setText(creditoSelected.getImporte_cuota() + "");
+            txt_importeCuotaFin.setText(creditoSelected.getImporte_cuota() + "");
+            txt_importeCredito.setText(creditoSelected.getImporte_credito() + "");
+            txt_cantidadCuotasFin.setText(creditoSelected.getPlan().getCantidad() + "");
             //cargamos los renglones.
             DefaultTableModel model = (DefaultTableModel) table_articulos.getModel();
             model.setNumRows(0);
@@ -2212,10 +2222,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 model.addRow(o);
             });
         }
-        
+
     }
-    private void habilitarCampos(){
-        if("ADMINISTRADOR".equals(Main.logueado.getTipo()) || "GERENTE".equals(Main.logueado.getTipo()) ){
+
+    private void habilitarCampos() {
+        if ("ADMINISTRADOR".equals(Main.logueado.getTipo()) || "GERENTE".equals(Main.logueado.getTipo())) {
             btn_agregarArticulo.setEnabled(true);
             btn_comprobarUnificacion.setEnabled(true);
             btn_crearPago.setEnabled(true);
@@ -2223,25 +2234,26 @@ public class ABMCreditosView extends javax.swing.JPanel {
             btn_imprimirCredito.setEnabled(true);
             cbox_plan.setEnabled(true);
         }
-        if("ADMINISTRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getAdmin() == null || (creditoSelected.getAdmin()!= null && creditoSelected.getAdmin().getId() == Main.logueado.getId()))){
+        if ("ADMINISTRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getAdmin() == null || (creditoSelected.getAdmin() != null && creditoSelected.getAdmin().getId() == Main.logueado.getId()))) {
             btn_aprobarCredito.setEnabled(true);
             btn_rechazarCredito.setEnabled(true);
         }
-        if("GERENTE".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getGerente()== null || (creditoSelected.getGerente()!= null && creditoSelected.getGerente().getId() == Main.logueado.getId()))){
+        if ("GERENTE".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getGerente() == null || (creditoSelected.getGerente() != null && creditoSelected.getGerente().getId() == Main.logueado.getId()))) {
             btn_aprobarCredito.setEnabled(true);
             btn_rechazarCredito.setEnabled(true);
         }
-        if("VENDEDOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getVendedor()== null || (creditoSelected.getVendedor()!= null && creditoSelected.getVendedor().getId() == Main.logueado.getId()))){
+        if ("VENDEDOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getVendedor() == null || (creditoSelected.getVendedor() != null && creditoSelected.getVendedor().getId() == Main.logueado.getId()))) {
             btn_aprobarCredito.setEnabled(true);
             btn_rechazarCredito.setEnabled(true);
         }
-        if("COBRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getCobrador()== null || (creditoSelected.getCobrador()!= null && creditoSelected.getCobrador().getId() == Main.logueado.getId()))){
+        if ("COBRADOR".equals(Main.logueado.getTipo()) && !creditoSelected.getTipo().equals("SOLICITUD") && (creditoSelected.getCobrador() == null || (creditoSelected.getCobrador() != null && creditoSelected.getCobrador().getId() == Main.logueado.getId()))) {
             btn_aprobarCredito.setEnabled(true);
             btn_rechazarCredito.setEnabled(true);
         }
         btn_cancelar.setEnabled(true);
         btn_verSolicitante.setEnabled(true);
     }
+
     private void limpiarCampos() {
         txt_saldoCredito.setText("0.00");
         txt_nombreComercio.setText("");
@@ -2293,58 +2305,63 @@ public class ABMCreditosView extends javax.swing.JPanel {
         });
         cbox_plan.setEnabled(false);
         //limpio articulos
-        ((DefaultTableModel)table_articulos.getModel()).setNumRows(0);
+        ((DefaultTableModel) table_articulos.getModel()).setNumRows(0);
     }
 
     private void cambioBusqueda(String text, boolean solicitud, boolean credito) {
         String atributoBusqueda = "nombre";
-        if(Statics.Funciones.isNumeric(text)){
+        if (Statics.Funciones.isNumeric(text)) {
             atributoBusqueda = "id";
         }
-        if(solicitud){
-            listCreditos = creditoDAO.buscarSolicitud(text,atributoBusqueda);
-        }else{
+        if (solicitud) {
+            listCreditos = creditoDAO.buscarSolicitud(text, atributoBusqueda);
+        } else {
             if (credito) {
-                listCreditos = creditoDAO.buscarCreditoActivo(text,atributoBusqueda);
+                listCreditos = creditoDAO.buscarCreditoActivo(text, atributoBusqueda);
             }
         }
         cargarTablaCreditos();
-        
+
     }
 
     private void cargarTablaCreditos() {
         DefaultTableModel model = (DefaultTableModel) tabla_Solicitudes.getModel();
         model.setNumRows(0);
         listCreditos.sort((o1, o2) -> {
-            if(o1.getTipo().equals("SOLICITUD")){
-                if(o1.getEstado().equals(o2.getEstado()))
+            if (o1.getTipo().equals("SOLICITUD")) {
+                if (o1.getEstado().equals(o2.getEstado())) {
                     return 0;
-                if(o1.getEstado().equals("PENDIENTE"))
+                }
+                if (o1.getEstado().equals("PENDIENTE")) {
                     return 1;
-                if(o2.getEstado().equals("PENDIENTE"))
+                }
+                if (o2.getEstado().equals("PENDIENTE")) {
                     return -1;
-            }else{
-                if(o1.getEstado().equals(o2.getEstado()))
+                }
+            } else {
+                if (o1.getEstado().equals(o2.getEstado())) {
                     return 0;
-                if(o1.getEstado().equals("PENDIENTE") || o2.getEstado().equals("FINALIZADO") || o2.getEstado().equals("APROBADO"))
+                }
+                if (o1.getEstado().equals("PENDIENTE") || o2.getEstado().equals("FINALIZADO") || o2.getEstado().equals("APROBADO")) {
                     return 1;
-                if(o2.getEstado().equals("PENDIENTE") || o1.getEstado().equals("FINALIZADO") || o1.getEstado().equals("APROBADO"))
+                }
+                if (o2.getEstado().equals("PENDIENTE") || o1.getEstado().equals("FINALIZADO") || o1.getEstado().equals("APROBADO")) {
                     return -1;
+                }
             }
             return 0;
         });
         listCreditos.forEach((t) -> {
-           Object[] o = new Object[3];
-           if(t.getTipo().equalsIgnoreCase("SOLICITUD")){
-               o[0]=t.getSolicitud_id();
-           }
-           else{
-               o[0] = t.getId();
-           }
-           
-           o[1] = t.getCliente().getNombre();
-           o[2] = t.getEstado();
-           model.addRow(o);
+            Object[] o = new Object[3];
+            if (t.getTipo().equalsIgnoreCase("SOLICITUD")) {
+                o[0] = t.getSolicitud_id();
+            } else {
+                o[0] = t.getId();
+            }
+
+            o[1] = t.getCliente().getNombre();
+            o[2] = t.getEstado();
+            model.addRow(o);
         });
     }
 
@@ -2353,7 +2370,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tabla_creditosCliente.getModel();
         model.setNumRows(0);
         float saldoActual = 0f;
-        for(int i = 0 ; i < cred.size(); i++){
+        for (int i = 0; i < cred.size(); i++) {
             Object[] o = new Object[7];
             o[0] = cred.get(i).getId();
             o[1] = cred.get(i).getCant_cuotas();
@@ -2361,10 +2378,11 @@ public class ABMCreditosView extends javax.swing.JPanel {
             o[3] = cred.get(i).getImporte_credito();
             o[4] = cred.get(i).getEstado();
             o[5] = cred.get(i).getTipo();
-            if(cred.get(i).getCobrador() != null)
+            if (cred.get(i).getCobrador() != null) {
                 o[6] = cred.get(i).getCobrador().getNombre();
-            else
+            } else {
                 o[6] = "-";
+            }
             saldoActual += cred.get(i).getImporte_deuda();
             model.addRow(o);
         }
@@ -2372,33 +2390,32 @@ public class ABMCreditosView extends javax.swing.JPanel {
         //ESTE BUSCAR CLIENTE NO DEBE ESTAR CARGANGO BIEN EL PUTO CONTACTO!!
         Cliente cliente = clienteDAO.buscarCliente(creditoSelected.getCliente().getId());
         lbl_fechaNacimientoClient.setText(Statics.Funciones.dateFormat(cliente.getFechaNacimiento()));
-        
-        
-        cliente.getContacto().forEach((t) -> {
-                Object[] obj =new Object [2];
-                obj[0]= t.getTipo();
-                obj[1]= t.getContacto();
-                System.out.println("el tipo es: "+obj[0]);
-                System.out.println("El contacgto es :"+obj[1]);
-            });
-    
-        
-        if( cliente.getContacto().get(0).getContacto()!=null)
+
+        if(cliente.getContacto()!=null && cliente.getContacto().size()>0){
+            cliente.getContacto().forEach((t) -> {
+            Object[] obj = new Object[2];
+            obj[0] = t.getTipo();
+            obj[1] = t.getContacto();
+        });
+        }
+
+        if (cliente.getContacto()!=null && cliente.getContacto().get(0).getContacto() != null) {
             lbl_contactoCliente.setText(cliente.getContacto().get(0).getContacto());
+        }
         lbl_nombreCliente.setText(cliente.getNombre());
-        lbl_domicilioCliente.setText(cliente.getDireccion()+" "+cliente.getNumero());
+        lbl_domicilioCliente.setText(cliente.getDireccion() + " " + cliente.getNumero());
         lbl_estadoCivilClient.setText(cliente.getEstadoCivil());
         lbl_localidadCliente.setText(cliente.getCiudad());
         lbl_barrioCliente.setText(cliente.getBarrio());
         lbl_provinciaCliente.setText(cliente.getProvincia());
         //datos monetarios we
-        lbl_limiteCredito.setText(cliente.getLimite_credito()+"");
-        lbl_saldoActual.setText(saldoActual+"");
+        lbl_limiteCredito.setText(cliente.getLimite_credito() + "");
+        lbl_saldoActual.setText(saldoActual + "");
         //datos conyugue
         lbl_nombreConyugue.setText(conyugue.getNombre());
         lbl_fechaNacimientoConyugue.setText(Statics.Funciones.dateFormat(conyugue.getFechaNacimiento()));
-        lbl_documentoConyugue.setText(conyugue.getDni()+"");
-        
+        lbl_documentoConyugue.setText(conyugue.getDni() + "");
+
     }
 
     private void cargarCuotasCredito(int idCredito) {
@@ -2417,13 +2434,13 @@ public class ABMCreditosView extends javax.swing.JPanel {
     }
 
     private void comprobarUnificacion() {
-        if(creditoSelected.getPlan() == null){
+        if (creditoSelected.getPlan() == null) {
             JOptionPane.showMessageDialog(null, "Debe agregar los productos del credito y seleccionar un plan para poder unificar.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        listCredUnificables = creditoDAO.getCreditosUnificables(creditoSelected.getPlan(),creditoSelected.getCliente().getId());
-        if(listCredUnificables.size() > 0){
+        listCredUnificables = creditoDAO.getCreditosUnificables(creditoSelected.getPlan(), creditoSelected.getCliente().getId());
+        if (listCredUnificables.size() > 0) {
             jDialogUnificarCreditos.setTitle("Creditos para unificar");
             jDialogUnificarCreditos.setVisible(true);
             jDialogUnificarCreditos.setModal(true);
@@ -2433,7 +2450,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
             model.setNumRows(0);
             for (int i = 0; i < listCredUnificables.size(); i++) {
                 Object[] o = new Object[9];
-                if(!listCredUnificables.get(i).getTipo().equals("SOLICITUD")){
+                if (!listCredUnificables.get(i).getTipo().equals("SOLICITUD")) {
                     o[0] = listCredUnificables.get(i).getId();
                     o[1] = listCredUnificables.get(i).getFecha_credito();
                     o[2] = listCredUnificables.get(i).getImporte_credito();
@@ -2445,12 +2462,10 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 }
                 model.addRow(o);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "El cliente no tiene creditos con el mismo plan para unificar.",
-                "Error", JOptionPane.ERROR_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    
-    
 }

@@ -53,26 +53,28 @@ import javax.swing.table.DefaultTableModel;
  * @author Hernan
  */
 public class ABMClientesView extends javax.swing.JPanel {
+
     private ClientesDAO clientesDao;
     private DireccionesDAO direccionesDAO;
     private Cliente clienteSeleccionado;
     private Cliente clienteConyugue;
     private Cliente clienteConyugueAux;
-    private Mapa direcciones=null;
+    private Mapa direcciones = null;
     private Pais Pais_selected;
     private Provincia Provincia_selected;
     private Barrio Barrio_selected;
     private Localidad Localidad_selected;
     private Direccion direccion_selected;
-    private List <Cliente> listaCliente;
-    private boolean modificarTrue=false;
+    private List<Cliente> listaCliente;
+    private boolean modificarTrue = false;
     private String tipoRelacion;
     private String estadoCivilAnterior;
+
     /**
      * Creates new form ABMClientesView
      */
     public ABMClientesView() {
-        
+
         initComponents();
         //Statics.style.setPlaceHolder(jTextF_IngresarNuevoElemento, "Ingrese nuevo");
         Date fecha = new Date();
@@ -83,16 +85,16 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_Ciudades.setEnabled(false);
         jComboBox_Barrios.setEnabled(false);
         jComboBox_calles.setEnabled(false);
-        clientesDao=ClientesDAO.getInstance();
+        clientesDao = ClientesDAO.getInstance();
         direccionesDAO = direccionesDAO.getInstance();
-        direcciones =direccionesDAO.getMapa();
+        direcciones = direccionesDAO.getMapa();
         jComboBox_estadoCivil.setSelectedIndex(0);
         jButtonNuevoCliente.setEnabled(false);
         jButton_eliminar.setEnabled(false);
         principal.lbl_estado.setText("");
         txtf_codPostal.setVisible(false);
         lbl_codPostal.setVisible(false);
-        cambioBusqueda("", false, true,jTextField_buscarCliente,jTableClientes);
+        cambioBusqueda("", false, true, jTextField_buscarCliente, jTableClientes);
     }
 
     /**
@@ -1322,7 +1324,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jComboBox_tipoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoDocumentoActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_jComboBox_tipoDocumentoActionPerformed
 
     private void jButtonAñadirNacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirNacionActionPerformed
@@ -1330,9 +1332,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(534,198);
-        
-        
+        jDialogAñadirElemento.setSize(534, 198);
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirNacionActionPerformed
@@ -1342,8 +1342,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(534,198);
-        
+        jDialogAñadirElemento.setSize(534, 198);
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirProvinciaActionPerformed
@@ -1355,8 +1354,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(534,198);
-        
+        jDialogAñadirElemento.setSize(534, 198);
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirCiudadActionPerformed
@@ -1366,8 +1364,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(534,198);
-        
+        jDialogAñadirElemento.setSize(534, 198);
 
         //llama al controller de esto
     }//GEN-LAST:event_jButtonAñadirBarrioActionPerformed
@@ -1378,16 +1375,16 @@ public class ABMClientesView extends javax.swing.JPanel {
 //        jDialogAñadirElemento.setLocationRelativeTo(this);
 //        jDialogAñadirElemento.setSize(400,221);
 //        jDialogAñadirElemento.setTitle("Añadir un nuevo tipo de contacto");
-         
-         if(Funciones.controlText(jTextFieldContacto.getText())){
+
+        if (Funciones.controlText(jTextFieldContacto.getText())) {
             DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
             Object[] nuevo = new Object[3];
             nuevo[0] = String.valueOf(jComboBox_TipoContacto.getSelectedItem());
             nuevo[1] = jTextFieldContacto.getText();
             model.addRow(nuevo);
             jButton_eliminarContacto.setEnabled(true);
-        }else{
-            
+        } else {
+
             JOptionPane.showMessageDialog(null, "Debe llenar el campo de contacto para agregarlo", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1399,8 +1396,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jDialogAñadirElemento.setVisible(true);
         jDialogAñadirElemento.setModal(true);
         jDialogAñadirElemento.setLocationRelativeTo(this);
-        jDialogAñadirElemento.setSize(534,198);
-        
+        jDialogAñadirElemento.setSize(534, 198);
+
     }//GEN-LAST:event_jButtonAñadirCalleActionPerformed
 
     private void jTextField_numeroDomicilioClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_numeroDomicilioClienteActionPerformed
@@ -1419,7 +1416,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         txtf_codPostal.setVisible(false);
         lbl_codPostal.setVisible(false);
         jDialogAñadirElemento.dispose();
-        
+
     }//GEN-LAST:event_jButtonCancelarJdialogActionPerformed
 
     private void jButtonAñadirBarrio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirBarrio2ActionPerformed
@@ -1441,63 +1438,62 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_okActionPerformed
         // TODO add your handling code here:
         //At the end of all controls, it enables the flag of the commerce address;
-        
-       if(Funciones.compareStrings("-",String.valueOf(jComboBox_provincia_jDialog.getSelectedItem()))){
-           JOptionPane.showMessageDialog(null,"Debe ingresar una provincia valida","Error",JOptionPane.ERROR_MESSAGE);
-           return;
-       }
-       if(Funciones.compareStrings("-", String.valueOf(jComboBox_Ciudad_jDialog.getSelectedItem()))){
-           JOptionPane.showMessageDialog(null,"Debe ingresar una ciudad validad","Error",JOptionPane.ERROR_MESSAGE);
-           return;
-       }
-       if(Funciones.compareStrings("-",String.valueOf(jComboBox_direccion_jDialog.getSelectedItem()))){
-           JOptionPane.showMessageDialog(null, "Debe ingresar una direccion valida", "Error", JOptionPane.ERROR_MESSAGE);
+
+        if (Funciones.compareStrings("-", String.valueOf(jComboBox_provincia_jDialog.getSelectedItem()))) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una provincia valida", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-       }
-       if(!Funciones.isNumeric(jTextField_numeroDireccion_jDialog.getText())){
-           JOptionPane.showMessageDialog(null,"Debe ingresar un numero de direccion","Error",JOptionPane.ERROR_MESSAGE);
-           return;
-       }
-       if(!Funciones.isNumeric(jTextField_codPostal_jDialog.getText())){
-           JOptionPane.showMessageDialog(null,"Debe ingresar un codigo postal","Error",JOptionPane.ERROR_MESSAGE);
-           return;
-       }
-        
-        
+        }
+        if (Funciones.compareStrings("-", String.valueOf(jComboBox_Ciudad_jDialog.getSelectedItem()))) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una ciudad validad", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (Funciones.compareStrings("-", String.valueOf(jComboBox_direccion_jDialog.getSelectedItem()))) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una direccion valida", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!Funciones.isNumeric(jTextField_numeroDireccion_jDialog.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un numero de direccion", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!Funciones.isNumeric(jTextField_codPostal_jDialog.getText())) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un codigo postal", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
     }//GEN-LAST:event_jButton_okActionPerformed
 
     private void btn_añadirNuevoElementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_añadirNuevoElementoActionPerformed
-        
-        boolean todook=true;
+
+        boolean todook = true;
         String texto = jTextF_IngresarNuevoElemento.getText().toUpperCase();
         String codPostal = txtf_codPostal.getText().toUpperCase();
-        switch(jDialogAñadirElemento.getTitle()){
-            case "Añadir un nuevo pais":{
-               if(!direcciones.controlPais(texto)){
-                 todook=true;
-                Provincia p = direccionesDAO.añadirPais(texto);
-                Pais pais = new Pais();
-                pais.setId(p.getId_pais());
-                pais.setNombre(texto);
-                //actualizo mapa
-                direcciones = direccionesDAO.getMapa();
-                
-                //actualizo cbox
-                jCombo_Naciones.addItem(pais);
-                jCombo_Naciones.setSelectedItem(pais);
-                jTextF_IngresarNuevoElemento.setText("");
-               }
-               else{
-                   //jTextF_IngresarNuevoElemento.setFColor.red);
-                   jTextF_IngresarNuevoElemento.setText("El pais que intenta ingresar ya existe!");
-                   todook=false;
-               }
+        switch (jDialogAñadirElemento.getTitle()) {
+            case "Añadir un nuevo pais": {
+                if (!direcciones.controlPais(texto)) {
+                    todook = true;
+                    Provincia p = direccionesDAO.añadirPais(texto);
+                    Pais pais = new Pais();
+                    pais.setId(p.getId_pais());
+                    pais.setNombre(texto);
+                    //actualizo mapa
+                    direcciones = direccionesDAO.getMapa();
+
+                    //actualizo cbox
+                    jCombo_Naciones.addItem(pais);
+                    jCombo_Naciones.setSelectedItem(pais);
+                    jTextF_IngresarNuevoElemento.setText("");
+                } else {
+                    //jTextF_IngresarNuevoElemento.setFColor.red);
+                    jTextF_IngresarNuevoElemento.setText("El pais que intenta ingresar ya existe!");
+                    todook = false;
+                }
                 break;
             }
-            case "Añadir una nueva provincia":{
-               if(!direcciones.controlProvincia(Pais_selected.getId(), texto)){
-                    todook=true;
-                    Localidad l = direccionesDAO.añadirProvincia(texto,Pais_selected.getId());
+            case "Añadir una nueva provincia": {
+                if (!direcciones.controlProvincia(Pais_selected.getId(), texto)) {
+                    todook = true;
+                    Localidad l = direccionesDAO.añadirProvincia(texto, Pais_selected.getId());
                     Provincia p = new Provincia();
                     p.setId(l.getId_provincia());
                     p.setNombre(texto);
@@ -1511,17 +1507,16 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_Ciudades.removeAllItems();
                     jComboBox_Ciudades.addItem(l);
                     jTextF_IngresarNuevoElemento.setText("");
-               }
-               else{
-                   todook=false;
+                } else {
+                    todook = false;
                     jTextF_IngresarNuevoElemento.setText("La provincia que intenta ingresar ya existe!");
-               }
-                    break;
+                }
+                break;
             }
-            case "Añadir una nueva ciudad":{
-                if(!direcciones.controlLocalidad(Provincia_selected.getId(), texto)){
-                     todook=true;
-                    Barrio b = direccionesDAO.añadirCiudad(texto,Provincia_selected.getId(),codPostal);
+            case "Añadir una nueva ciudad": {
+                if (!direcciones.controlLocalidad(Provincia_selected.getId(), texto)) {
+                    todook = true;
+                    Barrio b = direccionesDAO.añadirCiudad(texto, Provincia_selected.getId(), codPostal);
                     Localidad l = new Localidad();
                     l.setId(b.getId_localidad());
                     l.setNombre(texto);
@@ -1533,24 +1528,23 @@ public class ABMClientesView extends javax.swing.JPanel {
                     //Set<Barrio> barrios = new TreeSet<>(new barrioCompare());
                     //barrios.add(b);
                     //direcciones.getLocalidad_Barrio().put(l.getId(), barrios);
-                     direcciones = direccionesDAO.getMapa();
+                    direcciones = direccionesDAO.getMapa();
                     //actualizo cbox
                     jComboBox_Ciudades.addItem(l);
                     jComboBox_Ciudades.setSelectedItem(l); //las dos siguientes lineas pueden ser innecesarias
                     jComboBox_Barrios.removeAllItems();
                     jComboBox_Barrios.addItem(b);
                     jTextF_IngresarNuevoElemento.setText("");
-                }
-                else{
-                     todook=false;
+                } else {
+                    todook = false;
                     jTextF_IngresarNuevoElemento.setText("La localidad que intenta ingresar ya existe!");
                 }
-                    break;
+                break;
             }
-            case "Añadir un nuevo barrio":{
-                if(!direcciones.controlBarrio(Localidad_selected.getId(), texto)){
-                    todook=true;
-                    Direccion d = direccionesDAO.añadirBarrio(texto,Localidad_selected.getId());
+            case "Añadir un nuevo barrio": {
+                if (!direcciones.controlBarrio(Localidad_selected.getId(), texto)) {
+                    todook = true;
+                    Direccion d = direccionesDAO.añadirBarrio(texto, Localidad_selected.getId());
                     Barrio b = new Barrio();
                     b.setId(d.getId_barrio());
                     b.setId_localidad(Localidad_selected.getId());
@@ -1559,24 +1553,23 @@ public class ABMClientesView extends javax.swing.JPanel {
                     //Set<Direccion> directs = new TreeSet<>(new direccionCompare());
                     //directs.add(d);
                     //direcciones.getBarrio_direccion().put(d.getId(), directs);
-                     direcciones = direccionesDAO.getMapa();
+                    direcciones = direccionesDAO.getMapa();
                     //actualizo cbox
                     jComboBox_Barrios.addItem(b);
                     jComboBox_Barrios.setSelectedItem(b);
                     jComboBox_calles.removeAllItems();
                     jComboBox_calles.addItem(d);
                     jTextF_IngresarNuevoElemento.setText("");
-                }
-                else{
-                     todook=false;
+                } else {
+                    todook = false;
                     jTextF_IngresarNuevoElemento.setText("El barrio que intenta ingresar ya existe!");
                 }
-                    break;
+                break;
             }
-            case "Añadir una nueva calle/manzana":{
-                if(!direcciones.controlDireccion(direccion_selected.getId(), texto)){
-                     todook=true;
-                    int id = direccionesDAO.añadirDireccion(texto,Barrio_selected.getId());
+            case "Añadir una nueva calle/manzana": {
+                if (!direcciones.controlDireccion(direccion_selected.getId(), texto)) {
+                    todook = true;
+                    int id = direccionesDAO.añadirDireccion(texto, Barrio_selected.getId());
                     Direccion d = new Direccion();
                     d.setId(id);
                     d.setId_barrio(Barrio_selected.getId());
@@ -1586,17 +1579,16 @@ public class ABMClientesView extends javax.swing.JPanel {
                     jComboBox_calles.addItem(d);
                     jComboBox_calles.setSelectedItem(d);
                     jTextF_IngresarNuevoElemento.setText("");
-                }
-                else{
-                     todook=false;
+                } else {
+                    todook = false;
                     jTextF_IngresarNuevoElemento.setText("La direccion que intenta ingresar ya existe!");
                 }
-                    break;
+                break;
             }
         }
         //direcciones = direccionesDAO.getMapa();
-        
-        if(todook) {
+
+        if (todook) {
             jTextF_IngresarNuevoElemento.setText("");
             txtf_codPostal.setText("");
             txtf_codPostal.setVisible(false);
@@ -1607,13 +1599,13 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jCombo_NacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCombo_NacionesActionPerformed
         // TODO add your handling code here:
-        
-        
+
+
     }//GEN-LAST:event_jCombo_NacionesActionPerformed
 
     private void jComboBox_ProvinciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_ProvinciasActionPerformed
         // TODO add your handling code here:
-      
+
     }//GEN-LAST:event_jComboBox_ProvinciasActionPerformed
 
     private void jComboBox_estadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoCivilActionPerformed
@@ -1622,32 +1614,33 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jTable_tipoYcontactoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_tipoYcontactoKeyPressed
         // TODO add your handling code here:
-        if(modificarTrue){
+        if (modificarTrue) {
             jButton_eliminarContacto.setEnabled(true);
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            System.out.println("Apreto el enter gatito!!");
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                System.out.println("Apreto el enter gatito!!");
+            } else {
+                int column = jTable_tipoYcontacto.getSelectedColumn();
+                if (column == 1) {
+                    int row = jTable_tipoYcontacto.getSelectedRow();
+                    jTable_tipoYcontacto.setValueAt("", row, column);
+                }
+            }
         }
-        else{
-           int column= jTable_tipoYcontacto.getSelectedColumn();
-           if(column == 1){
-               int row = jTable_tipoYcontacto.getSelectedRow();
-               jTable_tipoYcontacto.setValueAt("", row, column);
-           }
-        }
-        }
-        
-        
+
+
     }//GEN-LAST:event_jTable_tipoYcontactoKeyPressed
 
     private void jTable_tipoYcontactoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_tipoYcontactoMouseClicked
         // TODO add your handling code here:
-       if(modificarTrue)  jButton_eliminarContacto.setEnabled(true);
+        if (modificarTrue) {
+            jButton_eliminarContacto.setEnabled(true);
+        }
     }//GEN-LAST:event_jTable_tipoYcontactoMouseClicked
 
     private void jButton_eliminarContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarContactoActionPerformed
         // TODO add your handling code here:
         int row = jTable_tipoYcontacto.getSelectedRow();
-        if(row!=-1){
+        if (row != -1) {
             DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
             model.removeRow(row);
         }
@@ -1656,14 +1649,14 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void jButtonNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoClienteActionPerformed
         // TODO add your handling code here:
         // int respuesta=JOptionPane.showConfirmDialog(jPanel4.getParent(), "Esta seguro que desea terminar de ingresar cartones?", "Atencion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-         //System.out.println("respuesta es "+respuesta);
-        clienteSeleccionado=new Cliente();
-        clienteConyugue= new Cliente();
+        //System.out.println("respuesta es "+respuesta);
+        clienteSeleccionado = new Cliente();
+        clienteConyugue = new Cliente();
         modificarTrue = false;
-       cargarNacionalidades();
+        cargarNacionalidades();
         limpiarCampos();
         habilitarCampos(true);
-        
+
         //jTextField_numeroDomicilioCliente.setEnabled(true);
         jTextField_nombreCliente.requestFocus();
         //jTextField_nombreCliente.setText("dsadsadd");
@@ -1672,23 +1665,23 @@ public class ABMClientesView extends javax.swing.JPanel {
         jButton_modificar.setEnabled(false);
         //jTextField_numeroDireccion_jDialog.setCaretPosition(0);
         // jTextField_numeroDireccion_jDialog
-        
+
     }//GEN-LAST:event_jButtonNuevoClienteActionPerformed
 
     private void jComboBox_CiudadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesActionPerformed
         // TODO add your handling code here:
-       
-        
+
+
     }//GEN-LAST:event_jComboBox_CiudadesActionPerformed
 
     private void jComboBox_BarriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_BarriosActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jComboBox_BarriosActionPerformed
 
     private void jComboBox_callesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_callesActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_jComboBox_callesActionPerformed
 
     private void jTextFieldContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldContactoActionPerformed
@@ -1718,7 +1711,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField_nombreConyugeActionPerformed
 
     private void jComboBox_tipoDocumentoConyugeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_tipoDocumentoConyugeActionPerformed
-       
+
     }//GEN-LAST:event_jComboBox_tipoDocumentoConyugeActionPerformed
 
     private void jTextField_conyugeDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_conyugeDniActionPerformed
@@ -1733,8 +1726,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         jButtonNuevoCliente.setEnabled(true);
         //jTextField_nombreCliente.setEnabled(true);
         //jTextField_nombreCliente.setEditable(true);
-        cambioBusqueda(jTextField_buscarCliente.getText().toString(),rbtn_clientesDni.isSelected(),rbtn_clientesNombre.isSelected(),jTextField_buscarCliente,jTableClientes);
-        
+        cambioBusqueda(jTextField_buscarCliente.getText().toString(), rbtn_clientesDni.isSelected(), rbtn_clientesNombre.isSelected(), jTextField_buscarCliente, jTableClientes);
+
     }//GEN-LAST:event_jTextField_buscarClienteCaretUpdate
 
     private void jTextField_buscarClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteKeyTyped
@@ -1749,107 +1742,112 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jComboBox_ProvinciasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_ProvinciasItemStateChanged
         // TODO add your handling code here:
-        if(jComboBox_Provincias.getItemCount() == 0)
+        if (jComboBox_Provincias.getItemCount() == 0) {
             return;
-        Provincia p=(Provincia) jComboBox_Provincias.getSelectedItem();
-        Provincia_selected =p;
+        }
+        Provincia p = (Provincia) jComboBox_Provincias.getSelectedItem();
+        Provincia_selected = p;
         p.getId();
         jComboBox_Ciudades.removeAllItems();
-         try{
-            if(direcciones.getProvincia_Localidad() != null && direcciones.getProvincia_Localidad().get(p.getId()) != null){
+        try {
+            if (direcciones.getProvincia_Localidad() != null && direcciones.getProvincia_Localidad().get(p.getId()) != null) {
                 direcciones.getProvincia_Localidad().get(p.getId()).forEach((t) -> {
                     jComboBox_Ciudades.addItem(t);
                 });
                 jComboBox_Ciudades.setSelectedIndex(0);
-                Localidad l =  (Localidad)jComboBox_Ciudades.getSelectedItem();
+                Localidad l = (Localidad) jComboBox_Ciudades.getSelectedItem();
                 jLabelCodPostal.setText(l.getCod_postal());
             }
             jComboBox_Ciudades.setEnabled(true);
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
-        
+
     }//GEN-LAST:event_jComboBox_ProvinciasItemStateChanged
 
     private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
-        int pos= jTableClientes.getSelectedRow();
-        if(pos!=-1){
+        int pos = jTableClientes.getSelectedRow();
+        if (pos != -1) {
             jButton_modificar.setEnabled(true);
             jButton_eliminar.setEnabled(true);
             jCheckBoxEsSolicitante.setSelected(false);
-             buttonGroupDocumentacionEntregada.clearSelection();
+            buttonGroupDocumentacionEntregada.clearSelection();
             cargarDatosCliente(pos);
-            
+
         }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
     private void jCombo_NacionesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCombo_NacionesItemStateChanged
-        if(jCombo_Naciones.getItemCount() == 0)
+        if (jCombo_Naciones.getItemCount() == 0) {
             return;
+        }
         Pais p = (Pais) jCombo_Naciones.getSelectedItem();
-        
-        Pais_selected=p;
+
+        Pais_selected = p;
         jComboBox_Provincias.removeAllItems();
-       try{
-            if(direcciones.getPais_Provincia() != null && direcciones.getPais_Provincia().get(p.getId()) != null){
+        try {
+            if (direcciones.getPais_Provincia() != null && direcciones.getPais_Provincia().get(p.getId()) != null) {
                 direcciones.getPais_Provincia().get(p.getId()).forEach((t) -> {
                     jComboBox_Provincias.addItem(t);
                 });
                 jComboBox_Provincias.setSelectedIndex(0);
             }
             jComboBox_Provincias.setEnabled(true);
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
-        
+
     }//GEN-LAST:event_jCombo_NacionesItemStateChanged
 
     private void jComboBox_CiudadesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesItemStateChanged
-        if(jComboBox_Ciudades.getItemCount() == 0)
+        if (jComboBox_Ciudades.getItemCount() == 0) {
             return;
-        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
-        Localidad_selected=l;
+        }
+        Localidad l = (Localidad) jComboBox_Ciudades.getSelectedItem();
+        Localidad_selected = l;
         jLabelCodPostal.setText(l.getCod_postal());
         //jTextField_codigoPostal.setText(l.getCod_postal());
         jComboBox_Barrios.removeAllItems();
-        try{
-            if(direcciones.getLocalidad_Barrio() != null && direcciones.getLocalidad_Barrio().get(l.getId()) != null){
+        try {
+            if (direcciones.getLocalidad_Barrio() != null && direcciones.getLocalidad_Barrio().get(l.getId()) != null) {
                 direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
                     jComboBox_Barrios.addItem(t);
                 });
                 jComboBox_Barrios.setSelectedIndex(0);
             }
             jComboBox_Barrios.setEnabled(true);
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
-        }  
+        }
     }//GEN-LAST:event_jComboBox_CiudadesItemStateChanged
 
     private void jComboBox_BarriosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_BarriosItemStateChanged
-        if(jComboBox_Barrios.getItemCount() == 0)
+        if (jComboBox_Barrios.getItemCount() == 0) {
             return;
-        Barrio b= (Barrio) jComboBox_Barrios.getSelectedItem();
-        Barrio_selected=b;
+        }
+        Barrio b = (Barrio) jComboBox_Barrios.getSelectedItem();
+        Barrio_selected = b;
         jComboBox_calles.removeAllItems();
         //System.out.println("El barrio del item state change es: "+b.getId());
-         try{
-            if(direcciones.getBarrio_direccion() != null && direcciones.getBarrio_direccion().get(b.getId()) != null){
+        try {
+            if (direcciones.getBarrio_direccion() != null && direcciones.getBarrio_direccion().get(b.getId()) != null) {
                 direcciones.getBarrio_direccion().get(b.getId()).forEach((t) -> {
                     jComboBox_calles.addItem(t);
                 });
                 jComboBox_calles.setSelectedIndex(0);
             }
             jComboBox_calles.setEnabled(true);
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             new Statics.ExceptionManager().saveDump(e, "", Main.isProduccion);
         }
     }//GEN-LAST:event_jComboBox_BarriosItemStateChanged
 
     private void jComboBox_callesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_callesItemStateChanged
-        if(jComboBox_calles.getItemCount() == 0)
+        if (jComboBox_calles.getItemCount() == 0) {
             return;
-        direccion_selected= (Direccion) jComboBox_calles.getSelectedItem();
-        
+        }
+        direccion_selected = (Direccion) jComboBox_calles.getSelectedItem();
+
     }//GEN-LAST:event_jComboBox_callesItemStateChanged
 
     private void jCheckBoxEsSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEsSolicitanteActionPerformed
@@ -1863,83 +1861,83 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jTextField_buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteActionPerformed
         // TODO add your handling code here
-       // jTextField_nombreCliente.setEditable(true);
+        // jTextField_nombreCliente.setEditable(true);
         //jTextField_nombreCliente.setEnabled(true);
         jButtonNuevoCliente.setEnabled(true);
     }//GEN-LAST:event_jTextField_buscarClienteActionPerformed
 
     private void jTextField_nombreClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_nombreClienteKeyPressed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_jTextField_nombreClienteKeyPressed
 
     private void jButton_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificarActionPerformed
-        if(clienteSeleccionado != null){
+        if (clienteSeleccionado != null) {
             modificarTrue = true;
             //guardo una copia del conyugue recuperado
-            estadoCivilAnterior=clienteSeleccionado.getEstadoCivil();
-            if(!estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){
+            estadoCivilAnterior = clienteSeleccionado.getEstadoCivil();
+            if (!estadoCivilAnterior.equalsIgnoreCase("SOLTERO")) {
                 List<Cliente> list = clientesDao.buscarCliente("dni", String.valueOf(clienteConyugue.getDni()));
-                clienteConyugueAux=list.get(0);
+                clienteConyugueAux = list.get(0);
             }
             habilitarCampos(true);
             cargarNacionalidades();
             cargarDireccionAlModificar();
             jTextField_nombreCliente.requestFocus();
-           
-        }  
+
+        }
     }//GEN-LAST:event_jButton_modificarActionPerformed
 
     private void jButtonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarCambiosActionPerformed
-       
-        if(!Funciones.controlText(jTextField_nombreCliente.getText())){
+
+        if (!Funciones.controlText(jTextField_nombreCliente.getText())) {
             //JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de cliente","Error", JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- Debe ingresar un nombre de cliente");
             principal.lbl_estado.setForeground(Color.RED);
             return;
         }
-        if(!Funciones.controlText(jTextField_numeroDniCliente.getText())||!Funciones.isNumeric(jTextField_numeroDniCliente.getText())){
+        if (!Funciones.controlText(jTextField_numeroDniCliente.getText()) || !Funciones.isNumeric(jTextField_numeroDniCliente.getText())) {
             //JOptionPane.showMessageDialog(null, "Debe ingresar un dni que sea valido", "Error", JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- Debe ingresar un dni que sea valido");
             principal.lbl_estado.setForeground(Color.RED);
             return;
-                    
+
         }
         DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
-        if(!modificarTrue){
+        if (!modificarTrue) {
             //no estoy modificando, entiendo que estoy guardando un cliente nuevo por ende debe si o si tener un contacto al menos
-            if(model.getRowCount()==0){
-            //JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
-            principal.lbl_estado.setText("Error- Debe colocar al menos un contacto");
-            principal.lbl_estado.setForeground(Color.RED);
-            return;
-            
+            if (model.getRowCount() == 0) {
+                //JOptionPane.showMessageDialog(null, "Debe colocar al menos un contacto", "Error", JOptionPane.ERROR_MESSAGE);
+                principal.lbl_estado.setText("Error- Debe colocar al menos un contacto");
+                principal.lbl_estado.setForeground(Color.RED);
+                return;
+
+            }
         }
-        }
-                
-        if(Funciones.compareStrings("-", String.valueOf(jComboBox_calles.getSelectedItem()))){
+
+        if (Funciones.compareStrings("-", String.valueOf(jComboBox_calles.getSelectedItem()))) {
             //JOptionPane.showMessageDialog(null, "Debe colocar la dirección", "Error", JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- Debe colocar la direccion");
             principal.lbl_estado.setForeground(Color.RED);
             return;
         }
-        if(direccion_selected == null){
+        if (direccion_selected == null) {
             //JOptionPane.showMessageDialog(null, "Debe colocar la direccion", "Error", JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- Debe colocar la direccion");
             principal.lbl_estado.setForeground(Color.RED);
             return;
         }
-         //faltan algunos controles!!!
-       clienteSeleccionado.setNombre(jTextField_nombreCliente.getText().toUpperCase());
-      if(!Funciones.controlText(jTextFieldNacionalidad.getText())){
+        //faltan algunos controles!!!
+        clienteSeleccionado.setNombre(jTextField_nombreCliente.getText().toUpperCase());
+        if (!Funciones.controlText(jTextFieldNacionalidad.getText())) {
             //JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de cliente","Error", JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- Debe ingresar una nacionalidad al cliente");
             principal.lbl_estado.setForeground(Color.RED);
             return;
         }
-       clienteSeleccionado.setNacionalidad(jTextFieldNacionalidad.getText().toUpperCase());
+        clienteSeleccionado.setNacionalidad(jTextFieldNacionalidad.getText().toUpperCase());
         int selectedIndex = jComboBox_tipoDocumento.getSelectedIndex();
-        if(String.valueOf(jComboBox_tipoDocumento.getItemAt(selectedIndex)).equalsIgnoreCase("-")){
+        if (String.valueOf(jComboBox_tipoDocumento.getItemAt(selectedIndex)).equalsIgnoreCase("-")) {
             //JOptionPane.showMessageDialog(null, "Debe colocar un tipo de dni", "Error", JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- Debe colocar un tipo de dni");
             principal.lbl_estado.setForeground(Color.RED);
@@ -1949,32 +1947,31 @@ public class ABMClientesView extends javax.swing.JPanel {
         clienteSeleccionado.setDni(Integer.parseInt(jTextField_numeroDniCliente.getText()));
         clienteSeleccionado.setFechaNacimiento(jDateChooser1.getDate());
         int aux = jComboBox_estadoCivil.getSelectedIndex();
-        if(String.valueOf(jComboBox_estadoCivil.getItemAt(aux)).equalsIgnoreCase("-")){
-                //JOptionPane.showMessageDialog(null, "Debe ingresar un estado civil para el cliente","Error", JOptionPane.ERROR_MESSAGE);
-                principal.lbl_estado.setText("Error- Debe ingresar un estado civil para el cliente");
-                principal.lbl_estado.setForeground(Color.RED);
-                return;
-        }
-        /**
-         * 
-        
-        if(!Funciones.isNumeric(jTextField_codigoPostal.getText())){
-            //JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros en el codigo postal","Error",JOptionPane.ERROR_MESSAGE);
-            principal.lbl_estado.setText("Error- Debe ingresar solo numeros en el codigo postal");
+        if (String.valueOf(jComboBox_estadoCivil.getItemAt(aux)).equalsIgnoreCase("-")) {
+            //JOptionPane.showMessageDialog(null, "Debe ingresar un estado civil para el cliente","Error", JOptionPane.ERROR_MESSAGE);
+            principal.lbl_estado.setText("Error- Debe ingresar un estado civil para el cliente");
             principal.lbl_estado.setForeground(Color.RED);
             return;
         }
-        */
-        if(!Funciones.isNumeric(jTextField_numeroDomicilioCliente.getText())){
+        /**
+         *
+         *
+         * if(!Funciones.isNumeric(jTextField_codigoPostal.getText())){
+         * //JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros en
+         * el codigo postal","Error",JOptionPane.ERROR_MESSAGE);
+         * principal.lbl_estado.setText("Error- Debe ingresar solo numeros en el
+         * codigo postal"); principal.lbl_estado.setForeground(Color.RED);
+         * return; }
+         */
+        if (!Funciones.isNumeric(jTextField_numeroDomicilioCliente.getText())) {
             //JOptionPane.showMessageDialog(null,"El número de la direccion no puede contener letras, ni ser vacio","Error",JOptionPane.ERROR_MESSAGE);
             principal.lbl_estado.setText("Error- El número de la direccion no puede contener letras, ni ser vacio");
             principal.lbl_estado.setForeground(Color.RED);
             return;
         }
         clienteSeleccionado.setEstadoCivil(String.valueOf(jComboBox_estadoCivil.getItemAt(aux)));
-        
-       //direccion
-       
+
+        //direccion
         clienteSeleccionado.setPais(String.valueOf(jCombo_Naciones.getSelectedItem()));
         clienteSeleccionado.setProvincia(String.valueOf(jComboBox_Provincias.getSelectedItem()));
         clienteSeleccionado.setCiudad(String.valueOf(jComboBox_Ciudades.getSelectedItem()));
@@ -1985,10 +1982,9 @@ public class ABMClientesView extends javax.swing.JPanel {
         //clienteSeleccionado.setCodPostal(jTextField_codigoPostal.getText());
         clienteSeleccionado.setReferencia(jTextField_referenciaDomicilioCliente.getText().toUpperCase());
 
-            
         // Contactos
         List<Contacto> list = new ArrayList<Contacto>();
-        for(int i = 0 ; i < model.getRowCount() ; i++){
+        for (int i = 0; i < model.getRowCount(); i++) {
             Contacto c = new Contacto();
             c.setContacto(String.valueOf(model.getValueAt(i, 1)));
             c.setTipo(String.valueOf(model.getValueAt(i, 0)));
@@ -1997,255 +1993,245 @@ public class ABMClientesView extends javax.swing.JPanel {
             list.add(c);
         }
         clienteSeleccionado.setContacto((ArrayList<Contacto>) list);
-        
+
         // datos cobranza
-        if(jCheckBox_Facturas.isSelected()) clienteSeleccionado.setDocumentacion("FACTURAS");
-        if(jCheckBox_dni.isSelected()) clienteSeleccionado.setDocumentacion("DNI");
-        if(jCheckBox_Otros.isSelected()) clienteSeleccionado.setDocumentacion("OTROS");
+        if (jCheckBox_Facturas.isSelected()) {
+            clienteSeleccionado.setDocumentacion("FACTURAS");
+        }
+        if (jCheckBox_dni.isSelected()) {
+            clienteSeleccionado.setDocumentacion("DNI");
+        }
+        if (jCheckBox_Otros.isSelected()) {
+            clienteSeleccionado.setDocumentacion("OTROS");
+        }
         //FAltan los datos de zonas y promotores
         clienteSeleccionado.setEsSolicitante(jCheckBoxEsSolicitante.isSelected());
         clienteSeleccionado.setObservaciones(jTextFieldObservaciones.getText().toUpperCase());
         /////FAltan promotores
-        
+
         clienteSeleccionado.setObservaciones(jTextFieldObservaciones.getText().toUpperCase());
-        
-        if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
-           
+
+        if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")) {
+
             //controlo que existan los campos del conyugue:
-            if(!Funciones.controlText(jTextField_nombreConyuge.getText())){
+            if (!Funciones.controlText(jTextField_nombreConyuge.getText())) {
                 //JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de conyuge","Error", JOptionPane.ERROR_MESSAGE);
                 principal.lbl_estado.setText("Error- Debe ingresar un nombre de conyuge");
                 principal.lbl_estado.setForeground(Color.RED);
                 return;
             }
-            
-            clienteConyugue= new Cliente();
+
+            clienteConyugue = new Cliente();
             clienteConyugue.setNombre("");
             clienteConyugue.setNombre(jTextField_nombreConyuge.getText().toUpperCase());
-            
-            int aux2= jComboBox_tipoDocumentoConyuge.getSelectedIndex();
-            if(String.valueOf(jComboBox_tipoDocumentoConyuge.getItemAt(aux2)).equalsIgnoreCase("-")){
+
+            int aux2 = jComboBox_tipoDocumentoConyuge.getSelectedIndex();
+            if (String.valueOf(jComboBox_tipoDocumentoConyuge.getItemAt(aux2)).equalsIgnoreCase("-")) {
                 //JOptionPane.showMessageDialog(null, "Debe ingresar un tipo de dni para el conyuge","Error", JOptionPane.ERROR_MESSAGE);
                 principal.lbl_estado.setText("Error- Debe ingresar un tipo de dni para el conyuge");
                 principal.lbl_estado.setForeground(Color.RED);
                 return;
             }
             clienteConyugue.setTipoDni(String.valueOf(jComboBox_tipoDocumentoConyuge.getItemAt(aux2)));
-            if(!Funciones.controlText(jTextField_conyugeDni.getText()) || !Funciones.isNumeric(jTextField_conyugeDni.getText())){
+            if (!Funciones.controlText(jTextField_conyugeDni.getText()) || !Funciones.isNumeric(jTextField_conyugeDni.getText())) {
                 //JOptionPane.showMessageDialog(null, "Debe ingresar un dni  del conyugue que sea valido", "Error", JOptionPane.ERROR_MESSAGE);
                 principal.lbl_estado.setText("Error- Debe ingresar un dni  del conyugue que sea valido");
                 principal.lbl_estado.setForeground(Color.RED);
                 return;
             }
             clienteConyugue.setDni(Integer.parseInt(jTextField_conyugeDni.getText()));
-            
-            int aux3= jComboBox_relacionConyuge.getSelectedIndex();
-            if(String.valueOf(jComboBox_relacionConyuge.getItemAt(aux3)).equalsIgnoreCase("-")){
+
+            int aux3 = jComboBox_relacionConyuge.getSelectedIndex();
+            if (String.valueOf(jComboBox_relacionConyuge.getItemAt(aux3)).equalsIgnoreCase("-")) {
                 //JOptionPane.showMessageDialog(null, "Debe ingresar un tipo de relacion para el conyuge","Error", JOptionPane.ERROR_MESSAGE);
                 principal.lbl_estado.setText("Error- Debe ingresar un tipo de relacion para el conyuge");
                 principal.lbl_estado.setForeground(Color.RED);
                 return;
             }
-            tipoRelacion=String.valueOf(jComboBox_relacionConyuge.getItemAt(aux3));
-            
-         clienteConyugue.setFechaNacimiento(jDateChooser_fechaNacimientoConyuge.getDate());
-            
-            
+            tipoRelacion = String.valueOf(jComboBox_relacionConyuge.getItemAt(aux3));
+
+            clienteConyugue.setFechaNacimiento(jDateChooser_fechaNacimientoConyuge.getDate());
+
         }
-            
-            
-        
-        if(modificarTrue){
-            
-        int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el cliente: \n"+jTextField_nombreCliente.getText(), "MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            
-            if(result == JOptionPane.OK_OPTION){
-                
-                if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){
+
+        if (modificarTrue) {
+
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea modificar el cliente: \n" + jTextField_nombreCliente.getText(), "MODIFICAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+
+                if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")) {
                     //estaba soltero, y sigue soltero.
                     //un tipo astuto
-                    if(clientesDao.actualizarCliente(clienteSeleccionado)){
-                            principal.lbl_estado.setText("El cliente se actualizo con exito");
+                    if (clientesDao.actualizarCliente(clienteSeleccionado)) {
+                        principal.lbl_estado.setText("El cliente se actualizo con exito");
+                        principal.lbl_estado.setForeground(Color.GREEN);
+                        limpiarCampos();
+                        habilitarCampos(false);
+                    } else {
+                        principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                        principal.lbl_estado.setForeground(Color.RED);
+                    }
+                } else {
+
+                    if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("DIVORCIADO") && estadoCivilAnterior.equalsIgnoreCase("CASADO")) {
+                        // CASO simple que solo se divorcian
+                        if (clientesDao.divorciar(clienteSeleccionado, clienteConyugue)) {
+                            //actualize los clientes con exito
+
+                            principal.lbl_estado.setText("El cliente se DIVORCIO con exito");
                             principal.lbl_estado.setForeground(Color.GREEN);
                             limpiarCampos();
                             habilitarCampos(false);
-                        }else{
+                        } else {
                             principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
                             principal.lbl_estado.setForeground(Color.RED);
                         }
-                }
-               
-                else{
-                    
-                    if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("DIVORCIADO") && estadoCivilAnterior.equalsIgnoreCase("CASADO")){
-                        // CASO simple que solo se divorcian
-                        if(clientesDao.divorciar(clienteSeleccionado, clienteConyugue)){
-                         	//actualize los clientes con exito
-                                
-                		principal.lbl_estado.setText("El cliente se DIVORCIO con exito");
-                                principal.lbl_estado.setForeground(Color.GREEN);
-                                limpiarCampos();
-                                habilitarCampos(false);
-                	}
-                	else{
-                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                   		 principal.lbl_estado.setForeground(Color.RED);
-                	}
                     }
                     //llamo al medoto actualizarClientes(c1, c2, tipo)
-                        
-                    if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")){
+
+                    if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO") && estadoCivilAnterior.equalsIgnoreCase("SOLTERO")) {
                         //estaba soltero y se caso
-                        if(clientesDao.casar(clienteSeleccionado, clienteConyugue, tipoRelacion)){
-                         	//actualize los clientes con exito
-                                
-                		if(clientesDao.actualizarCliente(clienteSeleccionado)){
-                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                        if (clientesDao.casar(clienteSeleccionado, clienteConyugue, tipoRelacion)) {
+                            //actualize los clientes con exito
+
+                            if (clientesDao.actualizarCliente(clienteSeleccionado)) {
+                                principal.lbl_estado.setText("El cliente se actualizo con exito");
                                 principal.lbl_estado.setForeground(Color.GREEN);
                                 limpiarCampos();
                                 habilitarCampos(false);
-                                }
-                	}
-                	else{
-                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                   		 principal.lbl_estado.setForeground(Color.RED);
-                	}
+                            }
+                        } else {
+                            principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                            principal.lbl_estado.setForeground(Color.RED);
+                        }
                     }
-                    if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")&& estadoCivilAnterior.equalsIgnoreCase("DIVORICADO") ){
+                    if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO") && estadoCivilAnterior.equalsIgnoreCase("DIVORICADO")) {
                         //Estaba divorciado y pasa a casarse
-                         if(clientesDao.casar(clienteSeleccionado, clienteConyugue, tipoRelacion)){
-                         	//actualize los clientes con exito
-                                
-                		if(clientesDao.actualizarCliente(clienteSeleccionado)){
-                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                        if (clientesDao.casar(clienteSeleccionado, clienteConyugue, tipoRelacion)) {
+                            //actualize los clientes con exito
+
+                            if (clientesDao.actualizarCliente(clienteSeleccionado)) {
+                                principal.lbl_estado.setText("El cliente se actualizo con exito");
                                 principal.lbl_estado.setForeground(Color.GREEN);
                                 limpiarCampos();
                                 habilitarCampos(false);
-                                }
-                	}
-                	else{
-                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                   		 principal.lbl_estado.setForeground(Color.RED);
-                	}
-                    }
-                    else{
+                            }
+                        } else {
+                            principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                            principal.lbl_estado.setForeground(Color.RED);
+                        }
+                    } else {
                         //Tiene una nueva pareja, sigue casado-
                         // o tal vez solo quiere cambiar los datos de un matrimonio
-                        
-                        if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase(estadoCivilAnterior) && clienteConyugue.getDni() == clienteConyugueAux.getDni())
-                        {
+
+                        if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase(estadoCivilAnterior) && clienteConyugue.getDni() == clienteConyugueAux.getDni()) {
                             //asumo que solo esta modificando los datos del matrimonio
-                             int resultado = JOptionPane.showConfirmDialog(null, "UD INTENTA MODIFICAR EL CLIENTE NOMBRE: \n"+jTextField_nombreCliente.getText()+" PERO REPITIO EL DNI DEL CONYUGUE \nSI DESEA MODIFICAR AL CONYUGUE, DEBE BUSCARLO POR SU NOMBRE \n Solo se modificara el cliente seleccionado","MODIFICAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-                             if(resultado == JOptionPane.OK_OPTION){
-                                 if(clientesDao.actualizarCliente(clienteSeleccionado)){
+                            int resultado = JOptionPane.showConfirmDialog(null, "UD INTENTA MODIFICAR EL CLIENTE NOMBRE: \n" + jTextField_nombreCliente.getText() + " PERO REPITIO EL DNI DEL CONYUGUE \nSI DESEA MODIFICAR AL CONYUGUE, DEBE BUSCARLO POR SU NOMBRE \n Solo se modificara el cliente seleccionado", "MODIFICAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                            if (resultado == JOptionPane.OK_OPTION) {
+                                if (clientesDao.actualizarCliente(clienteSeleccionado)) {
                                     principal.lbl_estado.setText("El cliente se actualizo con exito");
                                     principal.lbl_estado.setForeground(Color.GREEN);
                                     limpiarCampos();
                                     habilitarCampos(false);
-                                 }
-                                 else{
-                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                   		 principal.lbl_estado.setForeground(Color.RED);
-                                } 
-                             }
+                                } else {
+                                    principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                                    principal.lbl_estado.setForeground(Color.RED);
+                                }
+                            }
+                        } //debo divorciarlo de la pareja anterior, y asignarle una nueva pareja
+                        else if (clientesDao.actualizarClientes(clienteSeleccionado, clienteConyugue, tipoRelacion, clienteConyugueAux.getId())) {
+                            //actualize los clientes con exito
+
+                            principal.lbl_estado.setText("El cliente se actualizo con exito");
+                            principal.lbl_estado.setForeground(Color.GREEN);
+                            limpiarCampos();
+                            habilitarCampos(false);
+                        } else {
+                            principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
+                            principal.lbl_estado.setForeground(Color.RED);
                         }
-                        //debo divorciarlo de la pareja anterior, y asignarle una nueva pareja
-                        else if(clientesDao.actualizarClientes(clienteSeleccionado,clienteConyugue,tipoRelacion, clienteConyugueAux.getId())){
-                		//actualize los clientes con exito
-                                
-                		principal.lbl_estado.setText("El cliente se actualizo con exito");
-                                principal.lbl_estado.setForeground(Color.GREEN);
-                                limpiarCampos();
-                                habilitarCampos(false);
-                	}
-                	else{
-                		 principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
-                   		 principal.lbl_estado.setForeground(Color.RED);
-                	} 
                     }
 
                 }
             }
-        }else{
+        } else {
 
-        	// no estoy modificando, estoy agregando cliente/s nuevo/S
-            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el cliente: \n"+jTextField_nombreCliente.getText(),"AGREGAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-            if(result == JOptionPane.OK_OPTION){
-                if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
-                	//agrego un cliente casado
-                       if(clientesDao.insertarClientes(clienteSeleccionado, clienteConyugue,tipoRelacion)){
-                         
-                            principal.lbl_estado.setText("El cliente se agrego con exito");
-	                    principal.lbl_estado.setForeground(new Color(0,100,0));
-	                    limpiarCampos();
-	                    habilitarCampos(false);
-	                    jButton_eliminar.setEnabled(false);
-                    }
-                    else{
-                         //limpiarCampos();
-	                 //habilitarCampos(false);
-                    	principal.lbl_estado.setText("Hubo un error al agregar el cliente");
-                        principal.lbl_estado.setForeground(new Color(139,0,0));
-                    }
-                    
-                }
-                else{
-                	//agrego un cliente soltero
+            // no estoy modificando, estoy agregando cliente/s nuevo/S
+            int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea agregar el cliente: \n" + jTextField_nombreCliente.getText(), "AGREGAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            if (result == JOptionPane.OK_OPTION) {
+                if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")) {
+                    //agrego un cliente casado
+                    if (clientesDao.insertarClientes(clienteSeleccionado, clienteConyugue, tipoRelacion)) {
 
-                    if(clientesDao.guardarCliente(clienteSeleccionado)){
-                           
-                    	    principal.lbl_estado.setText("El cliente se agrego con exito");
-	                    principal.lbl_estado.setForeground(new Color(0,100,0));
-	                    limpiarCampos();
-	                    habilitarCampos(false);
-	                    jButton_eliminar.setEnabled(false);
+                        principal.lbl_estado.setText("El cliente se agrego con exito");
+                        principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                        limpiarCampos();
+                        habilitarCampos(false);
+                        jButton_eliminar.setEnabled(false);
+                    } else {
+                        //limpiarCampos();
+                        //habilitarCampos(false);
+                        principal.lbl_estado.setText("Hubo un error al agregar el cliente");
+                        principal.lbl_estado.setForeground(new Color(139, 0, 0));
                     }
-                    else{
+
+                } else {
+                    //agrego un cliente soltero
+
+                    if (clientesDao.guardarCliente(clienteSeleccionado)) {
+
+                        principal.lbl_estado.setText("El cliente se agrego con exito");
+                        principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                        limpiarCampos();
+                        habilitarCampos(false);
+                        jButton_eliminar.setEnabled(false);
+                    } else {
                         //JOptionPane.showMessageDialog(null, "No se pudo guardar al cliente", "Error", JOptionPane.ERROR_MESSAGE);
-                    	principal.lbl_estado.setText("Hubo un error al agregar el cliente");
-                        principal.lbl_estado.setForeground(new Color(139,0,0));
+                        principal.lbl_estado.setText("Hubo un error al agregar el cliente");
+                        principal.lbl_estado.setForeground(new Color(139, 0, 0));
                     }
-                    
-                }
+
                 }
             }
-            cambioBusqueda("",false,true,jTextField_buscarCliente,jTableClientes);
-            long l = 3000;
-            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-            Runnable task1 = () -> principal.lbl_estado.setText("");
-            service.scheduleAtFixedRate(task1, 1, 5, TimeUnit.SECONDS);
-        
+        }
+        cambioBusqueda("", false, true, jTextField_buscarCliente, jTableClientes);
+        long l = 3000;
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        Runnable task1 = () -> principal.lbl_estado.setText("");
+        service.scheduleAtFixedRate(task1, 1, 5, TimeUnit.SECONDS);
+
     }//GEN-LAST:event_jButtonGuardarCambiosActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        clienteSeleccionado= null;
-        clienteConyugue=null;
-        clienteConyugueAux=null;
-        modificarTrue=false;
+        clienteSeleccionado = null;
+        clienteConyugue = null;
+        clienteConyugueAux = null;
+        modificarTrue = false;
         limpiarCampos();
         habilitarCampos(false);
         jButton_eliminar.setEnabled(false);
         jButton_modificar.setEnabled(false);
-        
+
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_eliminarActionPerformed
-        int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminar el cliente: \n"+clienteSeleccionado.getNombre(),"ELIMINAR",JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE);
-        if(result == JOptionPane.OK_OPTION){
-            if(clientesDao.eliminarCliente(clienteSeleccionado) > 0){
+        int result = JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminar el cliente: \n" + clienteSeleccionado.getNombre(), "ELIMINAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            if (clientesDao.eliminarCliente(clienteSeleccionado) > 0) {
                 limpiarCampos();
                 principal.lbl_estado.setText("El cliente se elimino con exito");
                 principal.lbl_estado.setForeground(Color.GREEN);
-                cambioBusqueda("", false, true,jTextField_buscarCliente,jTableClientes);
+                cambioBusqueda("", false, true, jTextField_buscarCliente, jTableClientes);
                 habilitarCampos(false);
                 jButton_eliminar.setEnabled(false);
                 jButton_modificar.setEnabled(false);
-                
-            }else{
+
+            } else {
                 principal.lbl_estado.setText("Hubo un error al eliminar el cliente");
                 principal.lbl_estado.setForeground(Color.RED);
             }
-        }       
+        }
     }//GEN-LAST:event_jButton_eliminarActionPerformed
 
     private void jTextField_buscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteMouseClicked
@@ -2257,35 +2243,28 @@ public class ABMClientesView extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextFieldObservacionesActionPerformed
 
     private void jComboBox_CiudadesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesKeyPressed
-        
+
     }//GEN-LAST:event_jComboBox_CiudadesKeyPressed
 
     private void jComboBox_CiudadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesMouseClicked
-       
+
     }//GEN-LAST:event_jComboBox_CiudadesMouseClicked
 
     private void jComboBox_CiudadesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox_CiudadesFocusGained
-        
+
         /**
-        if(jComboBox_Ciudades.getItemCount() == 0)
-            return;
-        Localidad l=(Localidad) jComboBox_Ciudades.getSelectedItem();
-        Localidad_selected=l;
-        jComboBox_Barrios.removeAllItems();
-        jTextField_codigoPostal.setText(l.getCod_postal());
-        try{
-            direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
-                jComboBox_Barrios.addItem(t);
-                if(modificarTrue){
-                    Barrio b = new Barrio();
-                    b.setNombre(clienteSeleccionado.getBarrio());
-                    jComboBox_Barrios.setSelectedItem(b);
-                }
-            });
-        }catch(NullPointerException e){
-             new Statics.ExceptionManager().saveDump(e, "", false);
-        }
-        * **/
+         * if(jComboBox_Ciudades.getItemCount() == 0) return; Localidad
+         * l=(Localidad) jComboBox_Ciudades.getSelectedItem();
+         * Localidad_selected=l; jComboBox_Barrios.removeAllItems();
+         * jTextField_codigoPostal.setText(l.getCod_postal()); try{
+         * direcciones.getLocalidad_Barrio().get(l.getId()).forEach((t) -> {
+         * jComboBox_Barrios.addItem(t); if(modificarTrue){ Barrio b = new
+         * Barrio(); b.setNombre(clienteSeleccionado.getBarrio());
+         * jComboBox_Barrios.setSelectedItem(b); } });
+         * }catch(NullPointerException e){ new
+         * Statics.ExceptionManager().saveDump(e, "", false); }
+        * *
+         */
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
 
     private void jTextFieldNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNacionalidadActionPerformed
@@ -2295,7 +2274,6 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void txtf_codPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_codPostalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtf_codPostalActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2414,50 +2392,49 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JTextField txtf_codPostal;
     // End of variables declaration//GEN-END:variables
 
-
-    private void limpiarCampos(){
+    private void limpiarCampos() {
         jTextField_buscarCliente.setText("");
-        
+
         jTextField_numeroDniCliente.setText("");
         jTextField_nombreCliente.setText("");
-        
+
         jComboBox_tipoDocumento.setSelectedIndex(0);
         jTextFieldNacionalidad.setText("");
         jComboBox_estadoCivil.setSelectedIndex(0);
         jDateChooser1.setDate(new Date());
-        
+
         // informacion social:
         jTextFieldContacto.setText("");
         DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
         model.setNumRows(0);
         jComboBox_TipoContacto.setSelectedIndex(0);
-        
+
         jComboBox_promotores.setSelectedIndex(0);
         // informacion direccion
         /**
-        if(jCombo_Naciones.getItemCount()>0){
-            jCombo_Naciones.setSelectedIndex(0);
-        }
-        **/
+         * if(jCombo_Naciones.getItemCount()>0){
+         * jCombo_Naciones.setSelectedIndex(0); }
+        *
+         */
         /**
-        jComboBox_Provincias.setSelectedIndex(0);
-        jComboBox_Ciudades.setSelectedIndex(0);
-        **/
+         * jComboBox_Provincias.setSelectedIndex(0);
+         * jComboBox_Ciudades.setSelectedIndex(0);
+        *
+         */
         this.cargarNacionalidades();
         jComboBox_Barrios.removeAllItems();
-        jComboBox_Barrios.addItem(new Barrio ("-"));
-        
-        
+        jComboBox_Barrios.addItem(new Barrio("-"));
+
         jComboBox_calles.removeAllItems();
         jComboBox_calles.addItem(new Direccion("-"));
-        
+
         jTextField_numeroDomicilioCliente.setText("");
         jTextField_referenciaDomicilioCliente.setText("");
         jLabelCodPostal.setText(":");
-        
+
         jCheckBoxEsSolicitante.setSelected(false);
         buttonGroupDocumentacionEntregada.clearSelection();
-        
+
         //datos del conyugue
         jTextField_nombreConyuge.setText("");
         //jComboBox_tipoDocumentoConyuge=  new JComboBox<> (items);
@@ -2467,45 +2444,47 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_relacionConyuge.setSelectedIndex(0);
         jTextFieldObservaciones.setText("");
     }
-    public void cambioBusqueda(String txt,boolean dni,boolean nombre,JTextField buscador, JTable tablaBuscador ){
-        if(txt.isEmpty()){
-            
-            cargarTablaBusqueda(clientesDao.buscarCliente("nombre",""),tablaBuscador);
-            
-        }else if(dni){
-            try{
-                
-                cargarTablaBusqueda(clientesDao.buscarCliente("dni",txt),tablaBuscador);
-            }catch(Exception ex){
+
+    public void cambioBusqueda(String txt, boolean dni, boolean nombre, JTextField buscador, JTable tablaBuscador) {
+        if (txt.isEmpty()) {
+
+            cargarTablaBusqueda(clientesDao.buscarCliente("nombre", ""), tablaBuscador);
+
+        } else if (dni) {
+            try {
+
+                cargarTablaBusqueda(clientesDao.buscarCliente("dni", txt), tablaBuscador);
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dni",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                 jTextField_buscarCliente.setText("");
-                 buscador.setText("");
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                jTextField_buscarCliente.setText("");
+                buscador.setText("");
             }
-        }else if(nombre){
-            cargarTablaBusqueda(clientesDao.buscarCliente("nombre",txt.toLowerCase()),tablaBuscador);
-            
-        }else {
-             System.out.println("Error no selecciono tipo de busqueda");
+        } else if (nombre) {
+            cargarTablaBusqueda(clientesDao.buscarCliente("nombre", txt.toLowerCase()), tablaBuscador);
+
+        } else {
+            System.out.println("Error no selecciono tipo de busqueda");
         }
     }
-    public void cargarTablaBusqueda(List<Cliente> client, JTable tablaBuscador){
-        listaCliente=client;
+
+    public void cargarTablaBusqueda(List<Cliente> client, JTable tablaBuscador) {
+        listaCliente = client;
         DefaultTableModel model = (DefaultTableModel) tablaBuscador.getModel();
         model.setNumRows(0);
-        try{
-            Object[] obj = new Object [2];
-            for (int i=0; i< listaCliente.size();i++){
-            obj[0]=listaCliente.get(i).getDni();
-            obj[1]=listaCliente.get(i).getNombre();
-            model.addRow(obj);
-        }
-        }catch(Exception ex){
+        try {
+            Object[] obj = new Object[2];
+            for (int i = 0; i < listaCliente.size(); i++) {
+                obj[0] = listaCliente.get(i).getDni();
+                obj[1] = listaCliente.get(i).getNombre();
+                model.addRow(obj);
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-       //JTable tabla= new JTable();
-       //tabla.setModel(model);
-       /*
+        //JTable tabla= new JTable();
+        //tabla.setModel(model);
+        /*
        ColorFilasCobranza c = new ColorFilasCobranza();
        c.setBackground(Color.red);
        c.setForeground(Color.black);
@@ -2514,13 +2493,13 @@ public class ABMClientesView extends javax.swing.JPanel {
             jTableClientes.getColumnModel().getColumn(i).setCellRenderer(c);
             
         }
-       */
+         */
     }
-    
-    private void cargarDatosCliente(int pos){
-        if(pos !=-1){
+
+    private void cargarDatosCliente(int pos) {
+        if (pos != -1) {
             limpiarCampos();
-            clienteSeleccionado=listaCliente.get(pos);
+            clienteSeleccionado = listaCliente.get(pos);
             jTextField_nombreCliente.setText(clienteSeleccionado.getNombre());
             //jComboBox_tipoDocumento.removeAllItems();
             jComboBox_tipoDocumento.setSelectedItem(String.valueOf(clienteSeleccionado.getTipoDni()).toUpperCase());
@@ -2528,44 +2507,32 @@ public class ABMClientesView extends javax.swing.JPanel {
             jTextFieldNacionalidad.setText(clienteSeleccionado.getNacionalidad());
             //Contacto
             jTextFieldContacto.setText("");
-            DefaultTableModel model= (DefaultTableModel) jTable_tipoYcontacto.getModel();
+            DefaultTableModel model = (DefaultTableModel) jTable_tipoYcontacto.getModel();
             model.setNumRows(0);
-            /*
-            
-            clienteSeleccionado.getContacto().forEach((t) -> {
-                Object[] obj = new Object [3];
-                obj[0]= t.getTipo();
-                obj[1]= t.getContacto();
-                obj[2]=t.getCargo();
-                model.addRow(obj);
-            });
-            */
-            
-           
-              for(int i = 0; i < clienteSeleccionado.getContacto().size();i++ ){
-                Object[] obj = new Object[3];
-                obj[0] = clienteSeleccionado.getContacto().get(i).getTipo();
-                  
-                obj[1] = clienteSeleccionado.getContacto().get(i).getContacto();
-                 
-                obj[2] = clienteSeleccionado.getContacto().get(i).getCargo();
-                 
-                //obj[3] = proveedor_selected.getContacto().get(i).getCargo();
-                model.addRow(obj);
+            if (clienteSeleccionado.getContacto().size() > 0) {
+                for (int i = 0; i < clienteSeleccionado.getContacto().size(); i++) {
+                    Object[] obj = new Object[3];
+                    obj[0] = clienteSeleccionado.getContacto().get(i).getTipo();
+                    obj[1] = clienteSeleccionado.getContacto().get(i).getContacto();
+                    obj[2] = clienteSeleccionado.getContacto().get(i).getCargo();
+                    model.addRow(obj);
+                }
             }
             //dudoso
             jComboBox_estadoCivil.setSelectedItem(String.valueOf(clienteSeleccionado.getEstadoCivil()).toUpperCase());
             //direccion
-            Object [] o = direccionesDAO.getDireccionCompleta(clienteSeleccionado.getDireccion_id());
+            Object[] o = direccionesDAO.getDireccionCompleta(clienteSeleccionado.getDireccion_id());
             /**
-             * if query its ok then return: object[0] = Barrio; object[1] = Localidad; object[2] = Provincia; object[3] = Pais; else return null;
+             * if query its ok then return: object[0] = Barrio; object[1] =
+             * Localidad; object[2] = Provincia; object[3] = Pais; else return
+             * null;
              */
             jCombo_Naciones.removeAllItems();
             jCombo_Naciones.addItem((Pais) o[3]);
             jComboBox_Provincias.removeAllItems();
             jComboBox_Provincias.addItem((Provincia) o[2]);
             jComboBox_Ciudades.removeAllItems();
-            jComboBox_Ciudades.addItem((Localidad)o[1]);
+            jComboBox_Ciudades.addItem((Localidad) o[1]);
             jComboBox_Barrios.removeAllItems();
             jComboBox_Barrios.addItem((Barrio) o[0]);
             jComboBox_calles.removeAllItems();
@@ -2573,64 +2540,65 @@ public class ABMClientesView extends javax.swing.JPanel {
             dir.setNombre(clienteSeleccionado.getDireccion());
             dir.setId(clienteSeleccionado.getDireccion_id());
             jComboBox_calles.addItem(dir);
-            
+
             jTextField_numeroDomicilioCliente.setText(clienteSeleccionado.getNumero());
             //jTextField_codigoPostal.setText(clienteSeleccionado.getCodPostal());
-            Localidad l= (Localidad)o[1];
+            Localidad l = (Localidad) o[1];
             jLabelCodPostal.setText(l.getCod_postal());
             jTextField_referenciaDomicilioCliente.setText(clienteSeleccionado.getReferencia());
             //Intento cargar la fecha:
-             //SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/mm/yyyy");
-             //Si no funciona esto, se puede hacer un try y parsear con el obj de arriba
-             Date fechaN=null;
-             fechaN = clienteSeleccionado.getFechaNacimiento();
-             jDateChooser1.setDate(fechaN);
-             // datos comerciales:
-             if(clienteSeleccionado.isEsSolicitante()){
+            //SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/mm/yyyy");
+            //Si no funciona esto, se puede hacer un try y parsear con el obj de arriba
+            Date fechaN = null;
+            fechaN = clienteSeleccionado.getFechaNacimiento();
+            jDateChooser1.setDate(fechaN);
+            // datos comerciales:
+            if (clienteSeleccionado.isEsSolicitante()) {
                 jCheckBoxEsSolicitante.setSelected(true);
-             }
-             if(clienteSeleccionado.getDocumentacion()!= null){
-                 switch (clienteSeleccionado.getDocumentacion().toUpperCase()){
-                     case "DNI" : jCheckBox_dni.setSelected(true);
-                     case "FACTURAS" : jCheckBox_Facturas.setSelected(true);
-                     case "OTROS" : jCheckBox_Otros.setSelected(true);
-                 }
-                         
-             }
-             /// Manda un switch para completar los Check box!
-             //int zona= clientesDao.recuperarZona(clienteSeleccionado.getBarrio());
-             //jComboBox_zonas.setSelectedItem();
-             
-             //DAtos del conyuge:
+            }
+            if (clienteSeleccionado.getDocumentacion() != null) {
+                switch (clienteSeleccionado.getDocumentacion().toUpperCase()) {
+                    case "DNI":
+                        jCheckBox_dni.setSelected(true);
+                    case "FACTURAS":
+                        jCheckBox_Facturas.setSelected(true);
+                    case "OTROS":
+                        jCheckBox_Otros.setSelected(true);
+                }
+
+            }
+            /// Manda un switch para completar los Check box!
+            //int zona= clientesDao.recuperarZona(clienteSeleccionado.getBarrio());
+            //jComboBox_zonas.setSelectedItem();
+
+            //DAtos del conyuge:
             //apa la papa, puede traer varios conyugues, nos tenemos que quedar con el ultimo
-           
             //List<Cliente> list = null;
-           
-           if(!clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO")){
-               clienteConyugue =clientesDao.recuperarConyugue(String.valueOf(clienteSeleccionado.getId()));
+            if (!clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("SOLTERO")) {
+                clienteConyugue = clientesDao.recuperarConyugue(String.valueOf(clienteSeleccionado.getId()));
                 /////una pequeña trampa, uso el campo estado civil para guardar el tipo de relacion
-              
-            jComboBox_relacionConyuge.setSelectedItem(String.valueOf(clienteConyugue.getEstadoCivil()).toUpperCase());
-               
-               clienteConyugue=clientesDao.buscarCliente(clienteConyugue.getId());
-             
-            jTextField_nombreConyuge.setText(clienteConyugue.getNombre());
-            jTextField_conyugeDni.setText(String.valueOf(clienteConyugue.getDni()));
-            jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(clienteConyugue.getTipoDni()).toUpperCase());
-            Date fechaNC= null;
-            fechaNC=clienteConyugue.getFechaNacimiento();
-            jDateChooser_fechaNacimientoConyuge.setDate(fechaNC);
-            
-            
-           }
-             if(clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")){
-                 estadoCivilAnterior="CASADO";
-             }  
-          
-               jTextFieldObservaciones.setText(clienteSeleccionado.getObservaciones());
-            
+
+                jComboBox_relacionConyuge.setSelectedItem(String.valueOf(clienteConyugue.getEstadoCivil()).toUpperCase());
+
+                clienteConyugue = clientesDao.buscarCliente(clienteConyugue.getId());
+
+                jTextField_nombreConyuge.setText(clienteConyugue.getNombre());
+                jTextField_conyugeDni.setText(String.valueOf(clienteConyugue.getDni()));
+                jComboBox_tipoDocumentoConyuge.setSelectedItem(String.valueOf(clienteConyugue.getTipoDni()).toUpperCase());
+                Date fechaNC = null;
+                fechaNC = clienteConyugue.getFechaNacimiento();
+                jDateChooser_fechaNacimientoConyuge.setDate(fechaNC);
+
+            }
+            if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")) {
+                estadoCivilAnterior = "CASADO";
+            }
+
+            jTextFieldObservaciones.setText(clienteSeleccionado.getObservaciones());
+
         }
     }
+
     private void habilitarCampos(boolean b) {
         //hay que agregar mas cosas a esto
         // seguilo desde guardar, al final lo llamo
@@ -2643,7 +2611,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jTextField_numeroDniCliente.setEnabled(b);
         jComboBox_estadoCivil.setEnabled(b);
         jTextFieldNacionalidad.setEnabled(b);
-        
+
         //Direcciones
         jCombo_Naciones.setEnabled(b);
         //jCombo_Naciones.setEditable(b);
@@ -2656,29 +2624,27 @@ public class ABMClientesView extends javax.swing.JPanel {
         jButtonAñadirCiudad.setEnabled(b);
         jButtonAñadirBarrio.setEnabled(b);
         jButtonAñadirCalle.setEnabled(b);
-        
+
         jTextField_referenciaDomicilioCliente.setEnabled(b);
         jDateChooser1.setEnabled(b);
         jComboBox_estadoCivil.setEnabled(b);
         //jTextField_codigoPostal.setEnabled(b);
         jTextField_numeroDomicilioCliente.setEnabled(b);
-        
-        
-        
+
         // datos de contacto:
         jComboBox_TipoContacto.setEnabled(b);
         jButtonAñadirTipoContacto.setEnabled(b);
         jTextFieldContacto.setEnabled(b);
         jTable_tipoYcontacto.setEnabled(b);
         //datos de vendedor/cobrador
-       
+
         jCheckBoxEsSolicitante.setEnabled(b);
         jCheckBox_dni.setEnabled(b);
         jCheckBox_Otros.setEnabled(b);
         jCheckBox_Facturas.setEnabled(b);
-        
+
         jComboBox_promotores.setEnabled(b);
-        
+
         //datos del conyuge
         jTextField_nombreConyuge.setEnabled(b);
         jComboBox_tipoDocumentoConyuge.setEnabled(b);
@@ -2690,48 +2656,42 @@ public class ABMClientesView extends javax.swing.JPanel {
         jButtonCancelar.setVisible(b);
         jButtonGuardarCambios.setVisible(b);
         jTextFieldObservaciones.setEditable(b);
-        
+
     }
 
     private void cargarNacionalidades() {
-       jCombo_Naciones.removeAllItems();
-       direcciones.getPaises().values().forEach((t) ->{
-       jCombo_Naciones.addItem(t);
-       
-       });
-       
-       
+        jCombo_Naciones.removeAllItems();
+        direcciones.getPaises().values().forEach((t) -> {
+            jCombo_Naciones.addItem(t);
+
+        });
+
     }
-    public void cargarDireccionAlModificar(){
-        if(modificarTrue){
-           
-           Pais p = new Pais();
-           p.setNombre(String.valueOf(clienteSeleccionado.getPais()));
-           jCombo_Naciones.setSelectedItem(p);
-           
-           Provincia pro = new Provincia();
-           pro.setNombre(String.valueOf(clienteSeleccionado.getProvincia()));
-           jComboBox_Provincias.setSelectedItem(pro);
-           
-           Localidad loca = new Localidad();
-           loca.setNombre(String.valueOf(clienteSeleccionado.getCiudad()));
-           jComboBox_Ciudades.setSelectedItem(loca);
-           
-           Barrio barr = new Barrio();
-           barr.setNombre(String.valueOf(clienteSeleccionado.getBarrio()));
-           jComboBox_Barrios.setSelectedItem(barr);
-           
-           Direccion dir = new Direccion();
-           dir.setNombre(String.valueOf(clienteSeleccionado.getDireccion()));
-           jComboBox_calles.setSelectedItem(dir);
-           
-           
+
+    public void cargarDireccionAlModificar() {
+        if (modificarTrue) {
+
+            Pais p = new Pais();
+            p.setNombre(String.valueOf(clienteSeleccionado.getPais()));
+            jCombo_Naciones.setSelectedItem(p);
+
+            Provincia pro = new Provincia();
+            pro.setNombre(String.valueOf(clienteSeleccionado.getProvincia()));
+            jComboBox_Provincias.setSelectedItem(pro);
+
+            Localidad loca = new Localidad();
+            loca.setNombre(String.valueOf(clienteSeleccionado.getCiudad()));
+            jComboBox_Ciudades.setSelectedItem(loca);
+
+            Barrio barr = new Barrio();
+            barr.setNombre(String.valueOf(clienteSeleccionado.getBarrio()));
+            jComboBox_Barrios.setSelectedItem(barr);
+
+            Direccion dir = new Direccion();
+            dir.setNombre(String.valueOf(clienteSeleccionado.getDireccion()));
+            jComboBox_calles.setSelectedItem(dir);
+
         }
     }
 
-   
-    
-
 }
-
-

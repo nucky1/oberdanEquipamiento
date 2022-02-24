@@ -71,4 +71,10 @@ ALTER TABLE `zonas` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `zonas` ADD UNIQUE(`nombre`);
 ALTER TABLE `credito` DROP INDEX `credito_ibfk_3`; esto no lo toma por consola.
 
+--cambiando el campo de zonas en comercio
+ALTER TABLE `comercio` CHANGE `zona` `zona` INT(20) NULL DEFAULT NULL;
+ALTER TABLE `comercio` CHANGE `zona` `zonaId` INT(20) NULL DEFAULT NULL;
+INSERT INTO `zonas`( `nombre`) VALUES ('1')
+INSERT INTO `zonas`( `nombre`) VALUES ('2')
+ALTER TABLE `credito` CHANGE `zona` `zonaId` INT(10) NULL;
 

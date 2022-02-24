@@ -8,6 +8,7 @@ package DAO;
 import Models.Comercio;
 import Models.Direccion;
 import Models.Rubro;
+import Models.Zona;
 import Views.Main;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,7 +57,7 @@ public class ComercioDAO {
                 c.setReferencia(rs.getString("comercio.referencia"));
                 c.setNumero(rs.getInt("comercio.numero"));
                 c.setPropietario(rs.getInt("comercio.esPropietario"));
-                c.setZona(rs.getString("comercio.zona"));
+                c.setZonaId(rs.getInt("comercio.zonaId"));
                 c.setTipo_iva(rs.getString("comercio.tipo_iva"));
                 c.setIncio_actividades(rs.getTimestamp("comercio.inicio_actividades"));
                 comerces.add(c);
@@ -67,8 +68,8 @@ public class ComercioDAO {
         return comerces;
     }
     
-    public ArrayList<String> getZona() {
-        ArrayList<String> zonas = new ArrayList<>();
+    public ArrayList<Zona> getZonas() {
+        ArrayList<Zona> zonas = new ArrayList<>();
         try {
             /**
              * 
@@ -82,7 +83,11 @@ public class ComercioDAO {
             String SQL = "SELECT * FROM zonas WHERE state = 'ACTIVO'";
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
             while (rs.next()) {
-                zonas.add(rs.getString("nombre"));
+                Zona z = new Zona();
+                z.setId(rs.getInt("id"));
+                z.setNombre(rs.getString("nombre"));
+                z.setState(rs.getString("state"));
+                zonas.add(z);
             }
             
         } catch (SQLException ex) {
@@ -94,11 +99,11 @@ public class ComercioDAO {
     public int insertComercio(Comercio c) {
         String SQL = "INSERT INTO `comercio`( `cliente_id`, `direccion_id`, `rubro_id`, "
                 + "`nombre`, `referencia`, `numero`, "
-                + "`direIdemProp`, `zona`, `cuit`, "
+                + "`direIdemProp`, `zonaId`, `cuit`, "
                 + "`tipo_iva`, `inicio_actividades`, `esPropietario`) "
                 + "VALUES ("+c.getClienteId()+","+c.getDireccion().getId()+","+c.getRubro().getId()+",'"
                 +c.getNombre()+"','"+c.getReferencia()+"',"+c.getNumero()+","
-                + c.getDireIdemProp()+",'"+c.getZona()+"','"+c.getCuit()+"','"
+                + c.getDireIdemProp()+", "+c.getZonaId()+" ,'"+c.getCuit()+"','"
                 + c.getTipo_iva()+"', '"+c.getIncio_actividades()+"' , "+c.getPropietario()+")";
         int resultado=conexion.EjecutarOperacion(SQL);
         System.out.println("insertando comercio tengo sql: \n"+SQL);
@@ -123,7 +128,7 @@ public class ComercioDAO {
             idRub = c.getRubro().getId();
         String SQL = "UPDATE `comercio` SET `direccion_id`="+idDir+",`rubro_id`="+idRub+","
                 + "`nombre`='"+c.getNombre()+"',`referencia`='"+c.getReferencia()+"',`numero`="+c.getNumero()+","
-                + "`esPropietario`="+c.getPropietario()+",`zona`='"+c.getZona()+"',`cuit`="+c.getCuit()+","
+                + "`esPropietario`="+c.getPropietario()+",`zonaId`= "+c.getZonaId()+",`cuit`="+c.getCuit()+","
                 + "`tipo_iva`='"+c.getTipo_iva()+"',`inicio_actividades`='"+c.getIncio_actividades()+"'"
                 + " WHERE id = "+c.getId();
         conexion.EjecutarOperacion(SQL);

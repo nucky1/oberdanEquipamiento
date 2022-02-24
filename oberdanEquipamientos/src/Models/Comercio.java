@@ -12,6 +12,7 @@ import java.sql.Timestamp;
  * @author demig
  */
 public class Comercio {
+
     private int id = -1;
     private int clienteId;
     private int numero = 0;
@@ -19,15 +20,15 @@ public class Comercio {
     //si es prop = 1
     private int propietario = 0;
     private Direccion direccion = new Direccion();
-    private Rubro rubro= null;
-    private String nombre="";
-    private String referencia="";
-    private String zona="";
-    private String cuit="";
-    private String tipo_iva="";
+    private Rubro rubro = null;
+    private String nombre = "";
+    private String referencia = "";
+    private int zonaId = -1;
+    private String cuit = "";
+    private String tipo_iva = "";
     private Timestamp incio_actividades = new Timestamp(System.currentTimeMillis());
     //es 1 xq por defecto toma la misma direccion del cliente
-    private int direIdemProp=1;
+    private int direIdemProp = 1;
 
     public Comercio() {
         this.direccion = null;
@@ -105,12 +106,12 @@ public class Comercio {
         this.referencia = referencia;
     }
 
-    public String getZona() {
-        return zona;
+    public int getZonaId() {
+        return zonaId;
     }
 
-    public void setZona(String zona) {
-        this.zona = zona;
+    public void setZonaId(int zona) {
+        this.zonaId = zona;
     }
 
     public String getCuit() {
@@ -144,6 +145,5 @@ public class Comercio {
     public void setDireIdemProp(int direIdemProp) {
         this.direIdemProp = direIdemProp;
     }
-    
-    
+
 }
