@@ -343,7 +343,7 @@ public class IngresoCobranzaDAO {
                 cred.setCliente(client);
                 cred.setId(rs.getInt("credito.id"));
                 cred.setSolicitud_id(rs.getInt("credito.nro_solicitud"));
-                cred.setZona(rs.getString("credito.zona"));
+                cred.setZonaId(rs.getInt("credito.zonaId"));
                 cred.setCant_cuotas(rs.getInt("credito.cant_cuotas"));
                 cred.setTipo(rs.getString("credito.tipo"));
                 cred.setObservacion(rs.getString("credito.observacion"));

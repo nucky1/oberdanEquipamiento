@@ -78,3 +78,13 @@ INSERT INTO `zonas`( `nombre`) VALUES ('1')
 INSERT INTO `zonas`( `nombre`) VALUES ('2')
 ALTER TABLE `credito` CHANGE `zona` `zonaId` INT(10) NULL;
 
+-- se agrega tabla para relacionar cliente con vendedor:
+
+CREATE TABLE `bd-oberdan`.`cliente_vendedor` ( `id` INT NOT NULL AUTO_INCREMENT , `cliente_id` INT NOT NULL , `vendedor_id` INT NOT NULL , `fecha_inicio` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , `fecha_fin` DATE NULL DEFAULT NULL , `state` VARCHAR(10) NOT NULL DEFAULT '\'ACTIVO\'' , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+--se corrige el estado de la tabla cliente_vendedor
+ALTER TABLE `cliente_vendedor` CHANGE `state` `state` VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'ACTIVO';
+
+
+-- si no tiene esto, no puedo traer los empleados por defecto desde la base de datos cuando los busco completos
+ALTER TABLE `empleado` CHANGE `direccion_id` `direccion_id` INT(11) NULL DEFAULT '1';

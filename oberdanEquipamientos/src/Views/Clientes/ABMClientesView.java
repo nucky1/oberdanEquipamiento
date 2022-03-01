@@ -7,7 +7,7 @@ package Views.Clientes;
 
 import DAO.ClientesDAO;
 import DAO.DireccionesDAO;
-import Statics.Comunicacion;
+import DAO.EmpleadosDAO;
 import Statics.Funciones;
 import Models.Cliente;
 import Models.Pais;
@@ -16,33 +16,18 @@ import Models.Localidad;
 import Models.Barrio;
 import Models.Contacto;
 import Models.Direccion;
+import Models.Empleado;
 import Models.Mapa;
-import Statics.barrioCompare;
-import Statics.direccionCompare;
-import Statics.localidadCompare;
-import Statics.provinciaCompare;
 import Views.Main;
 import Views.principal;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JComboBox;
-
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import net.sf.jasperreports.view.JasperViewer;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -56,6 +41,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private ClientesDAO clientesDao;
     private DireccionesDAO direccionesDAO;
+    private EmpleadosDAO empleadosDao;
     private Cliente clienteSeleccionado;
     private Cliente clienteConyugue;
     private Cliente clienteConyugueAux;
@@ -66,6 +52,7 @@ public class ABMClientesView extends javax.swing.JPanel {
     private Localidad Localidad_selected;
     private Direccion direccion_selected;
     private List<Cliente> listaCliente;
+    private List<Empleado> listaEmpleados;
     private boolean modificarTrue = false;
     private String tipoRelacion;
     private String estadoCivilAnterior;
@@ -87,6 +74,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jComboBox_calles.setEnabled(false);
         clientesDao = ClientesDAO.getInstance();
         direccionesDAO = direccionesDAO.getInstance();
+        empleadosDao = empleadosDao.getInstance();
         direcciones = direccionesDAO.getMapa();
         jComboBox_estadoCivil.setSelectedIndex(0);
         jButtonNuevoCliente.setEnabled(false);
@@ -94,6 +82,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         principal.lbl_estado.setText("");
         txtf_codPostal.setVisible(false);
         lbl_codPostal.setVisible(false);
+        //listaEmpleados=empleadosDao.getVendedores();
         cambioBusqueda("", false, true, jTextField_buscarCliente, jTableClientes);
     }
 
@@ -200,7 +189,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jCheckBox_Facturas = new javax.swing.JCheckBox();
         jCheckBox_Otros = new javax.swing.JCheckBox();
         jLabel34 = new javax.swing.JLabel();
-        jComboBox_promotores = new javax.swing.JComboBox<>();
+        jComboBox_vendedores = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
         jCheckBoxEsSolicitante = new javax.swing.JCheckBox();
         jPanelDatosConyugue = new javax.swing.JPanel();
@@ -980,7 +969,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_eliminar)
                     .addComponent(jButton_modificar)
-                    .addComponent(jButtonNuevoCliente))
+                    .addComponent(jButtonNuevoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1062,8 +1051,6 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         jLabel34.setText("Promotor");
 
-        jComboBox_promotores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "promotor 1", "promotor 2", " " }));
-
         jLabel44.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel44.setText("Contactos");
 
@@ -1089,7 +1076,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                                     .addComponent(jLabel36)
                                     .addComponent(jLabel35))
                                 .addGap(46, 46, 46)
-                                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanelContactosLayout.createSequentialGroup()
                                         .addComponent(jCheckBox_dni)
                                         .addGap(18, 18, 18)
@@ -1097,7 +1084,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                                         .addGap(18, 18, 18)
                                         .addComponent(jCheckBox_Otros))
                                     .addComponent(jCheckBoxEsSolicitante)
-                                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboBox_vendedores, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(37, 37, 37))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactosLayout.createSequentialGroup()
                                 .addContainerGap()
@@ -1131,7 +1118,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
-                    .addComponent(jComboBox_promotores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox_vendedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelContactosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
@@ -1654,6 +1641,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         clienteConyugue = new Cliente();
         modificarTrue = false;
         cargarNacionalidades();
+        cargarVendedores();
         limpiarCampos();
         habilitarCampos(true);
 
@@ -1856,7 +1844,7 @@ public class ABMClientesView extends javax.swing.JPanel {
 
     private void jComboBox_cobradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_cobradoresActionPerformed
         // TODO add your handling code here:
-        jComboBox_promotores.setEnabled(true);
+        jComboBox_vendedores.setEnabled(true);
     }//GEN-LAST:event_jComboBox_cobradoresActionPerformed
 
     private void jTextField_buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_buscarClienteActionPerformed
@@ -1881,6 +1869,7 @@ public class ABMClientesView extends javax.swing.JPanel {
                 clienteConyugueAux = list.get(0);
             }
             habilitarCampos(true);
+            cargarVendedores();
             cargarNacionalidades();
             cargarDireccionAlModificar();
             jTextField_nombreCliente.requestFocus();
@@ -2005,6 +1994,13 @@ public class ABMClientesView extends javax.swing.JPanel {
             clienteSeleccionado.setDocumentacion("OTROS");
         }
         //FAltan los datos de zonas y promotores
+        if (jComboBox_vendedores.getSelectedIndex() < 0) {
+            principal.lbl_estado.setText("Error- Debe ingresar un vendedor");
+            principal.lbl_estado.setForeground(Color.RED);
+            jComboBox_vendedores.requestFocus();
+            return;
+        }
+
         clienteSeleccionado.setEsSolicitante(jCheckBoxEsSolicitante.isSelected());
         clienteSeleccionado.setObservaciones(jTextFieldObservaciones.getText().toUpperCase());
         /////FAltan promotores
@@ -2064,10 +2060,18 @@ public class ABMClientesView extends javax.swing.JPanel {
                     //estaba soltero, y sigue soltero.
                     //un tipo astuto
                     if (clientesDao.actualizarCliente(clienteSeleccionado)) {
-                        principal.lbl_estado.setText("El cliente se actualizo con exito");
-                        principal.lbl_estado.setForeground(Color.GREEN);
-                        limpiarCampos();
-                        habilitarCampos(false);
+                        
+                            Empleado vendedor = (Empleado) jComboBox_vendedores.getSelectedItem();
+                            if (empleadosDao.crearRelacionClienteVendedor(clienteSeleccionado.getId(), vendedor.getId())) {
+                                principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                                limpiarCampos();
+                                habilitarCampos(false);
+                                jButton_eliminar.setEnabled(false);
+                            } else {
+                                principal.lbl_estado.setText("Se guardo el cliente pero no se le asigno un vendedor");
+                                principal.lbl_estado.setForeground(new Color(139, 0, 0));
+                            }
                     } else {
                         principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
                         principal.lbl_estado.setForeground(Color.RED);
@@ -2078,11 +2082,17 @@ public class ABMClientesView extends javax.swing.JPanel {
                         // CASO simple que solo se divorcian
                         if (clientesDao.divorciar(clienteSeleccionado, clienteConyugue)) {
                             //actualize los clientes con exito
-
-                            principal.lbl_estado.setText("El cliente se DIVORCIO con exito");
-                            principal.lbl_estado.setForeground(Color.GREEN);
-                            limpiarCampos();
-                            habilitarCampos(false);
+                            Empleado vendedor = (Empleado) jComboBox_vendedores.getSelectedItem();
+                            if (empleadosDao.crearRelacionClienteVendedor(clienteSeleccionado.getId(), vendedor.getId())) {
+                                principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                                limpiarCampos();
+                                habilitarCampos(false);
+                                jButton_eliminar.setEnabled(false);
+                            } else {
+                                principal.lbl_estado.setText("Se guardo el cliente pero no se le asigno un vendedor");
+                                principal.lbl_estado.setForeground(new Color(139, 0, 0));
+                            }
                         } else {
                             principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
                             principal.lbl_estado.setForeground(Color.RED);
@@ -2096,10 +2106,18 @@ public class ABMClientesView extends javax.swing.JPanel {
                             //actualize los clientes con exito
 
                             if (clientesDao.actualizarCliente(clienteSeleccionado)) {
-                                principal.lbl_estado.setText("El cliente se actualizo con exito");
-                                principal.lbl_estado.setForeground(Color.GREEN);
-                                limpiarCampos();
-                                habilitarCampos(false);
+
+                                Empleado vendedor = (Empleado) jComboBox_vendedores.getSelectedItem();
+                                if (empleadosDao.crearRelacionClienteVendedor(clienteSeleccionado.getId(), vendedor.getId())) {
+                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                    principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                                    limpiarCampos();
+                                    habilitarCampos(false);
+                                    jButton_eliminar.setEnabled(false);
+                                } else {
+                                    principal.lbl_estado.setText("Se guardo el cliente pero no se le asigno un vendedor");
+                                    principal.lbl_estado.setForeground(new Color(139, 0, 0));
+                                }
                             }
                         } else {
                             principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
@@ -2112,10 +2130,19 @@ public class ABMClientesView extends javax.swing.JPanel {
                             //actualize los clientes con exito
 
                             if (clientesDao.actualizarCliente(clienteSeleccionado)) {
-                                principal.lbl_estado.setText("El cliente se actualizo con exito");
-                                principal.lbl_estado.setForeground(Color.GREEN);
-                                limpiarCampos();
-                                habilitarCampos(false);
+
+                                Empleado vendedor = (Empleado) jComboBox_vendedores.getSelectedItem();
+                                if (empleadosDao.crearRelacionClienteVendedor(clienteSeleccionado.getId(), vendedor.getId())) {
+                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                    principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                                    limpiarCampos();
+                                    habilitarCampos(false);
+                                    jButton_eliminar.setEnabled(false);
+                                } else {
+                                    principal.lbl_estado.setText("Se guardo el cliente pero no se le asigno un vendedor");
+                                    principal.lbl_estado.setForeground(new Color(139, 0, 0));
+                                }
+
                             }
                         } else {
                             principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
@@ -2130,10 +2157,18 @@ public class ABMClientesView extends javax.swing.JPanel {
                             int resultado = JOptionPane.showConfirmDialog(null, "UD INTENTA MODIFICAR EL CLIENTE NOMBRE: \n" + jTextField_nombreCliente.getText() + " PERO REPITIO EL DNI DEL CONYUGUE \nSI DESEA MODIFICAR AL CONYUGUE, DEBE BUSCARLO POR SU NOMBRE \n Solo se modificara el cliente seleccionado", "MODIFICAR", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                             if (resultado == JOptionPane.OK_OPTION) {
                                 if (clientesDao.actualizarCliente(clienteSeleccionado)) {
-                                    principal.lbl_estado.setText("El cliente se actualizo con exito");
-                                    principal.lbl_estado.setForeground(Color.GREEN);
-                                    limpiarCampos();
-                                    habilitarCampos(false);
+                                    Empleado vendedor = (Empleado) jComboBox_vendedores.getSelectedItem();
+                                    if (empleadosDao.crearRelacionClienteVendedor(clienteSeleccionado.getId(), vendedor.getId())) {
+                                        principal.lbl_estado.setText("El cliente se actualizo con exito");
+                                        principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                                        limpiarCampos();
+                                        habilitarCampos(false);
+                                        jButton_eliminar.setEnabled(false);
+                                    } else {
+                                        principal.lbl_estado.setText("Se guardo el cliente pero no se le asigno un vendedor");
+                                        principal.lbl_estado.setForeground(new Color(139, 0, 0));
+                                    }
+
                                 } else {
                                     principal.lbl_estado.setText("Hubo un error al actualizar el cliente");
                                     principal.lbl_estado.setForeground(Color.RED);
@@ -2163,12 +2198,22 @@ public class ABMClientesView extends javax.swing.JPanel {
                 if (clienteSeleccionado.getEstadoCivil().equalsIgnoreCase("CASADO")) {
                     //agrego un cliente casado
                     if (clientesDao.insertarClientes(clienteSeleccionado, clienteConyugue, tipoRelacion)) {
+                        List<Cliente> listaMin = clientesDao.buscarCliente("dni", String.valueOf(clienteSeleccionado.getDni()));
+                        if (listaMin.size() == 1) {
+                            Empleado vendedor = (Empleado) jComboBox_vendedores.getSelectedItem();
+                            if (empleadosDao.crearRelacionClienteVendedor(listaMin.get(0).getId(), vendedor.getId())) {
+                                principal.lbl_estado.setText("El cliente se agrego con exito");
+                                principal.lbl_estado.setForeground(new Color(0, 100, 0));
+                                limpiarCampos();
+                                habilitarCampos(false);
+                                jButton_eliminar.setEnabled(false);
+                            } else {
+                                principal.lbl_estado.setText("Se guardo el cliente pero no se le asigno un vendedor");
+                                principal.lbl_estado.setForeground(new Color(139, 0, 0));
+                            }
 
-                        principal.lbl_estado.setText("El cliente se agrego con exito");
-                        principal.lbl_estado.setForeground(new Color(0, 100, 0));
-                        limpiarCampos();
-                        habilitarCampos(false);
-                        jButton_eliminar.setEnabled(false);
+                        }
+
                     } else {
                         //limpiarCampos();
                         //habilitarCampos(false);
@@ -2262,8 +2307,7 @@ public class ABMClientesView extends javax.swing.JPanel {
          * Barrio(); b.setNombre(clienteSeleccionado.getBarrio());
          * jComboBox_Barrios.setSelectedItem(b); } });
          * }catch(NullPointerException e){ new
-         * Statics.ExceptionManager().saveDump(e, "", false); }
-        * *
+         * Statics.ExceptionManager().saveDump(e, "", false); } *
          */
     }//GEN-LAST:event_jComboBox_CiudadesFocusGained
 
@@ -2314,11 +2358,11 @@ public class ABMClientesView extends javax.swing.JPanel {
     private javax.swing.JComboBox<Models.Direccion> jComboBox_calles;
     private javax.swing.JComboBox<String> jComboBox_direccion_jDialog;
     private javax.swing.JComboBox<String> jComboBox_estadoCivil;
-    private javax.swing.JComboBox<String> jComboBox_promotores;
     private javax.swing.JComboBox<String> jComboBox_provincia_jDialog;
     private javax.swing.JComboBox<String> jComboBox_relacionConyuge;
     private javax.swing.JComboBox<String> jComboBox_tipoDocumento;
     private javax.swing.JComboBox<String> jComboBox_tipoDocumentoConyuge;
+    private javax.swing.JComboBox<Models.Empleado> jComboBox_vendedores;
     private javax.swing.JComboBox<Models.Pais> jCombo_Naciones;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser_fechaNacimientoConyuge;
@@ -2409,18 +2453,8 @@ public class ABMClientesView extends javax.swing.JPanel {
         model.setNumRows(0);
         jComboBox_TipoContacto.setSelectedIndex(0);
 
-        jComboBox_promotores.setSelectedIndex(0);
-        // informacion direccion
-        /**
-         * if(jCombo_Naciones.getItemCount()>0){
-         * jCombo_Naciones.setSelectedIndex(0); }
-        *
-         */
-        /**
-         * jComboBox_Provincias.setSelectedIndex(0);
-         * jComboBox_Ciudades.setSelectedIndex(0);
-        *
-         */
+        jComboBox_vendedores.removeAllItems();
+
         this.cargarNacionalidades();
         jComboBox_Barrios.removeAllItems();
         jComboBox_Barrios.addItem(new Barrio("-"));
@@ -2499,7 +2533,16 @@ public class ABMClientesView extends javax.swing.JPanel {
     private void cargarDatosCliente(int pos) {
         if (pos != -1) {
             limpiarCampos();
+
             clienteSeleccionado = listaCliente.get(pos);
+
+            Empleado vendedor = empleadosDao.getVendedorActivoByClienteId(clienteSeleccionado.getId());
+            if (vendedor != null) {
+                jComboBox_vendedores.removeAllItems();
+                jComboBox_vendedores.addItem(vendedor);
+                jComboBox_vendedores.setEnabled(true);
+                jComboBox_vendedores.setEditable(false);
+            }
             jTextField_nombreCliente.setText(clienteSeleccionado.getNombre());
             //jComboBox_tipoDocumento.removeAllItems();
             jComboBox_tipoDocumento.setSelectedItem(String.valueOf(clienteSeleccionado.getTipoDni()).toUpperCase());
@@ -2643,7 +2686,7 @@ public class ABMClientesView extends javax.swing.JPanel {
         jCheckBox_Otros.setEnabled(b);
         jCheckBox_Facturas.setEnabled(b);
 
-        jComboBox_promotores.setEnabled(b);
+        jComboBox_vendedores.setEnabled(b);
 
         //datos del conyuge
         jTextField_nombreConyuge.setEnabled(b);
@@ -2666,6 +2709,12 @@ public class ABMClientesView extends javax.swing.JPanel {
 
         });
 
+    }
+
+    private void cargarVendedores() {
+        listaEmpleados = empleadosDao.getVendedores();
+        jComboBox_vendedores.removeAllItems();
+        listaEmpleados.stream().forEach((t) -> jComboBox_vendedores.addItem(t));
     }
 
     public void cargarDireccionAlModificar() {

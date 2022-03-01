@@ -3041,7 +3041,7 @@ public class ProductosView extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
+            .addComponent(tabla_productos, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -3257,7 +3257,7 @@ public class ProductosView extends javax.swing.JPanel {
             //limpiarCamposInventario();
             Pestaña1_dinamica.habilitarCampos(false, "");
             modificarTrue = false;
-            esNuevo=false;
+            esNuevo = false;
             Pestaña1_dinamica.cargarIvas();
             Pestaña1_dinamica.cargarProducto(pos);
 
@@ -3477,8 +3477,8 @@ public class ProductosView extends javax.swing.JPanel {
 
     private void btn_productoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productoNuevoActionPerformed
         modificarTrue = false;
-        esNuevo=true;
-        Pestaña1_dinamica.flagProductoSeleccionado=false;
+        esNuevo = true;
+        Pestaña1_dinamica.flagProductoSeleccionado = false;
         txtf_productos_nombre.requestFocus();
         Pestaña1_dinamica.habilitarCampos(true, "NUEVO");
         //Pestaña1_dinamica.limpiarCampos(); no funciona como quiero
@@ -3489,7 +3489,6 @@ public class ProductosView extends javax.swing.JPanel {
         //Pestaña1_dinamica.cuotas = CuotasDAO.getInstance().getCuotas();
         Pestaña1_dinamica.prodSeleccionado.setId(productoDAO.getNextID());
         Pestaña1_dinamica.cuotas = CuotasDAO.getInstance().getCuotas();
-        System.out.println("CUOTAS SIZE: "+Pestaña1_dinamica.cuotas.size());
     }//GEN-LAST:event_btn_productoNuevoActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed
@@ -3512,8 +3511,8 @@ public class ProductosView extends javax.swing.JPanel {
     }//GEN-LAST:event_txtf_productos_codigo_eanCaretUpdate
 
     private void txtf_productos_costoCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtf_productos_costoCaretUpdate
-        System.out.println("EN EL CARET UPDATE CUOTAS ES "+Pestaña1_dinamica.cuotas.size());
-        
+        System.out.println("EN EL CARET UPDATE CUOTAS ES " + Pestaña1_dinamica.cuotas.size());
+
         if (Pestaña1_dinamica.cuotas != null && Pestaña1_dinamica.cuotas.size() >= 0) {
             System.out.println("LLAME");
             Pestaña1_dinamica.calcularPrecios();
@@ -3538,13 +3537,13 @@ public class ProductosView extends javax.swing.JPanel {
             modificarTrue = false;
             //(se hace en dos metodos porque es un fix y aprovecho lo que esta hecho)
             limpiarCamposInventario();
-            esNuevo=false;
+            esNuevo = false;
 
         }
         if (Pestaña1_dinamica.actualizarProduto()) { //esta actualizando un producto
             if (modificarTrue) {
                 principal.lbl_estado.setText("El producto se actualizo con exito.");
-                Pestaña1_dinamica.flagProductoSeleccionado=false;
+                Pestaña1_dinamica.flagProductoSeleccionado = false;
             }
             //Statics.Funciones.limpiarlbl_estado();
             limpiarCamposInventario();
@@ -3594,9 +3593,9 @@ public class ProductosView extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_producto_editarLoteActionPerformed
 
     private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
-        if(!Pestaña1_dinamica.flagProductoSeleccionado) {
+        if (!Pestaña1_dinamica.flagProductoSeleccionado) {
             principal.lbl_estado.setText("Debe seleccionar un producto para ser modificado");
-               return;     
+            return;
         }
         modificarTrue = true;
         Pestaña1_dinamica.habilitarCampos(true, "MODIFICAR");
@@ -3623,7 +3622,7 @@ public class ProductosView extends javax.swing.JPanel {
                 aux1.setNombre(Pestaña1_dinamica.prodSeleccionado.getNombreRubro());
                 producto_Rubro.setSelectedItem(aux1);
             }
-            Pestaña1_dinamica.cuotas=cuotasDAO.getCuotasProd(Pestaña1_dinamica.prodSeleccionado.getId());
+            Pestaña1_dinamica.cuotas = cuotasDAO.getCuotasProd(Pestaña1_dinamica.prodSeleccionado.getId());
             Pestaña1_dinamica.cargarTablaCuotas(Float.parseFloat(txtf_productos_venta.getText()));
         }
     }//GEN-LAST:event_btn_ModificarActionPerformed
@@ -3835,8 +3834,8 @@ public class ProductosView extends javax.swing.JPanel {
     }//GEN-LAST:event_txtf_productos_buscarKeyPressed
 
     private void producto_planKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_producto_planKeyPressed
-        
-       
+
+
     }//GEN-LAST:event_producto_planKeyPressed
 
 
@@ -4123,7 +4122,7 @@ public class ProductosView extends javax.swing.JPanel {
         private List<Cuota> cuotas;
         private DefaultTableModel modelProducto, modelProv, modelInv, modelTop, modelDevo;
         private List<Float> ivas;
-        private boolean flagProductoSeleccionado= false;
+        private boolean flagProductoSeleccionado = false;
 
         public Pestaña1_dinamica(ProductosView view) {
             productosDAO = ProductoDAO.getInstance();
@@ -4203,7 +4202,7 @@ public class ProductosView extends javax.swing.JPanel {
 
         private void cargarProducto(int pos) {
             if (pos != -1) {
-                Pestaña1_dinamica.flagProductoSeleccionado=true;
+                Pestaña1_dinamica.flagProductoSeleccionado = true;
                 unidades_vendidas.setText("----");
                 btn_producto_editarLote.setEnabled(true);
                 //btn_consultar_historial.setEnabled(true);
@@ -4312,10 +4311,10 @@ public class ProductosView extends javax.swing.JPanel {
 
         private void cargarTablaCuotas(float precio_parcial) {
             try {
-                if (!Funciones.isFloat(txtf_productos_venta.getText()) || Float.valueOf(txtf_productos_venta.getText()) <= 0) {
-                    System.out.println("no cumplio las condiciones precio parcial");
-                    return;
-                }
+//                if (!Funciones.isFloat(txtf_productos_venta.getText()) || Float.valueOf(txtf_productos_venta.getText()) <= 0) {
+//                    System.out.println("no cumplio las condiciones precio parcial");
+//                    return;
+//                }
                 DefaultTableModel tablaProdPrecios = (DefaultTableModel) tabla_producto_precioVenta.getModel();
                 //cargando tabla de planes de pago
                 tablaProdPrecios.setNumRows(0);
@@ -4326,8 +4325,7 @@ public class ProductosView extends javax.swing.JPanel {
                     float precio_final;
                     float precio_cuota;
                     for (int i = 0; i < cuotas.size(); i++) {
-                        if(modificarTrue){
-                            System.out.println("Entro en el de modificarTrue");
+                        if (modificarTrue) {
                             obj[0] = cuotas.get(i).getActiva();
                             //obj[1] = cuotas.get(i).getId();
                             obj[1] = cuotas.get(i).getCantidad();
@@ -4336,11 +4334,9 @@ public class ProductosView extends javax.swing.JPanel {
                             //obj[3] = Statics.Funciones.redondeo2Deci(precio_final); este no queria mostrarlo claudio
                             precio_cuota = precio_final / cuotas.get(i).getCantidad();;
                             obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
-
-                            tablaProdPrecios.addRow(obj); 
+                            tablaProdPrecios.addRow(obj);
                         }
-                        if(esNuevo){
-                          System.out.println("Entro en el de esNuevo");
+                        if (esNuevo) {
                             obj[0] = false;
                             obj[1] = cuotas.get(i).getCantidad();
                             obj[2] = cuotas.get(i).getTipo();
@@ -4349,10 +4345,9 @@ public class ProductosView extends javax.swing.JPanel {
                             precio_cuota = precio_final / cuotas.get(i).getCantidad();;
                             obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
                             tablaProdPrecios.addRow(obj);
-                    }
+                        }
                         if (cuotas.get(i).getActiva() && !modificarTrue && !esNuevo) {
                             obj[0] = cuotas.get(i).getActiva();
-                            //obj[1] = cuotas.get(i).getId();
                             obj[1] = cuotas.get(i).getCantidad();
                             obj[2] = cuotas.get(i).getTipo();
                             precio_final = precio_parcial * ((cuotas.get(i).getPorcentajeExtra() / 100) + 1);
@@ -4360,15 +4355,13 @@ public class ProductosView extends javax.swing.JPanel {
                             precio_cuota = precio_final / cuotas.get(i).getCantidad();;
                             obj[3] = Statics.Funciones.redondeo2Deci(precio_cuota);
 
-                            tablaProdPrecios.addRow(obj); 
+                            tablaProdPrecios.addRow(obj);
                         }
-                         
-                       
+
                     }
-                    
-                     
-            }}
-            catch (Exception ex) {
+
+                }
+            } catch (Exception ex) {
                 new Statics.ExceptionManager().saveDump(ex, "", Main.isProduccion);
             }
 

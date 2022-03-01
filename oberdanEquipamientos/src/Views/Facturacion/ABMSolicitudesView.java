@@ -1600,7 +1600,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
             limpiarCampos();
             cargarDatosCliente(pos);
             habilitarBotones(true);
-            habilitarCheckbox(true);
+            habilitarComboBoxs(true);
             limpiarErrores();
 
         }
@@ -1838,7 +1838,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         limpiarCampos();
         habilitarBotones(false);
-        habilitarCheckbox(false);
+        habilitarComboBoxs(false);
         limpiarAtributos();
         limpiarErrores();
     }//GEN-LAST:event_btn_cancelarActionPerformed
@@ -2343,6 +2343,12 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 c.setNombre("");
             }
             idConyugue = c.getId();
+            Empleado empleado=empleadosDAO.getVendedorActivoByClienteId(clienteSelected.getId());
+            cbox_vendedor.removeAllItems();
+            cbox_vendedor.setEnabled(true);
+            cbox_vendedor.addItem(empleado);
+            cbox_vendedor.setEditable(false);
+            
             //cantidad creditos
             int cant = creditoDAO.getCantCredPorPareja(clienteSelected.getId(), c.getId());
             lbl_cantidadCreditos.setText(cant + "");
@@ -2396,11 +2402,11 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         btn_nuevoRubro.setEnabled(b);
     }
 
-    private void habilitarCheckbox(boolean b) {
+    private void habilitarComboBoxs(boolean b) {
         if (b) {
-            if (cbox_vendedor.getItemCount() > 0) {
-                cbox_vendedor.setEnabled(b);
-            }
+//            if (cbox_vendedor.getItemCount() > 0) {
+//                cbox_vendedor.setEnabled(b); se comenta xq en esta parte del sistema no puede modificar el vendedor
+//            }
             if (cbox_cobrador.getItemCount() > 0) {
                 cbox_cobrador.setEnabled(b);
             }
@@ -2414,7 +2420,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 cbox_zonas.setEnabled(b);
             }
         } else {
-            cbox_vendedor.setEnabled(b);
+            //cbox_vendedor.setEnabled(b);
             cbox_rubro.setEnabled(b);
             cbox_tipoIva.setEnabled(b);
             cbox_zonas.setEnabled(b);
