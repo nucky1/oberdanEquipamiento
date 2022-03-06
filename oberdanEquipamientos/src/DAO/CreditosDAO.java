@@ -160,7 +160,7 @@ public class CreditosDAO {
                 //insertar renglones:
                 if (!cred.getTipo().equals("SOLICITUD")) {
                     if (cred.getEstado().equals("EMITIDA")) {
-                           cuo= this.getCuotaByCreditoId(cred.getId()); //TODO saca todo de aca desarma este metodo lpm!
+                        cuo = this.getCuotaByCreditoId(cred.getId()); //TODO saca todo de aca desarma este metodo lpm!
                     }
                     String SQL = "SELECT * FROM renglon_credito "
                             + "INNER JOIN articulos ON articulos.id = producto_id "
@@ -181,7 +181,7 @@ public class CreditosDAO {
                     }
                     cred.setFecha_credito(rs.getTimestamp("fecha_credito"));
                     //insertar plan de pago
-                    
+
                     cuo.setCantidad(rs.getInt("cuota.cantidad"));
                     cuo.setPorcentajeExtra(rs.getFloat("cuota.porcentaje_extra"));
                     cuo.setTipo(rs.getString("cuota.tipo"));
@@ -219,6 +219,33 @@ public class CreditosDAO {
                         }
                     }
                 }
+                // como es solicitud, deberia tener si o si aprobado el vendedor
+                // y pre-asignado el cobrador, pero esta peludo ponerlo aca
+                ResultSet aprobaciones;
+                String SQL = "SELECT aprobaciones.*,empleado.nombre, empleado.tipo FROM aprobaciones "
+                        + "LEFT JOIN empleado ON empleado.id = aprobaciones.empleado_id WHERE aprobaciones.credito_id = " + cred.getId();
+                aprobaciones = conexion.EjecutarConsultaSQL(SQL);
+                Empleado e = new Empleado();
+                while (aprobaciones.next()) {
+                    
+                    e.setId(aprobaciones.getInt("aprobaciones.empleado_id"));
+                    e.setNombre(aprobaciones.getString("empleado.nombre"));
+                    e.setTipo(aprobaciones.getString("empleado.tipo"));
+                    e.setFechaAprobacion(aprobaciones.getTimestamp("aprobaciones.fecha"));
+                    e.setAprobado(aprobaciones.getBoolean("aprobaciones.estado"));
+                    switch (e.getTipo()) {
+                        case "VENDEDOR": {
+                            cred.setVendedor(e);
+                            break;
+                        }
+
+                    }
+                }
+                //Lo reinicio para pre cargar el cobrador
+                e= new Empleado();
+                e.setId(rs.getInt("cobrador_id"));
+                e.setTipo("COBRADOR");
+                cred.setCobrador(e);
                 list.add(cred);
             }
         } catch (Exception e) {
@@ -237,11 +264,11 @@ public class CreditosDAO {
 
     public Cuota getCuotaByCreditoId(int id) {
         Cuota c = new Cuota();
-        c=null;
+        c = null;
         try {
             String SQL = "SELECT * FROM cuota WHERE cuota.id=" + id;
             ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
-            
+
             if (rs.first()) {
                 c.setId(rs.getInt("id"));
                 c.setCantidad(rs.getInt("cantidad"));
@@ -285,7 +312,8 @@ public class CreditosDAO {
                 + creditoSelected.getFecha_solicitud() + "','" + creditoSelected.getFecha_credito() + "'," + creditoSelected.getSolicitud_id() + ","
                 + creditoSelected.getCant_cuotas() + "," + creditoSelected.getConyugue_id() + "," + creditoSelected.getDireccion_id() + ")";
 
-        // si lo dejo asi, le asigna el renglon_credito a la solicitud
+        conexion.EjecutarOperacion(SQL); // guardo el nuevo credito, que repite todo lo de la solicitud, pero ya es un credito
+        // si lo dejo asi, le asigna el renglon_credito a la solicitud, si para saber que tenia pedido esa solicitud
         if (creditoSelected.getRenglones().size() > 0) {
             //tiene al menos 1 renglon
             // pero lo esta guardando con el id anterior
@@ -305,7 +333,7 @@ public class CreditosDAO {
         //ASI ESTABA, CONSIDERO QUE RECUPERA EL ID DE LA SOLICITUD
         //SQL = "SELECT MAX(id) as LastId FROM `credito` WHERE credito.id="+creditoSelected.getId();
         //DEBERIA TRAER EL ID DEL ULTIMO CREDITO
-        SQL = "SELECT MAX(id) as LastID FROM credito";
+        SQL = "SELECT MAX(id) as LastID FROM credito WHERE credito.nro_solicitud = " + creditoSelected.getSolicitud_id();
         ResultSet rs = conexion.EjecutarConsultaSQL(SQL);
         try {
             if (rs.first()) {
@@ -327,9 +355,9 @@ public class CreditosDAO {
                 //return rs.getInt("LastId"); tira error
 
                 //inserto la aprobacion del vendedor al credito
-                System.out.println("Estoy metiendo el id de empleado: " + creditoSelected.getVendedor().getId());
-                SQL = "INSERT INTO aprobaciones(credito_id, empleado_id) VALUES(" + idNuevoCredito + " , " + creditoSelected.getVendedor().getId() + ")";
-
+                //TODO insertar la fecha correcta!! le estoy dando nulll
+                SQL = "INSERT INTO aprobaciones(credito_id, empleado_id) VALUES( " + idNuevoCredito + " , " + creditoSelected.getVendedor().getId() + ")";
+                conexion.EjecutarOperacion(SQL);
             }
         } catch (SQLException ex) {
             new Statics.ExceptionManager().saveDump(ex, "Error en metodo cargarCreditos", Main.isProduccion);

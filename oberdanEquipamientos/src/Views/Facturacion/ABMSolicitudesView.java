@@ -1145,8 +1145,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txt_nroSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(26, 26, 26))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1156,6 +1155,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbox_cobrador, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addComponent(jScrollPane2)
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel7, jLabel8});
@@ -1256,9 +1256,9 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
                 .addComponent(btn_verSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_crearSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
+                .addGap(100, 100, 100))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1428,6 +1428,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
         txtf_codPostal1.setVisible(false);
         lbl_codPostal1.setVisible(false);
         cargarDatosDireccion();
+        
     }//GEN-LAST:event_btn_añadirDireccionComercioActionPerformed
 
     private void btn_crearSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearSolicitudActionPerformed
@@ -2367,7 +2368,6 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     private void cargarDatosComercio() {
         txt_nombreComercio.setText(listaComercios.get(posComercioSelected).getNombre());
         cbox_rubro.setSelectedItem(listaComercios.get(posComercioSelected).getRubro());
-        txt_observacionSolicitud.setText(listaComercios.get(posComercioSelected).getReferencia());
         txt_cuitComercio.setText(listaComercios.get(posComercioSelected).getCuit());
         date_inicioActividades.setDate(listaComercios.get(posComercioSelected).getIncio_actividades());
         cbox_tipoIva.setSelectedItem(listaComercios.get(posComercioSelected).getTipo_iva());
@@ -2428,7 +2428,7 @@ public class ABMSolicitudesView extends javax.swing.JPanel {
     }
 
     private void cargarDatosDireccion() {
-        // pero y si no selecciono nada?
+        //TODO pero y si no selecciono nada?
         // este metodo funciona ok con comercios ya cargados
         //NO sirve para un comercio nuevo
         Comercio c = listaComercios.get(posComercioSelected);

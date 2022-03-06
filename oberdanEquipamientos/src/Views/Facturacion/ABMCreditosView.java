@@ -14,6 +14,7 @@ import Models.Carton;
 import Models.Cliente;
 import Models.Credito;
 import Models.Cuota;
+import Models.Empleado;
 import Models.Producto;
 import Models.RenglonCredito;
 import Views.Main;
@@ -40,6 +41,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
     private ClientesDAO clienteDAO;
     private CuotasDAO cuotasDAO;
     private ProductoDAO productoDAO;
+    private EmpleadosDAO empleadosDAO;
     private ArrayList<Credito> listCreditos;
     private ArrayList<Credito> listCredUnificables;
     private Credito creditoSelected = null;
@@ -63,6 +65,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
         cuotasDAO = CuotasDAO.getInstance();
         clienteDAO = ClientesDAO.getInstance();
         productoDAO = ProductoDAO.getInstance();
+        empleadosDAO= EmpleadosDAO.getInstance();
         listProductos = (ArrayList<Producto>) productoDAO.buscarProducto("nombre", "");
         limpiarCampos();
     }
@@ -1707,6 +1710,7 @@ public class ABMCreditosView extends javax.swing.JPanel {
 
     private void btn_aprobarCreditoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aprobarCreditoActionPerformed
         Main.logueado.setAprobado(true); //TODO no se guardo el id de la cuota al poner varios articulos
+        //TODO : controlar que el cobrador que lo apruebe, sea el mismo de la solicitud!! 
         Main.logueado.setFechaAprobacion(new Timestamp(System.currentTimeMillis()));
         JLabel lbl = null;
         switch (Main.logueado.getTipo()) {
@@ -2162,7 +2166,8 @@ public class ABMCreditosView extends javax.swing.JPanel {
         txt_saldoCredito.setText("" + creditoSelected.getImporte_deuda());
         lbl_FechaSoli.setText(Statics.Funciones.dateFormat(creditoSelected.getFecha_solicitud()));
         lbl_NroSoli.setText("" + creditoSelected.getSolicitud_id());
-        //carga de datos en caso de que sea un credito
+        //carga de datos en caso de que sea un credito- 
+        //TODO : como solicitud, no tiene las cosas que se pidieron
         if (!creditoSelected.getTipo().equals("SOLICITUD")) {
             txtArea_observaciones.setText(creditoSelected.getObservacion());
             lbl_FechaCred.setText(Statics.Funciones.dateFormat(creditoSelected.getFecha_credito()));
@@ -2221,6 +2226,17 @@ public class ABMCreditosView extends javax.swing.JPanel {
                 o[7] = t.getNroSerie();
                 model.addRow(o);
             });
+        }
+        // Si es una solicitud, debe tener la aprobacion de un vendedor por defecto.
+        // Ademas ya debe tener un cobrador pre - asiganado
+       Empleado cobrador= empleadosDAO.getEmpleadoById(creditoSelected.getCobrador().getId());
+        if (creditoSelected.getVendedor() != null) {
+                lbl_vendedor.setText(creditoSelected.getVendedor().getNombre());
+                lbl_vendedor.setForeground(Color.green);
+            }
+        if(cobrador!=null){
+            lbl_cobrador.setForeground(Color.red);
+            lbl_cobrador.setText(""+cobrador.getNombre()+" APROB. PENDIENTE");
         }
 
     }

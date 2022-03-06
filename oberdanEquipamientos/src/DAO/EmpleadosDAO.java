@@ -414,6 +414,7 @@ public class EmpleadosDAO {
         }
         return empleado;
     }
+      
     public Empleado getEmpleadoById(int id) {
         Empleado empleado = null;
         try {
